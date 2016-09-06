@@ -4,6 +4,6 @@ npm-debug.log
 .idea/
 dump.rdb
 .vscode/
-dist
 coverage/
+dist
 .nyc_output/
