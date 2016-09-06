@@ -1,7 +1,14 @@
 language: node_js
+branches:
+  only:
+  - master
 node_js:
   - '5'
-  - '4'
+notifications:
+  email: false
+  slack: ohtuprojektimuisti:RYvSnC0WIHpb0KvMlZrTz0O4
+  on_success: change
+  on_failure: change
 before_install:
   - 'npm install -g npm@latest'
 services:
