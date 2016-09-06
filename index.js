@@ -1,6 +1,6 @@
 /**
  * Entry Script
- */
+*/
 
 if (process.env.NODE_ENV === 'production') {
   process.env.webpackAssets = JSON.stringify(require('./dist/manifest.json'));
@@ -24,3 +24,4 @@ if (process.env.NODE_ENV === 'production') {
 
   require('./server/server');
 }
+

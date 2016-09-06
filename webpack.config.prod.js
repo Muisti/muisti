@@ -11,9 +11,7 @@ module.exports = {
   devtool: 'hidden-source-map',
 
   entry: {
-    app: [
-      './client/index.js',
-    ],
+    app: ['babel-polyfill', __dirname + "/client/index.js"],
     vendor: [
       'react',
       'react-dom',
