@@ -14,13 +14,15 @@ Ei vielä ohjetta
 
 ## Dokumentaatio
 
-Definition of done:
-1. Tehty työ noudattaa clean codea ja on kommentoitua toisia kehittäjiä varten.
-2. Tehty työ automaattitestattua, mikäli kompleksisuus sen vaatii.
-3. Tehty työ toimii sekä ihmiskäytössä että Travis CIllä.
-
 - [Burndown kaaviot ja backlog](https://docs.google.com/spreadsheets/d/1NisT05P_gyy_HbcJHzDIGEkS4Vf98-G_iQiY2LTDpFw/edit?usp=sharing)
 
+Definition of done:
+
+1. Tehty työ noudattaa clean codea ja on kommentoitua toisia kehittäjiä varten.
+ 
+2. Tehty työ automaattitestattua, mikäli kompleksisuus sen vaatii.
+
+3. Tehty työ toimii sekä ihmiskäytössä että Travis CIllä.
 
 ## Lisenssi
 
