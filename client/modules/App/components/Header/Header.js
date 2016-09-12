@@ -6,27 +6,20 @@ import { FormattedMessage } from 'react-intl';
 import styles from './Header.css';
 
 export function Header(props, context) {
-  const languageNodes = props.intl.enabledLanguages.map(
-    lang => <li key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</li>
-  );
 
   return (
     <div className={styles.header}>
-      <div className={styles['language-switcher']}>
+      <div className={styles['navigation-bar']}>
         <ul>
-          <li><FormattedMessage id="switchLanguage" /></li>
-          {languageNodes}
+          <li><Link to="/muisti" >Muisti</Link></li>
+          <li><Link to="/" >MERN-aloitussivu</Link></li>
         </ul>
       </div>
       <div className={styles.content}>
         <h1 className={styles['site-title']}>
-          <Link to="/" ><FormattedMessage id="siteTitle" /></Link>
+          <Link to="/" >Muistiprojekti</Link>
         </h1>
-        {
-          context.router.isActive('/', true)
-            ? <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
-            : null
-        }
+            <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
       </div>
     </div>
   );
