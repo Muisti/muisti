@@ -5,6 +5,7 @@ import {Grid, Row, Col, Panel, Pagination,Button, Well, Label, Input, ButtonInpu
 // Import Style
 import styles from './App.css';
 
+
 // Import Components
 import Helmet from 'react-helmet';
 
@@ -49,11 +50,6 @@ export class App extends Component {
               },
             ]}
           />
-          <Header
-            switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
-            intl={this.props.intl}
-            toggleAddPost={this.toggleAddPostSection}
-          />
           <div className={styles.container}>
             {this.props.children}
           </div>
@@ -64,9 +60,9 @@ export class App extends Component {
 }
 
 App.propTypes = {
-  children: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  intl: PropTypes.object.isRequired,
+  children: PropTypes.object,
+  dispatch: PropTypes.func,
+  intl: PropTypes.object,
 };
 
 // Retrieve data from store as props

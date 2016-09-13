@@ -54,7 +54,7 @@ export default (
       path="/signup"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
-          cb(null, require('./modules/SignUp/pages/Signup'));
+          cb(null, require('./modules/SignUp/pages/Signup').default);
         });
       }}
     />

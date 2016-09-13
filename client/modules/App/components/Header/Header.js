@@ -13,13 +13,14 @@ export function Header(props, context) {
         <ul>
           <li><Link to="/muisti" >Muisti</Link></li>
           <li><Link to="/" >MERN-aloitussivu</Link></li>
+          <li><Link to="/signup" >Rekisteröidy</Link></li>
         </ul>
       </div>
       <div className={styles.content}>
         <h1 className={styles['site-title']}>
           <Link to="/" >Muistiprojekti</Link>
         </h1>
-            <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
+
       </div>
     </div>
   );
@@ -30,8 +31,6 @@ Header.contextTypes = {
 };
 
 Header.propTypes = {
-  toggleAddPost: PropTypes.func.isRequired,
-  switchLanguage: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
 };
 
