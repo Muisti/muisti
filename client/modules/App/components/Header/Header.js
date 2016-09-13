@@ -20,7 +20,7 @@ export function Header(props, context) {
         <h1 className={styles['site-title']}>
           <Link to="/" >Muistiprojekti</Link>
         </h1>
-
+            <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
       </div>
     </div>
   );
@@ -31,6 +31,7 @@ Header.contextTypes = {
 };
 
 Header.propTypes = {
+  toggleAddPost: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
 };
 
