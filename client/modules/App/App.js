@@ -10,7 +10,6 @@ import styles from './App.css';
 import Helmet from 'react-helmet';
 
 import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
 
 // Import Actions
 import { toggleAddPost } from './AppActions';
@@ -33,6 +32,7 @@ export class App extends Component {
   render() {
     return (
       <div>
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
 
         <div>
           <Helmet
@@ -51,6 +51,7 @@ export class App extends Component {
             ]}
           />
           <Header
+            switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
             intl={this.props.intl}
             toggleAddPost={this.toggleAddPostSection}
           />
