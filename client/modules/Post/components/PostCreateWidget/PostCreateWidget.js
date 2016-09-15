@@ -10,11 +10,12 @@ export class PostCreateWidget extends Component {
   }
   
   addPost = () => {
+    const nameRef = this.refs.name;
     const contentRef = this.refs.content;
-    if (contentRef.value) {
-      this.props.addPost(contentRef.value);
-    contentRef.value = '';
-    }
+    if (nameRef.value && contentRef.value) {
+      this.props.addPost(nameRef.value, contentRef.value);
+      nameRef.value = contentRef.value = '';
+}
   };
 
   render() {
@@ -23,6 +24,7 @@ export class PostCreateWidget extends Component {
        <div className={cls}>
         <div className={styles['form-content']}>
           <h2 className={styles['form-title']}><FormattedMessage id="createNewPost" /></h2>
+          <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name" />
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" />
           <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id="submit" /></a>
         </div>

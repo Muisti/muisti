@@ -16,8 +16,7 @@ export function Header(props, context) {
         <ul>
           <li><Link to="/muisti" >Muisti</Link></li>
           <li><Link to="/" >MERN-aloitussivu</Link></li>
-          <li className={styles['language-switcher']}><FormattedMessage id="switchLanguage" />
-          {languageNodes}</li>
+          {languageNodes}
         </ul>
       </div>
         

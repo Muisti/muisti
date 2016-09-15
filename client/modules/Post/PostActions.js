@@ -18,7 +18,6 @@ export function addPostRequest(post) {
     return callApi('posts', 'post', {
       post: {
         name: post.name,
-        title: post.title,
         content: post.content,
       },
     }).then(res => dispatch(addPost(res.post)));
