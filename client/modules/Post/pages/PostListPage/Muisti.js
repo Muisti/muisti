@@ -3,6 +3,7 @@
  */
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 
 // Import Components
 
@@ -23,13 +24,14 @@ class Muisti extends Component {
 
   handleAddPost = (name, title, content) => {
     this.props.dispatch(toggleAddPost());
-    this.props.dispatch(addPostRequest({ name, title, content }));
+    this.props.dispatch(addPostRequest({ content }));
   };
 
   render() {
     return (
       <div>
         <PostCreateWidget addPost={this.handleAddPost} showAddPost={this.props.showAddPost} />
+        <Button bsStyle="danger"> Testinappi </Button>
         <p>Muistiprojekti ....</p>
       </div>
     );
