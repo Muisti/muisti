@@ -5,8 +5,10 @@ import {Grid, Row, Col, Panel, Pagination,Button, Well, Label, Input, ButtonInpu
 // Import Style
 import styles from './App.css';
 
+
 // Import Components
 import Helmet from 'react-helmet';
+
 import Header from './components/Header/Header';
 
 // Import Actions
@@ -31,6 +33,7 @@ export class App extends Component {
     return (
       <div>
        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
+
         <div>
           <Helmet
             title="Muistiprojekti"
@@ -62,9 +65,9 @@ export class App extends Component {
 }
 
 App.propTypes = {
-  children: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  intl: PropTypes.object.isRequired,
+  children: PropTypes.object,
+  dispatch: PropTypes.func,
+  intl: PropTypes.object,
 };
 
 // Retrieve data from store as props

@@ -1,26 +1,11 @@
 /**
  * Created by susisusi on 12/09/16.
  */
-/*
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import {Grid, Row, Col, Panel, Pagination,Button, Well, Label, Input, ButtonInput, MenuItem} from 'react-bootstrap';
-/*import {LinkContainer} from 'react-router-bootstrap';*/
-/*import auth from './../../services/Authentication';*/
-
-
-/*
 import { connect } from 'react-redux';
-
-// Import Components
-
-
-// Import Actions
-import { addPostRequest, fetchPosts, deletePostRequest } from '../../Post/PostActions';
-import { toggleAddPost } from '../../App/AppActions';
-
-// Import Selectors
-import { getShowAddPost } from '../../App/AppReducer';
+import {LinkContainer} from 'react-router-bootstrap';
 
 
 class Signup extends React.Component {
@@ -40,13 +25,7 @@ class Signup extends React.Component {
     this.handleInputPassword =  this.handleInputPassword.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
   }
-
-
-  handleAddPost = (name, title, content) => {
-    this.props.dispatch(toggleAddPost());
-    this.props.dispatch(addPostRequest({ name, title, content }));
-  };
-
+  
   validateEmail(email) {
     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     return re.test(email);
@@ -118,72 +97,43 @@ class Signup extends React.Component {
 
   render() {
     return(
-      <Grid>
-        <Row>
+
+    <div>
           <h2>
-            Sign up Using Email
+            Rekisteröidy
           </h2>
-          <hr/>
-          <Col md={12}>
+            <br />
             <form onSubmit={this.formSubmit}>
-              <Input
-                placeholder="First Name"
-                onChange={this.handleInputFirstName}
-                label="First Name"
-                type ="text" />
+              <input placeholder={"Etunimi"} ref="name" onChange={this.handleInputFirstName} label="First Name" type="text"/>
               <br/>
-              <Input
-                placeholder="Last Name"
-                onChange={this.handleInputLastName}
-                label ="Last Name"
-                type ="text"/>
+              <br />
+              <input placeholder={"Sukunimi"} ref="LastName" onChange={this.handleInputLastName} label="Last Name" type ="text" />
               <br/>
-              <Input
-                placeholder="Enter Email"
-                onChange={this.handleInputEmail}
-                label="Email"
-                type ="text"/>
+              <br />
+              <input placeholder={"Sähköpostiosoite"} ref="Email" onChange={this.handleInputEmail} label="Email" type ="text" />
               <br/>
-              <Input
-                placeholder="User Name"
-                onChange={this.handleInputUserName}
-                label="User Name"
-                type ="text"/>
+              <br />
+              <input placeholder={"Käyttäjätunnus"} ref="User" onChange={this.handleInputUserName} label="User Name" type ="text" />
               <br/>
-              <Input
-                placeholder="Enter Password"
-                onChange={this.handleInputPassword}
-                label="Password"
-                type="password" />
+              <br />
+              <input placeholder={"Salasana"} ref="Password" onChange={this.handleInputPassword} label="Enter Password" type ="text" />
               <br/>
-                 <p>{this.state.error}</p>
+              <br />
+              <button type="submit"> Rekisteröidy nyt! </button>
+              <br />
+              <br />
+              <p>{this.state.error}</p>
             </form>
-          </Col>
-        </Row>
-      </Grid>
+
+        </div>
     )
   }
 }
-// Actions required to provide data for this component to render in sever side.
-Signup.need = [() => { return fetchPosts(); }];
 
-// Retrieve data from store as props
+
 function mapStateToProps(state) {
   return {
-    showAddPost: getShowAddPost(state)
+
   };
 }
-
-Signup.propTypes = {
-  showAddPost: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired
-};
-
-Signup.contextTypes = {
-  router: React.PropTypes.object
-};
-
 export default connect(mapStateToProps)(Signup);
-
-
-*/  

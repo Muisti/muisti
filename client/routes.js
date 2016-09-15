@@ -4,6 +4,7 @@ import { Route, IndexRoute } from 'react-router';
 import App from './modules/App/App';
 import { Signup } from './modules/SignUp/pages/Signup'
 
+
 // require.ensure polyfill for node
 if (typeof require.ensure !== 'function') {
   require.ensure = function requireModule(deps, callback) {
@@ -54,7 +55,7 @@ export default (
       path="/signup"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
-          cb(null, require('./modules/SignUp/pages/Signup'));
+          cb(null, require('./modules/SignUp/pages/Signup').default);
         });
       }}
     />
