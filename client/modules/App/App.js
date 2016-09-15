@@ -7,9 +7,7 @@ import styles from './App.css';
 
 // Import Components
 import Helmet from 'react-helmet';
-
 import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
 
 // Import Actions
 import { toggleAddPost } from './AppActions';
@@ -32,7 +30,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
         <div>
           <Helmet
             title="Muistiprojekti"
