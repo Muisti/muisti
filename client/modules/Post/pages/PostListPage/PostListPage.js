@@ -33,11 +33,16 @@ class PostListPage extends Component {
       this.props.dispatch(toggleAddPost());
       this.props.dispatch(editPostRequest(post));
   };
+  
+  handleHidePost = () => {
+      this.props.dispatch(toggleAddPost());
+  };
 
   render() {
     return (
       <div>
-        <PostCreateWidget addPost={this.handleAddPost} showAddPost={this.props.showAddPost} />
+        <PostCreateWidget addPost={this.handleAddPost} showAddPost={this.props.showAddPost} 
+            hideAddPost={this.handleHidePost} editPost={this.handleEditPost}/>
         <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts} />
       </div>
     );

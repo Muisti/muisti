@@ -12,6 +12,7 @@ export default {
     postTitle: 'Postauksen otsikko',
     postContent: 'Postauksen sisältö',
     submit: 'Lähetä',
+    cancel: 'Peruuta',
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}

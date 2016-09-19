@@ -24,6 +24,7 @@ export class PostCreateWidget extends Component {
           <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name" />
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" />
           <a className={styles['post-submit-button']} href="/" onClick={this.addPost}><FormattedMessage id="submit" /></a>
+          <a className={styles['post-submit-button']} href="/" onClick={this.hideAddPost}><FormattedMessage id="cancel" /></a>
         </div>
       </div>
     );
@@ -36,8 +37,9 @@ PostCreateWidget.propTypes = {
   addPost: PropTypes.func.isRequired,
   showAddPost: PropTypes.bool.isRequired,
   editPost: PropTypes.func.isRequired,
-  editing: PropTypes.bool.isRequired,
+  originalPost: PorpTypes.object,
   intl: intlShape.isRequired,
+  hideAddPost: PropTypes.func.isRequired,
 };
 
 export default injectIntl(PostCreateWidget);
