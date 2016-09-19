@@ -10,9 +10,9 @@ export class PostCreateWidget extends Component {
   addPost = () => {
     const nameRef = this.refs.name;
     const contentRef = this.refs.content;
-    const importantRef = this.refs.important;
+    const importantRef = this.refs.important.checked;
     if (nameRef.value && contentRef.value) {
-      this.props.addPost(nameRef.value, contentRef.value, importantRef.value);
+      this.props.addPost(nameRef.value, contentRef.value, importantRef);
       nameRef.value = contentRef.value = '';
     }
   };
@@ -24,9 +24,9 @@ export class PostCreateWidget extends Component {
         <div className={styles['form-content']}>
           <h2 className={styles['form-title']}><FormattedMessage id="createNewPost" /></h2>
   
-        <div class="bootstrap-switch-square">
-            <input type="checkbox" data-toggle="switch" ref="important" value="true" />
-        </div>
+          <div class="bootstrap-switch-square">
+              <input type="checkbox" ref="important" /> <FormattedMessage id="isImportant"/>
+          </div>
   
           <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name" />
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" />
