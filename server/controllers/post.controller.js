@@ -28,19 +28,30 @@ export function addPost(req, res) {
     res.status(403).end();
   }
 
-  const newPost = new Post(req.body.post);
+  const isNew = !req.body.post.cuid;
+  
+    const newPost = new Post(req.body.post);
 
-  // Let's sanitize inputs
-  newPost.name = sanitizeHtml(newPost.name);
-  newPost.content = sanitizeHtml(newPost.content);
+    // Let's sanitize inputs
+    newPost.name = sanitizeHtml(newPost.name);
+    newPost.content = sanitizeHtml(newPost.content);
 
-  newPost.cuid = cuid();
-  newPost.save((err) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    res.end();
-  });
+  if(isNew){
+    newPost.cuid = cuid();
+
+    newPost.save((err) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+      res.end();
+    });
+  }else{
+      Post.findOneAndUpdate({cuid: req.body.post.cuid}, {content: newPost.content}, {upsert:true}, function(err, doc){
+        if (err) return console.log(err);
+        return res.send("succesfully saved");
+      });
+      console.log("PAIVITETTY");
+  }
 }
 
 /**
