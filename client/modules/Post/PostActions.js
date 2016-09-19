@@ -24,6 +24,7 @@ export function editPost(post) {
 }
 
 export function editPostRequest(post){
+    
     return (dispatch) => {
         callApi('posts', 'post', {
             post: {

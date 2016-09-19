@@ -6,7 +6,7 @@ import PostList from '../../components/PostList';
 import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
 
 // Import Actions
-import { addPostRequest, fetchPosts, deletePostRequest } from '../../PostActions';
+import { addPostRequest, fetchPosts, deletePostRequest, editPostRequest } from '../../PostActions';
 import { toggleAddPost } from '../../../App/AppActions';
 
 // Import Selectors
@@ -17,6 +17,8 @@ class PostListPage extends Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
   }
+
+  editingPost = null;
 
   handleDeletePost = post => {
     if (confirm('Do you want to delete this post')) { // eslint-disable-line
@@ -38,12 +40,19 @@ class PostListPage extends Component {
       this.props.dispatch(toggleAddPost());
   };
 
+  openEditPost = post => {
+      this.editingPost = post;
+      this.props.dispatch(toggleAddPost());  
+  };
+
   render() {
     return (
       <div>
         <PostCreateWidget addPost={this.handleAddPost} showAddPost={this.props.showAddPost} 
-            hideAddPost={this.handleHidePost} editPost={this.handleEditPost}/>
-        <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts} />
+            hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
+            originalPost={this.editingPost}/>
+        <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts}
+            handleEditPost={this.openEditPost}/>
       </div>
     );
   }
