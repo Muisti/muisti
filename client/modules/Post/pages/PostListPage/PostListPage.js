@@ -28,6 +28,11 @@ class PostListPage extends Component {
     this.props.dispatch(toggleAddPost());
     this.props.dispatch(addPostRequest({ name, content }));
   };
+  
+  handleEditPost = post => {
+      this.props.dispatch(toggleAddPost());
+      this.props.dispatch(editPostRequest(post));
+  };
 
   render() {
     return (

@@ -35,6 +35,8 @@ export class PostCreateWidget extends Component {
 PostCreateWidget.propTypes = {
   addPost: PropTypes.func.isRequired,
   showAddPost: PropTypes.bool.isRequired,
+  editPost: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired,
   intl: intlShape.isRequired,
 };
 
