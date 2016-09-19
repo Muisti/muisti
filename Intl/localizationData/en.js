@@ -12,6 +12,7 @@ export default {
     postTitle: 'Post Title',
     postContent: 'Post Content',
     submit: 'Submit',
+    isImportant: 'Is important',
     cancel: 'Cancel',
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
