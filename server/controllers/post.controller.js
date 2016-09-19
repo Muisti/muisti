@@ -35,7 +35,7 @@ export function addPost(req, res) {
   newPost.content = sanitizeHtml(newPost.content);
 
   newPost.cuid = cuid();
-  newPost.save((err, saved) => {
+  newPost.save((err) => {
     if (err) {
       res.status(500).send(err);
     }
