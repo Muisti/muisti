@@ -3,17 +3,15 @@
  */
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-
+import { Button } from 'react-bootstrap';
 
 class Muisti extends Component {
 
   render() {
     return (
       <div>
+        <Button bsStyle="danger"> Testinappi </Button>
         <p>Muistiprojekti ....</p>
-        <form>
-           <input placeholder={"place"} ref="name" />
-        </form>
       </div>
     );
   }
@@ -25,6 +23,5 @@ function mapStateToProps(state) {
 
   };
 }
-
 
 export default connect(mapStateToProps)(Muisti);
