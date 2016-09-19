@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { Checkbox } from 'react-bootstrap';
 
 // Import Style
 import styles from './PostCreateWidget.css';
@@ -29,8 +30,9 @@ export class PostCreateWidget extends Component {
         console.log("ADDING NEW");
         const nameRef = this.refs.name;
         const contentRef = this.refs.content;
+        const importantRef = this.refs.important.checked;
         if (nameRef.value && contentRef.value) {
-          this.props.addPost(nameRef.value, contentRef.value);
+          this.props.addPost(nameRef.value, contentRef.value, importantRef);
           nameRef.value = contentRef.value = '';
         }
     }
@@ -49,6 +51,11 @@ export class PostCreateWidget extends Component {
       <div className={cls}> 
         <div className={styles['form-content']}>
           <h2 className={styles['form-title']}><FormattedMessage id="createNewPost" /></h2>
+  
+          <div class="bootstrap-switch-square">
+              <input type="checkbox" ref="important" /> <FormattedMessage id="isImportant"/>
+          </div>
+  
           <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name"
             value={this.state.name} onChange={this.changeName}/>
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" 
