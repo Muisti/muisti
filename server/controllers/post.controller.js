@@ -1,6 +1,5 @@
 import Post from '../models/post';
 import cuid from 'cuid';
-import slug from 'limax';
 import sanitizeHtml from 'sanitize-html';
 
 /**
@@ -36,7 +35,7 @@ export function addPost(req, res) {
   newPost.content = sanitizeHtml(newPost.content);
 
   newPost.cuid = cuid();
-  newPost.save((err, saved) => {
+  newPost.save((err) => {
     if (err) {
       res.status(500).send(err);
     }
@@ -70,7 +69,6 @@ export function deletePost(req, res) {
     if (err) {
       res.status(500).send(err);
     }
-
     post.remove(() => {
       res.status(200).end();
     });
