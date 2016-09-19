@@ -6,7 +6,7 @@
 
 .content {
   width: 100%;
-  max-width: 980px;
+  max-width: 1100px;
   margin: auto;
   padding: 64px 16px;
   overflow: auto;
@@ -43,7 +43,7 @@
 
 .navigation-bar ul {
   list-style: none;
-  width: 980px;
+  width: 1100px;
   margin: auto;
   text-align: left;
 }
