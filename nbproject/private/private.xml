@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Post/pages/PostListPage/Muisti.js</file>
-            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/App.js</file>
-            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/SignUp/pages/Signup.js</file>
-            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/App/App.js</file>
-            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/index.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Post/pages/PostListPage/PostListPage.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Post/PostActions.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/server/models/post.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/server/controllers/post.controller.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Post/components/PostCreateWidget/PostCreateWidget.js</file>
         </group>
     </open-files>
 </project-private>

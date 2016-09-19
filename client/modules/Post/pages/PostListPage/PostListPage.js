@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 // Import Components
 import PostList from '../../components/PostList';
@@ -24,16 +25,24 @@ class PostListPage extends Component {
     }
   };
 
-  handleAddPost = (name, content) => {
+  handleAddPost = (name, content, important) => {
     this.props.dispatch(toggleAddPost());
-    this.props.dispatch(addPostRequest({ name, content }));
+    this.props.dispatch(addPostRequest({ name, content, important }));
   };
 
   render() {
     return (
       <div>
         <PostCreateWidget addPost={this.handleAddPost} showAddPost={this.props.showAddPost} />
-        <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts} />
+
+        <div className="row">
+            <div className="col-md-3">
+                <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts} importanceColumn={true} />
+            </div>
+            <div className="col-md-9">
+                <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts} importanceColumn={false} />
+            </div>
+        </div>
       </div>
     );
   }
@@ -54,6 +63,7 @@ PostListPage.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
+    important: PropTypes.string.isRequired,
   })).isRequired,
   showAddPost: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,

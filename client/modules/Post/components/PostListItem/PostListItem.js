@@ -19,6 +19,7 @@ PostListItem.propTypes = {
   post: PropTypes.shape({
     name: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
+    important: PropTypes.bool.isRequired,
     cuid: PropTypes.string.isRequired,
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
