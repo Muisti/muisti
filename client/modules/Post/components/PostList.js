@@ -12,6 +12,7 @@ function PostList(props) {
             post={post}
             key={post.cuid}
             onDelete={() => props.handleDeletePost(post.cuid)}
+            onEdit={() => props.handleEditPost(post)}
           />
         ))
       }
@@ -28,6 +29,7 @@ PostList.propTypes = {
   })).isRequired,
   handleDeletePost: PropTypes.func.isRequired,
   importanceColumn: PropTypes.bool.isRequired,
+  handleEditPost: PropTypes.func.isRequired,
 };
 
 export default PostList;
