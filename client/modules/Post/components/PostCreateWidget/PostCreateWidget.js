@@ -44,8 +44,13 @@ export class PostCreateWidget extends Component {
     if(this.props.originalPost != this.originalPost && this.props.originalPost != null){
         var post = this.props.originalPost;
         this.state = {name: post.name, content: post.content, originalPost: post};
-        this.originalPost = this.props.originalPost;
     }
+    
+    if(this.props.originalPost == null && this.originalPost != null){
+        this.state = {name: "", content: ""};
+    }
+    
+    this.originalPost = this.props.originalPost;
     
     return (
       <div className={cls}> 
@@ -61,7 +66,7 @@ export class PostCreateWidget extends Component {
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" 
             value={this.state.content} onChange={this.changeContent}/>
           <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id="submit" /></a>
-          <a className={styles['post-submit-button']} href="#" onClick={this.hideAddPost}><FormattedMessage id="cancel" /></a>
+          <a className={styles['post-submit-button']} href="/" onClick={this.hideAddPost}><FormattedMessage id="cancel" /></a>
         </div>
       </div>
     );

@@ -38,10 +38,12 @@ class PostListPage extends Component {
       this.props.dispatch(editPostRequest(post));
       setTimeout(100)
       this.props.dispatch(fetchPosts());
+      this.editingPost = null;
   };
   
   handleHidePost = () => {
       this.props.dispatch(toggleAddPost());
+      this.editingPost = null;
   };
 
   openEditPost = post => {
