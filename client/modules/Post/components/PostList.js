@@ -7,7 +7,7 @@ function PostList(props) {
   return (
     <div className="listView">
       {
-        props.posts.filter(post => (post.important == props.importanceColumn)).map(post => (
+        props.posts.filter(post => (post.important === props.importanceColumn)).map(post => (
           <PostListItem
             post={post}
             key={post.cuid}
