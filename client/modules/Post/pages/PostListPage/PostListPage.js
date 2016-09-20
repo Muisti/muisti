@@ -36,7 +36,7 @@ class PostListPage extends Component {
   handleEditPost = post => {
     this.props.dispatch(toggleAddPost());
     this.props.dispatch(editPostRequest(post));
-    setTimeout(100)
+    setTimeout(100);
     this.props.dispatch(fetchPosts());
   };
 
@@ -52,18 +52,24 @@ class PostListPage extends Component {
   render() {
     return (
       <div>
-        <PostCreateWidget addPost={this.handleAddPost} showAddPost={this.props.showAddPost}
-                          hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
-                          originalPost={this.editingPost}/>
+        <PostCreateWidget
+          addPost={this.handleAddPost} showAddPost={this.props.showAddPost}
+          hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
+          originalPost={this.editingPost}
+        />
         <Grid>
           <Row className="show-grid">
             <Col xs={16} md={4}>
-              <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts}
-                        handleEditPost={this.openEditPost} importanceColumn={true}/>
+              <PostList
+                handleDeletePost={this.handleDeletePost} posts={this.props.posts}
+                handleEditPost={this.openEditPost} importanceColumn={true}
+              />
             </Col>
             <Col xs={12} md={7}>
-              <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts}
-                        handleEditPost={this.openEditPost} importanceColumn={false}/>
+              <PostList
+                handleDeletePost={this.handleDeletePost} posts={this.props.posts}
+                handleEditPost={this.openEditPost} importanceColumn={false}
+              />
             </Col>
           </Row>
         </Grid>

@@ -17,24 +17,24 @@ export function addPost(post) {
 /**  */
 
 export function editPost(post) {
-    return {
-        type: EDIT_POST,
-        post,
-    };
+  return {
+    type: EDIT_POST,
+    post,
+  };
 }
 
-export function editPostRequest(post){
-    
-    return (dispatch) => {
-        callApi('posts', 'post', {
-            post: {
-                cuid: post.cuid,
-                name: post.name,
-                content: post.content,
-                dateAdded: post.dateAdded
-            }
-        }).then(res => dispatch(editPost(res.post)));
-    };
+export function editPostRequest(post) {
+
+  return (dispatch) => {
+    callApi('posts', 'post', {
+      post: {
+        cuid: post.cuid,
+        name: post.name,
+        content: post.content,
+        dateAdded: post.dateAdded,
+      },
+    }).then(res => dispatch(editPost(res.post)));
+  };
 }
 
 export function addPostRequest(post) {
