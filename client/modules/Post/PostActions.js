@@ -4,6 +4,7 @@ import callApi from '../../util/apiCaller';
 export const ADD_POST = 'ADD_POST';
 export const ADD_POSTS = 'ADD_POSTS';
 export const DELETE_POST = 'DELETE_POST';
+export const EDIT_POST = 'EDIT_POST';
 
 // Export Actions
 export function addPost(post) {
@@ -13,12 +14,36 @@ export function addPost(post) {
   };
 }
 
+/**  */
+
+export function editPost(post) {
+    return {
+        type: EDIT_POST,
+        post,
+    };
+}
+
+export function editPostRequest(post){
+    
+    return (dispatch) => {
+        callApi('posts', 'post', {
+            post: {
+                cuid: post.cuid,
+                name: post.name,
+                content: post.content,
+                dateAdded: post.dateAdded
+            }
+        }).then(res => dispatch(editPost(res.post)));
+    };
+}
+
 export function addPostRequest(post) {
   return (dispatch) => {
     return callApi('posts', 'post', {
       post: {
         name: post.name,
         content: post.content,
+        important: post.important,
       },
     }).then(res => dispatch(addPost(res.post)));
   };
