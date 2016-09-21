@@ -89,7 +89,7 @@ PostListPage.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    important: PropTypes.string.isRequired,
+    important: PropTypes.bool.isRequired,
   })).isRequired,
   showAddPost: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
