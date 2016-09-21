@@ -44,6 +44,7 @@ class PostListPage extends Component {
   handleHidePost = () => {
       this.props.dispatch(toggleAddPost());
       this.editingPost = null;
+      conosle.log("HIDE TEHTY");
   };
 
   openEditPost = post => {

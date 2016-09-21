@@ -57,7 +57,7 @@ export class PostCreateWidget extends Component {
         <div className={styles['form-content']}>
           <h2 className={styles['form-title']}><FormattedMessage id="createNewPost" /></h2>
   
-          <div class="bootstrap-switch-square">
+          <div className="bootstrap-switch-square"> 
               <input type="checkbox" ref="important" /> <FormattedMessage id="isImportant"/>
           </div>
   
@@ -66,7 +66,7 @@ export class PostCreateWidget extends Component {
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" 
             value={this.state.content} onChange={this.changeContent}/>
           <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id="submit" /></a>
-          <a className={styles['post-submit-button']} href="/" onClick={this.hideAddPost}><FormattedMessage id="cancel" /></a>
+          <a className={styles['post-submit-button']} href="#" onClick={this.props.hideAddPost}><FormattedMessage id="cancel" /></a>
         </div>
       </div>
     );
