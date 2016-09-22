@@ -48,9 +48,9 @@ export function addPost(req, res) {
   }else{
       Post.findOneAndUpdate({cuid: req.body.post.cuid}, {content: newPost.content}, {upsert:true}, function(err, doc){
         if (err) return console.log(err);
-        return res.send("succesfully saved");
+        res.json({ post : newPost });
+        res.end();
       });
-      console.log("PAIVITETTY");
   }
 }
 
