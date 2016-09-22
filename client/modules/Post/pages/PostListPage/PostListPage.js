@@ -8,7 +8,7 @@ import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget
 
 // Import Actions
 import { addPostRequest, fetchPosts, deletePostRequest, editPostRequest } from '../../PostActions';
-import { toggleAddPost } from '../../../App/AppActions';
+import { toggleAddPost, showAddPost } from '../../../App/AppActions';
 
 // Import Selectors
 import { getShowAddPost } from '../../../App/AppReducer';
@@ -38,15 +38,18 @@ class PostListPage extends Component {
       this.props.dispatch(editPostRequest(post));
       setTimeout(100)
       this.props.dispatch(fetchPosts());
+      this.editingPost = null;
   };
   
   handleHidePost = () => {
       this.props.dispatch(toggleAddPost());
+      this.editingPost = null;
   };
 
   openEditPost = post => {
       this.editingPost = post;
-      this.props.dispatch(toggleAddPost());  
+      this.props.dispatch(showAddPost());  
+      this.setState({}); //update ui
   };
 
   render() {
@@ -86,7 +89,7 @@ PostListPage.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    important: PropTypes.string.isRequired,
+    important: PropTypes.bool.isRequired,
   })).isRequired,
   showAddPost: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
