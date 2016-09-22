@@ -50,7 +50,11 @@ export class PostCreateWidget extends Component {
         this.state = {name: "", content: ""};
     }
     
+    
+    
     this.originalPost = this.props.originalPost;
+    var addingNew = (this.originalPost == null);
+    var submitText = addingNew ? "submitAdd" : "submitEdit";
     
     return (
       <div className={cls}> 
@@ -66,8 +70,8 @@ export class PostCreateWidget extends Component {
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" 
             value={this.state.content} onChange={this.changeContent}/>
           
-            <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id="submit" /></a>&nbsp;&nbsp;
-            <a className={styles['post-submit-button']} href="#" onClick={this.props.hideAddPost}><FormattedMessage id="cancel" /></a>
+            <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id="submit" /></a>
+            <a className={styles['post-submit-button']} href="#" onClick={this.props.hideAddPost}><FormattedMessage id={submitText} /></a>
         </div>
       </div>
     );

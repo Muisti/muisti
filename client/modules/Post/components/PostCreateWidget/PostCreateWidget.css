@@ -40,6 +40,7 @@ textarea {
 .post-submit-button {
   display: inline-block;
   padding: 8px 16px;
+  margin-right: 16px;
   font-size: 18px;
   color: #FFF;
   background: #03A9F4;
