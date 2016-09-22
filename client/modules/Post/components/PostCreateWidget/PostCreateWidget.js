@@ -55,11 +55,12 @@ export class PostCreateWidget extends Component {
     this.originalPost = this.props.originalPost;
     var addingNew = (this.originalPost == null);
     var submitText = addingNew ? "submitAdd" : "submitEdit";
+    var title = addingNew ? "createNewPost" : "editPost";
     
     return (
       <div className={cls}> 
         <div className={styles['form-content']}>
-          <h2 className={styles['form-title']}><FormattedMessage id="createNewPost" /></h2>
+          <h2 className={styles['form-title']}><FormattedMessage id={title} /></h2>
   
           <div className="bootstrap-switch-square"> 
               <input type="checkbox" ref="important" /> <FormattedMessage id="isImportant"/>
@@ -70,8 +71,8 @@ export class PostCreateWidget extends Component {
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" 
             value={this.state.content} onChange={this.changeContent}/>
           
-            <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id="submit" /></a>
-            <a className={styles['post-submit-button']} href="#" onClick={this.props.hideAddPost}><FormattedMessage id={submitText} /></a>
+            <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id={submitText} /></a>
+            <a className={styles['post-submit-button']} href="#" onClick={this.props.hideAddPost}><FormattedMessage id="cancel" /></a>
         </div>
       </div>
     );
