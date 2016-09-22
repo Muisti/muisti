@@ -26,5 +26,5 @@ Definition of done:
 
 ## Lisenssi
 
-Ei vielä valittua lisenssiä
+<H2>[MIT](https://github.com/Muisti/muisti/blob/master/LICENSE)
 
