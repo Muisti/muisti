@@ -51,3 +51,7 @@ textarea {
 .appear {
   display: block;
 }
+
+.hidden {
+    display: none;
+}

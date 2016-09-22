@@ -62,8 +62,8 @@ export class PostCreateWidget extends Component {
         <div className={styles['form-content']}>
           <h2 className={styles['form-title']}><FormattedMessage id={title} /></h2>
   
-          <div className="bootstrap-switch-square"> 
-              <input type="checkbox" ref="important" /> <FormattedMessage id="isImportant"/>
+          <div className={addingNew ? 'bootstrap-switch-square' : 'hidden'} > 
+              <input type="checkbox" ref="important"/> <FormattedMessage id="isImportant"/>
           </div>
   
           <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name"
