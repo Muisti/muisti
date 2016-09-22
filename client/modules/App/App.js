@@ -14,6 +14,9 @@ import Header from './components/Header/Header';
 import { toggleAddPost } from './AppActions';
 import { switchLanguage } from '../../modules/Intl/IntlActions';
 
+// Import selectors
+import { getShowAddPost } from './AppReducer';
+
 export class App extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +32,8 @@ export class App extends Component {
   };
 
   render() {
+      console.log("SHOW: " + this.props.showAddPost);
+      
     return (
       <div>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
@@ -53,6 +58,7 @@ export class App extends Component {
             switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
             intl={this.props.intl}
             toggleAddPost={this.toggleAddPostSection}
+            showAddPostButton={!this.props.showAddPost}
           />
           <div className={styles.container}>
             {this.props.children}
@@ -67,12 +73,14 @@ App.propTypes = {
   children: PropTypes.object,
   dispatch: PropTypes.func,
   intl: PropTypes.object,
+  showAddPost: PropTypes.bool,
 };
 
 // Retrieve data from store as props
 function mapStateToProps(store) {
   return {
     intl: store.intl,
+    showAddPost: getShowAddPost(store), 
   };
 }
 
