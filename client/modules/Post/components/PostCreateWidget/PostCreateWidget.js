@@ -45,6 +45,12 @@ export class PostCreateWidget extends Component {
     }
   };
   
+  cancel = () => {
+    this.setState({name: "", content: ""});
+    this.originalPost = null;
+    this.props.hideAddPost(); 
+  };
+  
   //updating this components own state based on props
   updateState = () => {
     const postChanged = (this.props.originalPost != this.originalPost);
@@ -85,7 +91,7 @@ export class PostCreateWidget extends Component {
             value={this.state.content} onChange={this.changeContent}/>
           
             <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>
-            <a className={styles['post-submit-button']} href="#" onClick={this.props.hideAddPost}><FormattedMessage id="cancel" /></a>
+            <a className={styles['post-submit-button']} href="#" onClick={this.cancel}><FormattedMessage id="cancel" /></a>
         </div>
       </div>
     );
