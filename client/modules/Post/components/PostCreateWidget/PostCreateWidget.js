@@ -9,7 +9,7 @@ export class PostCreateWidget extends Component {
 
   constructor(){
       super();
-      this.state = {name: "", content: ""};
+      this.clearFields();
   } 
   
   //user is writing new post if originalPost is not defined
@@ -19,6 +19,8 @@ export class PostCreateWidget extends Component {
   // these functions allow input-fields editing
   changeName = event => this.setState({...this.state, name: event.target.value});
   changeContent = event => this.setState({...this.state, content: event.target.value});
+  
+  clearFields = () => { this.state = {name: "", content: ""}; }
   
   editPost = () => {
     this.props.editPost({
@@ -46,7 +48,7 @@ export class PostCreateWidget extends Component {
   };
   
   cancel = () => {
-    this.setState({name: "", content: ""});
+    this.clearFields();
     this.originalPost = null;
     this.props.hideAddPost(); 
   };
@@ -57,10 +59,10 @@ export class PostCreateWidget extends Component {
     
     if(postChanged){
         if(this.props.originalPost == null){
-          this.state = {name: "", content: ""};
+          this.clearFields();
         }else{
           var post = this.props.originalPost;
-          this.state = {name: post.name, content: post.content, originalPost: post};
+          this.state = {name: post.name, content: post.content};
         }
     
         this.originalPost = this.props.originalPost;
