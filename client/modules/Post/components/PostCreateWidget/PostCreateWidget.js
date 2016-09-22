@@ -65,8 +65,9 @@ export class PostCreateWidget extends Component {
             value={this.state.name} onChange={this.changeName}/>
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" 
             value={this.state.content} onChange={this.changeContent}/>
-          <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id="submit" /></a>
-          <a className={styles['post-submit-button']} href="#" onClick={this.props.hideAddPost}><FormattedMessage id="cancel" /></a>
+          
+            <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id="submit" /></a>&nbsp;&nbsp;
+            <a className={styles['post-submit-button']} href="#" onClick={this.props.hideAddPost}><FormattedMessage id="cancel" /></a>
         </div>
       </div>
     );
