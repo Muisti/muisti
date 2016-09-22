@@ -14,7 +14,7 @@ export class PostCreateWidget extends Component {
   
   //user is writing new post if originalPost is not defined
   originalPost = null;  
-  isNewPost = () => !originalPost;
+  isNewPost = () => !this.originalPost;
   
   // these functions allow input-fields editing
   changeName = event => this.setState({...this.state, name: event.target.value});
@@ -39,9 +39,9 @@ export class PostCreateWidget extends Component {
 
   submit = () => {
     if(isNewPost()){
-       editPost();
-    }else{
        addPost();
+    }else{
+       editPost();
     }
   };
   
@@ -74,7 +74,7 @@ export class PostCreateWidget extends Component {
         <div className={styles['form-content']}>
           <h2 className={styles['form-title']}><FormattedMessage id={title} /></h2>
   
-          <div className={addingNew ? 'bootstrap-switch-square' : 'hidden'} > 
+          <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} > 
               <input type="checkbox" ref="important"/> <FormattedMessage id="isImportant"/>
           </div>
   
