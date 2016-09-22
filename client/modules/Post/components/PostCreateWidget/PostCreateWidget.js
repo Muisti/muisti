@@ -12,50 +12,62 @@ export class PostCreateWidget extends Component {
       this.state = {name: "", content: ""};
   } 
   
-  originalPost = null;
+  //user is writing new post if originalPost is not defined
+  originalPost = null;  
+  isNewPost = () => !originalPost;
   
   // these functions allow input-fields editing
   changeName = event => this.setState({...this.state, name: event.target.value});
   changeContent = event => this.setState({...this.state, content: event.target.value});
   
+  editPost = () => {
+    this.props.editPost({
+        ...this.state.originalPost,
+        content: this.refs.content.value
+    });
+  };
 
   addPost = () => {
-    if(this.state.originalPost){  //editing existing post
-        console.log("EDITING");
-        this.props.editPost({
-            ...this.state.originalPost,
-            content: this.refs.content.value
-        });
-    }else{  //adding new post
-        console.log("ADDING NEW");
-        const nameRef = this.refs.name;
-        const contentRef = this.refs.content;
-        const importantRef = this.refs.important.checked;
-        if (nameRef.value && contentRef.value) {
-          this.props.addPost(nameRef.value, contentRef.value, importantRef);
-          nameRef.value = contentRef.value = '';
+    const nameRef = this.refs.name;
+    const contentRef = this.refs.content;
+    const importantRef = this.refs.important.checked;
+    if (nameRef.value && contentRef.value) {
+      this.props.addPost(nameRef.value, contentRef.value, importantRef);
+      nameRef.value = contentRef.value = '';
+    }
+  };
+
+  submit = () => {
+    if(isNewPost()){
+       editPost();
+    }else{
+       addPost();
+    }
+  };
+  
+  //updating this components own state based on props
+  updateState = () => {
+    const postChanged = (this.props.originalPost != this.originalPost);
+    
+    if(postChanged){
+        if(this.props.originalPost == null){
+          this.state = {name: "", content: ""};
+        }else{
+          var post = this.props.originalPost;
+          this.state = {name: post.name, content: post.content, originalPost: post};
         }
+    
+        this.originalPost = this.props.originalPost;
     }
   };
 
   render() {
+    this.updateState();
+          
     const cls = `${styles.form} ${(this.props.showAddPost ? styles.appear : '')}`;
     
-    if(this.props.originalPost != this.originalPost && this.props.originalPost != null){
-        var post = this.props.originalPost;
-        this.state = {name: post.name, content: post.content, originalPost: post};
-    }
-    
-    if(this.props.originalPost == null && this.originalPost != null){
-        this.state = {name: "", content: ""};
-    }
-    
-    
-    
-    this.originalPost = this.props.originalPost;
-    var addingNew = (this.originalPost == null);
-    var submitText = addingNew ? "submitAdd" : "submitEdit";
-    var title = addingNew ? "createNewPost" : "editPost";
+    const submitText = this.isNewPost() ? "submitAdd" : "submitEdit";
+    const title = this.isNewPost() ? "createNewPost" : "editPost";
     
     return (
       <div className={cls}> 

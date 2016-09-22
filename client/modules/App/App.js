@@ -32,8 +32,6 @@ export class App extends Component {
   };
 
   render() {
-      console.log("SHOW: " + this.props.showAddPost);
-      
     return (
       <div>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
