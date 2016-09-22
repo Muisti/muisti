@@ -10,11 +10,6 @@ const PostReducer = (state = initialState, action) => {
         data: [action.post, ...state.data],
       };
 
-    case SEND_POST :
-      return{
-        data: [action.post, ...state.data],
-
-      } 
 
     case ADD_POSTS :
       return {
@@ -26,10 +21,12 @@ const PostReducer = (state = initialState, action) => {
         data: state.data.filter(post => post.cuid !== action.cuid),
       };
       
-    case EDIT_POST :
+    case EDIT_POST :{
+      
       return {
          data: [action.post, ...state.data.filter(post => post.cuid !== action.post.cuid)],
       };
+  }
 
     default:
       return state;
