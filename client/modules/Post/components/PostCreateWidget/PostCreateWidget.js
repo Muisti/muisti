@@ -90,7 +90,6 @@ export class PostCreateWidget extends Component {
       </div>
     );
   }
-
 }
 
 
