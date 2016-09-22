@@ -19,7 +19,7 @@ export class PostCreateWidget extends Component {
   changeContent = event => this.setState({...this.state, content: event.target.value});
   
 
-  addPost = () => {
+  sendPost = () => {
     if(this.state.originalPost){  //editing existing post
         console.log("EDITING");
         this.props.editPost({
@@ -60,7 +60,7 @@ export class PostCreateWidget extends Component {
             value={this.state.name} onChange={this.changeName}/>
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" 
             value={this.state.content} onChange={this.changeContent}/>
-          <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id="submit" /></a>
+          <a className={styles['post-submit-button']} href="#" onClick={this.sendPost}><FormattedMessage id="submit" /></a>
           <a className={styles['post-submit-button']} href="#" onClick={this.hideAddPost}><FormattedMessage id="cancel" /></a>
         </div>
       </div>
@@ -71,7 +71,7 @@ export class PostCreateWidget extends Component {
 
 
 PostCreateWidget.propTypes = {
-  addPost: PropTypes.func.isRequired,
+  sendPost: PropTypes.func.isRequired,
   showAddPost: PropTypes.bool.isRequired,
   editPost: PropTypes.func.isRequired,
   originalPost: PropTypes.object,

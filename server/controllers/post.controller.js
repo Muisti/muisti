@@ -23,6 +23,32 @@ export function getPosts(req, res) {
  * @param res
  * @returns void
  */
+
+export function sendPost(req,res){
+  if (!req.body.post.name || !req.body.post.content) {
+    res.status(403).end();
+  }
+  const isNew = !req.body.post.cuid;
+    if(isNew){
+      addPost(req,res);}
+    else{
+      updatePost(req,res);}  
+}
+
+export function updatePost(req,res){
+  if (!req.body.post.name || !req.body.post.content) {
+    res.status(403).end();
+  }
+  Post.findOneAndUpdate({cuid: req.body.post.cuid}, {content: newPost.content}, {upsert:true}, function(err, doc){
+        if (err) return console.log(err);
+        return res.send("succesfully saved");
+      });
+      console.log("PAIVITETTY");
+  }
+
+
+
+
 export function addPost(req, res) {
   if (!req.body.post.name || !req.body.post.content) {
     res.status(403).end();
@@ -54,6 +80,7 @@ export function addPost(req, res) {
   }
 }
 
+
 /**
  * Get a single post
  * @param req
@@ -84,4 +111,10 @@ export function deletePost(req, res) {
       res.status(200).end();
     });
   });
+}
+
+function checkIfContent(){
+  if (!req.body.post.name || !req.body.post.content) {
+    res.status(403).end();
+  }  
 }

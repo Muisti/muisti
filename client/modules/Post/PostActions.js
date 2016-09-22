@@ -5,8 +5,18 @@ export const ADD_POST = 'ADD_POST';
 export const ADD_POSTS = 'ADD_POSTS';
 export const DELETE_POST = 'DELETE_POST';
 export const EDIT_POST = 'EDIT_POST';
-
+export const SEND_POST = 'SEND_POST';
 // Export Actions
+
+export function sendPost(post){
+ return {
+    type: SEND_POST,
+    post,
+  };
+}
+
+
+
 export function addPost(post) {
   return {
     type: ADD_POST,
