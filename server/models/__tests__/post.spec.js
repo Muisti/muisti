@@ -10,7 +10,7 @@ const posts = [
   new Post({ name: 'Mayank', cuid: 'f34gb2bh24b24b3', content: "All dogs bark 'mern!'" }),
 ];
 
-test.beforeEach('connect and add two post entries', t => {
+test.beforeEach.serial('connect and add two post entries', t => {
   connectDB(t, () => {
     Post.create(posts, err => {
       if (err) t.fail('Unable to create posts');
@@ -18,20 +18,20 @@ test.beforeEach('connect and add two post entries', t => {
   });
 });
 
-test.afterEach.always(t => {
+test.afterEach.always.serial(t => {
   dropDB(t);
 });
 
 test.serial('Should correctly give number of Posts', async t => {
   t.plan(2);
-
+  
   const res = await request(app)
     .get('/api/posts')
     .set('Accept', 'application/json');
 
   t.is(res.status, 200);
   t.deepEqual(posts.length, 2);
-  //  t.deepEqual(posts.length, res.body.posts.length);
+//  t.deepEqual(posts.length, res.body.posts.length);
 });
 
 test.serial('Should send correct data when queried against a cuid', async t => {
@@ -66,12 +66,17 @@ test.serial('Should correctly delete a post', async t => {
   t.plan(2);
 
   const post = new Post({ name: 'Foo', cuid: 'f34gb2bh24b24b2', content: 'Hello Mern says Foo' });
-  post.save();
-
-  const res = await request(app)
+  
+  
+  var res = await request(app)
+    .post('/api/posts')
+    .send({ post })
+    .set('Accept', 'application/json');
+  
+  res = await request(app)
     .delete(`/api/posts/${post.cuid}`)
     .set('Accept', 'application/json');
-
+  
   t.is(res.status, 200);
 
   const queriedPost = await Post.findOne({ cuid: post.cuid }).exec();
