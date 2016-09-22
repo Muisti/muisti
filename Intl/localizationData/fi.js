@@ -7,6 +7,7 @@ export default {
     twitterMessage: 'Twitter viesti',
     by: 'Tekijä',
     deletePost: 'Poista viesti',
+    editPostLink: 'Muokkaa viestiä',
     createNewPost: 'Uusi viesti',
     editPost: 'Muokkaa viestiä',
     authorName: 'Kirjoittajan nimi',
