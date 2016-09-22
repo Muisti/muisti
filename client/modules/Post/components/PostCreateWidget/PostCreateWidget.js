@@ -22,7 +22,7 @@ export class PostCreateWidget extends Component {
   
   editPost = () => {
     this.props.editPost({
-        ...this.state.originalPost,
+        ...this.originalPost,
         content: this.refs.content.value
     });
   };
@@ -38,10 +38,10 @@ export class PostCreateWidget extends Component {
   };
 
   submit = () => {
-    if(isNewPost()){
-       addPost();
+    if(this.isNewPost()){
+       this.addPost();
     }else{
-       editPost();
+       this.editPost();
     }
   };
   
@@ -60,6 +60,7 @@ export class PostCreateWidget extends Component {
         this.originalPost = this.props.originalPost;
     }
   };
+  
 
   render() {
     this.updateState();
@@ -83,7 +84,7 @@ export class PostCreateWidget extends Component {
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content" 
             value={this.state.content} onChange={this.changeContent}/>
           
-            <a className={styles['post-submit-button']} href="#" onClick={this.addPost}><FormattedMessage id={submitText} /></a>
+            <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>
             <a className={styles['post-submit-button']} href="#" onClick={this.props.hideAddPost}><FormattedMessage id="cancel" /></a>
         </div>
       </div>
