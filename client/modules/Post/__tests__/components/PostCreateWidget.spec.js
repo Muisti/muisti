@@ -63,3 +63,13 @@ test('empty form doesn\'t call addPost', t => {
   wrapper.find('a').first().simulate('click');
   t.falsy(addPost.called);
 });
+
+test.only('edit button fills correct information', t => {
+    const post = { name: 'Foo', content: 'Hello Mern says Foo' };
+    
+    const wrapper = mountWithIntl(
+            <PostCreateWidget originalPost={ post } />
+    );
+    
+    t.truthy(wrapper.find('textarea').first().text()) == 'Hello Mern says Foo');
+});
