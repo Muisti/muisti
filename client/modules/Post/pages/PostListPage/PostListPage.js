@@ -8,7 +8,7 @@ import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget
 
 // Import Actions
 import { addPostRequest, fetchPosts, deletePostRequest, editPostRequest } from '../../PostActions';
-import { toggleAddPost } from '../../../App/AppActions';
+import { toggleAddPost, showAddPost } from '../../../App/AppActions';
 
 // Import Selectors
 import { getShowAddPost } from '../../../App/AppReducer';
@@ -34,19 +34,26 @@ class PostListPage extends Component {
   };
 
   handleEditPost = post => {
+
     this.props.dispatch(toggleAddPost());
     this.props.dispatch(editPostRequest(post));
-    setTimeout(100);
+    setTimeout(100)
     this.props.dispatch(fetchPosts());
+    this.editingPost = null;
+
   };
 
   handleHidePost = () => {
+
     this.props.dispatch(toggleAddPost());
+    this.editingPost = null;
   };
 
   openEditPost = post => {
     this.editingPost = post;
-    this.props.dispatch(toggleAddPost());
+    this.props.dispatch(showAddPost());
+    this.setState({}); //update ui
+
   };
 
   render() {
