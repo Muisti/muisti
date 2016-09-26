@@ -22,7 +22,7 @@ class PostListPage extends Component {
   editingPost = null;
 
   handleDeletePost = post => {
-    if (confirm('Do you want to delete this post')) { // eslint-disable-line
+    if (confirm('Haluatko varmasti poistaa viestin?')) { // eslint-disable-line
       this.props.dispatch(deletePostRequest(post));
     }
   };
@@ -32,43 +32,54 @@ class PostListPage extends Component {
     this.props.dispatch(addPostRequest({ name, content, important }));
     this.props.dispatch(fetchPosts());
   };
-  
+
   handleEditPost = post => {
-      this.props.dispatch(toggleAddPost());
-      this.props.dispatch(editPostRequest(post));
-      setTimeout(100)
-      this.props.dispatch(fetchPosts());
-      this.editingPost = null;
+
+    this.props.dispatch(toggleAddPost());
+    this.props.dispatch(editPostRequest(post));
+    setTimeout(100)
+    this.props.dispatch(fetchPosts());
+    this.editingPost = null;
+
   };
-  
+
   handleHidePost = () => {
-      this.props.dispatch(toggleAddPost());
-      this.editingPost = null;
+
+    this.props.dispatch(toggleAddPost());
+    this.editingPost = null;
   };
 
   openEditPost = post => {
-      this.editingPost = post;
-      this.props.dispatch(showAddPost());  
-      this.setState({}); //update ui
+    this.editingPost = post;
+    this.props.dispatch(showAddPost());
+    this.setState({}); //update ui
+
   };
 
   render() {
     return (
       <div>
-        <PostCreateWidget addPost={this.handleAddPost} showAddPost={this.props.showAddPost} 
-            hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
-            originalPost={this.editingPost}/>
-                    
-        <div className="row">
-            <div className="col-md-3">
-                <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts}
-                    handleEditPost={this.openEditPost} importanceColumn={true}/>
-            </div>
-            <div className="col-md-9">
-                <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts}
-                    handleEditPost={this.openEditPost} importanceColumn={false}/>
-            </div>
-        </div>
+        <PostCreateWidget
+          addPost={this.handleAddPost} showAddPost={this.props.showAddPost}
+          hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
+          originalPost={this.editingPost}
+        />
+        <Grid>
+          <Row className="show-grid">
+            <Col xs={16} md={4}>
+              <PostList
+                handleDeletePost={this.handleDeletePost} posts={this.props.posts}
+                handleEditPost={this.openEditPost} importanceColumn={true}
+              />
+            </Col>
+            <Col xs={12} md={7}>
+              <PostList
+                handleDeletePost={this.handleDeletePost} posts={this.props.posts}
+                handleEditPost={this.openEditPost} importanceColumn={false}
+              />
+            </Col>
+          </Row>
+        </Grid>
       </div>
     );
   }

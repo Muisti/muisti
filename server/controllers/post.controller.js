@@ -47,15 +47,7 @@ export function addPost(req, res) {
     res.status(403).end();
   }
 
- 
-  
     const newPost = new Post(req.body.post);
-
-    // Let's sanitize inputs
-    newPost.name = sanitizeHtml(newPost.name);
-    newPost.content = sanitizeHtml(newPost.content);
-
-  
     newPost.cuid = cuid();
 
     newPost.save((err) => {
@@ -64,7 +56,7 @@ export function addPost(req, res) {
       }
       res.end();
     });
- 
+
 }
 
 

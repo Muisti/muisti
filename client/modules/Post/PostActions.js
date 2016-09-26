@@ -22,11 +22,12 @@ export function addPost(post) {
 /**  */
 
 export function editPost(post) {
-    return {
-        type: EDIT_POST,
-        post,
-    };
+  return {
+    type: EDIT_POST,
+    post,
+  };
 }
+
 
 export function editPostRequest(post){
     
@@ -40,6 +41,7 @@ export function editPostRequest(post){
             }
         }).then(res => dispatch(editPost(res.post)));
     };
+
 }
 
 export function addPostRequest(post) {

@@ -33,7 +33,6 @@ import Helmet from 'react-helmet';
 import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
-import dummyData from './dummyData';
 import serverConfig from './config';
 
 // Set native promises as mongoose promise
@@ -46,8 +45,6 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     throw error;
   }
 
-  // feed some dummy data in DB.
-  dummyData();
 });
 
 // Apply body Parser and server public assets and routes
