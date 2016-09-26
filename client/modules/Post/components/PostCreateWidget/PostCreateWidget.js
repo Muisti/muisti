@@ -28,6 +28,7 @@ export class PostCreateWidget extends Component {
     });
   };
 
+
   addPost = () => {
     const nameRef = this.refs.name;
     const contentRef = this.refs.content;
@@ -57,6 +58,7 @@ export class PostCreateWidget extends Component {
     const postChanged = (this.props.originalPost != this.originalPost);
 
     if(postChanged){
+
       if(this.props.originalPost == null){
         this.clearFields();
       }else{
@@ -88,13 +90,13 @@ export class PostCreateWidget extends Component {
           </div>
 
           <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name"
-
-                 value={this.state.name} onChange={this.changeName}/>
+                    value={this.state.name} onChange={this.changeName}/>
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content"
                     value={this.state.content} onChange={this.changeContent}/>
 
           <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>
           <a className={styles['post-submit-button']} href="#" onClick={this.cancel}><FormattedMessage id="cancel" /></a>
+
 
         </div>
       </div>
