@@ -30,15 +30,13 @@ class PostListPage extends Component {
   handleAddPost = (name, content, important) => {
     this.props.dispatch(toggleAddPost());
     this.props.dispatch(addPostRequest({ name, content, important }));
-    this.props.dispatch(fetchPosts());
-  };
+    };
 
   handleEditPost = post => {
 
     this.props.dispatch(toggleAddPost());
     this.props.dispatch(editPostRequest(post));
     setTimeout(100)
-    this.props.dispatch(fetchPosts());
     this.editingPost = null;
 
   };
