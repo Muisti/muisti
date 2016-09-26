@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'production') {
   // Require async routes only in development for react-hot-reloader to work.
   require('./modules/Post/pages/PostListPage/PostListPage');
   require('./modules/Post/pages/PostListPage/Muisti');
-  require('./modules/SignUp/pages/Signup');
+  require('./modules/User/pages/Signup');
 }
 
 // react-router setup with code-splitting
@@ -45,7 +45,7 @@ export default (
       path="/signup"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
-          cb(null, require('./modules/SignUp/pages/Signup').default);
+          cb(null, require('./modules/User/pages/Signup').default);
         });
       }}
     />
