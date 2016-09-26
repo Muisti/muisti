@@ -11,9 +11,13 @@ function PostListItem(props) {
     <Panel header={props.post.name}>
       <p className={styles['post-desc']}>{props.post.content}</p>
       <p className={styles['post-desc']}><Time value={props.post.dateAdded} format="DD.MM.YYYY HH:mm:ss" /></p>
-      <p className={styles['post-action']}><a href="/" onClick={props.onDelete}><FormattedMessage id="deletePost" /></a></p>
-      <p className={styles['post-action']}><a href="#" onClick={props.onEdit}>Muokkaa viestiä</a></p>
+      <p className={styles['post-action']}>
+        <a href="/" onClick={props.onDelete}><FormattedMessage id="deletePost" /></a> &nbsp; | &nbsp;
+        <a href="#" onClick={props.onEdit}><FormattedMessage id="editPostLink" /></a>
+      </p>
+
     </Panel>
+
   );
 }
 

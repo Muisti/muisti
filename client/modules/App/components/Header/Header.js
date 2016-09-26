@@ -24,7 +24,9 @@ export function Header(props) {
         <h1 className={styles['site-title']}>
           <Link to="/" >Muistiprojekti</Link>
         </h1>
-        <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
+        <div className={props.showAddPostButton ? '' : 'hidden'}>
+          <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
+        </div>
       </div>
     </div>
   );
@@ -38,6 +40,7 @@ Header.propTypes = {
   toggleAddPost: PropTypes.func.isRequired,
   switchLanguage: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
+  showAddPostButton: PropTypes.bool.isRequired,
 };
 
 export default Header;

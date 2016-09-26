@@ -45,12 +45,13 @@ export function addPost(req, res) {
       }
       res.end();
     });
-  } else {
-    Post.findOneAndUpdate({ cuid: req.body.post.cuid }, { content: newPost.content }, { upsert:true }, function(err, doc) {
-      if (err) return console.log(err);
-      return res.send("succesfully saved");
-    });
-    console.log("PAIVITETTY");
+
+  }else{
+      Post.findOneAndUpdate({cuid: req.body.post.cuid}, {content: newPost.content}, {upsert:true}, function(err, doc){
+        if (err) return console.log(err);
+        res.json({ post : newPost });
+        res.end();
+      });
   }
 }
 
