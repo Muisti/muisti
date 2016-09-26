@@ -8,11 +8,7 @@ export class UserCreateModal extends Component {
         super(props);
         this.state = { showModal: false };
     }
-
-  getInitialState() {
-    return { showModal: false };
-  };
-
+    
   close = () => {
     this.setState({ showModal: false });
   };
@@ -25,12 +21,8 @@ export class UserCreateModal extends Component {
 
     return (
       <div>
-        <p>Click to get the full Modal experience!</p>
-      
-      
         <Button
           bsStyle="primary"
-          bsSize="large"
           onClick={this.open}
         >
           Launch demo modal
