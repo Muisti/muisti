@@ -7,6 +7,11 @@ export const DELETE_POST = 'DELETE_POST';
 export const EDIT_POST = 'EDIT_POST';
 
 // Export Actions
+
+
+
+
+
 export function addPost(post) {
   return {
     type: ADD_POST,
@@ -23,18 +28,20 @@ export function editPost(post) {
   };
 }
 
-export function editPostRequest(post) {
 
-  return (dispatch) => {
-    callApi('posts', 'post', {
-      post: {
-        cuid: post.cuid,
-        name: post.name,
-        content: post.content,
-        dateAdded: post.dateAdded,
-      },
-    }).then(res => dispatch(editPost(res.post)));
-  };
+export function editPostRequest(post){
+    
+    return (dispatch) => {
+        callApi('posts', 'put', {
+            post: {
+                cuid: post.cuid,
+                name: post.name,
+                content: post.content,
+                dateAdded: post.dateAdded
+            }
+        }).then(res => dispatch(editPost(res.post)));
+    };
+
 }
 
 export function addPostRequest(post) {

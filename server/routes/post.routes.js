@@ -10,7 +10,8 @@ router.route('/posts/:cuid').get(PostController.getPost);
 
 // Add a new Post
 router.route('/posts').post(PostController.addPost);
-
+// Edit old post
+router.route('/posts').put(PostController.updatePost);
 // Delete a post by cuid
 router.route('/posts/:cuid').delete(PostController.deletePost);
 
