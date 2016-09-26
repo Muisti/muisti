@@ -19,10 +19,12 @@ const PostReducer = (state = initialState, action) => {
       return {
         data: state.data.filter(post => post.cuid !== action.cuid),
       };
-      
+
+
     case EDIT_POST :{
+
       return {
-         data: [action.post, ...state.data.filter(post => post.cuid !== action.post.cuid)],
+        data: [action.post, ...state.data.filter(post => post.cuid !== action.post.cuid)],
       };
   }
 

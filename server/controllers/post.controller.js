@@ -29,14 +29,14 @@ export function addPost(req, res) {
   }
 
   const isNew = !req.body.post.cuid;
-  
-    const newPost = new Post(req.body.post);
 
-    // Let's sanitize inputs
-    newPost.name = sanitizeHtml(newPost.name);
-    newPost.content = sanitizeHtml(newPost.content);
+  const newPost = new Post(req.body.post);
 
-  if(isNew){
+  // Let's sanitize inputs
+  newPost.name = sanitizeHtml(newPost.name);
+  newPost.content = sanitizeHtml(newPost.content);
+
+  if (isNew) {
     newPost.cuid = cuid();
 
     newPost.save((err) => {
@@ -45,6 +45,7 @@ export function addPost(req, res) {
       }
       res.end();
     });
+
   }else{
       Post.findOneAndUpdate({cuid: req.body.post.cuid}, {content: newPost.content}, {upsert:true}, function(err, doc){
         if (err) return console.log(err);
