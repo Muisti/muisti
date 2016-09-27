@@ -1,17 +1,34 @@
 /**
  * Created by susisusi on 12/09/16.
  */
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import { UserCreateModal } from '../../../User/components/UserCreateModal';
+import { connect } from 'react-redux';
 
-//  class Muisti extends Component {
-function Muisti() {
-  return (
-    <div>
-      <Button bsStyle="danger"> Testinappi </Button>
-      <p>Muistiprojekti ....</p>
-    </div>
-  );
+class Muisti extends Component {
+    constructor() {
+        super();
+    }
+
+
+  render() {
+    return (
+      <div>
+        <Button bsStyle="danger"> Testinappi </Button>
+        <UserCreateModal />
+        <p>Muistiprojekti ....</p>
+        
+      
+      </div>
+    );
+  }
 }
 
-export default Muisti;
+function mapStateToProps() {
+  return {
+
+  };
+}
+
+export default connect(mapStateToProps)(Muisti);

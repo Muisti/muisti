@@ -28,6 +28,7 @@ export class PostCreateWidget extends Component {
     });
   };
 
+
   addPost = () => {
     const nameRef = this.refs.name;
     const contentRef = this.refs.content;
@@ -35,13 +36,14 @@ export class PostCreateWidget extends Component {
     if (nameRef.value && contentRef.value) {
       this.props.addPost(nameRef.value, contentRef.value, importantRef);
       nameRef.value = contentRef.value = '';
+      this.clearFields();
     }
   };
 
   submit = () => {
     if(this.isNewPost()){
       this.addPost();
-    }else{
+    } else {
       this.editPost();
     }
   };
@@ -63,7 +65,6 @@ export class PostCreateWidget extends Component {
         var post = this.props.originalPost;
         this.state = {name: post.name, content: post.content};
       }
-
       this.originalPost = this.props.originalPost;
 
     }
@@ -88,14 +89,12 @@ export class PostCreateWidget extends Component {
           </div>
 
           <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name"
-
-                 value={this.state.name} onChange={this.changeName}/>
+                    value={this.state.name} onChange={this.changeName}/>
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content"
                     value={this.state.content} onChange={this.changeContent}/>
 
           <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>
           <a className={styles['post-submit-button']} href="#" onClick={this.cancel}><FormattedMessage id="cancel" /></a>
-
         </div>
       </div>
     );
