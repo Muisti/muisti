@@ -22,7 +22,7 @@ class PostListPage extends Component {
   editingPost = null;
 
   handleDeletePost = post => {
-    if (confirm('Haluatko varmasti poistaa viestin?')) { // eslint-disable-line
+    if (window.confirm('Haluatko varmasti poistaa viestin?')) { // eslint-disable-line
       this.props.dispatch(deletePostRequest(post));
     }
   };
