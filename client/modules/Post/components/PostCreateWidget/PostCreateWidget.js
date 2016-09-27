@@ -36,6 +36,7 @@ export class PostCreateWidget extends Component {
     if (nameRef.value && contentRef.value) {
       this.props.addPost(nameRef.value, contentRef.value, importantRef);
       nameRef.value = contentRef.value = '';
+      this.clearFields();
     }
   };
 
