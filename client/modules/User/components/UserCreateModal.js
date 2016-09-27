@@ -21,9 +21,9 @@ export class UserCreateModal extends Component {
 
     return (
       <div>
-        <Button bsStyle="primary" onClick={this.open}>
+        <li onClick={this.open}>
           <FormattedMessage id='displayRegisterModal' />
-        </Button>
+        </li>
         
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
