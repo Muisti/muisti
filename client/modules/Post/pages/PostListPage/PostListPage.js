@@ -62,6 +62,10 @@ class PostListPage extends Component {
           hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
           originalPost={this.editingPost}
         />
+        <div>
+          <a onClick={this.props.dispatch(showAddPost())}>Nappi</a>
+        </div>
+
         <Grid>
           <Row className="show-grid">
             <Col xs={16} md={4}>
