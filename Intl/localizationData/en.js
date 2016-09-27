@@ -17,6 +17,7 @@ export default {
     submitEdit: 'Save',
     isImportant: 'Is important',
     cancel: 'Cancel',
+    displayRegisterModal: 'Register',
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}
