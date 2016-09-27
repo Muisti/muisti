@@ -8,10 +8,6 @@ export const EDIT_POST = 'EDIT_POST';
 
 // Export Actions
 
-
-
-
-
 export function addPost(post) {
   return {
     type: ADD_POST,

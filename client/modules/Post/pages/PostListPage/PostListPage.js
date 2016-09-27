@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
+import { Button, Grid, Row, Col } from 'react-bootstrap';
 
 // Import Components
 import PostList from '../../components/PostList';
@@ -8,13 +9,17 @@ import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget
 
 // Import Actions
 import { addPostRequest, fetchPosts, deletePostRequest, editPostRequest } from '../../PostActions';
-import { toggleAddPost, showAddPost } from '../../../App/AppActions';
 
 // Import Selectors
-import { getShowAddPost } from '../../../App/AppReducer';
 import { getPosts } from '../../PostReducer';
 
 class PostListPage extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = { showAddPost: false };
+    }
+    
   componentDidMount() {
     this.props.dispatch(fetchPosts());
   }
@@ -28,13 +33,13 @@ class PostListPage extends Component {
   };
 
   handleAddPost = (name, content, important) => {
-    this.props.dispatch(toggleAddPost());
+    this.toggleAddPost();
     this.props.dispatch(addPostRequest({ name, content, important }));
     };
 
   handleEditPost = post => {
 
-    this.props.dispatch(toggleAddPost());
+    this.toggleAddPost();
     this.props.dispatch(editPostRequest(post));
     setTimeout(100)
     this.editingPost = null;
@@ -43,29 +48,42 @@ class PostListPage extends Component {
 
   handleHidePost = () => {
 
-    this.props.dispatch(toggleAddPost());
+    this.toggleAddPost();
     this.editingPost = null;
   };
 
   openEditPost = post => {
     this.editingPost = post;
-    this.props.dispatch(showAddPost());
+    this.toggleAddPost();
     this.setState({}); //update ui
 
   };
+  
+  openAddPost = () => {
+      this.setState({ showAddPost: true });
+  }
+  closeAddPost = () => {
+      this.setState({ showAddPost: false });
+  }
+  
+  toggleAddPost = () => {
+      this.setState({ showAddPost: !this.state.showAddPost });
+  }
 
   render() {
     return (
       <div>
+        <div className={this.state.showAddPost ? 'hidden' : ''}>
+          <Button href='#' onClick={this.toggleAddPost}>
+            <FormattedMessage id="addPost" />
+          </Button>
+        </div>
         <PostCreateWidget
-          addPost={this.handleAddPost} showAddPost={this.props.showAddPost}
+          addPost={this.handleAddPost} showAddPost={this.state.showAddPost}
           hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
           originalPost={this.editingPost}
         />
-        <div>
-          <a onClick={this.props.dispatch(showAddPost())}>Nappi</a>
-        </div>
-
+        
         <Grid>
           <Row className="show-grid">
             <Col xs={16} md={4}>
@@ -93,7 +111,6 @@ PostListPage.need = [() => { return fetchPosts(); }];
 // Retrieve data from store as props
 function mapStateToProps(state) {
   return {
-    showAddPost: getShowAddPost(state),
     posts: getPosts(state),
   };
 }
@@ -104,7 +121,6 @@ PostListPage.propTypes = {
     content: PropTypes.string.isRequired,
     important: PropTypes.bool.isRequired,
   })).isRequired,
-  showAddPost: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
