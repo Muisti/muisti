@@ -37,26 +37,6 @@ export function Header(props) {
       </Navbar>
             
     );
-//  return (
-//    <div className={styles.header}>
-//      <div className={styles['navigation-bar']}>
-//        <ul>
-//          <li><Link to="/muisti" >Muisti</Link></li>
-//          <li><Link to="/" >Aloitussivu</Link></li>
-//          <li><Link to="/signup" >Rekisteröidy</Link></li>
-//          {languageNodes}
-//        </ul>
-//      </div>
-//      <div className={styles.content}>
-//        <h1 className={styles['site-title']}>
-//          <Link to="/" >Muistiprojekti</Link>
-//        </h1>
-//        <div className={props.showAddPostButton ? '' : 'hidden'}>
-//          <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
-//        </div>
-//      </div>
-//    </div>
-//  );
 }
 
 Header.contextTypes = {
@@ -64,10 +44,8 @@ Header.contextTypes = {
 };
 
 Header.propTypes = {
-  toggleAddPost: PropTypes.func.isRequired,
   switchLanguage: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
-  showAddPostButton: PropTypes.bool.isRequired,
 };
 
 export default Header;

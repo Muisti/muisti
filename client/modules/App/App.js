@@ -27,10 +27,6 @@ export class App extends Component {
     this.setState({isMounted: true}); // eslint-disable-line
   }
 
-  toggleAddPostSection = () => {
-    this.props.dispatch(toggleAddPost());
-  };
-
   render() {
     return (
       <div>
@@ -55,8 +51,6 @@ export class App extends Component {
           <Header
             switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
             intl={this.props.intl}
-            toggleAddPost={this.toggleAddPostSection}
-            showAddPostButton={!this.props.showAddPost}
           />
           <div className={styles.container}>
             {this.props.children}
@@ -71,14 +65,12 @@ App.propTypes = {
   children: PropTypes.object,
   dispatch: PropTypes.func,
   intl: PropTypes.object,
-  showAddPost: PropTypes.bool,
 };
 
 // Retrieve data from store as props
 function mapStateToProps(store) {
   return {
-    intl: store.intl,
-    showAddPost: getShowAddPost(store), 
+    intl: store.intl, 
   };
 }
 

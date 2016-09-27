@@ -43,7 +43,7 @@ export class PostCreateWidget extends Component {
   submit = () => {
     if(this.isNewPost()){
       this.addPost();
-    }else{
+    } else {
       this.editPost();
     }
   };
