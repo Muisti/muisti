@@ -64,12 +64,12 @@ test('empty form doesn\'t call addPost', t => {
   t.falsy(addPost.called);
 });
 
-test.only('edit button fills correct information', t => {
+test('edit button fills correct information', t => {
     const post = { name: 'Foo', content: 'Hello Mern says Foo' };
     
     const wrapper = mountWithIntl(
             <PostCreateWidget originalPost={ post } />
     );
     
-    t.truthy(wrapper.find('textarea').first().text()) == 'Hello Mern says Foo');
+    t.truthy(wrapper.find('textarea').first().text() == 'Hello Mern says Foo');
 });
