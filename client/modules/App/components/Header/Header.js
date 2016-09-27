@@ -26,21 +26,21 @@ export function Header(props) {
             <NavItem eventKey={1} href="/muisti">Muisti</NavItem>
             <NavItem eventKey={2} href="/signup">Signup</NavItem>
           </Nav>
-          <Nav pullRight>
-            <NavItem>
-              <Navbar.Form> 
-                <FormGroup>
-                  <FormControl type="text" placeholder="Sähköposti" />
+            <Nav pullRight>
+              <Navbar.Form pullLeft> 
+                <FormGroup controlId="emailForm" validationState="">
+                  <FormControl type="email" placeholder="Sähköposti" />
+                  <FormControl.Feedback />
                 </FormGroup>
                 {' '}
-                <FormGroup>
-                  <FormControl type="text" placeholder="Salasana" />
+                <FormGroup controlId="passwordForm" validationState="">
+                  <FormControl type="password" placeholder="Salasana" />
+                  <FormControl.Feedback />
                 </FormGroup>
                 {' '}
                 <Button type="submit">Kirjaudu</Button>
               </Navbar.Form>
-            </NavItem>
-            <NavItem> <UserCreateModal /> </NavItem>
+                        <NavItem> <UserCreateModal /> </NavItem>
             <NavDropdown eventKey={2} title="Vaihda kieli" id="basic-nav-dropdown">
                 {languageNodes}
             </NavDropdown>
