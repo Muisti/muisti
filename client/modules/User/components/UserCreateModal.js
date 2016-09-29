@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import callApi from '../../../util/apiCaller';
+
+import {addUserRequest, fetchUser} from '../UserActions' 
+
 
 export class UserCreateModal extends Component {
 
@@ -18,17 +20,10 @@ export class UserCreateModal extends Component {
     this.setState({ showModal: true });
   };
   
-  submit = () => {
-      this.close();
-      callApi('users', 'post', {
-        user: {
-          name: this.state.formName,
-          surname: this.state.formSurname,
-          email: this.state.formEmail,
-          password: this.state.formPassword,
-        },
-      })
-  };
+ handleAddUser = (name, surname, email, password) => {
+    
+    addUserRequest({ name, surname, email, password });
+    };
   
   validate = () => {
     var error = '';
@@ -38,8 +33,11 @@ export class UserCreateModal extends Component {
         error = "Onko sinulla etunimi ja sukunimi oikein kirjoitettuna? Tarkista nimesi henkilöllisyystodistuksesta";
     } else if (!this.validatePassword()) {
         error = "Salasanassasi on jotakin häikkää. Salasanan on oltava yli 8 merkkiä pitkä ja salasanojen on täsmättävä";
+    } else if (this.hasUser()){
+        error = "Käyttäjä löytyy jo!";
     } else {
-        this.submit();
+        
+        this.handleAddUser(this.state.formName, this.state.formSurname, this.state.formEmail, this.state.formPassword);
     }
     this.setState({ error });
   };
@@ -49,6 +47,14 @@ export class UserCreateModal extends Component {
     return re.test(this.state.formEmail);
   };
   
+  hasUser = () => {
+    var email = this.state.formEmail;
+    //console.log(fetchUser({email}));
+    return true;
+
+  }
+
+
   validatePassword = () => {
       var pass = this.state.formPassword;
       var verifier = this.state.formPassVerify;
