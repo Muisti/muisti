@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import callApi from '../../../util/apiCaller';
 
 export class UserCreateModal extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { showModal: false };
-    }
+  constructor(props) {
+      super(props);
+      this.state = { showModal: false };
+  }
     
   close = () => {
     this.setState({ showModal: false });
@@ -18,6 +19,18 @@ export class UserCreateModal extends Component {
   };
   
   submit = () => {
+      this.close();
+      callApi('users', 'post', {
+        user: {
+          name: this.state.formName,
+          surname: this.state.formSurname,
+          email: this.state.formEmail,
+          password: this.state.formPassword,
+        },
+      })
+  };
+  
+  validate = () => {
     var error = '';
     if (!this.validateEmail()) {
         error = "Sähkopostissasi on kirjoitusvirhe";
@@ -26,7 +39,7 @@ export class UserCreateModal extends Component {
     } else if (!this.validatePassword()) {
         error = "Salasanassasi on jotakin häikkää. Salasanan on oltava yli 8 merkkiä pitkä ja salasanojen on täsmättävä";
     } else {
-        error = "Ei virhettä";
+        this.submit();
     }
     this.setState({ error });
   };
@@ -99,7 +112,7 @@ export class UserCreateModal extends Component {
             </Alert>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="primary" onClick={this.submit}> Rekisteröidy </Button>
+            <Button bsStyle="primary" onClick={this.validate}> Rekisteröidy </Button>
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>
