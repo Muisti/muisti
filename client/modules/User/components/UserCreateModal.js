@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import callApi from '../../../util/apiCaller';
+import * as bcrypt from 'react-native-bcrypt';
 
 export class UserCreateModal extends Component {
 
@@ -20,14 +21,24 @@ export class UserCreateModal extends Component {
   
   submit = () => {
       this.close();
+      const password = this.hash();
       callApi('users', 'post', {
         user: {
           name: this.state.formName,
           surname: this.state.formSurname,
           email: this.state.formEmail,
-          password: this.state.formPassword,
+          password: password,
         },
       })
+  };
+  
+  hash = () => {
+      var hashed = this.state.formPassword;
+      var presalt = (Math.random * (10 + this.state.formEmail.length))+10;
+      var salt = bcrypt.genSaltSync(Math.ceil(presalt));
+      hashed = bcrypt.hashSync(hashed, salt);
+      
+      return hashed;
   };
   
   validate = () => {
