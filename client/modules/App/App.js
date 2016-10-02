@@ -10,12 +10,8 @@ import Helmet from 'react-helmet';
 
 import Header from './components/Header/Header';
 
-// Import Actions
-import { toggleAddPost } from './AppActions';
 import { switchLanguage } from '../../modules/Intl/IntlActions';
 
-// Import selectors
-import { getShowAddPost } from './AppReducer';
 
 export class App extends Component {
   constructor(props) {
