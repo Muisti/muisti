@@ -49,7 +49,10 @@ export class UserCreateModal extends Component {
   
   hasUser = () => {
     var email = this.state.formEmail;
-    //console.log(fetchUser({email}));
+    var res = fetchUser(email);
+    
+    console.log(res); 
+
     return true;
 
   }
@@ -130,7 +133,7 @@ export class UserCreateModal extends Component {
 }
 
 UserCreateModal.propTypes = {
-      
+  dispatch: PropTypes.func.isRequired,    
 };
 
 export default UserCreateModal;

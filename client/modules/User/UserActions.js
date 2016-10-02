@@ -6,13 +6,10 @@ import callApi from '../../util/apiCaller';
 
 
 
-
-
 export function addUserRequest(user) {
   
-  console.log(user);
   
-    callApi('users', 'post', {
+  callApi('users', 'post', {
       user: {
         name: user.name,
         surname: user.surname,
@@ -24,7 +21,11 @@ export function addUserRequest(user) {
 };
 
  export function fetchUser(email) {
- 
+      
+    
+    
     return callApi(`users/${email}`);
+    //.then(res => console.log(res.user));
   
 }
+    
