@@ -33,7 +33,7 @@ import Helmet from 'react-helmet';
 import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
-import users from './routes/User/user.routes';
+import users from './routes/user.routes';
 import serverConfig from './config';
 
 // Set native promises as mongoose promise
@@ -53,8 +53,7 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
-app.use('/api', posts);
-app.use('/api', users);
+app.use('/api', posts, users);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
