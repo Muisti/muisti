@@ -4,6 +4,7 @@
   "description": "Boilerplate project for building Isomorphic apps using React and Redux",
   "scripts": {
     "test": "cross-env NODE_ENV=test PORT=8080 MONGO_URL=mongodb://testaaja:testaaja@ds029436.mlab.com:29436/testikanta node_modules/.bin/nyc node --harmony-proxies node_modules/.bin/ava --serial",
+    "testwin": "cross-env NODE_ENV=test PORT=8080 MONGO_URL=mongodb://testaaja:testaaja@ds029436.mlab.com:29436/testikanta node_modules/.bin/nyc node_modules/.bin/ava --serial",
     "watch:test": "npm run test -- --watch",
     "cover": "nyc npm run test",
     "check-coverage": "nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
@@ -32,7 +33,6 @@
   "license": "MIT",
   "dependencies": {
     "babel-core": "^6.9.1",
-    "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.1",
     "compression": "^1.6.2",
     "cross-env": "^1.0.8",
@@ -41,6 +41,7 @@
     "express": "4.13.3",
     "intl": "^1.2.4",
     "isomorphic-fetch": "^2.2.1",
+    "jwt-simple": "^0.5.0",
     "limax": "^1.3.0",
     "moment": "^2.15.0",
     "mongoose": "^4.4.20",

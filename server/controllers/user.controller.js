@@ -6,7 +6,7 @@ export function addUser(req, res) {
           || !req.body.user.password ) {
     res.status(403).end();
   }
-
+    
     const newUser = new User(req.body.user);
     newUser.cuid = cuid();
 
@@ -17,4 +17,14 @@ export function addUser(req, res) {
       res.json({ user: newUser });
     });
 
+}
+
+export function getUser(req, res) {
+  User.findOne({ email: req.params.email }).exec((err, user) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    
+    return res.json({ user });
+  });
 }
