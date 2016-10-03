@@ -5,8 +5,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
-import { addUserRequest, addUser} from '../UserActions';
-
 
 export class Signup extends Component {
 
