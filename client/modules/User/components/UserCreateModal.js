@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import callApi from '../../../util/apiCaller';
+
 import * as bcrypt from 'react-native-bcrypt';
+import {addUserRequest, fetchUser} from '../UserActions' 
 
 export class UserCreateModal extends Component {
 
@@ -18,20 +19,20 @@ export class UserCreateModal extends Component {
   open = () => {
     this.setState({ showModal: true });
   };
-  
-  submit = () => {
-      this.close();
-      const password = this.hash();
-      callApi('users', 'post', {
-        user: {
-          name: this.state.formName,
-          surname: this.state.formSurname,
-          email: this.state.formEmail,
-          password: password,
-        },
-      })
+
+  handleAddUser = (name, surname, email) => {
+    fetchUser(email, user => {
+        if(!user){
+          var password = this.hash();
+          addUserRequest({ name, surname, email, password });
+          this.close();
+        }else{
+          setState({ error: "Käyttäjä löytyy jo!" });
+        }
+    });
+      
   };
-  
+    
   hash = () => {
       var hashed = this.state.formPassword;
       var presalt = (Math.random * (10 + this.state.formEmail.length))+10;
@@ -41,6 +42,7 @@ export class UserCreateModal extends Component {
       return hashed;
   };
   
+  
   validate = () => {
     var error = '';
     if (!this.validateEmail()) {
@@ -49,8 +51,9 @@ export class UserCreateModal extends Component {
         error = "Onko sinulla etunimi ja sukunimi oikein kirjoitettuna? Tarkista nimesi henkilöllisyystodistuksesta";
     } else if (!this.validatePassword()) {
         error = "Salasanassasi on jotakin häikkää. Salasanan on oltava yli 8 merkkiä pitkä ja salasanojen on täsmättävä";
-    } else {
-        this.submit();
+    } else {        
+        this.handleAddUser(this.state.formName, this.state.formSurname, this.state.formEmail);
+        return;
     }
     this.setState({ error });
   };
@@ -60,6 +63,7 @@ export class UserCreateModal extends Component {
     return re.test(this.state.formEmail);
   };
   
+
   validatePassword = () => {
       var pass = this.state.formPassword;
       var verifier = this.state.formPassVerify;
@@ -135,7 +139,7 @@ export class UserCreateModal extends Component {
 }
 
 UserCreateModal.propTypes = {
-      
+  dispatch: PropTypes.func.isRequired,    
 };
 
 export default UserCreateModal;
