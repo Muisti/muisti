@@ -20,13 +20,13 @@ export function addUserRequest(user) {
   
 };
 
+
  export function fetchUser(email, callback) {
     
     return callApi(`users/${email}`)
             .then((res) => {
                 callback(res.user);
     });
-    //.then(res => console.log(res.user));
   
 }
     
