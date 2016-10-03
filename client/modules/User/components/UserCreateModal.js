@@ -19,7 +19,6 @@ export class UserCreateModal extends Component {
   open = () => {
     this.setState({ showModal: true });
   };
-  
 
   handleAddUser = (name, surname, email) => {
     fetchUser(email, user => {
@@ -32,7 +31,6 @@ export class UserCreateModal extends Component {
         }
     });
       
-    //
   };
     
   hash = () => {
@@ -43,6 +41,7 @@ export class UserCreateModal extends Component {
       
       return hashed;
   };
+  
   
   validate = () => {
     var error = '';
@@ -64,7 +63,6 @@ export class UserCreateModal extends Component {
     return re.test(this.state.formEmail);
   };
   
-
 
   validatePassword = () => {
       var pass = this.state.formPassword;
