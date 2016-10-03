@@ -9,15 +9,17 @@ class Muisti extends Component {
         super();
     }
 
-    storageTest = () => {
+    storageOutput = () => {
         if (typeof(Storage) !== "undefined") {
             // Store
             var payload = { user: 'Matti' };
             var secret = 'salasana';
             var token = jwt.encode(payload, secret);
-            sessionStorage.setItem("user", token);
+            sessionStorage.setItem("token", token);
             // Retrieve
-            console.log(sessionStorage.getItem("user"));
+            return (
+                <li> Token: { sessionStorage.getItem("user") } </li>
+            );
         } else {
             console.log("Sorry, your browser does not support Web Storage...");
         }
@@ -28,7 +30,7 @@ class Muisti extends Component {
       <div>
         <Button bsStyle="danger"> Testinappi </Button>
         <UserCreateModal />
-        {this.storageTest()}
+        {this.storageOutput()}
         <p>Muistiprojekti ....</p>
         
       
