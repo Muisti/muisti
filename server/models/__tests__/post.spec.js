@@ -2,7 +2,6 @@ import test from 'ava';
 import request from 'supertest';
 import app from '../../server';
 import Post from '../post';
-
 import { connectDB, dropDB } from '../../util/test-helpers';
 
 // Initial posts added into test db
@@ -11,7 +10,7 @@ const posts = [
   new Post({ name: 'Mayank', cuid: 'f34gb2bh24b24b3', content: "All dogs bark 'mern!'" }),
 ];
 
-// Initial users added into test db
+
 
 test.beforeEach.serial('connect and add posts and users', t => {
   connectDB(t, () => {
