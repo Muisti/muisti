@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl } from 'react-bootstrap';
-import { UserCreateModal } from '../../../User/components/UserCreateModal';
 import { LoginBox } from './LoginBox'
 import ReactDOM from 'react-dom';
 
