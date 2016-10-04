@@ -30,7 +30,6 @@ export function Header(props) {
           </Nav>
             <Nav pullRight>
               <LoginBox />
-            <NavItem> <UserCreateModal /> </NavItem>
             <NavDropdown eventKey={2} title="Vaihda kieli" id="basic-nav-dropdown">
                 {languageNodes}
             </NavDropdown>
