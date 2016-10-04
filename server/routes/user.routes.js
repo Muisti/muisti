@@ -7,4 +7,6 @@ router.route('/users').post(UserController.addUser);
 
 router.route('/users/:email').get(UserController.getUser);
 
+router.route('/login/:email/:password').get(UserController.getToken);
+
 export default router;

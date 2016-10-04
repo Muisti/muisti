@@ -18,7 +18,7 @@ class Muisti extends Component {
             sessionStorage.setItem("token", token);
             // Retrieve
             return (
-                <li> Token: { sessionStorage.getItem("user") } </li>
+                <li> Token: { sessionStorage.getItem("token") } </li>
             );
         } else {
             console.log("Sorry, your browser does not support Web Storage...");
