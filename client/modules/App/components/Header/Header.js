@@ -15,8 +15,6 @@ export function Header(props) {
       lang => <MenuItem key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</MenuItem>
   );
   
-  var email;
-  
     return (
       <Navbar>
         <Navbar.Header>
@@ -31,7 +29,6 @@ export function Header(props) {
           </Nav>
             <Nav pullRight>
               <LoginBox />
-            <NavItem> <UserCreateModal /> </NavItem>
             <NavDropdown eventKey={2} title="Vaihda kieli" id="basic-nav-dropdown">
                 {languageNodes}
             </NavDropdown>
