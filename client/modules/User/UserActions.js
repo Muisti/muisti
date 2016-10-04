@@ -32,5 +32,5 @@ export function addUserRequest(user) {
     
  export function fetchToken(email, password, callback){
     return callApi(`login/${email}/${password}`)
-            .then(res => callback(res.token)));  
+            .then(res => callback(res.token));  
  }
