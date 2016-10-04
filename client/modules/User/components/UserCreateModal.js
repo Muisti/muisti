@@ -144,8 +144,7 @@ export class UserCreateModal extends Component {
 
 }
 
-UserCreateModal.propTypes = {
-  dispatch: PropTypes.func.isRequired,    
+UserCreateModal.propTypes = {   
 };
 
 export default UserCreateModal;
