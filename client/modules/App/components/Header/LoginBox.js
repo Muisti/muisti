@@ -15,7 +15,12 @@ export class LoginBox extends Component {
   logIn = () => {
     var password = ReactDOM.findDOMNode(this.refs.password).value;
     var email = ReactDOM.findDOMNode(this.refs.email).value;
-    fetchToken(email, password, setToken);
+    fetchToken(email, password, this.setToken);
+  }
+  
+  logOut = () => {
+      sessionStorage.removeItem("token");
+      this.setState({});
   }
   
   logOut = () => {
@@ -29,6 +34,7 @@ export class LoginBox extends Component {
       } else {
         console.log("Sorry, your browser does not support Web Storage...");
       }
+      this.setState({});
   }
 
   render() {
