@@ -20,23 +20,22 @@ test('sign up opens correctly', t => {
   t.is(wrapper.find('Form').length, 1);
   t.is(wrapper.find('Button').length, 2);
 
-  console.log(wrapper.find('Button').length);
 });
 
-test('validations', t => {
-  const submit = sinon.spy();
-  const wrapper = mountWithIntl(
-    <UserCreateModal  {...props} />
-  );
+//test('validations', t => {
+//const submit = sinon.spy();
+//const wrapper = shallowWithIntl(
+//  <UserCreateModal  {...props} />
+// );
 
-  wrapper.ref('formEmail').value = 'a@ae.fi';
-  wrapper.ref('formName').value = 'Jon';
-  wrapper.ref('formSurname').value = 'Jonjon';
-  wrapper.ref('formPassword').value = 'testing12';
-  wrapper.ref('formPassVerify').value = 'testing12';
+// wrapper.ref('registerField').value = 'a@ae.fi';
+//  wrapper.ref('formName').value = 'Jon';
+// wrapper.ref('formSurname').value = 'Jonjon';
+//wrapper.ref('formPassword').value = 'testing12';
+//wrapper.ref('formPassVerify').value = 'testing12';
 
 
-//  wrapper.find('Button').first().simulate('click');
+//wrapper.find('Button').simulate('click');
 // t.truthy(submit.calledOnce);
 
-});
+//});

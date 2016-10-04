@@ -10,22 +10,17 @@ const posts = [
   new Post({ name: 'Mayank', cuid: 'f34gb2bh24b24b3', content: "All dogs bark 'mern!'" }),
 ];
 
-
-
 test.beforeEach.serial('connect and add posts and users', t => {
   connectDB(t, () => {
     Post.create(posts, err => {
       if (err) t.fail('Unable to create posts');
     });
-
   });
 });
 
 test.afterEach.always.serial(t => {
   dropDB(t);
 });
-
-// Post-model tests
 
 test.serial('Should correctly give number of Posts', async t => {
   t.plan(2);
