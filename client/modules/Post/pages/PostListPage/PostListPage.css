@@ -1,0 +1,16 @@
+.topBar{
+    margin-bottom: 22px;
+}
+
+.nameTitle{
+    font-family: serif;
+    font-size: 27px;
+    font-weight: bold;
+    color: #669;
+    margin-left: 0.5em;
+    margin-right: 1.5em;
+}
+
+.hidden {
+    display: none;
+}
