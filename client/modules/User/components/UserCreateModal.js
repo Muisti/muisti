@@ -20,16 +20,25 @@ export class UserCreateModal extends Component {
     this.setState({ showModal: true });
   };
 
-  handleAddUser = (name, surname, email) => {
-    fetchUser(email, user => {
-        if(!user){
-          var password = this.hash();
-          addUserRequest({ name, surname, email, password });
-          this.close();
-        }else{
-          setState({ error: "Käyttäjä löytyy jo!" });
-        }
-    });
+  handleAddUser = () => {
+    var name = this.state.formName;
+    var email = this.state.formEmail;
+    var surname = this.state.formSurname;
+    var password = this.state.formPassword;
+    var error = this.validate();
+    this.setState({ error });
+    
+    if(!error){
+        fetchUser(email, user => {
+            if(!user){
+              var password = this.hash();
+              addUserRequest({ name, surname, email, password });
+              this.close();
+            }else{
+              this.setState({ error: "Käyttäjä " + email + " on jo olemassa!" });
+            }
+        });
+    }
       
   };
     
@@ -46,16 +55,13 @@ export class UserCreateModal extends Component {
   validate = () => {
     var error = '';
     if (!this.validateEmail()) {
-        error = "Sähkopostissasi on kirjoitusvirhe";
+        error = "Sähköpostissasi on kirjoitusvirhe!";
     } else if (this.state.formName == '' || this.state.formSurname == '') {
         error = "Onko sinulla etunimi ja sukunimi oikein kirjoitettuna? Tarkista nimesi henkilöllisyystodistuksesta";
     } else if (!this.validatePassword()) {
         error = "Salasanassasi on jotakin häikkää. Salasanan on oltava yli 8 merkkiä pitkä ja salasanojen on täsmättävä";
-    } else {        
-        this.handleAddUser(this.state.formName, this.state.formSurname, this.state.formEmail);
-        return;
     }
-    this.setState({ error });
+    return error;
   };
   
   validateEmail = () => {
@@ -127,7 +133,7 @@ export class UserCreateModal extends Component {
             </Alert>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="primary" onClick={this.validate}> Rekisteröidy </Button>
+            <Button bsStyle="primary" onClick={this.handleAddUser}> Rekisteröidy </Button>
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>
