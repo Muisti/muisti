@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Grid, Row, Col } from 'react-bootstrap';
+import styles from './PostListPage.css';
 
 // Import Components
 import PostList from '../../components/PostList';
@@ -17,7 +18,7 @@ class PostListPage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { showAddPost: false };
+        this.state = { showAddPost: false, name: "Matti Meikäläinen" };
     }
 
   componentDidMount() {
@@ -72,10 +73,15 @@ class PostListPage extends Component {
   render() {
     return (
       <div>
-        <div className={this.state.showAddPost ? 'hidden' : ''}>
-          <Button href='#' onClick={this.toggleAddPost}>
-            <FormattedMessage id="addPost" />
-          </Button>
+      
+        <div className={styles['topBar']}>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Default_User_Logo.jpg" />
+            <span className={styles['nameTitle']}>{this.state.name}</span>
+            <span className={this.state.showAddPost ? 'hidden' : ''}>
+              <Button href='#' onClick={this.toggleAddPost}>
+                <FormattedMessage id="addPost" />
+              </Button>
+            </span>
         </div>
         <PostCreateWidget
           addPost={this.handleAddPost} showAddPost={this.state.showAddPost}

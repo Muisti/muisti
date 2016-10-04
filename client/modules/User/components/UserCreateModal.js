@@ -8,8 +8,8 @@ import {addUserRequest, fetchUser} from '../UserActions'
 export class UserCreateModal extends Component {
 
   constructor(props) {
-      super(props);
-      this.state = { showModal: false };
+    super(props);
+    this.state = { showModal: false };
   }
 
   close = () => {
@@ -20,42 +20,47 @@ export class UserCreateModal extends Component {
     this.setState({ showModal: true });
   };
 
-  handleAddUser = (name, surname, email) => {
-    fetchUser(email, user => {
+  handleAddUser = () => {
+    var name = this.state.formName;
+    var email = this.state.formEmail;
+    var surname = this.state.formSurname;
+    var password = this.state.formPassword;
+    var error = this.validate();
+    this.setState({ error });
+
+    if(!error){
+      fetchUser(email, user => {
         if(!user){
           var password = this.hash();
           addUserRequest({ name, surname, email, password });
           this.close();
         }else{
-          setState({ error: "Käyttäjä löytyy jo!" });
+          this.setState({ error: "Käyttäjä " + email + " on jo olemassa!" });
         }
-    });
-
+      });
+    }
   };
 
 
   hash = () => {
-      var hashed = this.state.formPassword;
-      var presalt = (Math.random * (10 + this.state.formEmail.length))+10;
-      var salt = bcrypt.genSaltSync(Math.ceil(presalt));
-      hashed = bcrypt.hashSync(hashed, salt);
+    var hashed = this.state.formPassword;
+    var presalt = (Math.random * (10 + this.state.formEmail.length))+10;
+    var salt = bcrypt.genSaltSync(Math.ceil(presalt));
+    hashed = bcrypt.hashSync(hashed, salt);
 
-      return hashed;
+    return hashed;
   };
 
   validate = () => {
     var error = '';
     if (!this.validateEmail()) {
-        error = "Sähköpostissasi on kirjoitusvirhe";
+      error = "Sähköpostissasi on kirjoitusvirhe!";
     } else if (this.state.formName == '' || this.state.formSurname == '') {
-        error = "Onko sinulla etunimi ja sukunimi oikein kirjoitettuna? Tarkista nimesi henkilöllisyystodistuksesta";
+      error = "Onko sinulla etunimi ja sukunimi oikein kirjoitettuna? Tarkista nimesi henkilöllisyystodistuksesta";
     } else if (!this.validatePassword()) {
-        error = "Salasanassasi on jotakin häikkää. Salasanan on oltava yli 8 merkkiä pitkä ja salasanojen on täsmättävä";
-    } else {
-        this.handleAddUser(this.state.formName, this.state.formSurname, this.state.formEmail);
-        return;
+      error = "Salasanassasi on jotakin häikkää. Salasanan on oltava yli 8 merkkiä pitkä ja salasanojen on täsmättävä";
     }
-    this.setState({ error });
+    return error;
   };
 
   validateEmail = () => {
@@ -64,38 +69,38 @@ export class UserCreateModal extends Component {
   };
 
   validatePassword = () => {
-      var pass = this.state.formPassword;
-      var verifier = this.state.formPassVerify;
-      if (pass.length < 8) {
-          return false;
-      } else if ( pass != verifier ) {
-          return false;
-      }
-      return true;
+    var pass = this.state.formPassword;
+    var verifier = this.state.formPassVerify;
+    if (pass.length < 8) {
+      return false;
+    } else if ( pass != verifier ) {
+      return false;
+    }
+    return true;
   };
 
   handleChange = key => e => {
-        this.state[key] = e.target.value;
-        this.setState({});
+    this.state[key] = e.target.value;
+    this.setState({});
   };
 
   registerField = (controlId, label, type, placeholder) => {
     var key = controlId;
     if(this.state[key] === undefined){
-        this.state[key] = '';
+      this.state[key] = '';
     }
     return (
-        <FormGroup controlId={controlId}>
-          <Col componentClass={ControlLabel} sm={2}>
-            {label}
-          </Col>
-          <Col sm={10}>
-            <FormControl type={type} value={this.state[key]} onChange={this.handleChange(key)} placeholder={placeholder} />
+      <FormGroup controlId={controlId}>
+        <Col componentClass={ControlLabel} sm={2}>
+          {label}
+        </Col>
+        <Col sm={10}>
+          <FormControl type={type} value={this.state[key]} onChange={this.handleChange(key)} placeholder={placeholder} />
 
-          </Col>
-        </FormGroup>
-        );
-    };
+        </Col>
+      </FormGroup>
+    );
+  };
 
 
   render() {
@@ -112,21 +117,21 @@ export class UserCreateModal extends Component {
           </Modal.Header>
 
           <Modal.Body>
-          <Form horizontal>
+            <Form horizontal>
 
-                {this.registerField('formEmail', 'Sähköposti', "email", 'matti.meikalainen@gmail.com')}
-                {this.registerField('formName', 'Etunimi', "text", 'Matti')}
-                {this.registerField('formSurname', 'Sukunimi', "text", 'Meikäläinen')}
-                {this.registerField('formPassword', 'Salasana', "password", 'Salasana')}
-                {this.registerField('formPassVerify', 'Vahvista salasana', "password", 'Salasana')}
+              {this.registerField('formEmail', 'Sähköposti', "email", 'matti.meikalainen@gmail.com')}
+              {this.registerField('formName', 'Etunimi', "text", 'Matti')}
+              {this.registerField('formSurname', 'Sukunimi', "text", 'Meikäläinen')}
+              {this.registerField('formPassword', 'Salasana', "password", 'Salasana')}
+              {this.registerField('formPassVerify', 'Vahvista salasana', "password", 'Salasana')}
 
-          </Form>
+            </Form>
             <Alert bsStyle="warning" >
-                {this.state.error}
+              {this.state.error}
             </Alert>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="primary" onClick={this.validate}> Rekisteröidy </Button>
+            <Button bsStyle="primary" onClick={this.handleAddUser}> Rekisteröidy </Button>
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>

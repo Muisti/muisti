@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl } from 'react-bootstrap';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
+import { LoginBox } from './LoginBox'
+import ReactDOM from 'react-dom';
 
 // Import Style
 import styles from './Header.css';
@@ -13,22 +15,8 @@ export function Header(props) {
       lang => <MenuItem key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</MenuItem>
   );
   
-  const loginBar = (
-        <Navbar.Form pullLeft> 
-                <FormGroup controlId="emailForm" validationState="">
-                  <FormControl type="email" placeholder="Sähköposti" />
-                  <FormControl.Feedback />
-                </FormGroup>
-                {' '}
-                <FormGroup controlId="passwordForm" validationState="">
-                  <FormControl type="password" placeholder="Salasana" />
-                  <FormControl.Feedback />
-                </FormGroup>
-                {' '}
-                <Button type="submit">Kirjaudu</Button>
-        </Navbar.Form>
-    );
-
+  var email;
+  
     return (
       <Navbar>
         <Navbar.Header>
@@ -40,10 +28,9 @@ export function Header(props) {
         <Navbar.Collapse>
           <Nav>
             <NavItem eventKey={1} href="/muisti">Muisti</NavItem>
-            <NavItem eventKey={2} href="/signup">Signup</NavItem>
           </Nav>
             <Nav pullRight>
-              {loginBar}
+              <LoginBox />
             <NavItem> <UserCreateModal /> </NavItem>
             <NavDropdown eventKey={2} title="Vaihda kieli" id="basic-nav-dropdown">
                 {languageNodes}
