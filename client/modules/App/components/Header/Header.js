@@ -26,7 +26,6 @@ export function Header(props) {
         <Navbar.Collapse>
           <Nav>
             <NavItem eventKey={1} href="/muisti">Muisti</NavItem>
-            <NavItem eventKey={2} href="/signup">Signup</NavItem>
           </Nav>
             <Nav pullRight>
               <LoginBox />
