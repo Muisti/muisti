@@ -3,6 +3,7 @@ import request from 'supertest';
 import app from '../../server';
 import User from '../user';
 import { connectDB, dropDB } from '../../util/test-helpers';
+import * as jwt from 'jwt-simple';
 
 const users = [
   new User({ name: 'Alice', surname: 'Knox', email: 'a@aa.fi', password: 'testing12', cuid: 'f34gb2bh24b24b2' }),
@@ -66,4 +67,21 @@ test.serial('Returns undefined if user does not exist', t => {
   t.is(user2, undefined);
   t.is(user3, undefined);
 
+});
+
+test.serial('Tokens', t => {
+
+  const user = users.find(user => user.email == 'n@xa.fi');
+  const payload = { cuid: user.cuid, user: user.name, time: 1475571391264 };
+  const secret = 'muisti';
+  const token = jwt.encode(payload, secret);
+
+  console.log(token);
+
+  t.is(token, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.' +
+    'eyJjdWlkIjoiZjM0Z2IyYmgyNGIyNGI0IiwidXNlciI6IkpvbiIsInRpbWUiOjE0NzU1NzEzOTEyNjR9.' +
+    '_znkuW8t0dTfRbHV9VZj5fwUoHbiukaozhEBBXTdz2s');
+
+ // return res.json({ token });
+  
 });
