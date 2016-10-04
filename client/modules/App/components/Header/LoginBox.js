@@ -11,10 +11,14 @@ import { UserCreateModal } from '../../../User/components/UserCreateModal';
 export class LoginBox extends Component {
     
   email = "";
+  userValidState = "";
   
+
+
   logIn = () => {
     var password = ReactDOM.findDOMNode(this.refs.password).value;
     var email = ReactDOM.findDOMNode(this.refs.email).value;
+    this.setValidationState(true);
     fetchToken(email, password, this.setToken);
   }
   
@@ -29,13 +33,29 @@ export class LoginBox extends Component {
   }
   
   setToken = (token) => {
-      if (typeof(Storage) !== "undefined") {
-        sessionStorage.setItem("token", token);
-      } else {
+      if (typeof(Storage) == "undefined") {
         console.log("Sorry, your browser does not support Web Storage...");
+      } else if (token == undefined) {
+        
+        this.setValidationState(false);
+      }else {
+        sessionStorage.setItem("token", token);
       }
+      
       this.setState({});
   }
+
+   setValidationState(isValid) {
+     
+    if(isValid){
+      this.userValidState = "success"; 
+    }else{
+      this.userValidState = "error"; 
+      } 
+
+   }
+
+
 
   render() {
     if (typeof(Storage) !== "undefined") {
@@ -57,12 +77,12 @@ export class LoginBox extends Component {
    return (
         <Nav>
         <Navbar.Form pullLeft> 
-                <FormGroup controlId="emailForm">
+                <FormGroup controlId="emailForm" validationState={this.userValidState}>
                   <FormControl type="email" placeholder="Sähköposti" ref="email"/>
                   <FormControl.Feedback />
                 </FormGroup>
                 {' '}
-                <FormGroup controlId="passwordForm">
+                <FormGroup controlId="passwordForm" validationState={this.userValidState}>
                   <FormControl type="password" placeholder="Salasana" ref="password"/>
                   <FormControl.Feedback />
                 </FormGroup>
