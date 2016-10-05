@@ -10,9 +10,15 @@ import { UserCreateModal } from '../../../User/components/UserCreateModal';
 
 export class LoginBox extends Component {
     
+    constructor(props) {
+      super(props);
+      this.state = { isLoading: false };
+    }
+    
   email = "";
   
   logIn = () => {
+    this.setState({ isLoading: true });
     var password = ReactDOM.findDOMNode(this.refs.password).value;
     var email = ReactDOM.findDOMNode(this.refs.email).value;
     fetchToken(email, password, this.setToken);
@@ -29,7 +35,7 @@ export class LoginBox extends Component {
       } else {
         console.log("Sorry, your browser does not support Web Storage...");
       }
-      this.setState({});
+      this.setState({ isLoading: false });
   }
 
   render() {
@@ -49,6 +55,7 @@ export class LoginBox extends Component {
       
         }
    }
+   var isLoading = this.state.isLoading;
    return (
         <Nav>
         <Navbar.Form pullLeft> 
@@ -62,9 +69,12 @@ export class LoginBox extends Component {
                   <FormControl.Feedback />
                 </FormGroup>
                 {' '}
-                <Button type="submit" onClick={this.logIn}>Kirjaudu</Button>
+                <Button type="submit" bsStyle="primary" disabled={isLoading} onClick={this.logIn}>
+                {isLoading ? 'Kirjaudutaan sisälle palveluun' : 'Kirjaudu'}
+                </Button>
+                {' '}
+                <UserCreateModal />
         </Navbar.Form>
-        <NavItem> <UserCreateModal /> </NavItem>
         </Nav>
     );
   }

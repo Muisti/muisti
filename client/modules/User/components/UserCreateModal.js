@@ -108,10 +108,9 @@ export class UserCreateModal extends Component {
   render() {
 
     return (
-      <div>
-        <li onClick={this.open}>
-          <FormattedMessage id='displayRegisterModal' />
-        </li>
+      <Button onClick={this.open} bsStyle="info">
+      
+        <FormattedMessage id='displayRegisterModal' />
         
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
@@ -137,7 +136,7 @@ export class UserCreateModal extends Component {
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>
-      </div>
+      </Button>
     );
   }
   
@@ -145,7 +144,6 @@ export class UserCreateModal extends Component {
 }
 
 UserCreateModal.propTypes = {
-  dispatch: PropTypes.func.isRequired,    
 };
 
 export default UserCreateModal;
