@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/client/modules/User/UserActions.js</file>
-            <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/server/models/post.js</file>
-            <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/server/controllers/user.controller.js</file>
-            <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/client/util/apiCaller.js</file>
-            <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/server/routes/user.routes.js</file>
-            <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/client/modules/App/components/Header/Header.js</file>
-            <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/client/modules/Post/pages/PostListPage/Muisti.js</file>
-            <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/server/controllers/post.controller.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Post/pages/PostListPage/Muisti.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/User/components/UserCreateModal.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/server/controllers/user.controller.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/App/components/Header/LoginBox.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/App/components/Header/Header.js</file>
         </group>
     </open-files>
 </project-private>

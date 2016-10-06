@@ -1,7 +1,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl } from 'react-bootstrap';
+import { Button, Fade, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl } from 'react-bootstrap';
 import * as bcrypt from 'react-native-bcrypt';
 import * as jwt from 'jwt-simple';
 import ReactDOM from 'react-dom';
@@ -14,18 +14,15 @@ export class LoginBox extends Component {
     super();
     this.state = { validEmail: "" };
     this.state = { validPass: "" };
+    this.state = { isLoading: false };
   }
 
   logIn = () => {
+      this.setState({ isLoading: true });
     var password = ReactDOM.findDOMNode(this.refs.password).value;
     var email = ReactDOM.findDOMNode(this.refs.email).value;
     this.setValidationState(true);
     fetchToken(email, password, this.setToken);
-  }
-  
-  logOut = () => {
-      sessionStorage.removeItem("token");
-      this.setState({});
   }
   
   logOut = () => {
@@ -48,7 +45,7 @@ export class LoginBox extends Component {
       }else {
         sessionStorage.setItem("token", token);
       }
-      
+      this.setState({ isLoading: false });
       this.setState({});
   }
 
@@ -72,8 +69,8 @@ export class LoginBox extends Component {
     
     if (typeof(Storage) !== "undefined") {
         var token = sessionStorage.getItem("token");
-        if (token != null) {
-        var decoded = jwt.decode(token, token, true);
+        if (token != null && token != 'undefined') {
+        var decoded = jwt.decode(token, "token", true);
         var user = decoded.user;
         return (
                <Nav pullLeft>
@@ -86,6 +83,7 @@ export class LoginBox extends Component {
       
         }
    }
+      var isLoading = this.state.isLoading;
    return (
         <Nav>
         <Navbar.Form pullLeft> 
@@ -99,10 +97,13 @@ export class LoginBox extends Component {
                   <FormControl.Feedback />
                 </FormGroup>
                 {' '}
-                <Button type="submit" onClick={this.logIn}>Kirjaudu</Button>
-        </Navbar.Form>
-        <NavItem> <UserCreateModal /> </NavItem>
-        </Nav>
+                <Button type="submit" bsStyle="primary" disabled={isLoading} onClick={this.logIn}>
+                {isLoading ? 'Kirjaudutaan' : 'Kirjaudu'}
+                </Button>
+                {' '}
+                <UserCreateModal />
+          </Navbar.Form>
+      </Nav>
     );
   }
 }
