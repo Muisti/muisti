@@ -36,6 +36,11 @@ export function getToken(req, res) {
     if (err) {
       return res.status(500).send(err);
     }
+    if(user == null){
+      
+      return res.json({"token": "emailNotValid"});
+    }
+
     if(!bcrypt.compareSync(req.params.password, user.password)){
       return res.status(500).send(err);
     }
