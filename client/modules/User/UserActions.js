@@ -40,7 +40,6 @@ export function addUserRequest(user, resultCallback) {
 
 
 export function confirmUserAccountRequest(code, resultCallback) {
-  return (dispatch) => {
-    return callApi(`confirm/${code}`, 'get').then(res => resultCallback(res.confirmed));
-  };
+  return  callApi(`confirm/${code}`, 'get')
+          .then(res => resultCallback(res.confirmed));
 }

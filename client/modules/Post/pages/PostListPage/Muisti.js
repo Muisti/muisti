@@ -28,7 +28,9 @@ class Muisti extends Component {
 
   render() {
     if(this.props.params.confirmCode){
+        console.log("confirmation 4");
         confirmUserAccountRequest(this.props.params.confirmCode, success => {
+            console.log("confirmation 5");
             if(success){
                 alert("Käyttäjätunnuksesi on vahvistettu! Voit kirjautua sisään sähköpostillasi.");
             }else{
