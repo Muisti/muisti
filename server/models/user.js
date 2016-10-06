@@ -8,6 +8,7 @@ const userSchema = new Schema({
   password: { type: 'String', required: true },
   cuid: { type: 'String', required: true },
   dateAdded: { type: 'Date', default: Date.now, required: true },
+  confirmation: { type: 'String', required: true }
 });
 
 export default mongoose.model('User', userSchema);

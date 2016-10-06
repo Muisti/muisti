@@ -2,6 +2,7 @@ import User from '../models/user';
 import cuid from 'cuid';
 import * as bcrypt from 'react-native-bcrypt';
 import * as jwt from 'jwt-simple';
+import * as mailer from 'nodemailer';
 
 export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
@@ -13,10 +14,16 @@ export function addUser(req, res) {
     newUser.cuid = cuid();
 
     newUser.save((err) => {
-      if (err) {
-        res.status(500).send(err);
-      }
-      res.json({ user: newUser });
+      if (err) { return res.status(500).send(err); }
+      
+      sendConfirmationEmail(newUser, result => {
+          if(result == true){
+              return res.json({ user: newUser });
+          }else{
+              console.log("Problem sending confirmation email!");
+              res.json({ confirmation: false }); 
+          }
+      });
     });
 
 }
@@ -39,6 +46,9 @@ export function getToken(req, res) {
     if(!bcrypt.compareSync(req.params.password, user.password)){
       return res.status(500).send(err);
     }
+    if(!isUserAccountConfirmed(user)){
+      return res.json({ confirmed: false });
+    }
     
     var payload = { cuid: user.cuid, user: user.name, time: Date.now() };
     console.log(payload);
@@ -49,7 +59,61 @@ export function getToken(req, res) {
   });
 }
 
+export function confirmUserAccount(req, res){
+    User.findOne({ confirmation: req.params.code }).exec((err, user) => {
+        if(err || !user){ return res.status(500).send(err); }
+
+        user.confirmation = "confirmed";
+        user.save((err) => {
+          if (err) {
+            return res.status(500).send(err);
+          }
+          res.json({ confirmed: true });
+        });
+    });
+}
+
 export function compareToken(token){
     var secret = 'muisti';
     return jwt.decode(token, secret) != false;
+}
+
+function isUserAccountConfirmed(user){
+    return user.confirmation == "confirmed";
+}
+
+function sendConfirmationEmail(user, resultCallback){
+
+    //var transporter = mailer.createTransport('smtps://muistivahvistus%40gmail.com:ohtu2016@smtp.gmail.com');
+    var transporter = mailer.createTransport({
+        host: "smtp.gmail.com", // hostname
+        secure: true, // use SSL
+        port: 465, // port for secure SMTP
+        auth: {
+            user: "muistivahvistus@gmail.com",
+            pass: "ohtu2016"
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+
+    var content = "Olet rekisteröitynyt muistisovellukseen. Vahvistaaksesi rekisteröinnin paina linkkiä: .";
+
+    var mailOptions = {
+        from: '"Muistisovellus " <muistivahvistus@gmail.com>',
+        to: user.email,
+        subject: 'rekisteröinnin vahvistus',
+        text: content,
+        html: "<b>" + content + "</b>"
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+            resultCallback(false);
+        }
+        console.log('Lähetetty viesti: ' + info.response);
+        resultCallback(true);
+    });
 }
