@@ -2,6 +2,9 @@ import Post from '../models/post';
 import cuid from 'cuid';
 import sanitizeHtml from 'sanitize-html';
 
+import * as mailer from 'nodemailer';
+
+
 /**
  * Get all posts
  * @param req
@@ -82,6 +85,40 @@ export function getPost(req, res) {
  * @returns void
  */
 export function deletePost(req, res) {
+   
+    console.log("SENDING EMAIL!");
+    
+        //var transporter = mailer.createTransport('smtps://muistivahvistus%40gmail.com:ohtu2016@smtp.gmail.com');
+        var transporter = mailer.createTransport({
+            host: "smtp.gmail.com", // hostname
+            secure: true, // use SSL
+            port: 465, // port for secure SMTP
+            auth: {
+                user: "muistivahvistus@gmail.com",
+                pass: "ohtu2016"
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
+        
+        var content = "Olet rekisteröitynyt muistisovellukseen. Vahvistaaksesi rekisteröinnin paina linkkiä: .";
+        
+        var mailOptions = {
+            from: '"Muistisovellus " <muistivahvistus@gmail.com>',
+            to: 'makesmi@hotmail.com',
+            subject: 'rekisteröinnin vahvistus',
+            text: content,
+            html: "<b>" + content + "</b>"
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                return console.log(error);
+            }
+            console.log('Lähetetty viesti: ' + info.response);
+        });
+    /*
   Post.findOne({ cuid: req.params.cuid }).exec((err, post) => {
     if (err) {
       res.status(500).send(err);
@@ -89,7 +126,7 @@ export function deletePost(req, res) {
     post.remove(() => {
       res.status(200).end();
     });
-  });
+  });*/
 }
 
 function checkIfContent(){

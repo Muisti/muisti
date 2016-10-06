@@ -26,6 +26,8 @@ class Muisti extends Component {
     }
 
   render() {
+      console.log("RENDERING: " + this.params);
+      
     return (
       <div>
         <Button bsStyle="danger"> Testinappi </Button>
@@ -33,7 +35,6 @@ class Muisti extends Component {
         {this.storageOutput()}
         <p>Muistiprojekti ....</p>
         
-      
       </div>
     );
   }
@@ -41,7 +42,7 @@ class Muisti extends Component {
 
 function mapStateToProps() {
   return {
-
+      
   };
 }
 
