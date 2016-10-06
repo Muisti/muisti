@@ -49,5 +49,13 @@ export default (
         });
       }}
     />
+    <Route
+      path="/valim"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/Post/pages/PostListPage/Muisti').default);
+        });
+      }}
+    /> 
   </Route>
 );

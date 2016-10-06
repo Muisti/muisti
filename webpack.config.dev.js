@@ -33,7 +33,7 @@ module.exports = {
       'node_modules',
     ],
   },
-
+  
   module: {
     loaders: [
       {
