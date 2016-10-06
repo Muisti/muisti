@@ -3,6 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
 import { connect } from 'react-redux';
 import * as jwt from 'jwt-simple';
+import { confirmUserAccountRequest } from '../../../User/UserActions';
 
 class Muisti extends Component {
     constructor() {
@@ -26,7 +27,16 @@ class Muisti extends Component {
     }
 
   render() {
-      console.log("RENDERING: " + this.params);
+    if(this.props.params.confirmCode){
+        confirmUserAccountRequest(this.props.params.confirmCode, success => {
+            if(success){
+                alert("Käyttäjätunnuksesi on vahvistettu! Voit kirjautua sisään sähköpostillasi.");
+            }else{
+                alert("Käyttäjätunnuksen vahvistaminen epäonnistui! Ota yhteys ylläpitäjään.");
+            }
+        });
+        this.props.params.confirmCode = false;
+    }
       
     return (
       <div>

@@ -9,4 +9,7 @@ router.route('/users/:email').get(UserController.getUser);
 
 router.route('/login/:email/:password').get(UserController.getToken);
 
+//Confirm user account (through link sent in confirmation email)
+router.route('/confirm/:code').get(UserController.confirmUserAccount);
+
 export default router;

@@ -50,7 +50,7 @@ export default (
       }}
     />
     <Route
-      path="/valim"
+      path="/confirm/:confirmCode"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Post/pages/PostListPage/Muisti').default);

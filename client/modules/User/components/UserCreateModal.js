@@ -32,8 +32,15 @@ export class UserCreateModal extends Component {
         fetchUser(email, user => {
             if(!user){
               var password = this.hash();
-              addUserRequest({ name, surname, email, password });
-              this.close();
+              addUserRequest({ name, surname, email, password }, user => {
+                  if(user){
+                      this.close();
+                      alert("Rekisteröityminen onnistui! Vahvistusviesti on lähetetty sähköpostiisi.");
+                  }else{
+                      this.setState({ error: "Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää."
+                          + " Onko sähköpostiosoitteesi toimiva?" });
+                  }
+              });
             }else{
               this.setState({ error: "Käyttäjä " + email + " on jo olemassa!" });
             }
