@@ -60,7 +60,10 @@ export function getToken(req, res) {
 }
 
 export function confirmUserAccount(req, res){
+    console.log("-- confirmation 1");
+    
     User.findOne({ confirmation: req.params.code }).exec((err, user) => {
+    console.log("-- confirmation 2");
         if(err || !user){ return res.status(500).send(err); }
 
         user.confirmation = "confirmed";
@@ -68,7 +71,7 @@ export function confirmUserAccount(req, res){
           if (err) {
             return res.status(500).send(err);
           }
-          res.json({ confirmed: true });
+          return res.json({ confirmed: true });
         });
     });
 }
