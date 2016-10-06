@@ -1,7 +1,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl } from 'react-bootstrap';
+import { Button, Fade, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl } from 'react-bootstrap';
 import * as bcrypt from 'react-native-bcrypt';
 import * as jwt from 'jwt-simple';
 import ReactDOM from 'react-dom';
@@ -31,34 +31,35 @@ export class LoginBox extends Component {
   
   setToken = (token) => {
       if (typeof(Storage) !== "undefined") {
-        sessionStorage.setItem("token", token);
+        if (token != null) {
+            sessionStorage.setItem("token", token);
+        }
       } else {
-        console.log("Sorry, your browser does not support Web Storage...");
+        console.log("Selaimesi ei tue Web Storagea");
       }
       this.setState({ isLoading: false });
   }
 
   render() {
     if (typeof(Storage) !== "undefined") {
-        var token = sessionStorage.getItem("token");
-        if (token != null) {
-        var decoded = jwt.decode(token, token, true);
+      var token = sessionStorage.getItem("token");
+      if (token != null && token != 'undefined') {
+        var decoded = jwt.decode(token, "token", true);
         var user = decoded.user;
         return (
-               <Nav pullLeft>
-                <NavItem> Hei {user} </NavItem> 
-                <Navbar.Form pullLeft>
-                <Button type="submit" bsStyle="warning" onClick={this.logOut}>Kirjaudu ulos</Button>
-                </Navbar.Form>
-               </Nav>
-               );
-      
-        }
+          <Nav pullLeft>
+            <NavItem> Hei {user} </NavItem> 
+            <Navbar.Form pullLeft>
+              <Button type="submit" bsStyle="warning" onClick={this.logOut}>Kirjaudu ulos</Button>
+            </Navbar.Form>
+          </Nav>
+        );
+      }
    }
    var isLoading = this.state.isLoading;
    return (
-        <Nav>
-        <Navbar.Form pullLeft> 
+      <Nav>
+          <Navbar.Form pullLeft> 
                 <FormGroup controlId="emailForm">
                   <FormControl type="email" placeholder="Sähköposti" ref="email"/>
                   <FormControl.Feedback />
@@ -70,12 +71,12 @@ export class LoginBox extends Component {
                 </FormGroup>
                 {' '}
                 <Button type="submit" bsStyle="primary" disabled={isLoading} onClick={this.logIn}>
-                {isLoading ? 'Kirjaudutaan sisälle palveluun' : 'Kirjaudu'}
+                {isLoading ? 'Kirjaudutaan' : 'Kirjaudu'}
                 </Button>
                 {' '}
                 <UserCreateModal />
-        </Navbar.Form>
-        </Nav>
+          </Navbar.Form>
+      </Nav>
     );
   }
 }

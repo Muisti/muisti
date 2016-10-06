@@ -36,6 +36,9 @@ export function getToken(req, res) {
     if (err) {
       return res.status(500).send(err);
     }
+    if(user.password == null) {
+      return null;
+    }
     if(!bcrypt.compareSync(req.params.password, user.password)){
       return res.status(500).send(err);
     }
