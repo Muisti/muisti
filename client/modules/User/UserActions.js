@@ -1,14 +1,6 @@
 import callApi from '../../util/apiCaller';
 
-
-
-
-
-
-
 export function addUserRequest(user) {
-  
-  
   callApi('users', 'post', {
       user: {
         name: user.name,
@@ -17,17 +9,14 @@ export function addUserRequest(user) {
       	password: user.password
       },
     })
-  
 };
 
 
  export function fetchUser(email, callback) {
-    
     return callApi(`users/${email}`)
             .then((res) => {
                 callback(res.user);
     });
-  
 }
     
  export function fetchToken(email, password, callback){

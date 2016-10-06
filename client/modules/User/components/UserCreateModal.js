@@ -73,9 +73,7 @@ export class UserCreateModal extends Component {
   validatePassword = () => {
       var pass = this.state.formPassword;
       var verifier = this.state.formPassVerify;
-      if (pass.length < 8) {
-          return false;
-      } else if ( pass != verifier ) {
+      if (pass.length < 8 || pass.length > 18 || pass != verifier) {
           return false;
       }
       return true;
@@ -106,13 +104,11 @@ export class UserCreateModal extends Component {
 
 
   render() {
-
     return (
-      <div>
-        <li onClick={this.open}>
-          <FormattedMessage id='displayRegisterModal' />
-        </li>
-        
+      <span>
+      
+        <Button onClick={this.open} bsStyle="primary"><FormattedMessage id='displayRegisterModal' /> </Button>
+
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>Rekisteröidy tästä</Modal.Title>
@@ -137,15 +133,12 @@ export class UserCreateModal extends Component {
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>
-      </div>
+      </span>
     );
   }
-  
-
 }
 
 UserCreateModal.propTypes = {
-  dispatch: PropTypes.func.isRequired,    
 };
 
 export default UserCreateModal;
