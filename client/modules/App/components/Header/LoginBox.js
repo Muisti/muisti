@@ -9,12 +9,17 @@ import { fetchToken } from '../../../User/UserActions';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
 
 export class LoginBox extends Component {
-    
-  email = "";
-  
+
+  constructor() {
+    super();
+    this.state = { validEmail: "" };
+    this.state = { validPass: "" };
+  }
+
   logIn = () => {
     var password = ReactDOM.findDOMNode(this.refs.password).value;
     var email = ReactDOM.findDOMNode(this.refs.email).value;
+    this.setValidationState(true);
     fetchToken(email, password, this.setToken);
   }
   
@@ -28,16 +33,43 @@ export class LoginBox extends Component {
       this.setState({});
   }
   
+  
+
   setToken = (token) => {
-      if (typeof(Storage) !== "undefined") {
-        sessionStorage.setItem("token", token);
-      } else {
+      console.log(token);
+      if (typeof(Storage) == "undefined") {
         console.log("Sorry, your browser does not support Web Storage...");
+      } else if (token == undefined) {
+        console.log("pass not valid")
+        this.setValidationState(false, "validPass");
+      }else if (token == "emailNotValid"){
+
+        this.setValidationState(false);
+      }else {
+        sessionStorage.setItem("token", token);
       }
+      
       this.setState({});
   }
 
+   setValidationState(isValid, validState) {
+    if(isValid && !validState){
+      this.setState({ validEmail: "success" });
+      this.setState({ validPass: "success" });
+    } else if (isValid) {
+      this.setState({ [validState]: "success" }); 
+    } else if (!isValid && !validState) {
+      this.setState({ validEmail: "error" });
+      this.setState({ validPass: "warning" });
+    } else {
+      this.setState({ [validState]: "error" });
+    }
+   }
+
+
+
   render() {
+    
     if (typeof(Storage) !== "undefined") {
         var token = sessionStorage.getItem("token");
         if (token != null) {
@@ -57,12 +89,12 @@ export class LoginBox extends Component {
    return (
         <Nav>
         <Navbar.Form pullLeft> 
-                <FormGroup controlId="emailForm">
+                <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
                   <FormControl type="email" placeholder="Sähköposti" ref="email"/>
                   <FormControl.Feedback />
                 </FormGroup>
                 {' '}
-                <FormGroup controlId="passwordForm">
+                <FormGroup controlId="passwordForm" validationState={this.state.validPass}>
                   <FormControl type="password" placeholder="Salasana" ref="password"/>
                   <FormControl.Feedback />
                 </FormGroup>
