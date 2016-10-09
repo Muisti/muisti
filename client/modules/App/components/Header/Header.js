@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl } from 'react-bootstrap';
-import { UserCreateModal } from '../../../User/components/UserCreateModal';
 import { LoginBox } from './LoginBox'
 import ReactDOM from 'react-dom';
 
@@ -14,8 +13,6 @@ export function Header(props) {
   const languageNodes = props.intl.enabledLanguages.map(
       lang => <MenuItem key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</MenuItem>
   );
-  
-  var email;
   
     return (
       <Navbar>
@@ -31,7 +28,6 @@ export function Header(props) {
           </Nav>
             <Nav pullRight>
               <LoginBox />
-            <NavItem> <UserCreateModal /> </NavItem>
             <NavDropdown eventKey={2} title="Vaihda kieli" id="basic-nav-dropdown">
                 {languageNodes}
             </NavDropdown>
