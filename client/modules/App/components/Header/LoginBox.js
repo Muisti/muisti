@@ -38,8 +38,6 @@ export class LoginBox extends Component {
       this.setState({});
   }
   
-  
-
 
   setToken = (token) => {
       
@@ -57,7 +55,7 @@ export class LoginBox extends Component {
         this.setValidationState("unknown");
         }
       
-      this.setState({});
+      this.setState({ isLoading: false });
   }
 
    setValidationState(invalidState) {

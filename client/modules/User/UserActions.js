@@ -3,8 +3,6 @@ import callApi from '../../util/apiCaller';
 
 
 export function addUserRequest(user, resultCallback) {
-  
-
   callApi('users', 'post', {
       user: {
         name: user.name,
@@ -12,6 +10,7 @@ export function addUserRequest(user, resultCallback) {
         email: user.email,
       	password: user.password
       },
+      url: (window.location.protocol + "//" + window.location.host)
     }).then(res => resultCallback(res.user));
   
 
@@ -39,6 +38,6 @@ export function addUserRequest(user, resultCallback) {
 
 
 export function confirmUserAccountRequest(code, resultCallback) {
-  return  callApi(`confirm/${code}`, 'get')
+  return  callApi(`confirmation/${code}`, 'get')
           .then(res => resultCallback(res.confirmed));
 }

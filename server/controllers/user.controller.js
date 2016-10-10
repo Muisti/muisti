@@ -7,16 +7,19 @@ import * as mailer from 'nodemailer';
 export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
           || !req.body.user.password ) {
-    res.status(403).end();
+    return res.status(403).end();
   }
     
     const newUser = new User(req.body.user);
     newUser.cuid = cuid();
+    newUser.confirmation = cuid();
 
     newUser.save((err) => {
-      if (err) { return res.status(500).send(err); }
+  console.log("CHECKING SAVE ERROR!!!");
+      if (err) { console.log(err); return res.status(500).send(err); }
       
-      sendConfirmationEmail(newUser, result => {
+  console.log("SEND CONFIRMATION!!!");
+      sendConfirmationEmail(req.body.url, newUser, result => {
           if(result == true){
               return res.json({ user: newUser });
           }else{
@@ -65,17 +68,14 @@ export function getToken(req, res) {
 }
 
 export function confirmUserAccount(req, res){
-    console.log("-- confirmation 1");
     
     User.findOne({ confirmation: req.params.code }).exec((err, user) => {
-    console.log("-- confirmation 2");
         if(err || !user){ return res.status(500).send(err); }
-
         user.confirmation = "confirmed";
         user.save((err) => {
           if (err) {
             return res.status(500).send(err);
-          }
+          }  
           return res.json({ confirmed: true });
         });
     });
@@ -90,7 +90,7 @@ function isUserAccountConfirmed(user){
     return user.confirmation == "confirmed";
 }
 
-function sendConfirmationEmail(user, resultCallback){
+function sendConfirmationEmail(ownUrl, user, resultCallback){
 
     //var transporter = mailer.createTransport('smtps://muistivahvistus%40gmail.com:ohtu2016@smtp.gmail.com');
     var transporter = mailer.createTransport({
@@ -106,7 +106,8 @@ function sendConfirmationEmail(user, resultCallback){
         }
     });
 
-    var content = "Olet rekisteröitynyt muistisovellukseen. Vahvistaaksesi rekisteröinnin paina linkkiä: .";
+    var link = ownUrl + "/confirm/" + user.confirmation;
+    var content = "Olet rekisteröitynyt muistisovellukseen. Vahvistaaksesi rekisteröinnin paina linkkiä: " + link;
 
     var mailOptions = {
         from: '"Muistisovellus " <muistivahvistus@gmail.com>',
