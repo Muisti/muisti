@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Grid, Row, Col } from 'react-bootstrap';
 import styles from './PostListPage.css';
+import { confirmUserAccountRequest } from '../../../User/UserActions';
 
 // Import Components
 import PostList from '../../components/PostList';
@@ -23,6 +24,19 @@ class PostListPage extends Component {
     
   componentDidMount() {
     this.props.dispatch(fetchPosts());
+    
+    if(this.props.params.confirmCode){
+console.log("CLIENT: SENDING CONFIRM REQUEST TO SERVER");
+        confirmUserAccountRequest(this.props.params.confirmCode, success => {
+console.log("CLIENT: ONNISTUIKO: " + success);
+            if(success){
+                alert("Käyttäjätunnuksesi on vahvistettu! Voit kirjautua sisään sähköpostillasi.");
+            }else{
+                alert("Käyttäjätunnuksen vahvistaminen epäonnistui! Ota yhteys ylläpitäjään.");
+            }
+        });
+        this.props.params.confirmCode = false;
+    }  
   }
 
   editingPost = null;
@@ -72,7 +86,8 @@ class PostListPage extends Component {
   }
 
   render() {
-    return (
+
+        return (
       <div>
       
         <div className={styles['topBar']}>

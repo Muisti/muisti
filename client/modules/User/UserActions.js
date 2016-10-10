@@ -38,6 +38,7 @@ export function addUserRequest(user, resultCallback) {
 
 
 export function confirmUserAccountRequest(code, resultCallback) {
-  return  callApi(`confirmation/${code}`, 'get')
+    console.log("CONFIRM PYYNTO!");
+  return  callApi(`confirmation/${code}`)
           .then(res => resultCallback(res.confirmed));
 }
