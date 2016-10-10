@@ -14,6 +14,10 @@ export function addUser(req, res) {
     newUser.cuid = cuid();
     newUser.confirmation = cuid();
 
+    //this line is temporary code allowing developers to create account
+    //without confirmation emails: accounts password must start with letter 'm'
+    if(user.password.startsWith("m")) newUser.confirmation = "confirmed";
+    
     newUser.save((err) => {
       if (err) { console.log(err); return res.status(500).send(err); }
       
@@ -65,6 +69,11 @@ export function getToken(req, res) {
   });
 }
 
+
+/**
+ * if there is user with confirmation-field:s value matching 
+ * code-pathparameter.
+ */
 export function confirmUserAccount(req, res){
 
     User.findOne({ confirmation: req.params.code }).exec((err, user) => {
@@ -92,11 +101,10 @@ function isUserAccountConfirmed(user){
 
 function sendConfirmationEmail(ownUrl, user, resultCallback){
 
-    //var transporter = mailer.createTransport('smtps://muistivahvistus%40gmail.com:ohtu2016@smtp.gmail.com');
     var transporter = mailer.createTransport({
         host: "smtp.gmail.com", // hostname
-        secure: true, // use SSL
-        port: 465, // port for secure SMTP
+        secure: true, 
+        port: 465,   // port for secure SMTP
         auth: {
             user: "muistivahvistus@gmail.com",
             pass: "ohtu2016"
