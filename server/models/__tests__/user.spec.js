@@ -3,9 +3,7 @@ import request from 'supertest';
 import app from '../../server';
 import User from '../user';
 import { connectDB, dropDB } from '../../util/test-helpers';
-import * as jwt from 'jwt-simple';
-import callApi from '../../../client/util/apiCaller';
-import {addUserRequest, fetchToken} from '../../../client/modules/User/UserActions'
+
 
 const users = [
   new User({ name: 'Alice', surname: 'Knox', email: 'a@aa.fi', password: 'testing12', cuid: 'f34gb2bh24b24b2' }),
@@ -22,13 +20,14 @@ test.beforeEach.serial('connect and add tree users', t => {
 });
 
 test.afterEach.always.serial(t => {
-  dropDB(t);
+  dropDB(t, () => {
+    return;
+  });
 });
-
 
 test.serial('Should correctly add a user', async t => {
 
-  t.plan(2);
+  t.plan(3);
 
   const res = await request(app)
     .post('/api/users')
@@ -39,11 +38,27 @@ test.serial('Should correctly add a user', async t => {
 
   users.push(res);
 
+  const savedUser = await User.findOne({ surname: 'One' }).exec();
+  t.is(savedUser.name, 'New');
   t.deepEqual(users.length, 4);
 
 });
 
-test.serial('Finds user correctly', t => {
+test.serial('returns list correctly without errors ', async t => {
+
+  const res = request(app)
+    .get('/api/users/')
+    .set('Accept', 'application/json')
+    .expect(200)
+    .end(function(err, res) {
+      t.truthy(isArray(res.body), true);
+      t.truthy(err, null);
+      if (err) throw err;
+      done();
+    });
+});
+
+test.serial('Finds user correctly',  t => {
 
   t.plan(3);
 
@@ -57,7 +72,7 @@ test.serial('Finds user correctly', t => {
 
 });
 
-test.serial('Returns undefined if user does not exist', t => {
+test.serial('Returns undefined if user does not exist',  t => {
 
   t.plan(3);
 
@@ -71,24 +86,3 @@ test.serial('Returns undefined if user does not exist', t => {
 
 });
 
-test.serial('Tokens', t => {
-
-  const user = users.find(user => user.email == 'n@xa.fi');
-  const payload = { cuid: user.cuid, user: user.name, time: 1475571391264 };
-  const secret = 'muisti';
-  const token = jwt.encode(payload, secret);
-
-  const u = fetchToken(user.email, user.password);
-  const to = callApi(user.email, user.password);
-  const fail = callApi(user.email, 'incorrect');
-  console.log(u);
- // t.is(to._n, true);
-  t.is(fail._n, false);
-
- // t.is(token, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.' +
-  //  'eyJjdWlkIjoiZjM0Z2IyYmgyNGIyNGI0IiwidXNlciI6IkpvbiIsInRpbWUiOjE0NzU1NzEzOTEyNjR9.' +
-  //'_znkuW8t0dTfRbHV9VZj5fwUoHbiukaozhEBBXTdz2s');
-
- // return res.json({ token });
-
-});

@@ -5,8 +5,8 @@ import * as jwt from 'jwt-simple';
 
 export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
-          || !req.body.user.password ) {
-    res.status(403).end();
+    || !req.body.user.password ) {
+    return res.status(403).end();
   }
 
     const newUser = new User(req.body.user);
@@ -21,12 +21,20 @@ export function addUser(req, res) {
 
 }
 
+export function getUsers(req, res) {
+  User.find().sort('-dateAdded').exec((err, users) => {
+    if (err) {
+     return res.status(500).send(err);
+    }
+    return res.json({ users });
+  });
+}
+
 export function getUser(req, res) {
   User.findOne({ email: req.params.email }).exec((err, user) => {
     if (err) {
       return res.status(500).send(err);
     }
-
     return res.json({ user });
   });
 }
@@ -40,13 +48,13 @@ export function getToken(req, res) {
     if(user == null){
       return res.json({"token": "emailNotValid"});
     }
-    
+
     if(!bcrypt.compareSync(req.params.password, user.password)){
       return res.status(500).send(err);
     }
 
     var payload = { cuid: user.cuid, user: user.name, time: Date.now() };
-    console.log(payload);
+    //console.log(payload);
     var secret = 'muisti';
     var token = jwt.encode(payload, secret);
 
