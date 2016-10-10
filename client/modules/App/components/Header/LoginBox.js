@@ -25,42 +25,41 @@ export class LoginBox extends Component {
 
 
   logIn = (e) => {
+    e.preventDefault();
     this.setState({ isLoading: true });
     var password = ReactDOM.findDOMNode(this.refs.password).value;
     var email = ReactDOM.findDOMNode(this.refs.email).value;
 
     this.setValidationState("unknown");
     fetchToken(email, password, this.setToken);
-  }
+  };
 
   logOut = () => {
-      sessionStorage.removeItem("token");
-      this.setState({});
-  }
-
-
+    sessionStorage.removeItem("token");
+    this.setState({});
+  };
 
 
   setToken = (token) => {
 
-      if (typeof(Storage) == "undefined") {
-        console.log("Sorry, your browser does not support Web Storage...");
-      } else if (token == undefined) {
+    if (typeof(Storage) == "undefined") {
+      console.log("Sorry, your browser does not support Web Storage...");
+    } else if (token == undefined) {
 
-        this.setValidationState("password");
-      }else if (token == "emailNotValid"){
+      this.setValidationState("password");
+    }else if (token == "emailNotValid"){
 
-        this.setValidationState("email");
-      }else {
-        this.setValidationState("nothing");
-        sessionStorage.setItem("token", token);
-        this.setValidationState("unknown");
-        }
+      this.setValidationState("email");
+    }else {
+      this.setValidationState("nothing");
+      sessionStorage.setItem("token", token);
+      this.setValidationState("unknown");
+    }
 
-      this.setState({isLoading: false});
-  }
+    this.setState({isLoading: false});
+  };
 
-   setValidationState(invalidState) {
+  setValidationState(invalidState) {
     if(invalidState == "nothing"){
       this.setState({ validEmail: "success" });
       this.setState({ validPass: "success" });
@@ -74,9 +73,7 @@ export class LoginBox extends Component {
       this.setState({ validEmail: "" });
       this.setState({ validPass: "" });
     }
-   }
-
-
+  };
 
   render() {
 
@@ -99,26 +96,28 @@ export class LoginBox extends Component {
     var isLoading = this.state.isLoading;
     return (
       <Nav>
-        <Navbar.Form pullLeft onSubmit={this.logIn}>
-          <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
-            <FormControl type="email" placeholder="Sähköposti" onChange={this.emailChange} ref="email"/>
-            <FormControl.Feedback />
-          </FormGroup>
-          {' '}
-          <FormGroup controlId="passwordForm" validationState={this.state.validPass}>
-            <FormControl type="password" placeholder="Salasana" onChange={this.passwordChange} ref="password"/>
-            <FormControl.Feedback />
-          </FormGroup>
-          {' '}
-          <Button type="submit" bsStyle="primary" disabled={isLoading}>
-            {isLoading ? 'Kirjaudutaan' : 'Kirjaudu'}
-          </Button>
-          {' '}
-          <UserCreateModal />
+        <Navbar.Form pullLeft>
+          <form onSubmit={this.logIn}>
+            <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
+              <FormControl type="email" placeholder="Sähköposti" onChange={this.emailChange} ref="email"/>
+              <FormControl.Feedback />
+            </FormGroup>
+            {' '}
+            <FormGroup controlId="passwordForm" validationState={this.state.validPass}>
+              <FormControl type="password" placeholder="Salasana" onChange={this.passwordChange} ref="password"/>
+              <FormControl.Feedback />
+            </FormGroup>
+            {' '}
+            <Button type="submit" bsStyle="primary" disabled={isLoading}>
+              {isLoading ? 'Kirjaudutaan' : 'Kirjaudu'}
+            </Button>
+            {' '}
+            <UserCreateModal />
+          </form>
         </Navbar.Form>
       </Nav>
     );
-  }
+  };
 }
 
 
