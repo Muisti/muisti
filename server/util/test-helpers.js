@@ -10,9 +10,8 @@ export function connectDB(t, done) {
   });
 }
 
-export function dropDB(t, done) {
+export function dropDB(t) {
   mockgoose.reset(err => {
     if (err) t.fail('Unable to reset test database');
-    done();
   });
 }
