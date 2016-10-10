@@ -132,7 +132,7 @@ export class UserCreateModal extends Component {
         
           </Form>
             <Alert bsStyle="warning" >
-                {this.state.error}
+                <b>{this.state.error}</b>
             </Alert>
           </Modal.Body>
           <Modal.Footer>
