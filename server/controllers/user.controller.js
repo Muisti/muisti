@@ -68,14 +68,17 @@ export function getToken(req, res) {
 }
 
 export function confirmUserAccount(req, res){
-    
+
+console.log("SERVER: CONFIRMOIDAAN");
     User.findOne({ confirmation: req.params.code }).exec((err, user) => {
+console.log("SERVER: ETSINNÄN TULOS");
         if(err || !user){ return res.status(500).send(err); }
         user.confirmation = "confirmed";
         user.save((err) => {
           if (err) {
             return res.status(500).send(err);
           }  
+console.log("SERVER: ONNISTUI");
           return res.json({ confirmed: true });
         });
     });
