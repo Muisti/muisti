@@ -15,10 +15,8 @@ export function addUser(req, res) {
     newUser.confirmation = cuid();
 
     newUser.save((err) => {
-  console.log("CHECKING SAVE ERROR!!!");
       if (err) { console.log(err); return res.status(500).send(err); }
       
-  console.log("SEND CONFIRMATION!!!");
       sendConfirmationEmail(req.body.url, newUser, result => {
           if(result == true){
               return res.json({ user: newUser });
@@ -69,16 +67,15 @@ export function getToken(req, res) {
 
 export function confirmUserAccount(req, res){
 
-console.log("SERVER: CONFIRMOIDAAN");
     User.findOne({ confirmation: req.params.code }).exec((err, user) => {
-console.log("SERVER: ETSINNÄN TULOS");
+
         if(err || !user){ return res.status(500).send(err); }
         user.confirmation = "confirmed";
         user.save((err) => {
           if (err) {
             return res.status(500).send(err);
           }  
-console.log("SERVER: ONNISTUI");
+          
           return res.json({ confirmed: true });
         });
     });
@@ -109,14 +106,14 @@ function sendConfirmationEmail(ownUrl, user, resultCallback){
         }
     });
 
-    var link = ownUrl + "/confirm/" + user.confirmation;
+    var confirmationUrl = ownUrl + "/confirm/" + user.confirmation;
+    var link = "<a href=" + confirmationUrl + ">" + confirmationUrl + "</a>";
     var content = "Olet rekisteröitynyt muistisovellukseen. Vahvistaaksesi rekisteröinnin paina linkkiä: " + link;
 
     var mailOptions = {
         from: '"Muistisovellus " <muistivahvistus@gmail.com>',
         to: user.email,
         subject: 'rekisteröinnin vahvistus',
-        text: content,
         html: "<b>" + content + "</b>"
     };
 
@@ -125,7 +122,6 @@ function sendConfirmationEmail(ownUrl, user, resultCallback){
             console.log(error);
             resultCallback(false);
         }
-        console.log('Lähetetty viesti: ' + info.response);
         resultCallback(true);
     });
 }
