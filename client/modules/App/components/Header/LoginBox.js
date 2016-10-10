@@ -74,8 +74,6 @@ export class LoginBox extends Component {
       this.setState({ validEmail: "" });
       this.setState({ validPass: "" });
     }
-
-
    }
 
 
