@@ -26,9 +26,7 @@ class PostListPage extends Component {
     this.props.dispatch(fetchPosts());
     
     if(this.props.params.confirmCode){
-console.log("CLIENT: SENDING CONFIRM REQUEST TO SERVER");
         confirmUserAccountRequest(this.props.params.confirmCode, success => {
-console.log("CLIENT: ONNISTUIKO: " + success);
             if(success){
                 alert("Käyttäjätunnuksesi on vahvistettu! Voit kirjautua sisään sähköpostillasi.");
             }else{
