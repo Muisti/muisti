@@ -13,7 +13,7 @@ export function addUserRequest(user, resultCallback) {
       url: (window.location.protocol + "//" + window.location.host)
     }).then(res => resultCallback(res.user));
   
-
+  
 };
 
 
