@@ -8,12 +8,14 @@ import { confirmUserAccountRequest } from '../../../User/UserActions';
 // Import Components
 import PostList from '../../components/PostList';
 import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
+import AlertModal, { basicAlert, errorAlert } from '../../../App/components/AlertModal';
 
 // Import Actions
 import { addPostRequest, fetchPosts, deletePostRequest, editPostRequest } from '../../PostActions';
 
 // Import Selectors
 import { getPosts } from '../../PostReducer';
+
 
 class PostListPage extends Component {
     
@@ -27,13 +29,12 @@ class PostListPage extends Component {
     
     if(this.props.params.confirmCode){
         confirmUserAccountRequest(this.props.params.confirmCode, success => {
-            if(success){
-                alert("Käyttäjätunnuksesi on vahvistettu! Voit kirjautua sisään sähköpostillasi.");
-            }else{
-                alert("Käyttäjätunnuksen vahvistaminen epäonnistui! Ota yhteys ylläpitäjään.");
-            }
+            this.setState({ 
+                alert: (success ?
+                      basicAlert("Käyttäjätunnuksesi on vahvistettu!", "Voit kirjautua sisään sähköpostillasi.")
+                    : errorAlert("Käyttäjätunnuksen vahvistaminen epäonnistui!", "Ota yhteys ylläpitäjään.")
+                )});
         });
-        this.props.params.confirmCode = false;
     }  
   }
 
@@ -119,6 +120,7 @@ class PostListPage extends Component {
             </Col>
           </Row>
         </Grid>
+        <AlertModal message={this.state.alert} />
       </div>
     );
   }
