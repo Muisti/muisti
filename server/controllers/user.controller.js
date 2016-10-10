@@ -46,14 +46,14 @@ export function getToken(req, res) {
     }
 
     if(user == null){
-      return res.json({"token": "emailNotValid"});
+      return res.json({ token: "emailNotValid"});
     }
     
     if(!bcrypt.compareSync(req.params.password, user.password)){
       return res.status(500).send(err);
     }
     if(!isUserAccountConfirmed(user)){
-      return res.json({ confirmed: false });
+      return res.json({ token: "notConfirmed" });
     }
     
     var payload = { cuid: user.cuid, user: user.name, time: Date.now() };

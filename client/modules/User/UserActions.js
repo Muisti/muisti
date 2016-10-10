@@ -26,14 +26,7 @@ export function addUserRequest(user, resultCallback) {
     
  export function fetchToken(email, password, callback){
     return callApi(`login/${email}/${password}`)
-            .then(res => {
-                if(res.token){
-                    callback(res.token)
-                }else{
-                    alert("Et ole vahvistanut käyttäjätiliäsi! Klikkaa linkkiä, joka löytyy sähköpostiisi lähetetystä vahvistusviestistä.");
-                }
-            });
-            
+            .then(res => callback(res.token));
  }
 
 

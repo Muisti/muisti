@@ -7,6 +7,7 @@ import * as jwt from 'jwt-simple';
 import ReactDOM from 'react-dom';
 import { fetchToken } from '../../../User/UserActions';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
+import AlertModal, { errorAlert } from '../AlertModal';
 
 export class LoginBox extends Component {
 
@@ -46,10 +47,15 @@ export class LoginBox extends Component {
       } else if (token == undefined) {
         
         this.setValidationState("password");
-      }else if (token == "emailNotValid"){
+      } else if (token == "emailNotValid"){
         
         this.setValidationState("email");
-      }else {
+      } else if(token == "notConfirmed"){
+        this.setState({ alert: 
+            errorAlert("Virhe: Käyttäjätilisi rekisteröintiä ei ole vahvistettu.", 
+                "Klikkaa sähköpostiisi lähetetyssä vahvistusviestissä olevaa linkkiä."
+                + " Vahvistamistaminen on tarpeellista huijaustunnusten estämiseksi.") });
+      } else {
         this.setValidationState("nothing");
         sessionStorage.setItem("token", token);
         this.setValidationState("unknown");
@@ -116,6 +122,7 @@ export class LoginBox extends Component {
                 {' '}
                 <UserCreateModal />
           </Navbar.Form>
+          <AlertModal message={this.state.alert} />
       </Nav>
     );
   }
