@@ -13,7 +13,7 @@ export function addUserRequest(user, resultCallback) {
       url: (window.location.protocol + "//" + window.location.host)
     }).then(res => resultCallback(res.user));
   
-  
+
 };
 
 
@@ -38,7 +38,7 @@ export function addUserRequest(user, resultCallback) {
 
 
 export function confirmUserAccountRequest(code, resultCallback) {
-    console.log("CONFIRM PYYNTO!");
   return  callApi(`confirmation/${code}`)
-          .then(res => resultCallback(res.confirmed));
+          .then(res => resultCallback(res.confirmed))
+          .catch(err => console.log("JOOO"));
 }

@@ -4,15 +4,13 @@ import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel }
 
 import * as bcrypt from 'react-native-bcrypt';
 import {addUserRequest, fetchUser} from '../UserActions' 
-import AlertModal from '../../App/components/AlertModal';
+import AlertModal, { basicAlert } from '../../App/components/AlertModal';
 
 export class UserCreateModal extends Component {
 
   constructor(props) {
       super(props);
-      this.state = { showModal: false, alert: (
-            <div><h2>Rekisteröityminen onnistui!</h2> <br /> 
-            <h4>Vahvistusviesti on lähetetty sähköpostiisi.</h4> </div>) };
+      this.state = { showModal: false };
   }
     
   close = () => {
@@ -38,9 +36,8 @@ export class UserCreateModal extends Component {
               addUserRequest({ name, surname, email, password }, user => {
                   if(user){
                     this.close();
-                    this.setState({ alert:(
-            <div><h2>Rekisteröityminen onnistui!</h2> <br /> 
-            <h4>Vahvistusviesti on lähetetty sähköpostiisi.</h4> </div>)});
+                    this.setState({ alert: 
+                      basicAlert("Rekisteröityminen onnistui!", "Vahvistusviesti on lähetetty sähköpostiisi")});
                   }else{
                       this.setState({ error: "Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää."
                           + " Onko sähköpostiosoitteesi toimiva?" });
