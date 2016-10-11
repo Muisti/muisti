@@ -3,7 +3,8 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 import * as bcrypt from 'react-native-bcrypt';
-import {addUserRequest, fetchUser} from '../UserActions'
+import {addUserRequest, fetchUser} from '../UserActions' 
+import AlertModal, { basicAlert } from '../../App/components/AlertModal';
 
 export class UserCreateModal extends Component {
 
@@ -21,28 +22,46 @@ export class UserCreateModal extends Component {
   };
 
   handleAddUser = () => {
-    var name = this.state.formName;
-    var email = this.state.formEmail;
-    var surname = this.state.formSurname;
-    var password = this.state.formPassword;
-    var error = this.validate();
+    const email = this.state.formEmail;
+    const error = this.validate();
     this.setState({ error });
+    if(error) return;
 
-    if(!error){
-      fetchUser(email, user => {
+    fetchUser(email).then(user => {
         if(!user){
-          var password = this.hash();
-          addUserRequest({ name, surname, email, password });
-          this.close();
+          this.createUser();
         }else{
           this.setState({ error: "Käyttäjä " + email + " on jo olemassa!" });
         }
       });
-    }
   };
+  
+  createUser = () => {
+    const state = this.state;
+    const password = this.hashedPassword();
+    addUserRequest(this.constructUser()).then(user => {
+        if(user){
+          this.close();
+          this.setState({ alert: 
+            basicAlert("Rekisteröityminen onnistui!", "Vahvistusviesti on lähetetty sähköpostiisi.")});
+        }else{
+            this.setState({ error: "Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää."
+                + " Onko sähköpostiosoitteesi toimiva?" });
+        }
+    });
+  };
+  
+  constructUser = () => {
+      return {
+          name: this.state.formName,
+          surname: this.state.formSurname,
+          email: this.state.formEmail,
+          password: this.hashedPassword()
+      };
+  }
 
 
-  hash = () => {
+  hashedPassword = () => {
     var hashed = this.state.formPassword;
     var presalt = (Math.random * (10 + this.state.formEmail.length))+10;
     var salt = bcrypt.genSaltSync(Math.ceil(presalt));
@@ -122,7 +141,7 @@ export class UserCreateModal extends Component {
 
             </Form>
             <Alert bsStyle="warning" >
-              {this.state.error}
+                <b>{this.state.error}</b>
             </Alert>
           </Modal.Body>
           <Modal.Footer>
@@ -130,13 +149,14 @@ export class UserCreateModal extends Component {
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>
+        <AlertModal message={this.state.alert} />
       </span>
     );
   }
 
 }
 
-UserCreateModal.propTypes = {
+UserCreateModal.propTypes = {   
 
 };
 

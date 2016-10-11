@@ -7,6 +7,8 @@ import * as jwt from 'jwt-simple';
 import ReactDOM from 'react-dom';
 import { fetchToken } from '../../../User/UserActions';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
+import AlertModal, { errorAlert } from '../AlertModal';
+
 
 export class LoginBox extends Component {
 
@@ -35,29 +37,34 @@ export class LoginBox extends Component {
   };
 
   logOut = () => {
-    sessionStorage.removeItem("token");
-    this.setState({});
-  };
-
+      sessionStorage.removeItem("token");
+      this.setState({});
+  }
+  
 
   setToken = (token) => {
-
-    if (typeof(Storage) == "undefined") {
-      console.log("Sorry, your browser does not support Web Storage...");
-    } else if (token == undefined) {
-
-      this.setValidationState("password");
-    }else if (token == "emailNotValid"){
-
-      this.setValidationState("email");
-    }else {
-      this.setValidationState("nothing");
-      sessionStorage.setItem("token", token);
-      this.setValidationState("unknown");
-    }
-
-    this.setState({isLoading: false});
-  };
+      
+      if (typeof(Storage) == "undefined") {
+        console.log("Sorry, your browser does not support Web Storage...");
+      } else if (token == undefined) {
+        
+        this.setValidationState("password");
+      } else if (token == "emailNotValid"){
+        
+        this.setValidationState("email");
+      } else if(token == "notConfirmed"){
+        this.setState({ alert: 
+            errorAlert("Virhe: Käyttäjätilisi rekisteröintiä ei ole vahvistettu.", 
+                "Klikkaa sähköpostiisi lähetetyssä vahvistusviestissä olevaa linkkiä."
+                + " Vahvistamistaminen on tarpeellista huijaustunnusten estämiseksi.") });
+      } else {
+        this.setValidationState("nothing");
+        sessionStorage.setItem("token", token);
+        this.setValidationState("unknown");
+        }
+      
+      this.setState({ isLoading: false });
+  }
 
   setValidationState(invalidState) {
     if(invalidState == "nothing"){
@@ -115,6 +122,7 @@ export class LoginBox extends Component {
             <UserCreateModal />
           </form>
         </Navbar.Form>
+        <AlertModal message={this.state.alert} />
       </Nav>
     );
   };

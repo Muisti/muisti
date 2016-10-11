@@ -2,6 +2,8 @@ import Post from '../models/post';
 import cuid from 'cuid';
 import sanitizeHtml from 'sanitize-html';
 
+
+
 /**
  * Get all posts
  * @param req
@@ -80,6 +82,7 @@ export function getPost(req, res) {
  * @returns void
  */
 export function deletePost(req, res) {
+   
   Post.findOne({ cuid: req.params.cuid }).exec((err, post) => {
     if (err) {
       res.status(500).send(err);

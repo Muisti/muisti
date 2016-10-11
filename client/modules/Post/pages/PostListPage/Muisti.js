@@ -33,7 +33,6 @@ class Muisti extends Component {
         {this.storageOutput()}
         <p>Muistiprojekti ....</p>
         
-      
       </div>
     );
   }
@@ -41,7 +40,7 @@ class Muisti extends Component {
 
 function mapStateToProps() {
   return {
-
+      
   };
 }
 
