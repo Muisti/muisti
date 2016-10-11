@@ -147,7 +147,7 @@ export class UserCreateModal extends Component {
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>
-  
+
       </span>
     );
   }
@@ -158,4 +158,3 @@ UserCreateModal.propTypes = {
 };
 
 export default UserCreateModal;
-i
