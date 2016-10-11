@@ -22,36 +22,46 @@ export class UserCreateModal extends Component {
   };
 
   handleAddUser = () => {
-    var name = this.state.formName;
-    var email = this.state.formEmail;
-    var surname = this.state.formSurname;
-    var password = this.state.formPassword;
-    var error = this.validate();
+    const email = this.state.formEmail;
+    const error = this.validate();
     this.setState({ error });
+    if(error) return;
 
-    if(!error){
-        fetchUser(email, user => {
-            if(!user){
-              var password = this.hash();
-              addUserRequest({ name, surname, email, password }, user => {
-                  if(user){
-                    this.close();
-                    this.setState({ alert: 
-                      basicAlert("Rekisteröityminen onnistui!", "Vahvistusviesti on lähetetty sähköpostiisi")});
-                  }else{
-                      this.setState({ error: "Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää."
-                          + " Onko sähköpostiosoitteesi toimiva?" });
-                  }
-              });
-            }else{
-              this.setState({ error: "Käyttäjä " + email + " on jo olemassa!" });
-            }
-        });
-    }
+    fetchUser(email).then(user => {
+        if(!user){
+          this.createUser();
+        }else{
+          this.setState({ error: "Käyttäjä " + email + " on jo olemassa!" });
+        }
+      });
   };
+  
+  createUser = () => {
+    const state = this.state;
+    const password = this.hashedPassword();
+    addUserRequest(this.constructUser()).then(user => {
+        if(user){
+          this.close();
+          this.setState({ alert: 
+            basicAlert("Rekisteröityminen onnistui!", "Vahvistusviesti on lähetetty sähköpostiisi.")});
+        }else{
+            this.setState({ error: "Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää."
+                + " Onko sähköpostiosoitteesi toimiva?" });
+        }
+    });
+  };
+  
+  constructUser = () => {
+      return {
+          name: this.state.formName,
+          surname: this.state.formSurname,
+          email: this.state.formEmail,
+          password: this.hashedPassword()
+      };
+  }
 
 
-  hash = () => {
+  hashedPassword = () => {
     var hashed = this.state.formPassword;
     var presalt = (Math.random * (10 + this.state.formEmail.length))+10;
     var salt = bcrypt.genSaltSync(Math.ceil(presalt));
