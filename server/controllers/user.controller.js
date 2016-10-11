@@ -16,8 +16,8 @@ export function addUser(req, res) {
     newUser.confirmation = cuid();
 
     //this line is temporary code allowing developers to create account
-    //without confirmation emails: accounts password must start with letter 'm'
-    if(newUser.password.startsWith("m")) newUser.confirmation = "confirmed";
+    //without confirmation emails: accounts surname must start with letter 'M'
+    if(newUser.surname.startsWith("M")) newUser.confirmation = "confirmed";
     
     return newUser.save()
       .then(() => sendConfirmationEmail(req.body.url, newUser))

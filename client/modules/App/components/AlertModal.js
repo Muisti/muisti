@@ -45,7 +45,7 @@ export function errorAlert(title, message){
 }
 
 AlertModal.propTypes = {
-    message: PropTypes.string
+    message: PropTypes.object
 };
 
 export default AlertModal;
