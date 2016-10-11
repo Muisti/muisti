@@ -31,7 +31,7 @@ export class UserCreateModal extends Component {
         if(!user){
           this.createUser();
         }else{
-          this.setState({ error: "Käyttäjä " + email + " on jo olemassa!" });
+          this.setState({ error: <FormattedMessage id="userAlreadyExists" values={{user: email}} /> });
         }
       });
   };
@@ -43,10 +43,10 @@ export class UserCreateModal extends Component {
         if(user){
           this.close();
           this.setState({ alert: 
-            basicAlert("Rekisteröityminen onnistui!", "Vahvistusviesti on lähetetty sähköpostiisi.")});
+            basicAlert((<FormattedMessage id="registrationSuccessful_title" />), 
+                       (<FormattedMessage id="registrationSuccessful_info" />))});
         }else{
-            this.setState({ error: "Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää."
-                + " Onko sähköpostiosoitteesi toimiva?" });
+            this.setState({ error: (<FormattedMessage id="sendConfirmFail" />) }); 
         }
     });
   };
@@ -73,11 +73,11 @@ export class UserCreateModal extends Component {
   validate = () => {
     var error = '';
     if (!this.validateEmail()) {
-      error = "Sähköpostissasi on kirjoitusvirhe!";
+      error = (<FormattedMessage id="emailNotValid" />);
     } else if (this.state.formName == '' || this.state.formSurname == '') {
-      error = "Onko sinulla etunimi ja sukunimi oikein kirjoitettuna? Tarkista nimesi henkilöllisyystodistuksesta";
+      error = (<FormattedMessage id="nameNotValid" />);
     } else if (!this.validatePassword()) {
-      error = "Salasanassasi on jotakin häikkää. Salasanan on oltava yli 8 merkkiä pitkä ja salasanojen on täsmättävä";
+      error = (<FormattedMessage id="passwordNotValid" />);
     }
     return error;
   };
@@ -101,7 +101,7 @@ export class UserCreateModal extends Component {
     this.setState({});
   };
 
-  registerField = (controlId, label, type, placeholder) => {
+  registerField = (controlId, type, placeholder) => {
     var key = controlId;
     if(this.state[key] === undefined){
       this.state[key] = '';
@@ -109,7 +109,7 @@ export class UserCreateModal extends Component {
     return (
       <FormGroup controlId={controlId}>
         <Col componentClass={ControlLabel} sm={2}>
-          {label}
+          <FormattedMessage id={controlId} />
         </Col>
         <Col sm={10}>
           <FormControl type={type} value={this.state[key]} onChange={this.handleChange(key)} placeholder={placeholder} />
@@ -121,6 +121,7 @@ export class UserCreateModal extends Component {
 
 
   render() {
+      
     return (
       <span>
         <Button onClick={this.open} bsStyle="primary"><FormattedMessage id='displayRegisterModal' /> </Button>
@@ -133,16 +134,18 @@ export class UserCreateModal extends Component {
           <Modal.Body>
             <Form horizontal>
 
-              {this.registerField('formEmail', 'Sähköposti', "email", 'matti.meikalainen@gmail.com')}
-              {this.registerField('formName', 'Etunimi', "text", 'Matti')}
-              {this.registerField('formSurname', 'Sukunimi', "text", 'Meikäläinen')}
-              {this.registerField('formPassword', 'Salasana', "password", 'Salasana')}
-              {this.registerField('formPassVerify', 'Vahvista salasana', "password", 'Salasana')}
+              {this.registerField('formEmail', "email", 'matti.meikalainen@gmail.com')}
+              {this.registerField('formName', "text", 'Matti')}
+              {this.registerField('formSurname', "text", 'Meikäläinen')}
+              {this.registerField('formPassword',  "password", 'Salasana')}
+              {this.registerField('formPassVerify', "password", 'Salasana')}
 
             </Form>
-            <Alert bsStyle="warning" >
-                <b>{this.state.error}</b>
-            </Alert>
+            <span className={this.state.error ? '' : 'hidden'}>
+                <Alert bsStyle="warning">
+                    <b>{this.state.error}</b>
+                </Alert>
+            </span>
           </Modal.Body>
           <Modal.Footer>
             <Button bsStyle="primary" onClick={this.handleAddUser}> Rekisteröidy </Button>

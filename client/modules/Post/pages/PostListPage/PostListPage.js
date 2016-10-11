@@ -5,6 +5,7 @@ import { Button, Grid, Row, Col } from 'react-bootstrap';
 import styles from './PostListPage.css';
 import { confirmUserAccountRequest } from '../../../User/UserActions';
 
+
 // Import Components
 import PostList from '../../components/PostList';
 import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
