@@ -116,11 +116,7 @@ class PostListPage extends Component {
               />
               <PostList
                 handleDeletePost={this.handleDeletePost} posts={this.props.posts}
-                handleEditPost={this.openEditPost} importanceColumn={true}
-              />
-              <PostList
-                handleDeletePost={this.handleDeletePost} posts={this.props.posts}
-                handleEditPost={this.openEditPost} importanceColumn={false}
+                handleEditPost={this.openEditPost}
               />
             </Col>
             <Col xs={12} sm={9}>
