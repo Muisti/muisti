@@ -93,14 +93,12 @@ class PostListPage extends Component {
           <span className={styles['nameTitle']}>{this.state.name}</span>
         </div>
         <Grid>
-
           <Row className="show-grid">
             <Col xs={12} xsOffset={1}>
               <span className={this.state.showAddPost ? 'hidden' : ''}>
                 <Button href='#' onClick={this.toggleAddPost}>
                   <FormattedMessage id="addPost" />
                 </Button>
-
               </span>
             </Col>
           </Row>

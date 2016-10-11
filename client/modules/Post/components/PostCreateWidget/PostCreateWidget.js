@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { ButtonGroup, Button } from 'react-bootstrap';
 
 // Import Style
 import styles from './PostCreateWidget.css';
@@ -89,12 +90,15 @@ export class PostCreateWidget extends Component {
           </div>
 
           <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name"
-                    value={this.state.name} onChange={this.changeName}/>
+                 value={this.state.name} onChange={this.changeName}/>
           <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content"
                     value={this.state.content} onChange={this.changeContent}/>
 
-          <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>
-          <a className={styles['post-submit-button']} href="#" onClick={this.cancel}><FormattedMessage id="cancel" /></a>
+          <ButtonGroup>
+            <Button bsStyle="info" href="#" onClick={this.submit}><FormattedMessage id={submitText}/></Button>
+            <Button bsStyle="info" href="#"onClick={this.cancel}><FormattedMessage id="cancel"/></Button>
+          </ButtonGroup>
+
         </div>
       </div>
     );
