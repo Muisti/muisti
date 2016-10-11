@@ -59,14 +59,12 @@ export class PostCreateWidget extends Component {
     const postChanged = (this.props.originalPost != this.originalPost);
 
     if(postChanged){
-
       if(this.props.originalPost == null){
         this.clearFields();
       }else{
         var post = this.props.originalPost;
         this.state = {name: post.name, content: post.content};
       }
-
       this.originalPost = this.props.originalPost;
 
     }
@@ -97,8 +95,6 @@ export class PostCreateWidget extends Component {
 
           <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>
           <a className={styles['post-submit-button']} href="#" onClick={this.cancel}><FormattedMessage id="cancel" /></a>
-
-
         </div>
       </div>
     );

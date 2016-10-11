@@ -15,7 +15,6 @@ function PostListItem(props) {
         <a href="#" onClick={props.onDelete}><FormattedMessage id="deletePost" /></a> &nbsp; | &nbsp;
         <a href="#" onClick={props.onEdit}><FormattedMessage id="editPostLink" /></a>
       </p>
-
     </Panel>
 
   );
