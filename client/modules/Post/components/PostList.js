@@ -7,7 +7,7 @@ function PostList(props) {
   return (
     <div className="listView">
       {
-        props.posts.filter(post => (post.important === props.importanceColumn)).map(post => (
+        props.posts.map(post => (
           <PostListItem
             post={post}
             key={post.cuid}
@@ -28,7 +28,6 @@ PostList.propTypes = {
     cuid: PropTypes.string.isRequired,
   })).isRequired,
   handleDeletePost: PropTypes.func.isRequired,
-  importanceColumn: PropTypes.bool.isRequired,
   handleEditPost: PropTypes.func.isRequired,
 };
 

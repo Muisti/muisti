@@ -14,19 +14,10 @@ const posts = [
 test('renders the list', t => {
   const wrapper = shallow(
     <PostList posts={posts} handleShowPost={() => {}} handleDeletePost={() => {}}
-        handleEditPost={() => {}} importanceColumn={false} />
+        handleEditPost={() => {}} />
   );
 
-  t.is(wrapper.find('PostListItem').length, 2);
-});
-
-test('renders the list', t => {
-  const wrapper = shallow(
-    <PostList posts={posts} handleShowPost={() => {}} handleDeletePost={() => {}}
-        handleEditPost={() => {}} importanceColumn={true} />
-  );
-
-  t.is(wrapper.find('PostListItem').length, 1);
+  t.is(wrapper.find('PostListItem').length, 3);
 });
 
 test('calls delete', t => {
@@ -34,7 +25,7 @@ test('calls delete', t => {
   const deleteMessage = sinon.spy();
   const wrapper = mountWithIntl(
     <PostList posts={posts} handleShowPost={() => {}} handleDeletePost={deleteMessage}
-              handleEditPost={() => {}} importanceColumn={false} />
+              handleEditPost={() => {}}/>
   );
 
   wrapper.find('a').first().simulate('click');
@@ -47,7 +38,7 @@ test('confirms delete', t => {
   const deletePostRequest = sinon.spy();
   const wrapper = mountWithIntl(
     <PostList posts={posts} handleShowPost={() => {}} handleDeletePost={deletePostRequest}
-              handleEditPost={() => {}} importanceColumn={false} />
+              handleEditPost={() => {}} />
   );
   wrapper.find('a').first().simulate('click');
   const confirmStub = sinon.stub(window, 'confirm');
