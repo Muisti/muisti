@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import { fetchToken } from '../../../User/UserActions';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
 
+
 export class LoginBox extends Component {
 
   constructor() {
@@ -36,7 +37,7 @@ export class LoginBox extends Component {
   logOut = () => {
     sessionStorage.removeItem("token");
     this.setState({});
-  };
+  }
 
 
   setToken = (token) => {
@@ -46,17 +47,22 @@ export class LoginBox extends Component {
     } else if (token == undefined) {
 
       this.setValidationState("password");
-    }else if (token == "emailNotValid"){
+    } else if (token == "emailNotValid"){
 
       this.setValidationState("email");
-    }else {
+    } else if(token == "notConfirmed"){
+      this.setState({ alert:
+        errorAlert("Virhe: Käyttäjätilisi rekisteröintiä ei ole vahvistettu.",
+          "Klikkaa sähköpostiisi lähetetyssä vahvistusviestissä olevaa linkkiä."
+          + " Vahvistamistaminen on tarpeellista huijaustunnusten estämiseksi.") });
+    } else {
       this.setValidationState("nothing");
       sessionStorage.setItem("token", token);
       this.setValidationState("unknown");
     }
 
-    this.setState({isLoading: false});
-  };
+    this.setState({ isLoading: false });
+  }
 
   setValidationState(invalidState) {
     if(invalidState == "nothing"){
@@ -114,6 +120,7 @@ export class LoginBox extends Component {
             <UserCreateModal />
           </form>
         </Navbar.Form>
+        <AlertModal message={this.state.alert} />
       </Nav>
     );
   };
