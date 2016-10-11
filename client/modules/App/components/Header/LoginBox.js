@@ -121,6 +121,7 @@ export class LoginBox extends Component {
             <UserCreateModal />
           </form>
         </Navbar.Form>
+        <AlertModal message={this.state.alert} />
       </Nav>
     );
   };
