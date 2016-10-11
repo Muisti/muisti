@@ -30,6 +30,10 @@ export default {
     formSurname: 'Surname',
     formPassword: 'Password',
     formPassVerify: 'Confirm password',
+    notConfirmedTitle: 'Error: Your user account is not confirmed.',
+    notConfirmedInfo:  'Please open the link sent to your email address.',
+    loggingIn: "Logging in...",
+    logInButton: "Log in",
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}

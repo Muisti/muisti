@@ -17,7 +17,6 @@ export class LoginBox extends Component {
     this.state = { validEmail: "" };
     this.state = { validPass: "" };
     this.state = { isLoading: false };
-
   }
 
 
@@ -54,9 +53,8 @@ export class LoginBox extends Component {
         this.setValidationState("email");
       } else if(token == "notConfirmed"){
         this.setState({ alert: 
-            errorAlert("Virhe: Käyttäjätilisi rekisteröintiä ei ole vahvistettu.", 
-                "Klikkaa sähköpostiisi lähetetyssä vahvistusviestissä olevaa linkkiä."
-                + " Vahvistamistaminen on tarpeellista huijaustunnusten estämiseksi.") });
+            errorAlert( (<FormattedMessage id="notConfirmedTitle" />),
+                        (<FormattedMessage id="notConfirmedInfo" />)) });
       } else {
         this.setValidationState("nothing");
         sessionStorage.setItem("token", token);
@@ -89,24 +87,26 @@ export class LoginBox extends Component {
       if (token != null && token != 'undefined') {
         var decoded = jwt.decode(token, "token", true);
         var user = decoded.user;
-        return (
+        return (   
           <Nav pullLeft>
             <NavItem> Hei {user} </NavItem>
             <Navbar.Form pullLeft>
               <Button type="submit" bsStyle="warning" onClick={this.logOut} >Kirjaudu ulos</Button>
             </Navbar.Form>
+            <AlertModal message={this.state.alert} />
           </Nav>
         );
 
       }
     }
     var isLoading = this.state.isLoading;
+
     return (
       <Nav>
         <Navbar.Form pullLeft>
           <form onSubmit={this.logIn}>
             <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
-              <FormControl type="email" placeholder="Sähköposti" onChange={this.emailChange} ref="email"/>
+              <FormControl type="email" placeholder='Sähköposti' onChange={this.emailChange} ref="email"/>
               <FormControl.Feedback />
             </FormGroup>
             {' '}
@@ -116,7 +116,7 @@ export class LoginBox extends Component {
             </FormGroup>
             {' '}
             <Button type="submit" bsStyle="primary" disabled={isLoading}>
-              {isLoading ? 'Kirjaudutaan' : 'Kirjaudu'}
+              <FormattedMessage id={isLoading ? "loggingIn" : 'logInButton'} />
             </Button>
             {' '}
             <UserCreateModal />
@@ -130,7 +130,7 @@ export class LoginBox extends Component {
 
 
 LoginBox.propTypes = {
-
+  intl: intlShape.isRequired,
 };
 
-export default LoginBox;
+export default injectIntl(LoginBox);
