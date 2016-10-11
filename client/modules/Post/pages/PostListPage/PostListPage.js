@@ -20,10 +20,10 @@ import { getPosts } from '../../PostReducer';
 class PostListPage extends Component {
 
 
-    constructor(props) {
-        super(props);
-        this.state = { showAddPost: false, name: "Matti Meikäläinen" };
-    }
+  constructor(props) {
+    super(props);
+    this.state = { showAddPost: false, name: "Matti Meikäläinen" };
+  }
 
   componentDidMount() {
     this.props.dispatch(fetchPosts());
@@ -87,14 +87,16 @@ class PostListPage extends Component {
   render() {
 
     return (
+
       <div>
         <div className={styles['topBar']}>
           <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Default_User_Logo.jpg" />
           <span className={styles['nameTitle']}>{this.state.name}</span>
         </div>
+
         <Grid>
           <Row className="show-grid">
-            <Col xs={12} xsOffset={1}>
+            <Col xs={6} xsOffset={1}>
               <span className={this.state.showAddPost ? 'hidden' : ''}>
                 <Button href='#' onClick={this.toggleAddPost}>
                   <FormattedMessage id="addPost" />
@@ -102,9 +104,11 @@ class PostListPage extends Component {
               </span>
             </Col>
           </Row>
+
           <br/>
+
           <Row className="show-grid">
-            <Col xs={12} md={3}>
+            <Col xs={12} sm={3}>
               <PostCreateWidget
                 addPost={this.handleAddPost} showAddPost={this.state.showAddPost}
                 hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
@@ -119,11 +123,12 @@ class PostListPage extends Component {
                 handleEditPost={this.openEditPost} importanceColumn={false}
               />
             </Col>
-            <Col xs={12} md={9}>
+            <Col xs={12} sm={9}>
               <Panel header="Moduulien sijoitus">
               </Panel>
             </Col>
           </Row>
+
         </Grid>
         <AlertModal message={this.state.alert} />
       </div>
