@@ -22,7 +22,10 @@ export function addUser(req, res) {
     return newUser.save()
       .then(() => sendConfirmationEmail(req.body.url, newUser))
       .then(() => res.json({ user: newUser }))
-      .catch(err => res.json({ error: err }));
+      .catch(err => {
+          console.log(err);
+          return res.status(500).send(err);
+      });
 }
 
 export function getUsers(req, res) {
