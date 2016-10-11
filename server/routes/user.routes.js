@@ -15,3 +15,4 @@ router.route('/login/:email/:password').get(UserController.getToken);
 router.route('/confirmation/:code').get(UserController.confirmUserAccount);
 
 export default router;
+

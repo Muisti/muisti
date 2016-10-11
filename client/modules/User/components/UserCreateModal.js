@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-
 import * as bcrypt from 'react-native-bcrypt';
-import {addUserRequest, fetchUser} from '../UserActions' 
+import {addUserRequest, fetchUser} from '../UserActions'
 import AlertModal, { basicAlert } from '../../App/components/AlertModal';
 
 export class UserCreateModal extends Component {
@@ -26,7 +25,6 @@ export class UserCreateModal extends Component {
     const error = this.validate();
     this.setState({ error });
     if(error) return;
-
     fetchUser(email).then(user => {
         if(!user){
           this.createUser();
@@ -35,7 +33,7 @@ export class UserCreateModal extends Component {
         }
       });
   };
-  
+
   createUser = () => {
     const state = this.state;
     const password = this.hashedPassword();
@@ -50,14 +48,14 @@ export class UserCreateModal extends Component {
         }
     });
   };
-  
+
   constructUser = () => {
-      return {
-          name: this.state.formName,
-          surname: this.state.formSurname,
-          email: this.state.formEmail,
-          password: this.hashedPassword()
-      };
+    return {
+      name: this.state.formName,
+      surname: this.state.formSurname,
+      email: this.state.formEmail,
+      password: this.hashedPassword()
+    };
   }
 
 
@@ -88,12 +86,12 @@ export class UserCreateModal extends Component {
   };
 
   validatePassword = () => {
-      var pass = this.state.formPassword;
-      var verifier = this.state.formPassVerify;
-      if (pass.length < 8 || pass.length > 18 || pass != verifier) {
-          return false;
-      }
-      return true;
+    var pass = this.state.formPassword;
+    var verifier = this.state.formPassVerify;
+    if (pass.length < 8 || pass.length > 18 || pass != verifier) {
+      return false;
+    }
+    return true;
   };
 
   handleChange = key => e => {
@@ -152,14 +150,13 @@ export class UserCreateModal extends Component {
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>
-        <AlertModal message={this.state.alert} />
+
       </span>
     );
   }
-
 }
 
-UserCreateModal.propTypes = {   
+UserCreateModal.propTypes = {
 
 };
 

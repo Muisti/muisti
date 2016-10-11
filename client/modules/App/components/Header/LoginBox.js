@@ -1,4 +1,3 @@
-
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Button, Fade, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl } from 'react-bootstrap';
@@ -36,10 +35,10 @@ export class LoginBox extends Component {
   };
 
   logOut = () => {
-      sessionStorage.removeItem("token");
-      this.setState({});
+    sessionStorage.removeItem("token");
+    this.setState({});
   }
-  
+
 
   setToken = (token) => {
       
