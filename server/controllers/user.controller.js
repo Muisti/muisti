@@ -17,11 +17,11 @@ export function addUser(req, res) {
 
     //this line is temporary code allowing developers to create account
     //without confirmation emails: accounts password must start with letter 'm'
-    if(user.password.startsWith("m")) newUser.confirmation = "confirmed";
+    if(newUser.password.startsWith("m")) newUser.confirmation = "confirmed";
     
     return newUser.save()
       .then(() => sendConfirmationEmail(req.body.url, newUser))
-      .then(() => res.json( user: newUser ))
+      .then(() => res.json({ user: newUser }))
       .catch(err => res.json({ error: err }));
 }
 
@@ -71,23 +71,20 @@ export function getToken(req, res) {
 
 
 /**
- * if there is user with confirmation-field:s value matching 
- * code-pathparameter.
+ * if there is user with confirmation-field's value matching 
+ * code-pathparameter, then confirmation-field is set "confirmed"
+ * and json { confirmed: true } is returned.
  */
 export function confirmUserAccount(req, res){
 
-    User.findOne({ confirmation: req.params.code }).exec((err, user) => {
-
-        if(err || !user){ return res.status(500).send(err); }
-        user.confirmation = "confirmed";
-        user.save((err) => {
-          if (err) {
-            return res.status(500).send(err);
-          }  
-          
-          return res.json({ confirmed: true });
-        });
-    });
+    return User.findOne({ confirmation: req.params.code }).exec()
+      .then(user => {
+          if(!user){ return res.status(404).end(); }
+          user.confirmation = "confirmed";
+          return user.save()
+            .then(() => res.json({ confirmed: true }));
+      })
+      .catch(err => res.status(500).send(err));
 }
 
 export function compareToken(token){
@@ -98,6 +95,11 @@ export function compareToken(token){
 function isUserAccountConfirmed(user){
     return user.confirmation == "confirmed";
 }
+
+/**
+ * client-side code sends url (window.hostname) with request to addUser,
+ * this function uses it to build confirmation link
+ */
 
 function sendConfirmationEmail(ownUrl, user){
 
