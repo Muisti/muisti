@@ -18,12 +18,12 @@ import { getPosts } from '../../PostReducer';
 
 
 class PostListPage extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = { showAddPost: false, name: "Matti Meikäläinen" };
     }
-    
+
   componentDidMount() {
     this.props.dispatch(fetchPosts());
     
@@ -41,7 +41,7 @@ class PostListPage extends Component {
   editingPost = null;
 
   handleDeletePost = post => {
-    if (confirm('Haluatko varmasti poistaa viestin?')) { // eslint-disable-line
+    if (window.confirm('Haluatko varmasti poistaa viestin?')) { // eslint-disable-line
       this.props.dispatch(deletePostRequest(post));
     }
   };
@@ -49,10 +49,10 @@ class PostListPage extends Component {
   handleAddPost = (name, content, important) => {
     this.toggleAddPost();
     this.props.dispatch(addPostRequest({ name, content, important }));
-    };
+    this.props.dispatch(fetchPosts());
+  };
 
   handleEditPost = post => {
-
     this.toggleAddPost();
     this.props.dispatch(editPostRequest(post));
     setTimeout(100)
@@ -61,7 +61,6 @@ class PostListPage extends Component {
   };
 
   handleHidePost = () => {
-
     this.toggleAddPost();
     this.editingPost = null;
   };
@@ -72,14 +71,14 @@ class PostListPage extends Component {
     this.setState({}); //update ui
 
   };
-  
+
   openAddPost = () => {
       this.setState({ showAddPost: true });
   }
   closeAddPost = () => {
       this.setState({ showAddPost: false });
   }
-  
+
   toggleAddPost = () => {
       this.setState({ showAddPost: !this.state.showAddPost });
   }
@@ -103,7 +102,6 @@ class PostListPage extends Component {
           hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
           originalPost={this.editingPost}
         />
-        
         <Grid>
           <Row className="show-grid">
             <Col xs={16} md={4}>
