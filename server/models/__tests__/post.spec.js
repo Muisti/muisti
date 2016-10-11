@@ -10,7 +10,7 @@ const posts = [
   new Post({ name: 'Mayank', cuid: 'f34gb2bh24b24b3', content: "All dogs bark 'mern!'" }),
 ];
 
-test.beforeEach.serial('connect and add two post entries', t => {
+test.beforeEach.serial('connect and add posts and users', t => {
   connectDB(t, () => {
     Post.create(posts, err => {
       if (err) t.fail('Unable to create posts');
@@ -24,7 +24,7 @@ test.afterEach.always.serial(t => {
 
 test.serial('Should correctly give number of Posts', async t => {
   t.plan(2);
-  
+
   const res = await request(app)
     .get('/api/posts')
     .set('Accept', 'application/json');
@@ -64,16 +64,16 @@ test.serial('Should correctly add a post', async t => {
 
 test.serial('Should correctly delete a post', async t => {
   t.plan(2);
-  
+
   const res = await request(app)
     .post('/api/posts')
     .send({ post: { name: 'Foo', content: 'Hello Mern says Foo' } })
     .set('Accept', 'application/json');
-    
+
   const res2 = await request(app)
     .delete('/api/posts/' + res.body.post.cuid)
     .set('Accept', 'application/json');
-  
+
   t.is(res2.status, 200);
 
   const queriedPost = await Post.findOne({ cuid: res.body.post.cuid }).exec();

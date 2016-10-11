@@ -29,7 +29,7 @@ export function getPosts(req, res) {
 
 export function updatePost(req,res){
   const post = req.body.post;
-  
+
   if (!post.name || !post.content) {
     res.status(403).end();
   }
@@ -48,17 +48,15 @@ export function addPost(req, res) {
   if (!req.body.post.name || !req.body.post.content) {
     res.status(403).end();
   }
+  const newPost = new Post(req.body.post);
+  newPost.cuid = cuid();
 
-    const newPost = new Post(req.body.post);
-    newPost.cuid = cuid();
-
-    newPost.save((err) => {
-      if (err) {
-        res.status(500).send(err);
-      }
-      res.json({ post: newPost });
-    });
-
+  newPost.save((err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ post: newPost });
+  });
 }
 
 
@@ -98,5 +96,5 @@ export function deletePost(req, res) {
 function checkIfContent(){
   if (!req.body.post.name || !req.body.post.content) {
     res.status(403).end();
-  }  
+  }
 }

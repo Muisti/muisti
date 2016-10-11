@@ -130,6 +130,7 @@
       "client/**/*.js",
       "server/**/*.js"
     ],
+    "concurrency": 1,
     "failFast": true,
     "babel": "inherit",
     "require": [
