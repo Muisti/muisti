@@ -4,6 +4,7 @@ import * as bcrypt from 'react-native-bcrypt';
 import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 
+
 export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
     || !req.body.user.password ) {
@@ -15,22 +16,16 @@ export function addUser(req, res) {
   newUser.confirmation = cuid();
 
   //this line is temporary code allowing developers to create account
-  //without confirmation emails: accounts password must start with letter 'm'
-  if(user.password.startsWith("m")) newUser.confirmation = "confirmed";
+  //without confirmation emails: accounts surname must start with letter 'M'
+  if(newUser.surname.startsWith("M")) newUser.confirmation = "confirmed";
 
-  newUser.save((err) => {
-    if (err) { console.log(err); return res.status(500).send(err); }
-
-    sendConfirmationEmail(req.body.url, newUser, result => {
-      if(result == true){
-        return res.json({ user: newUser });
-      }else{
-        console.log("Problem sending confirmation email!");
-        res.json({ confirmation: false });
-      }
+  return newUser.save()
+    .then(() => sendConfirmationEmail(req.body.url, newUser))
+    .then(() => res.json({ user: newUser }))
+    .catch(err => {
+      console.log(err);
+      return res.status(500).send(err);
     });
-  });
-
 }
 
 export function getUsers(req, res) {
@@ -64,6 +59,10 @@ export function getToken(req, res) {
     if(!bcrypt.compareSync(req.params.password, user.password)){
       return res.status(500).send(err);
     }
+    if(!isUserAccountConfirmed(user)){
+      return res.json({ token: "notConfirmed" });
+    }
+
     var payload = { cuid: user.cuid, user: user.name, time: Date.now() };
     //console.log(payload);
     var secret = 'muisti';
@@ -75,26 +74,61 @@ export function getToken(req, res) {
 
 
 /**
- * if there is user with confirmation-field:s value matching
- * code-pathparameter.
+ * if there is user with confirmation-field's value matching
+ * code-pathparameter, then confirmation-field is set "confirmed"
+ * and json { confirmed: true } is returned.
  */
 export function confirmUserAccount(req, res){
 
-  User.findOne({ confirmation: req.params.code }).exec((err, user) => {
-
-    if(err || !user){ return res.status(500).send(err); }
-    user.confirmation = "confirmed";
-    user.save((err) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      return res.json({ confirmed: true });
-    });
-  });
+  return User.findOne({ confirmation: req.params.code }).exec()
+    .then(user => {
+      if(!user){ return res.status(404).end(); }
+      user.confirmation = "confirmed";
+      return user.save()
+        .then(() => res.json({ confirmed: true }));
+    })
+    .catch(err => res.status(500).send(err));
 }
 
 export function compareToken(token){
   var secret = 'muisti';
   return jwt.decode(token, secret) != false;
+}
+
+function isUserAccountConfirmed(user){
+  return user.confirmation == "confirmed";
+}
+
+/**
+ * client-side code sends url (window.hostname) with request to addUser,
+ * this function uses it to build confirmation link
+ */
+
+function sendConfirmationEmail(ownUrl, user){
+
+  var transporter = mailer.createTransport({
+    host: "smtp.gmail.com", // hostname
+    secure: true,
+    port: 465,   // port for secure SMTP
+    auth: {
+      user: "muistivahvistus@gmail.com",
+      pass: "ohtu2016"
+    },
+    tls: {
+      rejectUnauthorized: false
+    }
+  });
+
+  var confirmationUrl = ownUrl + "/confirm/" + user.confirmation;
+  var link = "<a href=" + confirmationUrl + ">" + confirmationUrl + "</a>";
+  var content = "Olet rekisteröitynyt muistisovellukseen. Vahvistaaksesi rekisteröinnin paina linkkiä: " + link;
+
+  var mailOptions = {
+    from: '"Muistisovellus " <muistivahvistus@gmail.com>',
+    to: user.email,
+    subject: 'rekisteröinnin vahvistus',
+    html: "<b>" + content + "</b>"
+  };
+
+  return transporter.sendMail(mailOptions);
 }
