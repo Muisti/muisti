@@ -130,7 +130,7 @@ export class UserCreateModal extends Component {
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>
-        <AlertModal message={this.state.alert} />
+  
       </span>
     );
   }
