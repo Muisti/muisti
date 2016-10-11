@@ -3,16 +3,19 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Grid, Row, Col } from 'react-bootstrap';
 import styles from './PostListPage.css';
+import { confirmUserAccountRequest } from '../../../User/UserActions';
 
 // Import Components
 import PostList from '../../components/PostList';
 import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
+import AlertModal, { basicAlert, errorAlert } from '../../../App/components/AlertModal';
 
 // Import Actions
 import { addPostRequest, fetchPosts, deletePostRequest, editPostRequest } from '../../PostActions';
 
 // Import Selectors
 import { getPosts } from '../../PostReducer';
+
 
 class PostListPage extends Component {
 
@@ -23,6 +26,16 @@ class PostListPage extends Component {
 
   componentDidMount() {
     this.props.dispatch(fetchPosts());
+    
+    if(this.props.params.confirmCode){
+        confirmUserAccountRequest(this.props.params.confirmCode, success => {
+            this.setState({ 
+                alert: (success ?
+                      basicAlert("Käyttäjätunnuksesi on vahvistettu!", "Voit kirjautua sisään sähköpostillasi.")
+                    : errorAlert("Käyttäjätunnuksen vahvistaminen epäonnistui!", "Ota yhteys ylläpitäjään.")
+                )});
+        });
+    }  
   }
 
   editingPost = null;
@@ -71,7 +84,8 @@ class PostListPage extends Component {
   }
 
   render() {
-    return (
+
+        return (
       <div>
       
         <div className={styles['topBar']}>
@@ -104,6 +118,7 @@ class PostListPage extends Component {
             </Col>
           </Row>
         </Grid>
+        <AlertModal message={this.state.alert} />
       </div>
     );
   }
