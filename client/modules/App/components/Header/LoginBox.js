@@ -6,7 +6,6 @@ import * as jwt from 'jwt-simple';
 import ReactDOM from 'react-dom';
 import { fetchToken } from '../../../User/UserActions';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
-import AlertModal, { errorAlert } from '../AlertModal';
 
 export class LoginBox extends Component {
 
