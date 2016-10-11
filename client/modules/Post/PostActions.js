@@ -24,9 +24,8 @@ export function editPost(post) {
   };
 }
 
-
 export function editPostRequest(post){
-    
+
     return (dispatch) => {
         callApi('posts', 'put', {
             post: {
@@ -37,7 +36,6 @@ export function editPostRequest(post){
             }
         }).then(res => dispatch(editPost(res.post)));
     };
-
 }
 
 export function addPostRequest(post) {
