@@ -19,10 +19,11 @@ import { getPosts } from '../../PostReducer';
 
 class PostListPage extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { showAddPost: false, name: "Matti Meikäläinen" };
-  }
+
+    constructor(props) {
+        super(props);
+        this.state = { showAddPost: false, name: "Matti Meikäläinen" };
+    }
 
   componentDidMount() {
     this.props.dispatch(fetchPosts());
@@ -41,7 +42,7 @@ class PostListPage extends Component {
   editingPost = null;
 
   handleDeletePost = post => {
-    if (confirm('Haluatko varmasti poistaa viestin?')) { // eslint-disable-line
+    if (window.confirm('Haluatko varmasti poistaa viestin?')) { // eslint-disable-line
       this.props.dispatch(deletePostRequest(post));
     }
   };
@@ -49,10 +50,10 @@ class PostListPage extends Component {
   handleAddPost = (name, content, important) => {
     this.toggleAddPost();
     this.props.dispatch(addPostRequest({ name, content, important }));
+    this.props.dispatch(fetchPosts());
   };
 
   handleEditPost = post => {
-
     this.toggleAddPost();
     this.props.dispatch(editPostRequest(post));
     setTimeout(100)
@@ -61,7 +62,6 @@ class PostListPage extends Component {
   };
 
   handleHidePost = () => {
-
     this.toggleAddPost();
     this.editingPost = null;
   };
@@ -92,7 +92,6 @@ class PostListPage extends Component {
           <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Default_User_Logo.jpg" />
           <span className={styles['nameTitle']}>{this.state.name}</span>
         </div>
-
         <Grid>
 
           <Row className="show-grid">
