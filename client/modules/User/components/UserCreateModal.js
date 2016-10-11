@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-
 import * as bcrypt from 'react-native-bcrypt';
-import {addUserRequest, fetchUser} from '../UserActions' 
+import {addUserRequest, fetchUser} from '../UserActions'
 import AlertModal, { basicAlert } from '../../App/components/AlertModal';
 
 export class UserCreateModal extends Component {
@@ -26,38 +25,37 @@ export class UserCreateModal extends Component {
     const error = this.validate();
     this.setState({ error });
     if(error) return;
-
     fetchUser(email).then(user => {
-        if(!user){
-          this.createUser();
-        }else{
-          this.setState({ error: "Käyttäjä " + email + " on jo olemassa!" });
-        }
-      });
+      if(!user){
+        this.createUser();
+      }else{
+        this.setState({ error: "Käyttäjä " + email + " on jo olemassa!" });
+      }
+    });
   };
-  
+
   createUser = () => {
     const state = this.state;
     const password = this.hashedPassword();
     addUserRequest(this.constructUser()).then(user => {
-        if(user){
-          this.close();
-          this.setState({ alert: 
-            basicAlert("Rekisteröityminen onnistui!", "Vahvistusviesti on lähetetty sähköpostiisi.")});
-        }else{
-            this.setState({ error: "Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää."
-                + " Onko sähköpostiosoitteesi toimiva?" });
-        }
+      if(user){
+        this.close();
+        this.setState({ alert:
+          basicAlert("Rekisteröityminen onnistui!", "Vahvistusviesti on lähetetty sähköpostiisi.")});
+      }else{
+        this.setState({ error: "Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää."
+        + " Onko sähköpostiosoitteesi toimiva?" });
+      }
     });
   };
-  
+
   constructUser = () => {
-      return {
-          name: this.state.formName,
-          surname: this.state.formSurname,
-          email: this.state.formEmail,
-          password: this.hashedPassword()
-      };
+    return {
+      name: this.state.formName,
+      surname: this.state.formSurname,
+      email: this.state.formEmail,
+      password: this.hashedPassword()
+    };
   }
 
 
@@ -88,12 +86,12 @@ export class UserCreateModal extends Component {
   };
 
   validatePassword = () => {
-      var pass = this.state.formPassword;
-      var verifier = this.state.formPassVerify;
-      if (pass.length < 8 || pass.length > 18 || pass != verifier) {
-          return false;
-      }
-      return true;
+    var pass = this.state.formPassword;
+    var verifier = this.state.formPassVerify;
+    if (pass.length < 8 || pass.length > 18 || pass != verifier) {
+      return false;
+    }
+    return true;
   };
 
   handleChange = key => e => {
@@ -141,7 +139,7 @@ export class UserCreateModal extends Component {
 
             </Form>
             <Alert bsStyle="warning" >
-                <b>{this.state.error}</b>
+              <b>{this.state.error}</b>
             </Alert>
           </Modal.Body>
           <Modal.Footer>
@@ -149,14 +147,13 @@ export class UserCreateModal extends Component {
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
         </Modal>
-        <AlertModal message={this.state.alert} />
+
       </span>
     );
   }
-
 }
 
-UserCreateModal.propTypes = {   
+UserCreateModal.propTypes = {
 
 };
 

@@ -7,31 +7,31 @@ import * as mailer from 'nodemailer';
 
 export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
-          || !req.body.user.password ) {
+    || !req.body.user.password ) {
     return res.status(403).end();
   }
 
-    const newUser = new User(req.body.user);
-    newUser.cuid = cuid();
-    newUser.confirmation = cuid();
+  const newUser = new User(req.body.user);
+  newUser.cuid = cuid();
+  newUser.confirmation = cuid();
 
-    //this line is temporary code allowing developers to create account
-    //without confirmation emails: accounts surname must start with letter 'M'
-    if(newUser.surname.startsWith("M")) newUser.confirmation = "confirmed";
-    
-    return newUser.save()
-      .then(() => sendConfirmationEmail(req.body.url, newUser))
-      .then(() => res.json({ user: newUser }))
-      .catch(err => {
-          console.log(err);
-          return res.status(500).send(err);
-      });
+  //this line is temporary code allowing developers to create account
+  //without confirmation emails: accounts surname must start with letter 'M'
+  if(newUser.surname.startsWith("M")) newUser.confirmation = "confirmed";
+
+  return newUser.save()
+    .then(() => sendConfirmationEmail(req.body.url, newUser))
+    .then(() => res.json({ user: newUser }))
+    .catch(err => {
+      console.log(err);
+      return res.status(500).send(err);
+    });
 }
 
 export function getUsers(req, res) {
   User.find().sort('-dateAdded').exec((err, users) => {
     if (err) {
-     return res.status(500).send(err);
+      return res.status(500).send(err);
     }
     return res.json({ users });
   });
@@ -62,7 +62,7 @@ export function getToken(req, res) {
     if(!isUserAccountConfirmed(user)){
       return res.json({ token: "notConfirmed" });
     }
-    
+
     var payload = { cuid: user.cuid, user: user.name, time: Date.now() };
     //console.log(payload);
     var secret = 'muisti';
@@ -74,29 +74,29 @@ export function getToken(req, res) {
 
 
 /**
- * if there is user with confirmation-field's value matching 
+ * if there is user with confirmation-field's value matching
  * code-pathparameter, then confirmation-field is set "confirmed"
  * and json { confirmed: true } is returned.
  */
 export function confirmUserAccount(req, res){
 
-    return User.findOne({ confirmation: req.params.code }).exec()
-      .then(user => {
-          if(!user){ return res.status(404).end(); }
-          user.confirmation = "confirmed";
-          return user.save()
-            .then(() => res.json({ confirmed: true }));
-      })
-      .catch(err => res.status(500).send(err));
+  return User.findOne({ confirmation: req.params.code }).exec()
+    .then(user => {
+      if(!user){ return res.status(404).end(); }
+      user.confirmation = "confirmed";
+      return user.save()
+        .then(() => res.json({ confirmed: true }));
+    })
+    .catch(err => res.status(500).send(err));
 }
 
 export function compareToken(token){
-    var secret = 'muisti';
-    return jwt.decode(token, secret) != false;
+  var secret = 'muisti';
+  return jwt.decode(token, secret) != false;
 }
 
 function isUserAccountConfirmed(user){
-    return user.confirmation == "confirmed";
+  return user.confirmation == "confirmed";
 }
 
 /**
@@ -106,29 +106,29 @@ function isUserAccountConfirmed(user){
 
 function sendConfirmationEmail(ownUrl, user){
 
-    var transporter = mailer.createTransport({
-        host: "smtp.gmail.com", // hostname
-        secure: true, 
-        port: 465,   // port for secure SMTP
-        auth: {
-            user: "muistivahvistus@gmail.com",
-            pass: "ohtu2016"
-        },
-        tls: {
-            rejectUnauthorized: false
-        }
-    });
+  var transporter = mailer.createTransport({
+    host: "smtp.gmail.com", // hostname
+    secure: true,
+    port: 465,   // port for secure SMTP
+    auth: {
+      user: "muistivahvistus@gmail.com",
+      pass: "ohtu2016"
+    },
+    tls: {
+      rejectUnauthorized: false
+    }
+  });
 
-    var confirmationUrl = ownUrl + "/confirm/" + user.confirmation;
-    var link = "<a href=" + confirmationUrl + ">" + confirmationUrl + "</a>";
-    var content = "Olet rekisteröitynyt muistisovellukseen. Vahvistaaksesi rekisteröinnin paina linkkiä: " + link;
+  var confirmationUrl = ownUrl + "/confirm/" + user.confirmation;
+  var link = "<a href=" + confirmationUrl + ">" + confirmationUrl + "</a>";
+  var content = "Olet rekisteröitynyt muistisovellukseen. Vahvistaaksesi rekisteröinnin paina linkkiä: " + link;
 
-    var mailOptions = {
-        from: '"Muistisovellus " <muistivahvistus@gmail.com>',
-        to: user.email,
-        subject: 'rekisteröinnin vahvistus',
-        html: "<b>" + content + "</b>"
-    };
+  var mailOptions = {
+    from: '"Muistisovellus " <muistivahvistus@gmail.com>',
+    to: user.email,
+    subject: 'rekisteröinnin vahvistus',
+    html: "<b>" + content + "</b>"
+  };
 
-    return transporter.sendMail(mailOptions);
+  return transporter.sendMail(mailOptions);
 }

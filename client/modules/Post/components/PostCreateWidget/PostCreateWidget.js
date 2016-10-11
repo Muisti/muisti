@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { Panel } from 'react-bootstrap';
 
 // Import Style
 import styles from './PostCreateWidget.css';
@@ -80,22 +81,25 @@ export class PostCreateWidget extends Component {
     const title = this.isNewPost() ? "createNewPost" : "editPost";
 
     return (
+
       <div className={cls}>
-        <div className={styles['form-content']}>
-          <h2 className={styles['form-title']}><FormattedMessage id={title} /></h2>
+        <Panel>
+          <div className={styles['form-content']}>
+            <h2 className={styles['form-title']}><FormattedMessage id={title} /></h2>
 
-          <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} >
-            <input type="checkbox" ref="important"/> <FormattedMessage id="isImportant"/>
+            <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} >
+              <input type="checkbox" ref="important"/> <FormattedMessage id="isImportant"/>
+            </div>
+
+            <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name"
+                   value={this.state.name} onChange={this.changeName}/>
+            <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content"
+                      value={this.state.content} onChange={this.changeContent}/>
+            <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>
+            <a className={styles['post-submit-button']} href="#" onClick={this.cancel}><FormattedMessage id="cancel" /></a>
+
           </div>
-
-          <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name"
-                    value={this.state.name} onChange={this.changeName}/>
-          <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content"
-                    value={this.state.content} onChange={this.changeContent}/>
-
-          <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>
-          <a className={styles['post-submit-button']} href="#" onClick={this.cancel}><FormattedMessage id="cancel" /></a>
-        </div>
+        </Panel>
       </div>
     );
   }
