@@ -4,6 +4,7 @@ import * as bcrypt from 'react-native-bcrypt';
 import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 
+
 export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
           || !req.body.user.password ) {
@@ -18,19 +19,10 @@ export function addUser(req, res) {
     //without confirmation emails: accounts password must start with letter 'm'
     if(user.password.startsWith("m")) newUser.confirmation = "confirmed";
     
-    newUser.save((err) => {
-      if (err) { console.log(err); return res.status(500).send(err); }
-      
-      sendConfirmationEmail(req.body.url, newUser, result => {
-          if(result == true){
-              return res.json({ user: newUser });
-          }else{
-              console.log("Problem sending confirmation email!");
-              res.json({ confirmation: false }); 
-          }
-      });
-    });
-
+    return newUser.save()
+      .then(() => sendConfirmationEmail(req.body.url, newUser))
+      .then(() => res.json( user: newUser ))
+      .catch(err => res.json({ error: err }));
 }
 
 export function getUser(req, res) {
@@ -99,7 +91,7 @@ function isUserAccountConfirmed(user){
     return user.confirmation == "confirmed";
 }
 
-function sendConfirmationEmail(ownUrl, user, resultCallback){
+function sendConfirmationEmail(ownUrl, user){
 
     var transporter = mailer.createTransport({
         host: "smtp.gmail.com", // hostname
@@ -125,11 +117,5 @@ function sendConfirmationEmail(ownUrl, user, resultCallback){
         html: "<b>" + content + "</b>"
     };
 
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            console.log(error);
-            resultCallback(false);
-        }
-        resultCallback(true);
-    });
+    return transporter.sendMail(mailOptions);
 }
