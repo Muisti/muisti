@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Button, Grid, Row, Col } from 'react-bootstrap';
+import { Button, Grid, Row, Col, Panel } from 'react-bootstrap';
 import styles from './PostListPage.css';
 import { confirmUserAccountRequest } from '../../../User/UserActions';
 
@@ -18,24 +18,24 @@ import { getPosts } from '../../PostReducer';
 
 
 class PostListPage extends Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = { showAddPost: false, name: "Matti Meikäläinen" };
-    }
-    
+
+  constructor(props) {
+    super(props);
+    this.state = { showAddPost: false, name: "Matti Meikäläinen" };
+  }
+
   componentDidMount() {
     this.props.dispatch(fetchPosts());
-    
+
     if(this.props.params.confirmCode){
-        confirmUserAccountRequest(this.props.params.confirmCode, success => {
-            this.setState({ 
-                alert: (success ?
-                      basicAlert("Käyttäjätunnuksesi on vahvistettu!", "Voit kirjautua sisään sähköpostillasi.")
-                    : errorAlert("Käyttäjätunnuksen vahvistaminen epäonnistui!", "Ota yhteys ylläpitäjään.")
-                )});
-        });
-    }  
+      confirmUserAccountRequest(this.props.params.confirmCode, success => {
+        this.setState({
+          alert: (success ?
+              basicAlert("Käyttäjätunnuksesi on vahvistettu!", "Voit kirjautua sisään sähköpostillasi.")
+              : errorAlert("Käyttäjätunnuksen vahvistaminen epäonnistui!", "Ota yhteys ylläpitäjään.")
+          )});
+      });
+    }
   }
 
   editingPost = null;
@@ -49,7 +49,7 @@ class PostListPage extends Component {
   handleAddPost = (name, content, important) => {
     this.toggleAddPost();
     this.props.dispatch(addPostRequest({ name, content, important }));
-    };
+  };
 
   handleEditPost = post => {
 
@@ -72,51 +72,59 @@ class PostListPage extends Component {
     this.setState({}); //update ui
 
   };
-  
+
   openAddPost = () => {
-      this.setState({ showAddPost: true });
+    this.setState({ showAddPost: true });
   }
   closeAddPost = () => {
-      this.setState({ showAddPost: false });
+    this.setState({ showAddPost: false });
   }
-  
+
   toggleAddPost = () => {
-      this.setState({ showAddPost: !this.state.showAddPost });
+    this.setState({ showAddPost: !this.state.showAddPost });
   }
 
   render() {
 
-        return (
+    return (
       <div>
-      
         <div className={styles['topBar']}>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Default_User_Logo.jpg" />
-            <span className={styles['nameTitle']}>{this.state.name}</span>
-            <span className={this.state.showAddPost ? 'hidden' : ''}>
-              <Button href='#' onClick={this.toggleAddPost}>
-                <FormattedMessage id="addPost" />
-              </Button>
-            </span>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Default_User_Logo.jpg" />
+          <span className={styles['nameTitle']}>{this.state.name}</span>
         </div>
-        <PostCreateWidget
-          addPost={this.handleAddPost} showAddPost={this.state.showAddPost}
-          hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
-          originalPost={this.editingPost}
-        />
-        
+
         <Grid>
+
           <Row className="show-grid">
-            <Col xs={16} md={4}>
+            <Col xs={12} xsOffset={1}>
+              <span className={this.state.showAddPost ? 'hidden' : ''}>
+                <Button href='#' onClick={this.toggleAddPost}>
+                  <FormattedMessage id="addPost" />
+                </Button>
+
+              </span>
+            </Col>
+          </Row>
+          <br/>
+          <Row className="show-grid">
+            <Col xs={12} md={3}>
+              <PostCreateWidget
+                addPost={this.handleAddPost} showAddPost={this.state.showAddPost}
+                hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
+                originalPost={this.editingPost}
+              />
               <PostList
                 handleDeletePost={this.handleDeletePost} posts={this.props.posts}
                 handleEditPost={this.openEditPost} importanceColumn={true}
               />
-            </Col>
-            <Col xs={12} md={7}>
               <PostList
                 handleDeletePost={this.handleDeletePost} posts={this.props.posts}
                 handleEditPost={this.openEditPost} importanceColumn={false}
               />
+            </Col>
+            <Col xs={12} md={9}>
+              <Panel header="Moduulien sijoitus">
+              </Panel>
             </Col>
           </Row>
         </Grid>
