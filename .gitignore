@@ -9,3 +9,4 @@ dist
 .nyc_output/
 *~
 nbproject/private
+npm-debug.log.*
