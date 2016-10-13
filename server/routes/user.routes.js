@@ -9,6 +9,8 @@ router.route('/users').get(UserController.getUsers);
 
 router.route('/users/:email').get(UserController.getUser);
 
+router.route('/users/:cuid').get(UserController.getUserByCuid);
+
 router.route('/login/:email/:password').get(UserController.getToken);
 
 //Confirm user account (through link sent in confirmation email)

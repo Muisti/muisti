@@ -3,7 +3,11 @@ import React, { PropTypes } from 'react';
 // Import Components
 import PostListItem from './PostListItem/PostListItem';
 
+import { fetchUserByCuid } from '../../User/UserActions';
+
+
 function PostList(props) {
+
   return (
     <div className="listView">
       {
@@ -22,10 +26,11 @@ function PostList(props) {
 
 PostList.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     content: PropTypes.string.isRequired,
-    important: PropTypes.bool.isRequired,
+    shared: PropTypes.bool.isRequired,
     cuid: PropTypes.string.isRequired,
+    userCuid: PropTypes.string.isRequired,
   })).isRequired,
   handleDeletePost: PropTypes.func.isRequired,
   handleEditPost: PropTypes.func.isRequired,
