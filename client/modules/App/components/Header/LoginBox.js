@@ -22,8 +22,6 @@ export class LoginBox extends Component {
   emailChange = event => this.setState({ validEmail: "" });
   passwordChange = event => this.setState({validPass: ""});
 
-
-
   logIn = (e) => {
     e.preventDefault();
     this.setState({ isLoading: true });

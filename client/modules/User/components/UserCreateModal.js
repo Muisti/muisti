@@ -33,7 +33,7 @@ export class UserCreateModal extends Component {
         }
       });
   };
-
+  
   createUser = () => {
     const state = this.state;
     const password = this.hashedPassword();
