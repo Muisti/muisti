@@ -21,7 +21,7 @@ export class LoginBox extends Component {
 
 
   emailChange = event => this.setState({ validEmail: "" });
-  passwordChange = event => this.setState({validPass: ""});
+  passwordChange = event => this.setState({ validPass: "" });
 
 
 
@@ -43,13 +43,11 @@ export class LoginBox extends Component {
 
   setToken = (token) => {
 
-    if (typeof(Storage) == "undefined") {
+    if (typeof(sessionStorage) == "undefined") {
       console.log("Sorry, your browser does not support Web Storage...");
     } else if (token == undefined) {
-
       this.setValidationState("password");
     } else if (token == "emailNotValid"){
-
       this.setValidationState("email");
     } else if(token == "notConfirmed"){
       this.setState({ alert:
@@ -103,7 +101,7 @@ export class LoginBox extends Component {
     return (
       <Nav>
         <Navbar.Form pullLeft>
-          <form onSubmit={this.logIn}>
+          <form>
             <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
               <FormControl type="email" placeholder="Sähköposti" onChange={this.emailChange} ref="email"/>
               <FormControl.Feedback />
@@ -114,7 +112,7 @@ export class LoginBox extends Component {
               <FormControl.Feedback />
             </FormGroup>
             {' '}
-            <Button type="submit" bsStyle="primary" disabled={isLoading}>
+            <Button type="submit" bsStyle="primary" disabled={isLoading} onClick={this.logIn}>
               {isLoading ? 'Kirjaudutaan' : 'Kirjaudu'}
             </Button>
             {' '}
