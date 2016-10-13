@@ -12,6 +12,11 @@ export function addUserRequest(user) {
     return callApi(`users/${email}`)
       .then(res => res.user);
 }
+
+export function fetchUserByCuid(cuid) {
+    return callApi(`users/${cuid}`)
+      .then(res => res.user);
+}
     
  export function fetchToken(email, password, callback){
     return callApi(`login/${email}/${password}`)

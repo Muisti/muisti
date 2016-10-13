@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { setStorage } from '../../util/authStorage';
 
 // Import Style
 import styles from './App.css';
@@ -20,6 +21,7 @@ export class App extends Component {
   }
 
   componentDidMount() {
+    setStorage(sessionStorage);
     this.setState({isMounted: true}); // eslint-disable-line
   }
 

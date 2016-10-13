@@ -38,14 +38,13 @@ export function editPostRequest(post){
     };
 }
 
-export function addPostRequest(post) {
+export function addPostRequest(post, token) {
   return (dispatch) => {
     return callApi('posts', 'post', {
       post: {
-        name: post.name,
         content: post.content,
-        important: post.important,
-      },
+        shared: post.shared,
+      }, token,
     }).then(res => dispatch(addPost(res.post)));
   };
 }
@@ -59,7 +58,7 @@ export function addPosts(posts) {
 
 export function fetchPosts() {
   return (dispatch) => {
-    return callApi('posts').then(res => {
+    return callApi('posts', 'get').then(res => {
       dispatch(addPosts(res.posts));
     });
   };
