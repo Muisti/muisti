@@ -126,7 +126,7 @@ export class UserCreateModal extends Component {
 
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
-            <Modal.Title>Rekisteröidy tästä</Modal.Title>
+            <Modal.Title><FormattedMessage id='registerTitle' /></Modal.Title>
           </Modal.Header>
 
           <Modal.Body>

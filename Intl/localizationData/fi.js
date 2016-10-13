@@ -22,6 +22,7 @@ export default {
     registrationSuccessful_info: 'Vahvistusviesti on lähetetty sähköpostiisi.',
     sendConfirmFail: 'Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää'
                         + 'Onko sähköpostiosoitteesi toimiva?',
+    registerTitle: "Uuden käyttäjän rekisteröinti",
     userAlreadyExists: `Käyttäjä {user} on jo olemassa!`,
     emailNotValid: 'Sähköpostiosoitteessa on kirjoitusvirhe!',
     nameNotValid: 'Etunimi tai sukunimi puuttuu.',

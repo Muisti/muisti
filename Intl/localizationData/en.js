@@ -34,6 +34,7 @@ export default {
     notConfirmedInfo:  'Please open the link sent to your email address.',
     loggingIn: "Logging in...",
     logInButton: "Log in",
+    registerTitle: "Register new user",
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}

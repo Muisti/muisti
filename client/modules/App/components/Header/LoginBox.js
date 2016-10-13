@@ -127,7 +127,7 @@ export class LoginBox extends Component {
 
 
 LoginBox.propTypes = {
-  intl: intlShape.isRequired,
+  
 };
 
-export default injectIntl(LoginBox);
+export default LoginBox;
