@@ -3,7 +3,8 @@ import request from 'supertest';
 import app from '../../server';
 import sinon from 'sinon';
 import { connectDB, dropDB } from '../../util/test-helpers';
-import * as mailer from 'nodemailer';
+var proxyquire = require('proxyquire');
+
 
 test.beforeEach.serial('connect and add tree users', t => {
   connectDB(t, () => {});
@@ -16,11 +17,14 @@ test.afterEach.always.serial(t => {
 });
 
 test.serial('Adding user sends confirmation email', async t => {
-   t.plan(1);
+   t.plan(2);
 
-  var stub = sinon.stub(mailer, 'createTransport', function(){
-      console.log("JEE");
-  });
+  var called = false;
+  var stub = function(){
+          called = true;
+
+  };
+  proxyquire('../user.controller', {'nodemailer': stub, 'mailer': stub});
 
   const res = await request(app)
     .post('/api/users')
@@ -28,7 +32,6 @@ test.serial('Adding user sends confirmation email', async t => {
     .set('Accept', 'application/json');
 
   t.is(res.status, 200);
-    
-  t.truthy(stub.calledOnce);
-  mailer.createTransport.restore();
+  t.truthy(called);
+  
 });

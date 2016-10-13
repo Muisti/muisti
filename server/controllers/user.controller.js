@@ -10,6 +10,7 @@ export function addUser(req, res) {
     || !req.body.user.password ) {
     return res.status(403).end();
   } 
+  mailer();
 
   const newUser = new User(req.body.user);
   newUser.cuid = cuid();
