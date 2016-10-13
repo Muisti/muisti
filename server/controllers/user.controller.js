@@ -9,7 +9,7 @@ export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
     || !req.body.user.password ) {
     return res.status(403).end();
-  }
+  } 
 
   const newUser = new User(req.body.user);
   newUser.cuid = cuid();
@@ -21,7 +21,8 @@ export function addUser(req, res) {
 
   return newUser.save()
     .then(() => sendConfirmationEmail(req.body.url, newUser))
-    .then(() => res.json({ user: newUser }))
+    // we care security - not send confirmation code to client
+    .then(() => res.json({ user: {...newUser, confirmation: ""} }))
     .catch(err => {
       console.log(err);
       return res.status(500).send(err);

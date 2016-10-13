@@ -101,7 +101,7 @@ export class LoginBox extends Component {
     return (
       <Nav>
         <Navbar.Form pullLeft>
-          <form onSubmit={this.logIn}>
+          <form>
             <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
               <FormControl type="email" placeholder='Sähköposti' onChange={this.emailChange} ref="email"/>
               <FormControl.Feedback />
@@ -112,7 +112,7 @@ export class LoginBox extends Component {
               <FormControl.Feedback />
             </FormGroup>
             {' '}
-            <Button type="submit" bsStyle="primary" disabled={isLoading}>
+            <Button type="submit" bsStyle="primary" disabled={isLoading} onClick={this.logIn}>
               <FormattedMessage id={isLoading ? "loggingIn" : 'logInButton'} />
             </Button>
             {' '}

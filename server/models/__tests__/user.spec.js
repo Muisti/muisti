@@ -1,9 +1,9 @@
 import test from 'ava';
 import request from 'supertest';
 import app from '../../server';
+import sinon from 'sinon';
 import User from '../user';
 import { connectDB, dropDB } from '../../util/test-helpers';
-
 
 const users = [
   new User({ name: 'Alice', surname: 'Knox', email: 'a@aa.fi', password: 'testing12', cuid: 'f34gb2bh24b24b2' }),
@@ -51,7 +51,7 @@ test.serial('returns list correctly without errors ', async t => {
     .set('Accept', 'application/json')
     .expect(200)
     .end(function(err, res) {
-      t.truthy(isArray(res.body), true);
+      t.truthy(Array.isArray(res.body), true);
       t.truthy(err, null);
       if (err) throw err;
       done();
