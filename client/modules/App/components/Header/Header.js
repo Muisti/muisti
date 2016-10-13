@@ -14,10 +14,13 @@ export function Header(props) {
       lang => <MenuItem key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</MenuItem>
   );
   
+  var x = new LoginBox();
+  
     return (
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
+          <x />
             <a href="/">Muistiprojekti</a>
           </Navbar.Brand>
           <Navbar.Toggle />
