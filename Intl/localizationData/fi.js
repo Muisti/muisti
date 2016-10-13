@@ -18,6 +18,27 @@ export default {
     isImportant: 'On tärkeä',
     cancel: 'Peruuta',
     displayRegisterModal: 'Rekisteröidy',
+    registrationSuccessful_title: 'Rekisteröityminen onnistui!',
+    registrationSuccessful_info: 'Vahvistusviesti on lähetetty sähköpostiisi.',
+    sendConfirmFail: 'Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää'
+                        + 'Onko sähköpostiosoitteesi toimiva?',
+    registerTitle: "Uuden käyttäjän rekisteröinti",
+    userAlreadyExists: `Käyttäjä {user} on jo olemassa!`,
+    emailNotValid: 'Sähköpostiosoitteessa on kirjoitusvirhe!',
+    nameNotValid: 'Etunimi tai sukunimi puuttuu.',
+    passwordNotValid: 'Salasana ei ole tarpeeksi vahva tai se ei täsmää vahvistussalasanan kanssa.'
+                            + 'Salasanan on oltava yli 8 merkkiä pitkä',
+    formEmail: 'Sähköposti',
+    formName: 'Etunimi',
+    formSurname: 'Sukunimi',
+    formPassword: 'Salasana',
+    formPassVerify: 'Vahvista salasana',
+    notConfirmedTitle: 'Virhe: Käyttäjätilisi rekisteröintiä ei ole vahvistettu.',
+    notConfirmedInfo:  "Klikkaa sähköpostiisi lähetetyssä vahvistusviestissä olevaa linkkiä."
+                + " Vahvistamistaminen on tarpeellista huijaustunnusten estämiseksi.",
+    loggingIn: "Kirjaudutaan...",
+    logInButton: "Kirjaudu",
+    
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}
