@@ -139,11 +139,11 @@ export class UserCreateModal extends Component {
               {this.registerField('formPassVerify', "password", 'Salasana')}
 
             </Form>
-            <span className={this.state.error ? '' : 'hidden'}>
+            <div className={this.state.error ? '' : 'hidden'}>
                 <Alert bsStyle="warning">
                     <b>{this.state.error}</b>
                 </Alert>
-            </span>
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button bsStyle="primary" onClick={this.handleAddUser}> Rekisteröidy </Button>
