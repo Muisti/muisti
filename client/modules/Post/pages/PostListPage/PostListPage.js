@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Button, Grid, Row, Col, Panel } from 'react-bootstrap';
 import styles from './PostListPage.css';
 import { confirmUserAccountRequest } from '../../../User/UserActions';
+import { setStorage, getToken } from '../../../../util/authStorage';
 
 // Import Components
 import PostList from '../../components/PostList';

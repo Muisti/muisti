@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { setStorage } from '../../util/authStorage';
 
 // Import Style
 import styles from './App.css';
@@ -8,6 +7,7 @@ import styles from './App.css';
 
 // Import Components
 import Helmet from 'react-helmet';
+import PassStorage from './components/Header/PassStorage';
 
 import Header from './components/Header/Header';
 
@@ -21,7 +21,6 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    setStorage(sessionStorage);
     this.setState({isMounted: true}); // eslint-disable-line
   }
 
@@ -30,6 +29,7 @@ export class App extends Component {
       <div>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
 
+        <PassStorage />
         <div>
           <Helmet
             title="Muistiprojekti"

@@ -3,8 +3,6 @@ import cuid from 'cuid';
 import sanitizeHtml from 'sanitize-html';
 import * as jwt from 'jwt-simple';
 
-
-
 /**
  * Get all posts
  * @param req
@@ -14,7 +12,7 @@ import * as jwt from 'jwt-simple';
 export function getPosts(req, res) {
   var token = req.get('authorization');
   console.log("tokeni: " + token);
-  if (token == '') {
+  if(!token) {
       Post.find().sort('-dateAdded').exec((err, posts) => {
       if (err) {
         res.status(500).send(err);
@@ -22,16 +20,16 @@ export function getPosts(req, res) {
       res.json({ posts });
     });
   } else {
-  var decoded = jwt.decode(token, "muisti");
-  console.log("decoodattu: " + decoded);
-  if (decoded) {
-    Post.find({ userCuid: decoded.cuid }).sort('-dateAdded').exec((err, posts) => {
-      if (err) {
-        res.status(500).send(err);
-      }
-      res.json({ posts });
-    });
-  }
+    var decoded = jwt.decode(token, "muisti");
+    console.log("decoodattu: " + decoded);
+    if (decoded) {
+      Post.find({ userCuid: decoded.cuid }).sort('-dateAdded').exec((err, posts) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+        res.json({ posts });
+      });
+    }
   }
 }
 
