@@ -17,7 +17,6 @@ export class PostCreateWidget extends Component {
   isNewPost = () => !this.originalPost;
 
   // these functions allow input-fields editing
-  changeName = event => this.setState({...this.state, name: event.target.value});
   changeContent = event => this.setState({...this.state, content: event.target.value});
 
   clearFields = () => { this.state = {name: "", content: ""}; }
@@ -31,12 +30,11 @@ export class PostCreateWidget extends Component {
 
 
   addPost = () => {
-    const nameRef = this.refs.name;
     const contentRef = this.refs.content;
-    const importantRef = this.refs.important.checked;
-    if (nameRef.value && contentRef.value) {
-      this.props.addPost(nameRef.value, contentRef.value, importantRef);
-      nameRef.value = contentRef.value = '';
+    const privateRef = this.refs.private.checked;
+    if (contentRef.value) {
+      this.props.addPost(contentRef.value, privateRef);
+      contentRef.value = '';
       this.clearFields();
     }
   };
@@ -64,7 +62,7 @@ export class PostCreateWidget extends Component {
         this.clearFields();
       }else{
         var post = this.props.originalPost;
-        this.state = {name: post.name, content: post.content};
+        this.state = {content: post.content};
       }
       this.originalPost = this.props.originalPost;
 
@@ -88,11 +86,9 @@ export class PostCreateWidget extends Component {
             <h2 className={styles['form-title']}><FormattedMessage id={title} /></h2>
 
             <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} >
-              <input type="checkbox" ref="important"/> <FormattedMessage id="isImportant"/>
+              <input type="checkbox" ref="private"/> <FormattedMessage id="isImportant"/>
             </div>
-
-            <input placeholder={this.props.intl.messages.authorName} className={styles['form-field']} ref="name"
-                   value={this.state.name} onChange={this.changeName}/>
+    
             <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content"
                       value={this.state.content} onChange={this.changeContent}/>
             <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>
