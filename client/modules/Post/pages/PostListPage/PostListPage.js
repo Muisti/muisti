@@ -8,6 +8,7 @@ import { confirmUserAccountRequest } from '../../../User/UserActions';
 
 // Import Components
 import PostList from '../../components/PostList';
+import ModuleList from '../../../Module/components/ModuleList';
 import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
 import AlertModal, { basicAlert, errorAlert } from '../../../App/components/AlertModal';
 
@@ -97,7 +98,7 @@ class PostListPage extends Component {
 
         <Grid>
           <Row className="show-grid">
-            <Col xs={6} xsOffset={1}>
+              <Col xs={6} xsOffset={1}>
               <span className={this.state.showAddPost ? 'hidden' : ''}>
                 <Button href='#' onClick={this.toggleAddPost}>
                   <FormattedMessage id="addPost" />
@@ -121,8 +122,7 @@ class PostListPage extends Component {
               />
             </Col>
             <Col xs={12} sm={9}>
-              <Panel header="Moduulien sijoitus">
-              </Panel>
+              <ModuleList />
             </Col>
           </Row>
 
