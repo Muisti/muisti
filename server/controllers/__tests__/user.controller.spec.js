@@ -91,18 +91,18 @@ test.serial('Confirmation with generated code', async t => {
 
   t.is(res.status, 200);
     
-  const u = await User.findOne({ surname: 'One' }).exec();
+  const u = await User.findOne({ name: 'New' }).exec();
   const code = u.confirmation;
   
     
-  const confirm = await request(app)
+  const confirm = await request(app) 
     .get('/api/confirmation/' + code + "/")
     .set('Accept', 'application/json');
     
   t.is(confirm.status, 200);
   t.truthy(confirm.body.confirmed);
     
-  const savedUser = await User.findOne({ surname: 'One' }).exec();
+  const savedUser = await User.findOne({ name: 'New' }).exec();
   
   t.is(savedUser.confirmation, "confirmed");
 });
