@@ -7,9 +7,8 @@
             <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/util/authStorage.js</file>
             <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Post/pages/PostListPage/PostListPage.js</file>
             <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Post/PostActions.js</file>
-            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Post/PostReducer.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/server/controllers/post.controller.js</file>
             <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Post/components/PostCreateWidget/PostCreateWidget.js</file>
-            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/App/components/Header/LoginBox.js</file>
             <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/App/App.js</file>
             <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/util/apiCaller.js</file>
         </group>

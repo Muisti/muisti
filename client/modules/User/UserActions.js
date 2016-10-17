@@ -14,7 +14,7 @@ export function addUserRequest(user) {
 }
 
 export function fetchUserByCuid(cuid) {
-    return callApi(`users/${cuid}`)
+    return callApi(`user/${cuid}`)
       .then(res => res.user);
 }
     

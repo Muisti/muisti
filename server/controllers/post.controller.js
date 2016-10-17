@@ -1,4 +1,5 @@
 import Post from '../models/post';
+import User from '../models/user';
 import cuid from 'cuid';
 import sanitizeHtml from 'sanitize-html';
 import * as jwt from 'jwt-simple';
@@ -11,26 +12,43 @@ import * as jwt from 'jwt-simple';
  */
 export function getPosts(req, res) {
   var token = req.get('authorization');
+  
   console.log("tokeni: " + token);
   if(!token || token == "null") {
-      Post.find().sort('-dateAdded').exec((err, posts) => {
+      Post.find().sort('-dateAdded').lean().exec((err, posts) => {
       if (err) {
         return res.status(500).send(err);
       }
-      return res.json({ posts });
+      matchUserCuidToName(posts).then(() => {
+            return res.json({ posts });
+      });
     });
   } else {
     var decoded = jwt.decode(token, "muisti");
-    console.log("decoodattu cuid: " + decoded.cuid);
     if (decoded) {
-      Post.find({ userCuid: decoded.cuid }).sort('-dateAdded').exec((err, posts) => {
+      Post.find({ userCuid: decoded.cuid }).sort('-dateAdded').lean().exec((err, posts) => {
         if (err) {
           return res.status(500).send(err);
         }
-        return res.json({ posts });
+        matchUserCuidToName(posts).then(() => {
+            return res.json({ posts });
+        });
       });
     }
   }
+}
+
+//Matching userCuids to names
+async function matchUserCuidToName(posts) {
+        var userToCuids = {};
+        for (var i = 0; i < posts.length; i++) {
+            var post = posts[i];
+          if(!(post.userCuid in userToCuids)) {
+            var user = await User.findOne({ cuid: post.userCuid }).exec();
+            userToCuids[post.userCuid] = user.name;
+          }
+          posts[i].name = userToCuids[post.userCuid];
+        }
 }
 
 /**

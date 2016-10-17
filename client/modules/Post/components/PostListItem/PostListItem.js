@@ -29,7 +29,7 @@ function PostListItem(props) {
 
 PostListItem.propTypes = {
   post: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     content: PropTypes.string.isRequired,
     cuid: PropTypes.string.isRequired,
     dateAdded: PropTypes.date,
