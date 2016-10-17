@@ -8,19 +8,19 @@ import ReactDOM from 'react-dom';
 // Import Style
 import styles from './Header.css';
 
+// Import actions
+import { fetchPosts } from '../../../Post/PostActions';
+
 export function Header(props) {
     
   const languageNodes = props.intl.enabledLanguages.map(
       lang => <MenuItem key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</MenuItem>
   );
   
-  var x = new LoginBox();
-  
     return (
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-          <x />
             <a href="/">Muistiprojekti</a>
           </Navbar.Brand>
           <Navbar.Toggle />
@@ -30,7 +30,7 @@ export function Header(props) {
             <NavItem eventKey={1} href="/muisti">Muisti</NavItem>
           </Nav>
             <Nav pullRight>
-              <LoginBox />
+              <LoginBox fetchPosts={() => props.dispatch(fetchPosts())} />
             <NavDropdown eventKey={2} title="Vaihda kieli" id="basic-nav-dropdown">
                 {languageNodes}
             </NavDropdown>
@@ -48,6 +48,7 @@ Header.contextTypes = {
 Header.propTypes = {
   switchLanguage: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default Header;

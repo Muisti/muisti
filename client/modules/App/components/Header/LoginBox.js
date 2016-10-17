@@ -34,6 +34,7 @@ export class LoginBox extends Component {
 
   logOut = () => {
     sessionStorage.removeItem("token");
+    this.props.fetchPosts();
     this.setState({});
   }
 
@@ -56,8 +57,9 @@ export class LoginBox extends Component {
         this.setValidationState("nothing");
         sessionStorage.setItem("token", token);
         this.setValidationState("unknown");
+        this.props.fetchPosts();
         }
-      
+
       this.setState({ isLoading: false });
   }
 
@@ -125,9 +127,8 @@ export class LoginBox extends Component {
   };
 }
 
-
 LoginBox.propTypes = {
-  
+  fetchPosts: PropTypes.func.isRequired,
 };
 
 export default LoginBox;
