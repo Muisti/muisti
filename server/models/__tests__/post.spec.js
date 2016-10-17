@@ -62,22 +62,22 @@ test.serial('Should send correct data when queried against a cuid', async t => {
 //  const savedPost = await Post.findOne({ content: 'Hello Mern says Foo' }).exec();
 //  t.is(savedPost.content, 'Hello Mern says Foo');
 //});
-
-test.serial('Should correctly delete a post', async t => {
-  t.plan(2);
-
-  const res = await request(app)
-    .post('/api/posts')
-    .send({ post: { name: 'Foo', content: 'Hello Mern says Foo' } })
-    .set('Accept', 'application/json');
-
-  const res2 = await request(app)
-    .delete('/api/posts/' + res.body.post.cuid)
-    .set('Accept', 'application/json');
-
-  t.is(res2.status, 200);
-
-  const queriedPost = await Post.findOne({ cuid: res.body.post.cuid }).exec();
-  t.is(queriedPost, null);
-});
+//
+//test.serial('Should correctly delete a post', async t => {
+//  t.plan(2);
+//
+//  const res = await request(app)
+//    .post('/api/posts')
+//    .send({ post: { name: 'Foo', content: 'Hello Mern says Foo' } })
+//    .set('Accept', 'application/json');
+//
+//  const res2 = await request(app)
+//    .delete('/api/posts/' + res.body.post.cuid)
+//    .set('Accept', 'application/json');
+//
+//  t.is(res2.status, 200);
+//
+//  const queriedPost = await Post.findOne({ cuid: res.body.post.cuid }).exec();
+//  t.is(queriedPost, null);
+//});
 
