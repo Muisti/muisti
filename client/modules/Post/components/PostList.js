@@ -7,7 +7,7 @@ import { fetchUserByCuid } from '../../User/UserActions';
 
 
 function PostList(props) {
-
+    
   return (
     <div className="listView">
       {
@@ -30,7 +30,6 @@ PostList.propTypes = {
     content: PropTypes.string.isRequired,
     shared: PropTypes.bool.isRequired,
     cuid: PropTypes.string.isRequired,
-    userCuid: PropTypes.string.isRequired,
   })).isRequired,
   handleDeletePost: PropTypes.func.isRequired,
   handleEditPost: PropTypes.func.isRequired,

@@ -46,6 +46,7 @@ export function getUser(req, res) {
   });
 }
 
+//Used in post.controller to find the username for post
 export function getUserByCuid(req, res) {
   User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
     if (err) {
@@ -73,7 +74,6 @@ export function getToken(req, res) {
     }
 
     var payload = { cuid: user.cuid, user: user.name, time: Date.now() };
-    //console.log(payload);
     var secret = 'muisti';
     var token = jwt.encode(payload, secret);
 

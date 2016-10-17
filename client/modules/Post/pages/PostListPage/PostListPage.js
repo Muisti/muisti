@@ -137,7 +137,7 @@ function mapStateToProps(state) {
 
 PostListPage.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
-    userCuid: PropTypes.string.isRequired,
+    name: PropTypes.string,
     content: PropTypes.string.isRequired,
     shared: PropTypes.bool.isRequired,
   })).isRequired,
