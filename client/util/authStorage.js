@@ -1,17 +1,18 @@
-var sessionStorage = '';
+let ownStorage = false;
 
-export function setStorage(Storage) {
-    console.log("Asetetaan storage!!!!!!!!!!!!!!!!!!!!!!");
-    sessionStorage = Storage;
+export function setStorage(s) {
+    console.log("Asetetaan storage!!!!!!!!!!!!!!!!!!!!!! ");
+    ownStorage = s;
 }
 
 export function getToken() {
-    if (sessionStorage == '') {
-        return '';
+    if(ownStorage){
+        return ownStorage.getItem("token");
+    }else{
+        return "";
     }
-    return sessionStorage.getItem("token");
 }
 
 export function setToken(token) {
-    sessionStorage.setItem("token", token);
+    ownStorage.setItem("token", token);
 }
