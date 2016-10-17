@@ -5,16 +5,18 @@ import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 
 
-export function addUser(req, res) {
+export async function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
     || !req.body.user.password ) {
     return res.status(403).end();
   } 
-  mailer();
 
   const newUser = new User(req.body.user);
   newUser.cuid = cuid();
   newUser.confirmation = cuid();
+
+  const a = await new Promise((r, i) => {r("jee");});
+  console.log(a);
 
   //this line is temporary code allowing developers to create account
   //without confirmation emails: accounts surname must start with letter 'M'
@@ -61,6 +63,7 @@ export function getToken(req, res) {
     if(!bcrypt.compareSync(req.params.password, user.password)){
       return res.status(500).send(err);
     }
+    
     if(!isUserAccountConfirmed(user)){
       return res.json({ token: "notConfirmed" });
     }
