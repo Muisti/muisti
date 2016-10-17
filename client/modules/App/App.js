@@ -49,6 +49,7 @@ export class App extends Component {
           <Header
             switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
             intl={this.props.intl}
+            dispatch={this.props.dispatch}
           />
           <div className={styles.container}>
             {this.props.children}

@@ -12,22 +12,22 @@ import * as jwt from 'jwt-simple';
 export function getPosts(req, res) {
   var token = req.get('authorization');
   console.log("tokeni: " + token);
-  if(!token) {
+  if(!token || token == "null") {
       Post.find().sort('-dateAdded').exec((err, posts) => {
       if (err) {
-        res.status(500).send(err);
+        return res.status(500).send(err);
       }
-      res.json({ posts });
+      return res.json({ posts });
     });
   } else {
     var decoded = jwt.decode(token, "muisti");
-    console.log("decoodattu: " + decoded);
+    console.log("decoodattu cuid: " + decoded.cuid);
     if (decoded) {
       Post.find({ userCuid: decoded.cuid }).sort('-dateAdded').exec((err, posts) => {
         if (err) {
-          res.status(500).send(err);
+          return res.status(500).send(err);
         }
-        res.json({ posts });
+        return res.json({ posts });
       });
     }
   }
@@ -57,8 +57,8 @@ export function updatePost(req,res){
 
 
 export function addPost(req, res) {
-  if (!req.body.post.name || !req.body.post.content) {
-    res.status(403).end();
+  if (!req.body.post.content) {
+    return res.status(403).end();
   }
   
   const newPost = new Post(req.body.post);
@@ -71,9 +71,9 @@ export function addPost(req, res) {
       newPost.userCuid = decoded.cuid;
       newPost.save((err) => {
         if (err) {
-          res.status(500).send(err);
+          return res.status(500).send(err);
         }
-        res.json({ post: newPost });
+        return res.json({ post: newPost });
       });
     }
   }
