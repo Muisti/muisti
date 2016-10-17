@@ -94,6 +94,8 @@ export function addPost(req, res) {
         return res.json({ post: newPost });
       });
     }
+  } else {
+      return res.status(500);
   }
 }
 
