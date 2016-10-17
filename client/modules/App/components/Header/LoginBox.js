@@ -20,7 +20,7 @@ export class LoginBox extends Component {
 
 
   emailChange = event => this.setState({ validEmail: "" });
-  passwordChange = event => this.setState({validPass: ""});
+  passwordChange = event => this.setState({ validPass: "" });
 
   logIn = (e) => {
     e.preventDefault();
@@ -34,6 +34,7 @@ export class LoginBox extends Component {
 
   logOut = () => {
     sessionStorage.removeItem("token");
+    this.props.fetchPosts();
     this.setState({});
   }
 
@@ -56,8 +57,9 @@ export class LoginBox extends Component {
         this.setValidationState("nothing");
         sessionStorage.setItem("token", token);
         this.setValidationState("unknown");
+        this.props.fetchPosts();
         }
-      
+
       this.setState({ isLoading: false });
   }
 
@@ -101,7 +103,7 @@ export class LoginBox extends Component {
     return (
       <Nav>
         <Navbar.Form pullLeft>
-          <form onSubmit={this.logIn}>
+          <form>
             <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
               <FormControl type="email" placeholder='Sähköposti' onChange={this.emailChange} ref="email"/>
               <FormControl.Feedback />
@@ -112,7 +114,7 @@ export class LoginBox extends Component {
               <FormControl.Feedback />
             </FormGroup>
             {' '}
-            <Button type="submit" bsStyle="primary" disabled={isLoading}>
+            <Button type="submit" bsStyle="primary" disabled={isLoading} onClick={this.logIn}>
               <FormattedMessage id={isLoading ? "loggingIn" : 'logInButton'} />
             </Button>
             {' '}
@@ -125,9 +127,8 @@ export class LoginBox extends Component {
   };
 }
 
-
 LoginBox.propTypes = {
-  
+  fetchPosts: PropTypes.func.isRequired,
 };
 
 export default LoginBox;

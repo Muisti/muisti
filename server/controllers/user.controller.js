@@ -46,6 +46,15 @@ export function getUser(req, res) {
   });
 }
 
+export function getUserByCuid(req, res) {
+  User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.json({ user });
+  });
+}
+
 export function getToken(req, res) {
   User.findOne({ email: req.params.email }).exec((err, user) => {
     if (err) {

@@ -1,8 +1,7 @@
 import Post from '../models/post';
 import cuid from 'cuid';
 import sanitizeHtml from 'sanitize-html';
-
-
+import * as jwt from 'jwt-simple';
 
 /**
  * Get all posts
@@ -11,12 +10,27 @@ import sanitizeHtml from 'sanitize-html';
  * @returns void
  */
 export function getPosts(req, res) {
-  Post.find().sort('-dateAdded').exec((err, posts) => {
-    if (err) {
-      res.status(500).send(err);
+  var token = req.get('authorization');
+  console.log("tokeni: " + token);
+  if(!token || token == "null") {
+      Post.find().sort('-dateAdded').exec((err, posts) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      return res.json({ posts });
+    });
+  } else {
+    var decoded = jwt.decode(token, "muisti");
+    console.log("decoodattu cuid: " + decoded.cuid);
+    if (decoded) {
+      Post.find({ userCuid: decoded.cuid }).sort('-dateAdded').exec((err, posts) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.json({ posts });
+      });
     }
-    res.json({ posts });
-  });
+  }
 }
 
 /**
@@ -25,8 +39,6 @@ export function getPosts(req, res) {
  * @param res
  * @returns void
  */
-
-
 export function updatePost(req,res){
   const post = req.body.post;
 
@@ -45,18 +57,26 @@ export function updatePost(req,res){
 
 
 export function addPost(req, res) {
-  if (!req.body.post.name || !req.body.post.content) {
-    res.status(403).end();
+  if (!req.body.post.content) {
+    return res.status(403).end();
   }
+  
   const newPost = new Post(req.body.post);
   newPost.cuid = cuid();
-
-  newPost.save((err) => {
-    if (err) {
-      res.status(500).send(err);
+  
+  var token = req.get('authorization');
+    if (token != undefined) {
+    var decoded = jwt.decode(token, "muisti");
+    if (decoded) {
+      newPost.userCuid = decoded.cuid;
+      newPost.save((err) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.json({ post: newPost });
+      });
     }
-    res.json({ post: newPost });
-  });
+  }
 }
 
 

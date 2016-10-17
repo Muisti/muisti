@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Button, Grid, Row, Col, Panel } from 'react-bootstrap';
 import styles from './PostListPage.css';
 import { confirmUserAccountRequest } from '../../../User/UserActions';
-
+import { setStorage, getToken } from '../../../../util/authStorage';
 
 // Import Components
 import PostList from '../../components/PostList';
@@ -17,9 +17,7 @@ import { addPostRequest, fetchPosts, deletePostRequest, editPostRequest } from '
 // Import Selectors
 import { getPosts } from '../../PostReducer';
 
-
 class PostListPage extends Component {
-
 
   constructor(props) {
     super(props);
@@ -48,9 +46,9 @@ class PostListPage extends Component {
     }
   };
 
-  handleAddPost = (name, content, important) => {
+  handleAddPost = (content, shared) => {
     this.toggleAddPost();
-    this.props.dispatch(addPostRequest({ name, content, important }));
+    this.props.dispatch(addPostRequest({ content, shared }));
     this.props.dispatch(fetchPosts());
   };
 
@@ -86,15 +84,12 @@ class PostListPage extends Component {
   }
 
   render() {
-
     return (
-
       <div>
         <div className={styles['topBar']}>
           <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Default_User_Logo.jpg" />
           <span className={styles['nameTitle']}>{this.state.name}</span>
         </div>
-
         <Grid>
           <Row className="show-grid">
             <Col xs={6} xsOffset={1}>
@@ -105,9 +100,7 @@ class PostListPage extends Component {
               </span>
             </Col>
           </Row>
-
           <br/>
-
           <Row className="show-grid">
             <Col xs={12} sm={3}>
               <PostCreateWidget
@@ -125,7 +118,6 @@ class PostListPage extends Component {
               </Panel>
             </Col>
           </Row>
-
         </Grid>
         <AlertModal message={this.state.alert} />
       </div>
@@ -145,9 +137,9 @@ function mapStateToProps(state) {
 
 PostListPage.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    userCuid: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    important: PropTypes.bool.isRequired,
+    shared: PropTypes.bool.isRequired,
   })).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
