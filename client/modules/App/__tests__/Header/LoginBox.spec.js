@@ -49,55 +49,67 @@ test('renders properly', t => {
 //	spy.restore();
 //});
 
-//function storageMock() {
-//    var storage = {};
-//
-//    return {
-//      setItem: function(key, value) {
-//        storage[key] = value || '';
-//      },
-//      getItem: function(key) {
-//        return storage[key];
-//      },
-//      removeItem: function(key) {
-//        delete storage[key];
-//      },
-//      get length() {
-//        return Object.keys(storage).length;
-//      },
-//      key: function(i) {
-//        var keys = Object.keys(storage);
-//        return keys[i] || null;
-//      }
-//    };
-//}
+test('setToken works correctly', t =>  {
+  const wrapper = shallowWithIntl(
+    <LoginBox />
+  );
+  
+  var instance = wrapper.instance();
+  instance.checkToken()
 
-//test('setToken works correctly', t =>  {
-//  const wrapper = shallowWithIntl(
-//    <LoginBox />
+  t.truthy(instance.state.validPass == "error");
+
+//  console.log(spy.calledWith("token", "token"));
+//  t.truthy(spy.calledWith("token", "token"));
+//  
+  // Reset localStorage.setItem method    
+//  spy.reset();
+});
+
+test('setToken works correctly 2', t =>  {
+  const wrapper = shallowWithIntl(
+    <LoginBox />
+  );
+
+  var instance = wrapper.instance();
+  instance.checkToken('emailNotValid')
+
+  t.truthy(instance.state.validEmail == "error");
+});
+  
+//test.only('setToken works correctly 3', t =>  {
+//  const wrapper = mountWithIntl(
+//    <LoginBox fetchPosts={() => {}}/>
 //  );
 //  
 //  console.log("1111111111111");
 //  var instance = wrapper.instance();
-//  global.window.sessionStorage = storageMock();
+////  Miten ketussa vakoillaan componentin ulkopuolista funktiota
+//  var spy = sinon.spy(setToken);
+//  
+//  instance.checkToken("jotainjotaintokeni")
 //  
 //  console.log("2222222222222");
-//  var spy = sinon.spy(global.window.sessionStorage, "setItem");
-//  instance.forceUpdate();
-//  wrapper.update();
+//
+//  t.truthy(spy.called);
 //  
-//  console.log("3333333333333");
-//  
-//  instance.forceUpdate();
-//  wrapper.update();
-//  
-//  console.log("4444444444444");
-//  
-//  instance.setToken("token");
-//  
-//  console.log(spy.calledWith("token", "token"));
-//  t.truthy(spy.calledWith("token", "token"));
-//  
-//  // Reset localStorage.setItem method    
-//  spy.reset();
-//});
+//  console.log("333333333333");
+//  });
+
+test('logIn does not accept empty lines', t => {
+    const wrapper = mountWithIntl(
+      <LoginBox fetchPosts={() => {}}/>
+    );
+    
+    var instance = wrapper.instance();
+    var spy = sinon.spy(instance, "setValidationState")
+    var e = {};
+    e.preventDefault = sinon.stub();
+    wrapper.ref('password').get(0).value = "";
+    wrapper.ref('email').get(0).value = "";
+    
+    instance.logIn(e);
+    
+    
+    t.truthy(spy.calledWith("email"));
+});
