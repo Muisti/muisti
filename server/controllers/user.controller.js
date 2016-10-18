@@ -5,7 +5,7 @@ import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 
 
-export async function addUser(req, res) {
+export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
     || !req.body.user.password ) {
     return res.status(403).end();
@@ -14,9 +14,6 @@ export async function addUser(req, res) {
   const newUser = new User(req.body.user);
   newUser.cuid = cuid();
   newUser.confirmation = cuid();
-
-  const a = await new Promise((r, i) => {r("jee");});
-  console.log(a);
 
   //this line is temporary code allowing developers to create account
   //without confirmation emails: accounts surname must start with letter 'M'
@@ -107,6 +104,19 @@ export function confirmUserAccount(req, res){
 export function compareToken(token){
   var secret = 'muisti';
   return jwt.decode(token, secret) != false;
+}
+
+export function decodeTokenFromRequest(req){
+    var token = req.get('authorization');
+    if(token && token != 'null'){
+        try{
+            return jwt.decode(token, "muisti");
+        }catch(err){  //incorrect signature
+            return null;
+        }
+    }else{
+        return null;
+    }
 }
 
 function isUserAccountConfirmed(user){
