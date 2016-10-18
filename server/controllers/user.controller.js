@@ -5,15 +5,18 @@ import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 
 
-export function addUser(req, res) {
+export async function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
     || !req.body.user.password ) {
     return res.status(403).end();
-  }
+  } 
 
   const newUser = new User(req.body.user);
   newUser.cuid = cuid();
   newUser.confirmation = cuid();
+
+  const a = await new Promise((r, i) => {r("jee");});
+  console.log(a);
 
   //this line is temporary code allowing developers to create account
   //without confirmation emails: accounts surname must start with letter 'M'
@@ -21,7 +24,8 @@ export function addUser(req, res) {
 
   return newUser.save()
     .then(() => sendConfirmationEmail(req.body.url, newUser))
-    .then(() => res.json({ user: newUser }))
+    // we care security - not send confirmation code to client
+    .then(() => res.json({ user: {...newUser, confirmation: ""} }))
     .catch(err => {
       console.log(err);
       return res.status(500).send(err);
@@ -46,6 +50,16 @@ export function getUser(req, res) {
   });
 }
 
+//Used in post.controller to find the username for post
+export function getUserByCuid(req, res) {
+  User.findOne({ cuid: req.params.cuid }).exec((err, user) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.json({ user });
+  });
+}
+
 export function getToken(req, res) {
   User.findOne({ email: req.params.email }).exec((err, user) => {
     if (err) {
@@ -59,12 +73,12 @@ export function getToken(req, res) {
     if(!bcrypt.compareSync(req.params.password, user.password)){
       return res.status(500).send(err);
     }
+    
     if(!isUserAccountConfirmed(user)){
       return res.json({ token: "notConfirmed" });
     }
 
     var payload = { cuid: user.cuid, user: user.name, time: Date.now() };
-    //console.log(payload);
     var secret = 'muisti';
     var token = jwt.encode(payload, secret);
 

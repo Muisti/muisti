@@ -7,6 +7,7 @@ import styles from './App.css';
 
 // Import Components
 import Helmet from 'react-helmet';
+import PassStorage from './components/Header/PassStorage';
 
 import Header from './components/Header/Header';
 
@@ -28,6 +29,7 @@ export class App extends Component {
       <div>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
 
+        <PassStorage />
         <div>
           <Helmet
             title="Muistiprojekti"
@@ -47,6 +49,7 @@ export class App extends Component {
           <Header
             switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
             intl={this.props.intl}
+            dispatch={this.props.dispatch}
           />
           <div className={styles.container}>
             {this.props.children}

@@ -10,7 +10,7 @@ import styles from './PostListItem.css';
 function PostListItem(props) {
   var color = "default";
 
-    if (props.post.important) {
+    if (props.post.shared) {
       color = "warning";
     }
 
@@ -29,9 +29,8 @@ function PostListItem(props) {
 
 PostListItem.propTypes = {
   post: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     content: PropTypes.string.isRequired,
-    important: PropTypes.bool.isRequired,
     cuid: PropTypes.string.isRequired,
     dateAdded: PropTypes.date,
   }).isRequired,

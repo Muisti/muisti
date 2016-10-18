@@ -10,7 +10,6 @@ const PostReducer = (state = initialState, action) => {
         data: [action.post, ...state.data],
       };
 
-
     case ADD_POSTS :
       return {
         data: action.posts,
