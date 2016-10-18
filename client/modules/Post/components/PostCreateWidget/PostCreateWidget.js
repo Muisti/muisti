@@ -33,7 +33,7 @@ export class PostCreateWidget extends Component {
     const contentRef = this.refs.content;
     const privateRef = this.refs.private.checked;
     if (contentRef.value) {
-      this.props.addPost(contentRef.value, privateRef);
+      this.props.addPost(contentRef.value, !privateRef);
       contentRef.value = '';
       this.clearFields();
     }
@@ -86,7 +86,7 @@ export class PostCreateWidget extends Component {
             <h2 className={styles['form-title']}><FormattedMessage id={title} /></h2>
 
             <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} >
-              <input type="checkbox" ref="private"/> <FormattedMessage id="isImportant"/>
+              <input type="checkbox" ref="private"/> <FormattedMessage id="isPrivate"/>
             </div>
     
             <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content"
