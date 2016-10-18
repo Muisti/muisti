@@ -6,7 +6,7 @@
 
 ## Pikakäynnistys
 
-- [Sivut Herokussa](https://cryptic-earth-81085.herokuapp.com/)
+- [Sivut Herokussa](https://muistioppi.herokuapp.com/)
 
 ## Ohje
 
