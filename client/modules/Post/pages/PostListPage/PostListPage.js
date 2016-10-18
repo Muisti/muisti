@@ -83,7 +83,7 @@ class PostListPage extends Component {
   toggleAddPost = () => {
     this.setState({ showAddPost: !this.state.showAddPost });
   };
-  
+
   showAddButton = () => !this.state.showAddPost && getToken();
 
   render() {
@@ -95,10 +95,8 @@ class PostListPage extends Component {
         </div>
         <Grid>
           <Row className="show-grid">
-
             <Col xs={6} xsOffset={1}>
               <span className={this.showAddButton() ? '' : 'hidden'}>
-
                 <Button href='#' onClick={this.toggleAddPost}>
                   <FormattedMessage id="addPost" />
                 </Button>
