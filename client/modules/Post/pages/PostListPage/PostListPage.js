@@ -8,6 +8,7 @@ import { setStorage, getToken } from '../../../../util/authStorage';
 
 // Import Components
 import PostList from '../../components/PostList';
+import ModuleList from '../../../Module/components/ModuleList';
 import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
 import AlertModal, { basicAlert, errorAlert } from '../../../App/components/AlertModal';
 
@@ -94,8 +95,10 @@ class PostListPage extends Component {
         </div>
         <Grid>
           <Row className="show-grid">
+
             <Col xs={6} xsOffset={1}>
               <span className={this.showAddButton() ? '' : 'hidden'}>
+
                 <Button href='#' onClick={this.toggleAddPost}>
                   <FormattedMessage id="addPost" />
                 </Button>
@@ -116,8 +119,7 @@ class PostListPage extends Component {
               />
             </Col>
             <Col xs={12} sm={9}>
-              <Panel header="Moduulien sijoitus">
-              </Panel>
+              <ModuleList />
             </Col>
           </Row>
         </Grid>

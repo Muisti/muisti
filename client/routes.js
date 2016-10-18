@@ -50,12 +50,20 @@ export default (
       }}
     />
     <Route
+      path="/module"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/Module/pages/ModulePage').default);
+        });
+      }}
+    />
+    <Route
       path="/confirm/:confirmCode"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
         });
       }}
-    /> 
+    />
   </Route>
 );
