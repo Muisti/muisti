@@ -5,7 +5,7 @@ function ModuleListItem(props) {
 
   return (
     <PageHeader>Moduulin tehtävät</PageHeader>
-    
+
   );
 }
 
