@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Grid, Row, Col, Panel } from 'react-bootstrap';
 import styles from './PostListPage.css';
-import { confirmUserAccountRequest } from '../../../User/UserActions';
-import { setStorage, getToken } from '../../../../util/authStorage';
 
 // Import Components
+import { confirmUserAccountRequest } from '../../../User/UserActions';
+import { setStorage, getToken } from '../../../../util/authStorage';
 import PostList from '../../components/PostList';
 import ModuleList from '../../../Module/components/ModuleList';
 import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
@@ -69,7 +69,7 @@ class PostListPage extends Component {
   openEditPost = post => {
     this.editingPost = post;
     this.toggleAddPost();
-    this.setState({}); //update ui
+//    this.setState({}); update ui, onko tästä mitään hyötyä???
 
   };
 
