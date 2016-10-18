@@ -15,7 +15,7 @@ export default {
     postContent: 'Post Content',
     submitAdd: 'Add',
     submitEdit: 'Save',
-    isImportant: 'Is important',
+    isPrivate: 'Private',
     cancel: 'Cancel',
     displayRegisterModal: 'Register',
     registrationSuccessful_title: 'Registration successful!',

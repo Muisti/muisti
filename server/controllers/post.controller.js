@@ -3,53 +3,39 @@ import User from '../models/user';
 import cuid from 'cuid';
 import sanitizeHtml from 'sanitize-html';
 import * as jwt from 'jwt-simple';
+import { decodeTokenFromRequest } from './user.controller';
 
-/**
- * Get all posts
- * @param req
- * @param res
- * @returns void
- */
+let userToCuids = {};
+
+//get all shared posts and own posts
+
 export function getPosts(req, res) {
-  var token = req.get('authorization');
+  let token = decodeTokenFromRequest(req);
+  let userCuid = token ? token.cuid : "not user";
   
-  console.log("tokeni: " + token);
-  if(!token || token == "null") {
-      Post.find().sort('-dateAdded').lean().exec((err, posts) => {
-      if (err) {
-        return res.status(500).send(err);
+  Post.find().or([{shared: true}, { userCuid: userCuid }])
+    .sort('-dateAdded').lean().exec(async (err, posts) => {
+      if(err) { return res.status(500).send(err); }
+
+      for(let i = 0; i < posts.length; i++){
+          await completePostInformation(posts[i], userCuid);
       }
-      matchUserCuidToName(posts).then(() => {
-            return res.json({ posts });
-      });
-    });
-  } else {
-    var decoded = jwt.decode(token, "muisti");
-    if (decoded) {
-      Post.find({ userCuid: decoded.cuid }).sort('-dateAdded').lean().exec((err, posts) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-        matchUserCuidToName(posts).then(() => {
-            return res.json({ posts });
-        });
-      });
-    }
-  }
+      return res.json({ posts });
+  });
 }
 
-//Matching userCuids to names
-async function matchUserCuidToName(posts) {
-        var userToCuids = {};
-        for (var i = 0; i < posts.length; i++) {
-            var post = posts[i];
-          if(!(post.userCuid in userToCuids)) {
-            var user = await User.findOne({ cuid: post.userCuid }).exec();
-            userToCuids[post.userCuid] = user.name;
-          }
-          posts[i].name = userToCuids[post.userCuid];
-        }
+//marks user name to post and own=true, if post is users own post
+//call this before sending post to client
+async function completePostInformation(post, loggedInUserId){
+    if(!(post.userCuid in userToCuids)) {
+      var user = await User.findOne({ cuid: post.userCuid }).exec();
+      userToCuids[post.userCuid] = user.name;
+    }
+    
+    post.name = userToCuids[post.userCuid];
+    post.own = (post.userCuid == loggedInUserId);
 }
+
 
 /**
  * Save a post
@@ -57,21 +43,21 @@ async function matchUserCuidToName(posts) {
  * @param res
  * @returns void
  */
-export function updatePost(req,res){
+export function updatePost(req, res){
   const post = req.body.post;
 
-  if (!post.name || !post.content) {
-    res.status(403).end();
-  }
-  Post.findOneAndUpdate({cuid: post.cuid}, {content: post.content}, {upsert:true, new:true } ,  function(err, doc){
-        if (err) return console.log(err);
-        res.json({ post : doc});
-        res.end();
-        });
+  let token = decodeTokenFromRequest(req);
+  if(!post.content || !token || !token.cuid) return res.status(403).end(); 
+  
+  Post.findOneAndUpdate({cuid: post.cuid, userCuid: token.cuid}, 
+    {content: post.content}, {upsert:true, new:true } ,  function(err, doc){
+        var savedPost = doc.toObject();
+        if (err) return res.status(500).send(err);
+        return completePostInformation(savedPost, token.cuid)
+           .then(() => res.json({ post: savedPost }));
+  });
 
-  }
-
-
+}
 
 
 export function addPost(req, res) {
@@ -82,20 +68,16 @@ export function addPost(req, res) {
   const newPost = new Post(req.body.post);
   newPost.cuid = cuid();
   
-  var token = req.get('authorization');
-    if (token != undefined) {
-    var decoded = jwt.decode(token, "muisti");
-    if (decoded) {
-      newPost.userCuid = decoded.cuid;
-      newPost.save((err) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-        return res.json({ post: newPost });
-      });
-    }
+  var token = decodeTokenFromRequest(req);
+  
+  if(token) {
+      newPost.userCuid = token.cuid;
+      return newPost.save()
+         .then(() => completePostInformation(newPost, token.cuid))
+         .then(() => res.json({ post: newPost }))
+         .catch(() => res.status(500).send(err));
   } else {
-      return res.status(500);
+      return res.status(500).end;
   }
 }
 
@@ -122,14 +104,14 @@ export function getPost(req, res) {
  * @returns void
  */
 export function deletePost(req, res) {
+   let token = decodeTokenFromRequest(req);
+   if(!token || !token.cuid){ return res.status(403).end(); }
    
-  Post.findOne({ cuid: req.params.cuid }).exec((err, post) => {
+  Post.findOne({ cuid: req.params.cuid, userCuid: token.cuid }).exec((err, post) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    post.remove(() => {
-      res.status(200).end();
-    });
+    return post.remove(() => res.status(200).end());
   });
 }
 

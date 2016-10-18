@@ -15,7 +15,7 @@ export default {
     postContent: 'Postauksen sisältö',
     submitAdd: 'Lisää',
     submitEdit: 'Tallenna',
-    isImportant: 'On tärkeä',
+    isPrivate: 'Näytä vain minulle',
     cancel: 'Peruuta',
     displayRegisterModal: 'Rekisteröidy',
     registrationSuccessful_title: 'Rekisteröityminen onnistui!',

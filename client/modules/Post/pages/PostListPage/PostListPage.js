@@ -17,6 +17,7 @@ import { addPostRequest, fetchPosts, deletePostRequest, editPostRequest } from '
 // Import Selectors
 import { getPosts } from '../../PostReducer';
 
+
 class PostListPage extends Component {
 
   constructor(props) {
@@ -57,7 +58,6 @@ class PostListPage extends Component {
     this.props.dispatch(editPostRequest(post));
     setTimeout(100)
     this.editingPost = null;
-
   };
 
   handleHidePost = () => {
@@ -74,14 +74,16 @@ class PostListPage extends Component {
 
   openAddPost = () => {
     this.setState({ showAddPost: true });
-  }
+  };
   closeAddPost = () => {
     this.setState({ showAddPost: false });
-  }
+  };
 
   toggleAddPost = () => {
     this.setState({ showAddPost: !this.state.showAddPost });
-  }
+  };
+  
+  showAddButton = () => !this.state.showAddPost && getToken();
 
   render() {
     return (
@@ -93,7 +95,7 @@ class PostListPage extends Component {
         <Grid>
           <Row className="show-grid">
             <Col xs={6} xsOffset={1}>
-              <span className={this.state.showAddPost ? 'hidden' : ''}>
+              <span className={this.showAddButton() ? '' : 'hidden'}>
                 <Button href='#' onClick={this.toggleAddPost}>
                   <FormattedMessage id="addPost" />
                 </Button>
