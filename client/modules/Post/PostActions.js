@@ -34,7 +34,10 @@ export function editPostRequest(post){
                 content: post.content,
                 dateAdded: post.dateAdded
             }
-        }).then(res => dispatch(editPost(res.post)));
+        }).then(res => {
+            console.log("PALAUTETTU POSTI: ");
+            console.log(res.post);
+            dispatch(editPost(res.post));});
     };
 }
 
