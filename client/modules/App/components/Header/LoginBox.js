@@ -4,9 +4,12 @@ import { Button, Fade, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, F
 import * as bcrypt from 'react-native-bcrypt';
 import * as jwt from 'jwt-simple';
 import ReactDOM from 'react-dom';
+
+// Importing components
 import { fetchToken } from '../../../User/UserActions';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
 import AlertModal, { errorAlert } from '../AlertModal';
+import { setToken, getToken, removeToken } from '../../../../util/authStorage';
 
 
 export class LoginBox extends Component {
@@ -25,79 +28,79 @@ export class LoginBox extends Component {
   logIn = (e) => {
     e.preventDefault();
     this.setState({ isLoading: true });
+    
     var password = ReactDOM.findDOMNode(this.refs.password).value;
     var email = ReactDOM.findDOMNode(this.refs.email).value;
-
-    this.setValidationState("unknown");
-    fetchToken(email, password, this.setToken);
+    if (!password || !email) {
+      this.setValidationState("email");
+    } else {
+      fetchToken(email, password, this.checkToken);
+    }
   };
 
   logOut = () => {
-    sessionStorage.removeItem("token");
+    removeToken("token");
     this.props.fetchPosts();
     this.setState({});
   }
 
 
-  setToken = (token) => {
-      
-      if (typeof(Storage) == "undefined") {
-        console.log("Sorry, your browser does not support Web Storage...");
-      } else if (token == undefined) {
-        
-        this.setValidationState("password");
-      } else if (token == "emailNotValid"){
-        
-        this.setValidationState("email");
-      } else if(token == "notConfirmed"){
-        this.setState({ alert: 
-            errorAlert( (<FormattedMessage id="notConfirmedTitle" />),
+  checkToken = (token) => {
+      switch (token) {
+          case undefined:
+            this.setValidationState("password");
+            break;
+          case "emailNotValid":
+            this.setValidationState("email");
+            break;
+          case "notConfirmed":
+            this.setState({ alert: 
+              errorAlert( (<FormattedMessage id="notConfirmedTitle" />),
                         (<FormattedMessage id="notConfirmedInfo" />)) });
-      } else {
-        this.setValidationState("nothing");
-        sessionStorage.setItem("token", token);
-        this.setValidationState("unknown");
-        this.props.fetchPosts();
-        }
-
-      this.setState({ isLoading: false });
+            break;
+          default:
+            setToken(token);
+            this.setValidationState();
+            this.props.fetchPosts();
+            break;
+      }
   }
 
   setValidationState(invalidState) {
-    if(invalidState == "nothing"){
-      this.setState({ validEmail: "success" });
-      this.setState({ validPass: "success" });
-    } else if (invalidState == "password") {
-      this.setState({ validEmail: "success" });
-      this.setState({ validPass: "error" })
-    } else if (invalidState == "email") {
-      this.setState({ validEmail: "error" });
-      this.setState({ validPass: "warning" });
-    } else if(invalidState == "unknown") {
-      this.setState({ validEmail: "" });
-      this.setState({ validPass: "" });
-    }
+      this.setState({ isLoading: false });
+      switch (invalidState) {
+         case "password":
+            this.setState({ validEmail: "success" });
+            this.setState({ validPass: "error" });
+            break;
+          case "email":
+            this.setState({ validEmail: "error" });
+            this.setState({ validPass: "warning" });
+            break;
+          default:
+            this.setState({ validEmail: "" });
+            this.setState({ validPass: "" });
+            break;
+      }
   };
 
   render() {
 
-    if (typeof(Storage) !== "undefined") {
-      var token = sessionStorage.getItem("token");
-      if (token != null && token != 'undefined') {
-        var decoded = jwt.decode(token, "token", true);
-        var user = decoded.user;
-        return (   
-          <Nav pullLeft>
-            <NavItem> Hei {user} </NavItem>
-            <Navbar.Form pullLeft>
-              <Button type="submit" bsStyle="warning" onClick={this.logOut} >Kirjaudu ulos</Button>
-            </Navbar.Form>
-            <AlertModal message={this.state.alert} />
-          </Nav>
+    var token = getToken();
+    if (token) {
+      var decoded = jwt.decode(token, "token", true);
+      var user = decoded.user;
+      return (   
+        <Nav pullLeft>
+          <NavItem> Hei {user} </NavItem>
+          <Navbar.Form pullLeft>
+            <Button type="submit" bsStyle="warning" onClick={this.logOut} >Kirjaudu ulos</Button>
+          </Navbar.Form>
+          <AlertModal message={this.state.alert} />
+        </Nav>
         );
-
       }
-    }
+    
     var isLoading = this.state.isLoading;
 
     return (

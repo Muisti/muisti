@@ -20,6 +20,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('./modules/Post/pages/PostListPage/PostListPage');
   require('./modules/Post/pages/PostListPage/Muisti');
   require('./modules/User/pages/Signup');
+  require('./modules/Module/pages/ModulePage');
 }
 
 // react-router setup with code-splitting
