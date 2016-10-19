@@ -44,21 +44,10 @@ test.serial('Adding post with logged in user works', async t => {
   
   const p = await Post.findOne({ content: post.content }).exec();
   t.is(p.userCuid, post.userCuid);
+  
+  await drop();
 });
 
-test.serial('Logged in user cannot delete others post', async t => {
-  await data();
-  const token = await login(0);
-  
-  const res = await request(app)
-    .delete('/api/posts/' + posts[1].cuid + '/')
-    .set('authorization', token)
-    .set('Accept', 'application/json');
-  
-  t.is(res.status, 403);
-  const p = await Post.findOne({ cuid: posts[1].cuid }).exec();
-  t.is(p.content, posts[1].content);
-});
 
 test.serial('Adding post without token fails', async t => {
   const post = { userCuid: users[0].cuid, cuid: 'pfofgsdfjgkf', content: "new Poost!", shared: true };
@@ -72,6 +61,8 @@ test.serial('Adding post without token fails', async t => {
  
   const p = await Post.findOne({ cuid: post.cuid }).exec();
   t.not(p);
+  
+  await drop();
 });
 
 test.serial('Own-property is true only in users own posts', async t => {
@@ -86,6 +77,8 @@ test.serial('Own-property is true only in users own posts', async t => {
   const posts = res.body.posts;
   t.truthy(posts.filter(p => p.userCuid == users[0].cuid)[0].own);
   t.falsy(posts.filter(p => p.userCuid == users[1].cuid)[0].own);
+
+    await drop();
 });
 
 
@@ -99,6 +92,8 @@ test.serial('Unlogged user sees only shared posts', async t => {
   const p = res.body.posts;
   t.is(p.length, 1);
   t.is(p[0].content, posts[1].content);
+
+    await drop();
 });
 
 test.serial('Logged in user can see own posts but cannot see others private posts', async t => {
@@ -113,9 +108,24 @@ test.serial('Logged in user can see own posts but cannot see others private post
   const p = res.body.posts;
   t.is(p.length, 1);
   t.is(p[0].content, posts[1].content);
+  await drop();
 });
 
 
+test.serial('Logged in user cannot delete others post', async t => {
+  await data();
+  const token = await login(0);
+  
+  const res = await request(app)
+    .delete('/api/posts/' + posts[1].cuid + '/')
+    .set('authorization', token)
+    .set('Accept', 'application/json');
+  
+  t.is(res.status, 403);
+  const p = await Post.findOne({ cuid: posts[1].cuid }).exec();
+  t.is(p.content, posts[1].content);
+  await drop();
+});
 
 test.serial('Logged in user can delete own post', async t => {
   await data();
@@ -129,6 +139,7 @@ test.serial('Logged in user can delete own post', async t => {
   t.is(res.status, 200);
   const p = await Post.findOne({ cuid: posts[0].cuid }).exec();
   t.not(p);
+  await drop();
 });
 
 
@@ -150,3 +161,7 @@ let data = async () => {
     }).save()));
 };
 
+let drop = async () => {
+    await User.remove({}).exec();
+    await Post.remove({}).exec();
+};
