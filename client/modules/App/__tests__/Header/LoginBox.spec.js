@@ -24,29 +24,12 @@ test('renders properly when logged in', t => {
     const wrapper = shallowWithIntl(
      <LoginBox />
     );
-    
    
     t.is(wrapper.find('Button').length, 1);
     t.is(wrapper.find('UserCreateModal').length, 0)
     
     stub.restore();
 });
-
-//test('logIn gets called', t => {
-//	
-//	const wrapper = shallowWithIntl(
-//	<LoginBox/>
-//	);
-//
-//	var wrap = wrapper.instance();
-//	var stub = sinon.stub(wrap, 'logIn', function(){console.warn("koe!");});
-//	wrap.forceUpdate();
-//	wrapper.update();
-//	wrapper.find('Button').first().simulate('click');
-//
-//	t.truthy(stub.called);
-//
-//});
 
 test('setToken works correctly', t =>  {
   const wrapper = shallowWithIntl(
