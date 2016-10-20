@@ -14,16 +14,21 @@ const users = [
 
 // Initial posts added into test db
 const posts = [
-  new Post({ userCuid: users[0].cuid, cuid: 'sdfsasffsddsfds', content: "All cats meow 'mern!'", shared: false }),
-  new Post({ userCuid: users[1].cuid, cuid: 'f34gb2bh24b24b3', content: "All dogs bark 'mern!'", shared: true }),
+  { userCuid: users[0].cuid, cuid: 'sdfsasffsddsfds', content: "All cats meow 'mern!'", shared: false },
+  { userCuid: users[1].cuid, cuid: 'f34gb2bh24b24b3', content: "All dogs bark 'mern!'", shared: true },
 ];
 
 test.beforeEach.serial('connect and add tree users', t => {
   connectDB(t, () => { });
 });
 
-test.afterEach.always.serial(t => {
+let sleep = function (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+test.afterEach.always.serial(async t => {
   dropDB(t, () => {
+      
     return;
   });
 });
@@ -65,6 +70,7 @@ test.serial('Adding post without token fails', async t => {
   await drop();
 });
 
+
 test.serial('Own-property is true only in users own posts', async t => {
   await data();
   const token = await login(0);
@@ -74,9 +80,9 @@ test.serial('Own-property is true only in users own posts', async t => {
     .set('authorization', token)
     .set('Accept', 'application/json');
   
-  const posts = res.body.posts;
-  t.truthy(posts.filter(p => p.userCuid == users[0].cuid)[0].own);
-  t.falsy(posts.filter(p => p.userCuid == users[1].cuid)[0].own);
+  const postit = res.body.posts;
+  t.truthy(postit.filter(p => p.userCuid == users[0].cuid)[0].own);
+  t.falsy(postit.filter(p => p.userCuid == users[1].cuid)[0].own);
 
     await drop();
 });
@@ -155,10 +161,13 @@ let login = async userIndex => {
 
 
 let data = async () => {
-    await Promise.all(posts.map(post => post.save()));
-    await Promise.all(users.map(user => new User({
-        ...user, password: bcrypt.hashSync(user.password,  bcrypt.genSaltSync())
-    }).save()));
+    await Promise.all(posts.map(post => {
+        return new Post(post).save();
+    }));
+    await Promise.all(users.map(user => 
+        new User({...user, password: bcrypt.hashSync(user.password,  bcrypt.genSaltSync())})
+      .save()));
+    
 };
 
 let drop = async () => {
