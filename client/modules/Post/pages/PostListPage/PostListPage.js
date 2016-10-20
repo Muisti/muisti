@@ -23,7 +23,7 @@ class PostListPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { showAddPost: false, name: "Matti Meikäläinen" };
+    this.state = { showAddPost: false, name: "Opetusmateriaali" };
   }
 
   componentDidMount() {
@@ -90,7 +90,6 @@ class PostListPage extends Component {
     return (
       <div>
         <div className={styles['topBar']}>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Default_User_Logo.jpg" />
           <span className={styles['nameTitle']}>{this.state.name}</span>
         </div>
         <Grid>
