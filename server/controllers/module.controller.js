@@ -1,13 +1,22 @@
 import Module from '../models/module';
 import cuid from 'cuid';
 
-
 export function getModules(req, res) {
   Module.find().exec((err, modules) => {
     if (err) {
      return res.status(500).send(err);
     }
     res.json({ modules });
+  });
+}
+
+export function getModule(req, res) {
+  const decoded = decodeURI(req.params.title);
+  Module.findOne({ title: decoded }).exec((err, module) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.json({ module });
   });
 }
 
@@ -25,3 +34,4 @@ export function addModule(req, res) {
       return res.status(500).send(err);
     });
 }
+

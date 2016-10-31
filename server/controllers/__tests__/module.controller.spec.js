@@ -65,6 +65,20 @@ test.serial('Adds new module correctly', async t => {
   await drop();
 });
 
+test.serial('Finds module correctly', async t => {
+  await data();
+
+  const encodeTitle = encodeURI(modules[0].title);
+
+  const res = await request(app)
+    .get('/api/modules/' + encodeTitle + '/')
+    .set('Accept', 'application/json');
+
+  t.is(res.status, 200);
+
+  await drop();
+});
+
 test.serial('Does not add modules with incorrect informations', async t => {
   const module = {title: 'eiMene'};
 
@@ -77,5 +91,4 @@ test.serial('Does not add modules with incorrect informations', async t => {
 
   await drop();
 });
-
 
