@@ -5,17 +5,25 @@ export function setStorage(s) {
 }
 
 export function getToken() {
-    if(ownStorage){
+      if(ownStorage){
         var token = ownStorage.getItem("token");
         if (!token) {
             return "";
         }
         return ownStorage.getItem("token");
-    }else{
+      } else {
         return "";
-    }
+      }
 }
 
 export function setToken(token) {
-    ownStorage.setItem("token", token);
+    if (ownStorage) {
+      ownStorage.setItem("token", token);
+    }
+}
+
+export function removeToken() {
+    if (ownStorage) {
+      ownStorage.removeItem("token");
+    }
 }
