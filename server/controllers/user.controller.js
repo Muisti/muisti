@@ -108,7 +108,8 @@ export async function decodeTokenFromRequest(req){
     var token = req.get('authorization');
     if(token && token != 'null'){
         try {
-            return jwt.decode(token, await getKey());
+            var secret = await getKey();
+            return jwt.decode(token, secret);
         } catch(err) {  //incorrect signature
             return null;
         }
