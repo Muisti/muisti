@@ -1,5 +1,4 @@
-import User from '../models/user';
-import cuid from 'cuid';
+import Util from '../models/util';
 
 let savedKey = '';
 
