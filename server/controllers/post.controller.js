@@ -77,7 +77,7 @@ export async function addPost(req, res) {
          .then(() => res.json({ post: newPost }))
          .catch(() => res.status(500).send(err));
   } else {
-      return res.status(500).end;
+      return res.status(403).end();
   }
 }
 
@@ -108,8 +108,11 @@ export async function deletePost(req, res) {
    if(!token || !token.cuid){ return res.status(403).end(); }
    
   Post.findOne({ cuid: req.params.cuid, userCuid: token.cuid }).exec((err, post) => {
+
     if (err) {
       return res.status(500).send(err);
+    }else if(!post){
+      return res.status(403).end();
     }
     return post.remove(() => res.status(200).end());
   });
