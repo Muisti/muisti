@@ -5,6 +5,7 @@ import sinon from 'sinon';
 import { connectDB, dropDB } from '../../util/test-helpers';
 import User from '../../models/user';
 import * as bcrypt from 'react-native-bcrypt';
+import * as utilCont from '../util.controller';
 
 
 const confirmedUser = [
@@ -12,6 +13,10 @@ const confirmedUser = [
 ];
 
 test.beforeEach.serial('connect and add tree users', t => {
+  try {
+    var stub = sinon.stub(utilCont, 'getKey');
+    stub.returns('testiavain');
+  } catch (e) {}
   connectDB(t, () => {
     User.create(confirmedUser, err => {
       if (err) t.fail('Unable to create users');

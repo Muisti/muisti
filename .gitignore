@@ -10,3 +10,4 @@ dist
 *~
 nbproject/private
 npm-debug.log.*
+nbproject/private/*
