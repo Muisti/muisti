@@ -9,8 +9,8 @@ let userToCuids = {};
 
 //get all shared posts and own posts
 
-export function getPosts(req, res) {
-  let token = decodeTokenFromRequest(req);
+export async function getPosts(req, res) {
+  let token = await decodeTokenFromRequest(req);
   let userCuid = token ? token.cuid : "not user";
   
   Post.find().or([{shared: true}, { userCuid: userCuid }])
@@ -43,10 +43,10 @@ async function completePostInformation(post, loggedInUserId){
  * @param res
  * @returns void
  */
-export function updatePost(req, res){
+export async function updatePost(req, res){
   const post = req.body.post;
 
-  let token = decodeTokenFromRequest(req);
+  let token = await decodeTokenFromRequest(req);
   if(!post.content || !token || !token.cuid) return res.status(403).end(); 
   
   Post.findOneAndUpdate({cuid: post.cuid, userCuid: token.cuid}, 
@@ -60,7 +60,7 @@ export function updatePost(req, res){
 }
 
 
-export function addPost(req, res) {
+export async function addPost(req, res) {
   if (!req.body.post.content) {
     return res.status(403).end();
   }
@@ -68,7 +68,7 @@ export function addPost(req, res) {
   const newPost = new Post(req.body.post);
   newPost.cuid = cuid();
   
-  var token = decodeTokenFromRequest(req);
+  var token = await decodeTokenFromRequest(req);
   
   if(token) {
       newPost.userCuid = token.cuid;
@@ -103,8 +103,8 @@ export function getPost(req, res) {
  * @param res
  * @returns void
  */
-export function deletePost(req, res) {
-   let token = decodeTokenFromRequest(req);
+export async function deletePost(req, res) {
+   let token = await decodeTokenFromRequest(req);
    if(!token || !token.cuid){ return res.status(403).end(); }
    
   Post.findOne({ cuid: req.params.cuid, userCuid: token.cuid }).exec((err, post) => {

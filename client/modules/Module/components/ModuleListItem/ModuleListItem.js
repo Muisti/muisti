@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react';
-import { PageHeader } from 'react-bootstrap';
+import { PageHeader, Panel } from 'react-bootstrap';
 
 function ModuleListItem(props) {
 
   return (
-    <PageHeader>Moduulin tehtävät</PageHeader>
-
+    <PageHeader>Moduulin sisältö</PageHeader>
   );
 }
 

@@ -4,6 +4,8 @@ import * as bcrypt from 'react-native-bcrypt';
 import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 
+import { getKey } from './util.controller'
+
 
 export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
@@ -57,8 +59,8 @@ export function getUserByCuid(req, res) {
   });
 }
 
-export function getToken(req, res) {
-  User.findOne({ email: req.params.email }).exec((err, user) => {
+export async function getToken(req, res) {
+  await User.findOne({ email: req.params.email }).exec( async (err, user) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -76,7 +78,8 @@ export function getToken(req, res) {
     }
 
     var payload = { cuid: user.cuid, user: user.name, time: Date.now() };
-    var secret = 'muisti';
+    var secret = await getKey();
+    
     var token = jwt.encode(payload, secret);
 
     return res.json({ token });
@@ -101,17 +104,13 @@ export function confirmUserAccount(req, res){
     .catch(err => res.status(500).send(err));
 }
 
-export function compareToken(token){
-  var secret = 'muisti';
-  return jwt.decode(token, secret) != false;
-}
-
-export function decodeTokenFromRequest(req){
+export async function decodeTokenFromRequest(req){
     var token = req.get('authorization');
     if(token && token != 'null'){
-        try{
-            return jwt.decode(token, "muisti");
-        }catch(err){  //incorrect signature
+        try {
+            var secret = await getKey();
+            return jwt.decode(token, secret);
+        } catch(err) {  //incorrect signature
             return null;
         }
     }else{
