@@ -7,7 +7,6 @@ import { fetchUserByCuid } from '../../User/UserActions';
 
 
 function PostList(props) {
-    
   return (
     <div className="listView">
       {
