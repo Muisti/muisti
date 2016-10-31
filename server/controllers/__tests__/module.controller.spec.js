@@ -12,6 +12,20 @@ const modules = [
   new Module ({ title: 'Toinen testimoduuli', content: 'toisen esittelytekstiä', cuid: 'f34gb2bh24b24b3' })
 ];
 
+test.beforeEach.serial('connect and add', t => {
+  connectDB(t, () => {
+    Module.create(modules, err => {
+      if (err) t.fail('Unable to create users');
+    });
+  });
+});
+
+test.afterEach.always.serial(t => {
+  dropDB(t, () => {
+    return;
+  });
+});
+
 let data = async () => {
   await Promise.all(modules.map(module => {
     return new Module(module).save();
@@ -36,7 +50,6 @@ test.serial('Should correctly give number of modules', async t => {
 });
 
 test.serial('Adds new module correctly', async t => {
-
   const module = {title: 'kolmas moduuli', content: 'esittelevää tekstiä'};
 
   const res = await request(app)
