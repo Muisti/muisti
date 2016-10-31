@@ -10,9 +10,10 @@ let userToCuids = {};
 //get all shared posts and own posts
 
 export function getPosts(req, res) {
+
   let token = decodeTokenFromRequest(req);
   let userCuid = token ? token.cuid : "not user";
-  
+
   Post.find().or([{shared: true}, { userCuid: userCuid }])
     .sort('-dateAdded').lean().exec(async (err, posts) => {
       if(err) { return res.status(500).send(err); }
@@ -31,7 +32,7 @@ async function completePostInformation(post, loggedInUserId){
       var user = await User.findOne({ cuid: post.userCuid }).exec();
       userToCuids[post.userCuid] = user.name;
     }
-    
+
     post.name = userToCuids[post.userCuid];
     post.own = (post.userCuid == loggedInUserId);
 }
@@ -47,9 +48,9 @@ export function updatePost(req, res){
   const post = req.body.post;
 
   let token = decodeTokenFromRequest(req);
-  if(!post.content || !token || !token.cuid) return res.status(403).end(); 
-  
-  Post.findOneAndUpdate({cuid: post.cuid, userCuid: token.cuid}, 
+  if(!post.content || !token || !token.cuid) return res.status(403).end();
+
+  Post.findOneAndUpdate({cuid: post.cuid, userCuid: token.cuid},
     {content: post.content}, {upsert:true, new:true } ,  function(err, doc){
         var savedPost = doc.toObject();
         if (err) return res.status(500).send(err);
@@ -64,12 +65,12 @@ export function addPost(req, res) {
   if (!req.body.post.content) {
     return res.status(403).end();
   }
-  
+
   const newPost = new Post(req.body.post);
   newPost.cuid = cuid();
-  
+
   var token = decodeTokenFromRequest(req);
-  
+
   if(token) {
       newPost.userCuid = token.cuid;
       return newPost.save()
@@ -106,7 +107,7 @@ export function getPost(req, res) {
 export function deletePost(req, res) {
    let token = decodeTokenFromRequest(req);
    if(!token || !token.cuid){ return res.status(403).end(); }
-   
+
   Post.findOne({ cuid: req.params.cuid, userCuid: token.cuid }).exec((err, post) => {
 
     if (err) {
