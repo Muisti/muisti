@@ -1,11 +1,13 @@
 import test from 'ava';
 import request from 'supertest';
 import app from '../../server';
+import sinon from 'sinon';
 import Post from '../../models/post';
 import User from '../../models/user';
 import { connectDB, dropDB } from '../../util/test-helpers';
 import * as bcrypt from 'react-native-bcrypt';
 import mongoose from 'mongoose';
+import * as utilCont from '../util.controller';
 
 const users = [
     { name: 'Hacker', surname: 'Camp', cuid: 'userid', email: 'hacker@hack.com', password: 'pw', confirmation: 'confirmed' },
@@ -18,7 +20,12 @@ const posts = [
   { userCuid: users[1].cuid, cuid: 'f34gb2bh24b24b3', content: "All dogs bark 'mern!'", shared: true },
 ];
 
-test.beforeEach.serial('connect and add tree users', t => {
+test.beforeEach.serial('connect', t => {
+  try {
+    var stub = sinon.stub(utilCont, 'getKey');
+    stub.returns('testiavain');
+  } catch (e) {
+  }
   connectDB(t, () => { });
 });
 
