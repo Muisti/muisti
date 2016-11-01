@@ -11,7 +11,5 @@ test('renders properly', t => {
   );
 
   t.is(wrapper.find('Accordion').length, 1);
-  t.is(wrapper.find('Panel').length, 5);
-
 });
 

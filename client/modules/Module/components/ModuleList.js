@@ -1,52 +1,38 @@
-import React, { PropTypes } from 'react';
-import { Accordion, Panel, Button, Grid, Row, Col } from 'react-bootstrap';
-
+import React, { Component, PropTypes } from 'react';
+import { Accordion, Panel } from 'react-bootstrap';
 import ModuleListItem from './ModuleListItem/ModuleListItem';
+
+import { fetchModules } from '../ModuleActions';
 
 import styles from './ModuleList.css';
 
 
-function ModuleList() {
+class ModuleList extends Component {
+  
+  constructor(props) {
+      super(props);
+      this.state = { modules: [] };
+  }
+  
+  componentDidMount() {
+    fetchModules().then(modules => this.setState({modules}));
+  }
+  
+  render() {
+    var i = 0;
+    return (
+      
+      <Accordion>
+        {this.state.modules.map(module => (
+            <Panel header={module.title} eventKey={++i}>
+              <ModuleListItem module={module}/>
+            </Panel>
+          ))
+        }
+      </Accordion>
 
-  var headerStyle = (
-    <div className="clearfix">
-      <div className={styles['panel-heading']}>
-        Moduulin otsikko
-      </div>
-    </div>
-  );
-
-  return (
-
-    <Accordion>
-      <Panel header={headerStyle} eventKey="1">
-        Ensimmäinen moduuli <br />
-        Moduulin esittely lyhyesti
-        <a href="/module" className="btn btn-default pull-right" >Siirry</a>
-      </Panel>
-      <Panel header={headerStyle} eventKey="2">
-        Toinen moduuli <br />
-        Moduulin esittely lyhyesti
-        <a href="/module" className="btn btn-default pull-right" >Siirry</a>
-      </Panel>
-      <Panel header={headerStyle} eventKey="3">
-        Kolmas moduuli <br />
-        Moduulin esittely lyhyesti
-        <a href="/module" className="btn btn-default pull-right" >Siirry</a>
-      </Panel>
-      <Panel header={headerStyle} eventKey="4">
-        Neljäs moduuli <br />
-        Moduulin esittely lyhyesti
-        <a href="/module" className="btn btn-default pull-right" >Siirry</a>
-      </Panel>
-      <Panel header={headerStyle} eventKey="5">
-        Viides moduuli <br />
-        Moduulin esittely lyhyesti
-        <a href="/module" className="btn btn-default pull-right" >Siirry</a>
-      </Panel>
-    </Accordion>
-
-  );
+    );
+  }
 }
 
 

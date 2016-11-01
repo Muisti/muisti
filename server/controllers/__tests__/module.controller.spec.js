@@ -54,7 +54,7 @@ test.serial('Adds new module correctly', async t => {
   const res = await request(app)
     .post('/api/modules')
     .set('Accept', 'application/json')
-    .send({ module })
+    .send({ module });
 
   t.is(res.status, 200);
 
@@ -84,7 +84,7 @@ test.serial('Does not add modules with incorrect informations', async t => {
   const res = await request(app)
     .post('/api/modules')
     .set('Accept', 'application/json')
-    .send({ module })
+    .send({ module });
 
   t.is(res.status, 403);
 
