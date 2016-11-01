@@ -26,10 +26,12 @@ class ModuleList extends Component {
   }
   
   handleAddModule = () => {
-    if (!this.state.formInfo || !this.state.fromTitle) {
+    if (!this.state.formInfo || !this.state.formTitle) {
       return;
     }
-    addModuleRequest({ title: this.state.formTitle, info: this.state.formInfo })
+    addModuleRequest({ title: this.state.formTitle, 
+                       info: this.state.formInfo, 
+                       orderNumber: this.state.modules[this.state.modules.length-1].orderNumber+1 })
             .then(module => this.setState({ modules: [...this.state.modules, module] }));
   }
   

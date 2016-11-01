@@ -26,10 +26,13 @@ export function addModule(req, res) {
   }
   const newModule = new Module(req.body.module);
   newModule.cuid = cuid();
-
+  console.log("newModule: ");
+  console.log(newModule);
+  
   return newModule.save()
     .then(() => res.json({ module: newModule }))
     .catch(err => {
+      console.log(err);
       return res.status(500).send(err);
     });
 }
