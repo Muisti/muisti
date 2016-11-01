@@ -51,7 +51,7 @@ let drop = async () => {
   await Section.remove({}).exec();
 };
 
-test.serial('Should correctly give number of sections and orders them correctly', async t => {
+test.serial('Should correctly give number of sections and sorts them correctly', async t => {
   await data();
 
   const res = await request(app)
@@ -62,10 +62,10 @@ test.serial('Should correctly give number of sections and orders them correctly'
 
   t.is(res.status, 200);
   t.deepEqual(res.body.sections.length, howManySections.length);
-  t.deepEqual(res.body.sections[0].orderNumber, 1);
-  t.deepEqual(res.body.sections[1].orderNumber, 2);
-  t.deepEqual(res.body.sections[2].orderNumber, 3);
-  t.deepEqual(res.body.sections[3].orderNumber, 4);
+
+  for(let i = 0; i < res.body.sections.length; i++) {
+    t.deepEqual(res.body.sections[i].orderNumber, i+1);
+  }
 
   await drop();
 });

@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { Button, Grid, Row, Col, PageHeader, Panel } from 'react-bootstrap';
 
+import SectionCreateModal from '../components/SectionCreateModal/SectionCreateModal';
+
 import ModuleListItem from '../components/ModuleListItem/ModuleListItem';
 import { fetchModule, fetchSections } from '../ModuleActions';
 
@@ -34,6 +36,7 @@ class ModulePage extends Component {
         <br />
         {this.state.module.info}
         <br />
+
       </Panel>  
        {this.state.sections.map(section => (
             <Panel collapsible defaultExpanded header={section.title} >
@@ -41,8 +44,12 @@ class ModulePage extends Component {
             </Panel>
           ))
         }
+      
+      <SectionCreateModal moduleCuid={"ciuz9fahl0001nlkrgh7rqz80"} orderNumber={1} />
 
       </div>
+
+
     );
 
   }
