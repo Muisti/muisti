@@ -1,6 +1,5 @@
 import test from 'ava';
 import request from 'supertest';
-import sinon from 'sinon';
 import app from '../../server'
 import { connectDB, dropDB } from '../../util/test-helpers';
 import mongoose from 'mongoose';
@@ -91,4 +90,3 @@ test.serial('Does not add modules with incorrect informations', async t => {
 
   await drop();
 });
-
