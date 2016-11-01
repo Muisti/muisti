@@ -7,8 +7,10 @@ import Module from '../../models/module';
 
 
 const modules = [
-  new Module ({ title: 'Ensimmäinen testimoduuli', info: 'esittelytekstiä', orderNumber: 1, cuid: 'f34gb2bh24b24b2' }),
-  new Module ({ title: 'Toinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 2, cuid: 'f34gb2bh24b24b3' })
+  new Module ({ title: 'Kolmas testimoduuli', info: 'esittelytekstiä', orderNumber: 3, cuid: 'f34gb2bh24b24b2' }),
+  new Module ({ title: 'Ensimmäinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 1, cuid: 'f34gb2bh24b24b3' }),
+  new Module ({ title: 'Neljäs testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 4, cuid: 'f34gb2bh24b24b4' }),
+  new Module ({ title: 'Toinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 2, cuid: 'f34gb2bh24b24b5' })
 ];
 
 test.beforeEach.serial('connect and add', t => {
@@ -35,7 +37,7 @@ let drop = async () => {
   await Module.remove({}).exec();
 };
 
-test.serial('Should correctly give number of modules', async t => {
+test.serial('Should correctly give number of modules and sorts them correctly', async t => {
   await data();
 
   const res = await request(app)
@@ -45,11 +47,15 @@ test.serial('Should correctly give number of modules', async t => {
   t.is(res.status, 200);
   t.deepEqual(modules.length, res.body.modules.length);
 
+  for(let i = 0; i < res.body.modules.length; i++) {
+    t.deepEqual(res.body.modules[i].orderNumber, i+1);
+  }
+
   await drop();
 });
 
 test.serial('Adds new module correctly', async t => {
-  const module = {title: 'kolmas moduuli', info: 'esittelevää tekstiä', orderNumber: 3};
+  const module = {title: 'viides moduuli', info: 'esittelevää tekstiä', orderNumber: 5};
 
   const res = await request(app)
     .post('/api/modules')
