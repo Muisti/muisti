@@ -41,13 +41,13 @@ export function editPostRequest(post){
     };
 }
 
-export function addPostRequest(post, token) {
+export function addPostRequest(post) {
   return (dispatch) => {
     return callApi('posts', 'post', {
       post: {
         content: post.content,
         shared: post.shared,
-      }, token,
+      }
     }).then(res => dispatch(addPost(res.post)));
   };
 }

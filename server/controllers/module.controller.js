@@ -26,19 +26,10 @@ export function addModule(req, res) {
   }
   const newModule = new Module(req.body.module);
   newModule.cuid = cuid();
-
+  
   return newModule.save()
     .then(() => res.json({ module: newModule }))
     .catch(err => {
       return res.status(500).send(err);
     });
-}
-
-export function addModule2(req, res) {
-
-  const newModule = new Module({ title: 'Toinen moduuli', info: 'Kuvaukset tähän näin.', orderNumber: 2 });
-  newModule.cuid = cuid();
-
-  return newModule.save();
-
 }
