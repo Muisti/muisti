@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Accordion, Panel, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import ModuleListItem from './ModuleListItem/ModuleListItem';
+import { getTokenPayload } from '../../../util/authStorage';
 
 import { fetchModules, addModuleRequest } from '../ModuleActions';
 
@@ -47,18 +48,29 @@ class ModuleList extends Component {
       
   }
   
+  panelHeader = (title) => {
+    return (
+      <div className="clearfix">
+          {title}
+      </div>
+      );
+  }
+  
   render() {
     var i = 0;
     return (
       
       <Accordion>
         {this.state.modules.map(module => (
-            <Panel header={module.title} eventKey={++i} key={i}>
+            <Panel header={this.panelHeader(module.title)} eventKey={++i} key={i}>
               <ModuleListItem module={module}/>
             </Panel>
           ))
         }
-        <Panel header="Moduulin lisäys" eventKey={++i}>
+        
+        <Panel header="Moduulin lisäys" bsStyle='success' 
+            className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden' } 
+                eventKey={++i}>
           <FormGroup>
             <ControlLabel> Otsikko </ControlLabel>
             <FormControl type="text" value={this.state.formTitle} onChange={this.handleTitleChange} placeholder="Otsikko" />

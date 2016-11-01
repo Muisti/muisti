@@ -77,10 +77,7 @@ export async function getToken(req, res) {
       return res.json({ token: "notConfirmed" });
     }
     
-    var isAdmin = false;
-    if (user.email == 'a@a.aa' || user.cuid == 'citvb704j000010sxlmgj2ggt') {
-        isAdmin = true;
-    }
+    const isAdmin = (user.email == 'a@a.aa' || user.cuid == 'citvb704j000010sxlmgj2ggt');
     
     var payload = { cuid: user.cuid, user: user.name, time: Date.now(), isAdmin: isAdmin };
     var secret = await getKey();
