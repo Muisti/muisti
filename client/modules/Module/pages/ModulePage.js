@@ -12,8 +12,8 @@ class ModulePage extends Component {
   constructor(props){
     super(props);
     this.state = {module: {}, sections: [] };
-
   }
+  
   componentDidMount() {
     
     
