@@ -21,12 +21,12 @@ export function getModule(req, res) {
 }
 
 export function addModule(req, res) {
-  if (!req.body.module.title || !req.body.module.info) {
+  if (!req.body.module.title || !req.body.module.info || !req.body.module.orderNumber) {
     return res.status(403).end();
   }
   const newModule = new Module(req.body.module);
   newModule.cuid = cuid();
-  
+
   return newModule.save()
     .then(() => res.json({ module: newModule }))
     .catch(err => {
