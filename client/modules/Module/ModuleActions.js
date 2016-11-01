@@ -6,7 +6,6 @@ export function fetchModules() {
 }
 
 export function addModuleRequest(module) {
-    console.log(module);
     return callApi('modules', 'post', {module})
             .then(res => res.module);
 }
