@@ -6,7 +6,7 @@ export function fetchModules() {
 }
 
 export function fetchModule(title){
-	return {module: {cuid: 1111, title: 'eka osa'}}
+	return {cuid: 1111, title: 'eka osa'};
 
 }
 
