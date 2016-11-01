@@ -2,7 +2,7 @@ import Module from '../models/module';
 import cuid from 'cuid';
 
 export function getModules(req, res) {
-  Module.find().exec((err, modules) => {
+  Module.find().sort('orderNumber').exec((err, modules) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -21,7 +21,7 @@ export function getModule(req, res) {
 }
 
 export function addModule(req, res) {
-  if (!req.body.module.title || !req.body.module.content) {
+  if (!req.body.module.title || !req.body.module.info) {
     return res.status(403).end();
   }
   const newModule = new Module(req.body.module);
@@ -32,4 +32,13 @@ export function addModule(req, res) {
     .catch(err => {
       return res.status(500).send(err);
     });
+}
+
+export function addModule2(req, res) {
+
+  const newModule = new Module({ title: 'Toinen moduuli', info: 'Kuvaukset tähän näin.', orderNumber: 2 });
+  newModule.cuid = cuid();
+
+  return newModule.save();
+
 }

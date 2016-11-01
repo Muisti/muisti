@@ -5,7 +5,7 @@ function ModuleListItem(props) {
 
   return (
     <div>
-      {props.module.content}
+      {props.module.info}
       <a href="/module" className="btn btn-default pull-right" >Siirry</a>
     </div>
   );
@@ -14,7 +14,7 @@ function ModuleListItem(props) {
 ModuleListItem.propTypes = {
   module: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
+    info: PropTypes.string.isRequired,
     cuid: PropTypes.string.isRequired,
   }).isRequired,
   placing: PropTypes.number.isRequired,

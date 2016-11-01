@@ -7,8 +7,8 @@ import Module from '../../models/module';
 
 
 const modules = [
-  new Module ({ title: 'Ensimmäinen testimoduuli', content: 'esittelytekstiä', cuid: 'f34gb2bh24b24b2' }),
-  new Module ({ title: 'Toinen testimoduuli', content: 'toisen esittelytekstiä', cuid: 'f34gb2bh24b24b3' })
+  new Module ({ title: 'Ensimmäinen testimoduuli', info: 'esittelytekstiä', orderNumber: 1, cuid: 'f34gb2bh24b24b2' }),
+  new Module ({ title: 'Toinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 2, cuid: 'f34gb2bh24b24b3' })
 ];
 
 test.beforeEach.serial('connect and add', t => {
@@ -49,7 +49,7 @@ test.serial('Should correctly give number of modules', async t => {
 });
 
 test.serial('Adds new module correctly', async t => {
-  const module = {title: 'kolmas moduuli', content: 'esittelevää tekstiä'};
+  const module = {title: 'kolmas moduuli', info: 'esittelevää tekstiä', orderNumber: 3};
 
   const res = await request(app)
     .post('/api/modules')
@@ -59,7 +59,7 @@ test.serial('Adds new module correctly', async t => {
   t.is(res.status, 200);
 
   const p = await Module.findOne({ title: module.title }).exec();
-  t.is(p.content, module.content);
+  t.is(p.info, module.info);
 
   await drop();
 });
