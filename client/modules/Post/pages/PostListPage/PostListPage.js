@@ -69,8 +69,6 @@ class PostListPage extends Component {
   openEditPost = post => {
     this.editingPost = post;
     this.toggleAddPost();
-//    this.setState({}); update ui, onko tästä mitään hyötyä???
-
   };
 
   openAddPost = () => {
