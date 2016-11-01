@@ -7,8 +7,10 @@ import Module from '../../models/module';
 
 
 const modules = [
-  new Module ({ title: 'Ensimmäinen testimoduuli', info: 'esittelytekstiä', orderNumber: 1, cuid: 'f34gb2bh24b24b2' }),
-  new Module ({ title: 'Toinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 2, cuid: 'f34gb2bh24b24b3' })
+  new Module ({ title: 'Kolmas testimoduuli', info: 'esittelytekstiä', orderNumber: 3, cuid: 'f34gb2bh24b24b2' }),
+  new Module ({ title: 'Ensimmäinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 1, cuid: 'f34gb2bh24b24b3' }),
+  new Module ({ title: 'Neljäs testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 4, cuid: 'f34gb2bh24b24b4' }),
+  new Module ({ title: 'Toinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 2, cuid: 'f34gb2bh24b24b5' })
 ];
 
 test.beforeEach.serial('connect and add', t => {
