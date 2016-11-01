@@ -36,7 +36,7 @@ export class UserCreateModal extends Component {
   
   createUser = () => {
     const state = this.state;
-    const password = this.hashedPassword();
+//    const password = this.hashedPassword();
     addUserRequest(this.constructUser()).then(user => {
         if(user){
           this.close();
