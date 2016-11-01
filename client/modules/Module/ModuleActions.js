@@ -5,12 +5,19 @@ export function fetchModules() {
       .then(res => res.modules);
 }
 
-export function fetchModule(title){
-	return {cuid: 1111, title: 'eka osa'};
 
+ export function fetchModule(title) {
+    return callApi(`modules/${title}`)
+      .then(res => res.module);
 }
 
-export function fetchSections(cuid){
-	return {sections: [{cuid: 1111, text: 'sisältöä tässä'},{cuid: 1111, text: 'toinen tässä'}]}
+export function fetchSections(moduleCuid){
+	return callApi(`sections/${moduleCuid}`)
+      .then(res => res.sections);
+}
+
+export function addModuleRequest(module) {
+    return callApi('modules', 'post', {module})
+            .then(res => res.module);
 
 }
