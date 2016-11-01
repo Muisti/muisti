@@ -33,18 +33,18 @@ export class UserCreateModal extends Component {
         }
       });
   };
-  
+
   createUser = () => {
     const state = this.state;
 //    const password = this.hashedPassword();
     addUserRequest(this.constructUser()).then(user => {
         if(user){
           this.close();
-          this.setState({ alert: 
-            basicAlert((<FormattedMessage id="registrationSuccessful_title" />), 
+          this.setState({ alert:
+            basicAlert((<FormattedMessage id="registrationSuccessful_title" />),
                        (<FormattedMessage id="registrationSuccessful_info" />))});
         }else{
-            this.setState({ error: (<FormattedMessage id="sendConfirmFail" />) }); 
+            this.setState({ error: (<FormattedMessage id="sendConfirmFail" />) });
         }
     });
   };
@@ -99,7 +99,7 @@ export class UserCreateModal extends Component {
     this.colorController(key);
     this.setState({});
   };
-  
+
   colorController = (key) => {
     var str = 'color' + key;
     if (this.state[key] == '') {
@@ -148,7 +148,7 @@ export class UserCreateModal extends Component {
 
 
   render() {
-      
+
     return (
       <span>
         <Button onClick={this.open} bsStyle="primary"><FormattedMessage id='displayRegisterModal' /> </Button>
