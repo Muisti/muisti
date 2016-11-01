@@ -17,7 +17,6 @@ ModuleListItem.propTypes = {
     info: PropTypes.string.isRequired,
     cuid: PropTypes.string.isRequired,
   }).isRequired,
-  placing: PropTypes.number.isRequired,
 };
 
 export default ModuleListItem;
