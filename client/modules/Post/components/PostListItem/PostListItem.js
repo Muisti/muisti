@@ -10,7 +10,7 @@ import styles from './PostListItem.css';
 function PostListItem(props) {
     
   return (
-    <Panel header={props.post.name} bsStyle={props.post.shared ? 'default' : 'warning'}>
+    <Panel header={props.post.name} bsStyle={props.post.shared ? 'default' : 'success'}>
       <p className={styles['post-desc']}>{props.post.content}</p>
       <p className={styles['post-desc']}><Time value={props.post.dateAdded} format="DD.MM.YYYY HH:mm:ss" /></p>
         <p className={styles[props.post.own ? 'post-action' : 'hidden']}>

@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom';
 import { fetchToken } from '../../../User/UserActions';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
 import AlertModal, { errorAlert } from '../AlertModal';
-import { setToken, getToken, removeToken } from '../../../../util/authStorage';
+import { setToken, removeToken, getTokenPayload } from '../../../../util/authStorage';
 
 
 export class LoginBox extends Component {
@@ -86,13 +86,11 @@ export class LoginBox extends Component {
 
   render() {
 
-    var token = getToken();
-    if (token) {
-      var decoded = jwt.decode(token, "token", true);
-      var user = decoded.user;
+    var payload = getTokenPayload();
+    if (payload) {
       return (   
         <Nav pullLeft>
-          <NavItem> Hei {user} </NavItem>
+          <NavItem> Hei {payload.user} </NavItem>
           <Navbar.Form pullLeft>
             <Button type="submit" bsStyle="warning" onClick={this.logOut} >Kirjaudu ulos</Button>
           </Navbar.Form>
