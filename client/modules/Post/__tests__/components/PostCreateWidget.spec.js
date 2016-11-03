@@ -37,7 +37,7 @@ test('has correct props', t => {
   t.is(wrapper.prop('showAddPost'), props.showAddPost);
 });
 
-test('calls addPost', t => {
+test.only('calls addPost', t => {
   const addPost = sinon.spy();
   const wrapper = mountWithIntl(
     <PostCreateWidget addPost={addPost} showAddPost />
@@ -45,7 +45,8 @@ test('calls addPost', t => {
 
   wrapper.ref('content').get(0).value = 'Bla Bla Bla';
 
-  wrapper.find('a').at(1).simulate('click');
+  wrapper.find('a').at(2).simulate('click');
+  console.log(wrapper.find('a').length);
   t.truthy(addPost.calledOnce);
   t.truthy(addPost.calledWith('Bla Bla Bla'));
 });
