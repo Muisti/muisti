@@ -2,11 +2,14 @@ import React, { PropTypes } from 'react';
 import { PageHeader, Panel } from 'react-bootstrap';
 
 function ModuleListItem(props) {
-
+  var toAddress = encodeURI(props.module.title);
+  console.log(toAddress);
   return (
     <div>
+
       {props.module.info}
-      <a href="/module" className="btn btn-default pull-right" >Siirry</a>
+      <a href={"/module/" + toAddress} className="btn btn-default pull-right" >Siirry</a>
+
     </div>
   );
 }
