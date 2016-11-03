@@ -106,14 +106,16 @@ export async function deletePost(req, res) {
   let token = await decodeTokenFromRequest(req);
   if(!token || !token.cuid){ return res.status(403).end(); }
 
-  Post.findOne({ cuid: req.params.cuid, userCuid: token.cuid }).exec((err, post) => {
-
+  Post.findOne({ cuid: req.params.cuid }).exec((err, post) => {
     if (err) {
       return res.status(500).send(err);
-    }else if(!post){
+    } else if(!post){
+      return res.status(404).end();
+    } else if (post.userCuid != token.cuid) {
       return res.status(403).end();
+    } else {
+      return post.remove(() => res.status(200).end());
     }
-    return post.remove(() => res.status(200).end());
   });
 }
 

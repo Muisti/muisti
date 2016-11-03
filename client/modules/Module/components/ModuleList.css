@@ -1,3 +1,7 @@
 .panel-heading {
   cursor: pointer;
 }
+
+.hidden {
+  display: none;
+}
