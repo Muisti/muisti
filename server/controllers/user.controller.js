@@ -76,8 +76,10 @@ export async function getToken(req, res) {
     if(!isUserAccountConfirmed(user)){
       return res.json({ token: "notConfirmed" });
     }
-
-    var payload = { cuid: user.cuid, user: user.name, time: Date.now() };
+    
+    const isAdmin = (user.email == 'a@a.aa' || user.cuid == 'citvb704j000010sxlmgj2ggt');
+    
+    var payload = { cuid: user.cuid, user: user.name, time: Date.now(), isAdmin: isAdmin };
     var secret = await getKey();
     
     var token = jwt.encode(payload, secret);
