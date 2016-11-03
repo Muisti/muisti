@@ -92,7 +92,7 @@ export class LoginBox extends Component {
         <Nav pullLeft>
           <NavItem> Hei {payload.user} </NavItem>
           <Navbar.Form pullLeft>
-            <Button type="submit" bsStyle="warning" onClick={this.logOut} >Kirjaudu ulos</Button>
+            <Button href='/' type="submit" bsStyle="warning" onClick={this.logOut} >Kirjaudu ulos</Button>
           </Navbar.Form>
           <AlertModal message={this.state.alert} />
         </Nav>

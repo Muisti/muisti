@@ -51,7 +51,9 @@ class ModuleList extends Component {
   panelHeader = (title) => {
     return (
       <div className="clearfix">
+        <div className={styles['panel-heading']}>
           {title}
+        </div>
       </div>
       );
   }
