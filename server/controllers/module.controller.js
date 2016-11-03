@@ -1,5 +1,6 @@
 import Module from '../models/module';
 import cuid from 'cuid';
+import { decodeTokenFromRequest } from './user.controller';
 
 export function getModules(req, res) {
   Module.find().sort('orderNumber').exec((err, modules) => {
@@ -20,8 +21,10 @@ export function getModule(req, res) {
   });
 }
 
-export function addModule(req, res) {
-  if (!req.body.module.title || !req.body.module.info || !req.body.module.orderNumber) {
+export async function addModule(req, res) {
+  let token = await decodeTokenFromRequest(req);
+  console.log(token);
+  if (!token || !token.isAdmin || !req.body.module.title || !req.body.module.info || !req.body.module.orderNumber) {
     return res.status(403).end();
   }
   const newModule = new Module(req.body.module);
