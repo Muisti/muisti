@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/server/controllers/section.controller.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/server/controllers/user.controller.js</file>
             <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/server/controllers/module.controller.js</file>
-            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/server/controllers/__tests__/post.controller.spec.js</file>
-            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/server/controllers/__tests__/module.controller.spec.js</file>
         </group>
     </open-files>
 </project-private>
