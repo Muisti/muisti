@@ -128,7 +128,7 @@ export class UserCreateModal extends Component {
   registerField = (controlId, type, placeholder) => {
     var key = controlId;
     if(this.state[key] === undefined){
-      this.state[key] = null;
+      this.state[key] = '';
     }
     if (this.state['color'+key] === undefined) {
         this.state['color'+key] = null;
