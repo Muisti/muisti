@@ -2,6 +2,7 @@ import Section from '../models/section';
 import cuid from 'cuid';
 
 export function getSections(req, res) {
+  console.log(req.params.moduleCuid);
   Section.find({ moduleCuid: req.params.moduleCuid }).sort('orderNumber').exec((err, sections) => {
     if (err) {
       return res.status(500).send(err);
