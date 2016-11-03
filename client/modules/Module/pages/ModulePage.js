@@ -17,7 +17,10 @@ class ModulePage extends Component {
   componentDidMount() {
     fetchModule(this.props.params.title)
       .then(module => fetchSections(module.cuid)
-        .then(sections => this.setState({sections, module})));
+        .then(sections => {
+            if (!sections) sections = []; 
+            this.setState({sections, module});
+        }));
   }
 
   addSectionToRender = (newSection) => {
