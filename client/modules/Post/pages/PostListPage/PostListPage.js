@@ -93,21 +93,13 @@ class PostListPage extends Component {
         <Grid>
           <Row className="show-grid">
             <Col xs={12} sm={3}>
-              <span className={this.showAddButton() ? '' : 'hidden'}>
-                <Button href='#' onClick={this.toggleAddPost}>
-                  <FormattedMessage id="addPost" />
-                </Button>
-              </span>
-            </Col>
-          </Row>
-          <br/>
-          <Row className="show-grid">
-            <Col xs={12} sm={3}>
-              <PostCreateWidget
-                addPost={this.handleAddPost} showAddPost={this.state.showAddPost}
-                hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
-                originalPost={this.editingPost}
-              />
+              <div className={getToken() ? '' : 'hidden'}>
+                <PostCreateWidget
+                  addPost={this.handleAddPost} showAddPost={this.state.showAddPost}
+                  hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
+                  originalPost={this.editingPost} toggleAddPost={this.toggleAddPost}
+                />
+              </div>
               <PostList
                 handleDeletePost={this.handleDeletePost} posts={this.props.posts}
                 handleEditPost={this.openEditPost}
