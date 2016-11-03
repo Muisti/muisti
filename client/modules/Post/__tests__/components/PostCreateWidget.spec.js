@@ -15,9 +15,6 @@ test('renders properly', t => {
     <PostCreateWidget {...props} />
   );
 
-  t.truthy(wrapper.hasClass('form'));
-  t.truthy(wrapper.hasClass('appear'));
-  t.truthy(wrapper.find('h2').first().containsMatchingElement(<FormattedMessage id="createNewPost" />));
   t.is(wrapper.find('input').length, 1);
   t.is(wrapper.find('textarea').length, 1);
 });
