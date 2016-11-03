@@ -88,7 +88,7 @@ export class PostCreateWidget extends Component {
             <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} >
               <input type="checkbox" ref="private"/> <FormattedMessage id="isPrivate"/>
             </div>
-    
+
             <textarea placeholder={this.props.intl.messages.postContent} className={styles['form-field']} ref="content"
                       value={this.state.content} onChange={this.changeContent}/>
             <a className={styles['post-submit-button']} href="#" onClick={this.submit}><FormattedMessage id={submitText} /></a>

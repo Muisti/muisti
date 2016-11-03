@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Grid, Row, Col, Panel } from 'react-bootstrap';
 import styles from './PostListPage.css';
-import { confirmUserAccountRequest } from '../../../User/UserActions';
-import { setStorage, getToken } from '../../../../util/authStorage';
 
 // Import Components
+import { confirmUserAccountRequest } from '../../../User/UserActions';
+import { setStorage, getToken } from '../../../../util/authStorage';
 import PostList from '../../components/PostList';
 import ModuleList from '../../../Module/components/ModuleList';
 import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
@@ -23,7 +23,7 @@ class PostListPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { showAddPost: false, name: "Matti Meikäläinen" };
+    this.state = { showAddPost: false, name: "Opetusmateriaali" };
   }
 
   componentDidMount() {
@@ -69,8 +69,6 @@ class PostListPage extends Component {
   openEditPost = post => {
     this.editingPost = post;
     this.toggleAddPost();
-    this.setState({}); //update ui
-
   };
 
   openAddPost = () => {
@@ -83,22 +81,19 @@ class PostListPage extends Component {
   toggleAddPost = () => {
     this.setState({ showAddPost: !this.state.showAddPost });
   };
-  
+
   showAddButton = () => !this.state.showAddPost && getToken();
 
   render() {
     return (
       <div>
         <div className={styles['topBar']}>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Default_User_Logo.jpg" />
           <span className={styles['nameTitle']}>{this.state.name}</span>
         </div>
         <Grid>
           <Row className="show-grid">
-
             <Col xs={6} xsOffset={1}>
               <span className={this.showAddButton() ? '' : 'hidden'}>
-
                 <Button href='#' onClick={this.toggleAddPost}>
                   <FormattedMessage id="addPost" />
                 </Button>
