@@ -15,9 +15,6 @@ test('renders properly', t => {
     <PostCreateWidget {...props} />
   );
 
-  t.truthy(wrapper.hasClass('form'));
-  t.truthy(wrapper.hasClass('appear'));
-  t.truthy(wrapper.find('h2').first().containsMatchingElement(<FormattedMessage id="createNewPost" />));
   t.is(wrapper.find('input').length, 1);
   t.is(wrapper.find('textarea').length, 1);
 });
@@ -48,7 +45,8 @@ test('calls addPost', t => {
 
   wrapper.ref('content').get(0).value = 'Bla Bla Bla';
 
-  wrapper.find('a').first().simulate('click');
+  wrapper.find('a').at(2).simulate('click');
+  console.log(wrapper.find('a').length);
   t.truthy(addPost.calledOnce);
   t.truthy(addPost.calledWith('Bla Bla Bla'));
 });

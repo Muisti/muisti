@@ -20,6 +20,7 @@ const posts = [
   { userCuid: users[1].cuid, cuid: 'f34gb2bh24b24b3', content: "All dogs bark 'mern!'", shared: true },
 ];
 
+
 test.beforeEach.serial('connect', t => {
   try {
     var stub = sinon.stub(utilCont, 'getKey');
@@ -35,7 +36,6 @@ let sleep = function (ms) {
 
 test.afterEach.always.serial(async t => {
   dropDB(t, () => {
-
     return;
   });
 });
@@ -51,6 +51,7 @@ test.serial('Adding post with logged in user works', async t => {
     .set('authorization', token)
     .set('Accept', 'application/json')
     .send({ post });
+
 
   t.is(res.status, 200);
 
@@ -97,6 +98,7 @@ test.serial('Own-property is true only in users own posts', async t => {
 
 test.serial('Unlogged user sees only shared posts', async t => {
   await data();
+
 
   const res = await request(app)
     .get('/api/posts/')
@@ -171,10 +173,10 @@ let data = async () => {
     await Promise.all(posts.map(post => {
         return new Post(post).save();
     }));
+
     await Promise.all(users.map(user =>
         new User({...user, password: bcrypt.hashSync(user.password,  bcrypt.genSaltSync())})
       .save()));
-
 };
 
 let drop = async () => {
