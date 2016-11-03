@@ -12,7 +12,7 @@ const posts = [
 ];
 
 test('renders the list', t => {
-  const wrapper = shallow(
+  const wrapper = shallowWithIntl(
     <PostList posts={posts} handleShowPost={() => {}} handleDeletePost={() => {}}
         handleEditPost={() => {}} />
   );

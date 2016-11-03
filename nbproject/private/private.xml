@@ -3,9 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/server/controllers/__tests__/post.controller.spec.js</file>
             <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/server/util/test-helpers.js</file>
             <file>file:/C:/Users/Markus/Documents/NetBeansProjects/muisti/server/controllers/post.controller.js</file>
+=======
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Module/components/ModuleListItem/ModuleListItem.js</file>
+            <file>file:/home/hatchy/Documents/Muistiprojekti/muisti/client/modules/Module/components/ModuleList.js</file>
+>>>>>>> master
         </group>
     </open-files>
 </project-private>

@@ -33,18 +33,18 @@ export class UserCreateModal extends Component {
         }
       });
   };
-  
+
   createUser = () => {
     const state = this.state;
-    const password = this.hashedPassword();
+//    const password = this.hashedPassword();
     addUserRequest(this.constructUser()).then(user => {
         if(user){
           this.close();
-          this.setState({ alert: 
-            basicAlert((<FormattedMessage id="registrationSuccessful_title" />), 
+          this.setState({ alert:
+            basicAlert((<FormattedMessage id="registrationSuccessful_title" />),
                        (<FormattedMessage id="registrationSuccessful_info" />))});
         }else{
-            this.setState({ error: (<FormattedMessage id="sendConfirmFail" />) }); 
+            this.setState({ error: (<FormattedMessage id="sendConfirmFail" />) });
         }
     });
   };
@@ -96,22 +96,51 @@ export class UserCreateModal extends Component {
 
   handleChange = key => e => {
     this.state[key] = e.target.value;
+    this.colorController(key);
     this.setState({});
   };
+
+  colorController = (key) => {
+    var str = 'color' + key;
+    if (this.state[key] == '') {
+      this.setState({ [str]: '' })
+    } else if (key == 'formPassVerify') {
+      if (this.validatePassword()) {
+        this.setState({ [str]: 'success'})
+      } else {
+        this.setState({ [str]: 'warning'});
+      }
+    } else if (key == 'formEmail') {
+        if (this.validateEmail()) {
+            this.setState({ [str]: 'success' })
+        } else {
+            this.setState({ [str]: 'warning'});
+      }
+    } else if (key == 'formPassword') {
+        if (this.validatePassword()) {
+            this.setState({ colorformPassVerify: 'success' })
+        } else {
+            this.setState({ colorformPassVerify: '' })
+        }
+    }
+  }
 
   registerField = (controlId, type, placeholder) => {
     var key = controlId;
     if(this.state[key] === undefined){
       this.state[key] = '';
     }
+    if (this.state['color'+key] === undefined) {
+        this.state['color'+key] = '';
+    }
     return (
-      <FormGroup controlId={controlId}>
+      <FormGroup controlId={controlId} validationState={this.state['color'+key]}>
         <Col componentClass={ControlLabel} sm={2}>
           <FormattedMessage id={controlId} />
         </Col>
         <Col sm={10}>
           <FormControl type={type} value={this.state[key]} onChange={this.handleChange(key)} placeholder={placeholder} />
-
+          <FormControl.Feedback />
         </Col>
       </FormGroup>
     );
@@ -119,7 +148,7 @@ export class UserCreateModal extends Component {
 
 
   render() {
-      
+
     return (
       <span>
         <Button onClick={this.open} bsStyle="primary"><FormattedMessage id='displayRegisterModal' /> </Button>

@@ -4,6 +4,7 @@ import callApi from '../../util/apiCaller';
 export function addUserRequest(user) {
   return callApi('users', 'post', {
       user,
+      //url is used to construct confirmation link for email
       url: (window.location.protocol + "//" + window.location.host)
     });
 };
