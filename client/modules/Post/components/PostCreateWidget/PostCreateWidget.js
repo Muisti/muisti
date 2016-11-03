@@ -73,18 +73,13 @@ export class PostCreateWidget extends Component {
   render() {
     this.updateState();
 
-    const cls = `${styles.form} ${(this.props.showAddPost ? styles.appear : '')}`;
-
     const submitText = this.isNewPost() ? "submitAdd" : "submitEdit";
     const title = this.isNewPost() ? "createNewPost" : "editPost";
 
     return (
-
-      <div className={cls}>
-        <Panel>
+      <Panel header={(<a onClick={this.props.toggleAddPost}><FormattedMessage id={title} /></a>)} bsStyle="success" 
+                    collapsible expanded={this.props.showAddPost}>
           <div className={styles['form-content']}>
-            <h2 className={styles['form-title']}><FormattedMessage id={title} /></h2>
-
             <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} >
               <input type="checkbox" ref="private"/> <FormattedMessage id="isPrivate"/>
             </div>
@@ -95,8 +90,7 @@ export class PostCreateWidget extends Component {
             <a className={styles['post-submit-button']} href="#" onClick={this.cancel}><FormattedMessage id="cancel" /></a>
 
           </div>
-        </Panel>
-      </div>
+      </Panel>
     );
   }
 }
@@ -109,6 +103,7 @@ PostCreateWidget.propTypes = {
   originalPost: PropTypes.object,
   intl: intlShape.isRequired,
   hideAddPost: PropTypes.func.isRequired,
+  toggleAddPost: PropTypes.func.isRequired
 };
 
 export default injectIntl(PostCreateWidget);
