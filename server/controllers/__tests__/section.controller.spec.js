@@ -100,6 +100,7 @@ test.serial('Adds new section correctly', async t => {
   const sections = await Section.find({ moduleCuid: 'f34gb2bh24b24b3' }).exec();
   t.deepEqual(res2.body.sections.length, sections.length);
 
+  stub.restore();
   await drop();
 });
 
