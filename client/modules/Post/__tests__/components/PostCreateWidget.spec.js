@@ -37,7 +37,7 @@ test('has correct props', t => {
   t.is(wrapper.prop('showAddPost'), props.showAddPost);
 });
 
-test.only('calls addPost', t => {
+test('calls addPost', t => {
   const addPost = sinon.spy();
   const wrapper = mountWithIntl(
     <PostCreateWidget addPost={addPost} showAddPost />
