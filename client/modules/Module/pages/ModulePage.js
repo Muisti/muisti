@@ -5,7 +5,7 @@ import SectionCreateModal from '../components/SectionCreateModal/SectionCreateMo
 
 import ModuleListItem from '../components/ModuleListItem/ModuleListItem';
 import { fetchModule, fetchSections } from '../ModuleActions';
-
+import { getTokenPayload } from '../../../util/authStorage';
 
 class ModulePage extends Component {
 
@@ -24,9 +24,12 @@ class ModulePage extends Component {
     
   }
 
+  addSectionToRender = (newSection) => {
+    this.setState({sections: [...this.state.sections, newSection]});
+  }
 
   render() {
-
+    console.log("modulePagessa!");
     return (
       
       <div>
@@ -38,15 +41,16 @@ class ModulePage extends Component {
         <br />
 
       </Panel>  
-       {this.state.sections.map(section => (
+      {this.state.sections.map(section => (
             <Panel collapsible defaultExpanded header={section.title} >
               {section.content}
             </Panel>
           ))
-        }
+      }
+      <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
+        <SectionCreateModal moduleCuid={this.state.module.cuid} orderNumber={this.state.sections.length} addSectionToRender={this.addSectionToRender} />
+      </div>
       
-      <SectionCreateModal moduleCuid={"ciuz9fahl0001nlkrgh7rqz80"} orderNumber={1} />
-
       </div>
 
 

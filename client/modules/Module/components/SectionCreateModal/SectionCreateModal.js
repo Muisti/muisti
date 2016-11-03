@@ -26,11 +26,17 @@ export class SectionCreateModal extends Component {
   };
 
   handleAddSection = () => {
-
+    
+    if (!this.state.formContent)
+      return;
+    
     addSectionRequest({ moduleCuid: this.props.moduleCuid,
       content: this.state.formContent,
       title: this.state.formTitle,
-      orderNumber: this.props.orderNumber }).then(this.close());
+      orderNumber: this.props.orderNumber })
+        .then(this.props.addSectionToRender);
+    
+    this.close();
   };
 
   render() {
@@ -69,7 +75,8 @@ export class SectionCreateModal extends Component {
 
 SectionCreateModal.propTypes = {
   moduleCuid: PropTypes.string.isRequired,
-  orderNumber: PropTypes.number.isRequired
+  orderNumber: PropTypes.number.isRequired,
+  addSectionToRender: PropTypes.func.isRequired,
 };
 
 export default SectionCreateModal;
