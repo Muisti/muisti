@@ -12,7 +12,7 @@ test('renders properly', t => {
     <ModulePage />
   );
 
-  t.is(wrapper.find('Panel').length, 1);
+  t.is(wrapper.find('Well').length, 1);
 });
 
 
