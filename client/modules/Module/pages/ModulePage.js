@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Button, Grid, Row, Col, PageHeader, Panel } from 'react-bootstrap';
+import { Button, Grid, Row, Col, PageHeader, Panel, Well } from 'react-bootstrap';
 
 import SectionCreateModal from '../components/SectionCreateModal/SectionCreateModal';
 
@@ -16,12 +16,10 @@ class ModulePage extends Component {
   
   componentDidMount() {
     
-    
     fetchModule(this.props.params.title)
       .then(module => fetchSections(module.cuid)
         .then(sections => this.setState({sections, module})));
-    
-    
+  
   }
 
   addSectionToRender = (newSection) => {
@@ -29,18 +27,14 @@ class ModulePage extends Component {
   }
 
   render() {
-    console.log("modulePagessa!");
+    
     return (
       
       <div>
-      <PageHeader>Moduulin sisältö</PageHeader>
-
-      <Panel header={this.state.module.title} eventKey="1">
-        <br />
+      <PageHeader>{this.state.module.title}</PageHeader>
+      <Well>
         {this.state.module.info}
-        <br />
-
-      </Panel>  
+      </Well>
       {this.state.sections.map(section => (
             <Panel collapsible defaultExpanded header={section.title} >
               {section.content}
