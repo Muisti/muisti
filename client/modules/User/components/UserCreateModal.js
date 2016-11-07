@@ -119,7 +119,7 @@ export class UserCreateModal extends Component {
         this.setState({ [str]: 'success'});
         this.clearError();
       } else if(!this.validatePasswordVerify()) {
-        this.setState({ [str]: 'error', error: 'Salasanat eivät täsmää, korjaa kirjoitusvirheet.' });
+        this.setState({ [str]: 'error', error: (<FormattedMessage id="verifyError" />) });
       }else {
         this.setState({ [str]: 'warning'});
         this.clearError();
