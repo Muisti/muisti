@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import Post from '../../models/post';
 import User from '../../models/user';
 import { connectDB, dropDB } from '../../util/test-helpers';
-import * as bcrypt from 'react-native-bcrypt';
+import * as bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import * as utilCont from '../util.controller';
 
