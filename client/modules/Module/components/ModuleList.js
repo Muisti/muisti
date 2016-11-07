@@ -27,17 +27,18 @@ class ModuleList extends Component {
   }
   
   handleAddModule = () => {
-    if (!this.state.formInfo || !this.state.formTitle) {
-      return;
-    }
-      var number = 0;
+    if (!this.state.formInfo || !this.state.formTitle) return;
+    
+    var number = 0;
     if (this.state.modules.length > 0) {
       number = this.state.modules[this.state.modules.length-1].orderNumber+1;
     }
-    addModuleRequest({ title: this.state.formTitle, 
-                       info: this.state.formInfo, 
-                       orderNumber: number })
-            .then(module => this.setState({ modules: [...this.state.modules, module] }));
+    
+    addModuleRequest({ 
+        title: this.state.formTitle, 
+        info: this.state.formInfo, 
+        orderNumber: number })
+    .then(module => this.setState({ modules: [...this.state.modules, module] }));
   }
   
   handleEditModule = () => {
@@ -51,7 +52,9 @@ class ModuleList extends Component {
   panelHeader = (title) => {
     return (
       <div className="clearfix">
+        <div className={styles['panel-heading']}>
           {title}
+        </div>
       </div>
       );
   }

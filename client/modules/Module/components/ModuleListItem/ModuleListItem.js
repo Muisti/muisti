@@ -1,13 +1,20 @@
 import React, { PropTypes } from 'react';
 import { PageHeader, Panel } from 'react-bootstrap';
+
+import { getTokenPayload } from '../../../../util/authStorage';
+
 import ModulePage from '../../pages/ModulePage'
+
 function ModuleListItem(props) {
   var toAddress = encodeURI(props.module.title);
   
   return (
     <div>
       {props.module.info}
-      <a href={"/module/" + toAddress} className="btn btn-default pull-right" >Siirry</a>
+      <a href={"/module/" + toAddress} 
+      className={ getTokenPayload() ? 'btn btn-default pull-right' : 'hidden' } >
+              Siirry
+      </a>
     </div>
   );
 }

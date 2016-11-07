@@ -15,11 +15,12 @@ class ModulePage extends Component {
   }
   
   componentDidMount() {
-    
     fetchModule(this.props.params.title)
       .then(module => fetchSections(module.cuid)
-        .then(sections => this.setState({sections, module})));
-  
+        .then(sections => {
+            if (!sections) sections = []; 
+            this.setState({sections, module});
+        }));
   }
 
   addSectionToRender = (newSection) => {
@@ -42,7 +43,9 @@ class ModulePage extends Component {
           ))
       }
       <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
-        <SectionCreateModal moduleCuid={this.state.module.cuid} orderNumber={this.state.sections.length} addSectionToRender={this.addSectionToRender} />
+        <SectionCreateModal moduleCuid={this.state.module.cuid} 
+                            orderNumber={this.state.sections.length} 
+                            addSectionToRender={this.addSectionToRender} />
       </div>
       
       </div>
