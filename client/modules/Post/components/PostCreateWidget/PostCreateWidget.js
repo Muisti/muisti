@@ -19,7 +19,7 @@ export class PostCreateWidget extends Component {
   // these functions allow input-fields editing
   changeContent = event => this.setState({...this.state, content: event.target.value});
 
-  clearFields = () => { this.state = {name: "", content: ""}; }
+  clearFields = () => { this.state = {name: "", content: ""}; };
 
   editPost = () => {
     this.props.editPost({
@@ -77,7 +77,7 @@ export class PostCreateWidget extends Component {
     const title = this.isNewPost() ? "createNewPost" : "editPost";
 
     return (
-      <Panel header={(<a onClick={this.props.toggleAddPost}><FormattedMessage id={title} /></a>)} bsStyle="success" 
+      <Panel header={(<a onClick={this.props.toggleAddPost}><FormattedMessage id={title} /></a>)} bsStyle="success"
                     collapsible expanded={this.props.showAddPost}>
           <div className={styles['form-content']}>
             <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} >

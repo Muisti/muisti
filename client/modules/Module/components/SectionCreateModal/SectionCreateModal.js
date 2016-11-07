@@ -9,7 +9,12 @@ export class SectionCreateModal extends Component {
     this.state = { showModal: false };
   }
 
+  clearFields = () => {
+    this.state = {formTitle: "", formContent: ""};
+  };
+
   close = () => {
+    this.clearFields();
     this.setState({ showModal: false });
   };
 
@@ -26,7 +31,7 @@ export class SectionCreateModal extends Component {
   };
 
   handleAddSection = () => {
-    if (!this.state.formContent) return;
+    if (!this.state.formContent) return this.clearFields();
 
     addSectionRequest({
       moduleCuid: this.props.moduleCuid,
@@ -35,6 +40,7 @@ export class SectionCreateModal extends Component {
       orderNumber: this.props.orderNumber })
       .then(this.props.addSectionToRender);
 
+    this.clearFields();
     this.close();
   };
 
