@@ -1,11 +1,16 @@
 export default {
   locale: 'en',
   messages: {
-    siteTitle: 'MERN Starter Blog',
-    addPost: 'Add Post',
+    //General
+    siteTitle: 'Memoryproject',
     switchLanguage: 'Switch Language',
     twitterMessage: 'We are on Twitter',
-    by: 'By',
+    submitAdd: 'Add',
+    submitEdit: 'Save',
+    submitGo: 'Go!',
+    cancel: 'Cancel',
+    //Posts
+    addPost: 'Add Post',
     deletePost: 'Delete post',
     editPostLink: "Edit post",
     createNewPost: 'Create new post',
@@ -13,14 +18,25 @@ export default {
     authorName: 'Author\'s Name',
     postTitle: 'Post Title',
     postContent: 'Post Content',
-    submitAdd: 'Add',
-    submitEdit: 'Save',
     isPrivate: 'Private',
-    cancel: 'Cancel',
+    by: 'By',
+    //Modules
+    addModule: 'Add module',
+    deleteModule: 'Delete module',
+    moduleTitle: 'Header',
+    moduleContent: 'Introduction',
+    //Sections
+    addSection: 'Add section',
+    deleteSection: 'Delete section',
+    sectionTitle: 'Section header',
+    sectionContent: 'Section content, not required',
+    addingSection: 'Adding a new section:',
+    //Registration and user control
     displayRegisterModal: 'Register',
     registrationSuccessful_title: 'Registration successful!',
     registrationSuccessful_info: 'Confirmation link has been sent to your email address.',
     sendConfirmFail: 'Registration failed: Unable to send confirmation email. Is your email address working?',
+    registerTitle: "Register new user",
     userAlreadyExists: `User {user} already exists!`,
     emailNotValid: 'Invalid email address!',
     nameNotValid: 'Please fill your name and surname correctly.',
@@ -34,7 +50,8 @@ export default {
     notConfirmedInfo:  'Please open the link sent to your email address.',
     loggingIn: "Logging in...",
     logInButton: "Log in",
-    registerTitle: "Register new user",
+    logOutButton: 'Log out',
+    
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}
