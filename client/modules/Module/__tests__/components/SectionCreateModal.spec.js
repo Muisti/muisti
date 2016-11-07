@@ -7,9 +7,15 @@ import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test
 import * as SectionActions from '../../SectionActions';
 
 
+const props = {
+  moduleCuid: 'cuid12',
+  orderNumber: 1,
+  addSectionToRender: () => {}
+};
+
 test('SectionsCreateModal renders properly', t => {
   const wrapper = shallowWithIntl(
-    <SectionCreateModal />
+    <SectionCreateModal {...props}/>
   );
 
   t.is(wrapper.find('span').length, 1);
@@ -19,7 +25,7 @@ test('SectionsCreateModal renders properly', t => {
 
 test('handleAddSections does not add section if content empty', t =>{
 	const wrapper = shallowWithIntl(
-    <SectionCreateModal />
+    <SectionCreateModal {...props} />
   );
 	var instance = wrapper.instance();
 
@@ -38,7 +44,7 @@ test('handleAddSections does not add section if content empty', t =>{
 
 test('handleAddSections calls addSectionRequest', t =>{
 	const wrapper = shallowWithIntl(
-    <SectionCreateModal />
+    <SectionCreateModal {...props} />
   );
 	var instance = wrapper.instance();
 
