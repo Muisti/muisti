@@ -41,7 +41,7 @@ test.afterEach.always.serial(async t => {
 });
 
 test.serial('Adding post with logged in user works', async t => {
-    await data();
+  await data();
 
   const token = await login(0);
   const post = { userCuid: users[0].cuid, content: "new Poost!", shared: true };
