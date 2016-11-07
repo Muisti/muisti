@@ -6,6 +6,11 @@ import mongoose from 'mongoose';
 import Section from '../../models/section'
 import Module from '../../models/module';
 
+//Used to stub token, keep our own tokensecret a secret.
+import sinon from 'sinon';
+import * as usercon from '../user.controller';
+import * as jwt from 'jwt-simple';
+
 
 const modules = [
   new Module ({ title: 'Ensimmäinen testimoduuli', info: 'esittelytekstiä', orderNumber: 1, cuid: 'f34gb2bh24b24b2' }),
@@ -76,9 +81,14 @@ test.serial('Adds new section correctly', async t => {
   const section = {moduleCuid: 'f34gb2bh24b24b3', title: 'Title-esimerkki', content: 'Toisen sectionin sisältöä, joka kuuluu moduuliin kaksi', orderNumber:2, cuid: 'f67g4d6bh31b2asdsdd' };
   const section2 = {moduleCuid: 'f34gb2bh24b24b3', content: 'Kolmannen sectionin sisältöä, joka kuuluu moduuliin kaksi', orderNumber:3, cuid: 'f67g4d6bh57d2asdsdg' };
 
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+  var stub = sinon.stub(usercon, 'decodeTokenFromRequest')
+  stub.returns(jwt.decode(token, 'secret', true));
+
   const res = await request(app)
     .post('/api/sections')
     .set('Accept', 'application/json')
+    .set('authorization', token)
     .send({ section, section2 });
 
   t.is(res.status, 200);
@@ -90,6 +100,7 @@ test.serial('Adds new section correctly', async t => {
   const sections = await Section.find({ moduleCuid: 'f34gb2bh24b24b3' }).exec();
   t.deepEqual(res2.body.sections.length, sections.length);
 
+  stub.restore();
   await drop();
 });
 

@@ -9,21 +9,21 @@ import ReactDOM from 'react-dom';
 import { fetchToken } from '../../../User/UserActions';
 import { UserCreateModal } from '../../../User/components/UserCreateModal';
 import AlertModal, { errorAlert } from '../AlertModal';
-import { setToken, getToken, removeToken } from '../../../../util/authStorage';
+import { setToken, removeToken, getTokenPayload } from '../../../../util/authStorage';
 
 
 export class LoginBox extends Component {
 
   constructor() {
     super();
-    this.state = { validEmail: "" };
-    this.state = { validPass: "" };
+    this.state = { validEmail: null };
+    this.state = { validPass: null };
     this.state = { isLoading: false };
   }
 
 
-  emailChange = event => this.setState({ validEmail: "" });
-  passwordChange = event => this.setState({ validPass: "" });
+  emailChange = event => this.setState({ validEmail: null });
+  passwordChange = event => this.setState({ validPass: null });
 
   logIn = (e) => {
     e.preventDefault();
@@ -78,23 +78,21 @@ export class LoginBox extends Component {
             this.setState({ validPass: "warning" });
             break;
           default:
-            this.setState({ validEmail: "" });
-            this.setState({ validPass: "" });
+            this.setState({ validEmail: null });
+            this.setState({ validPass: null });
             break;
       }
   };
 
   render() {
-
-    var token = getToken();
-    if (token) {
-      var decoded = jwt.decode(token, "token", true);
-      var user = decoded.user;
+    
+    var payload = getTokenPayload();
+    if (payload) {
       return (   
         <Nav pullLeft>
-          <NavItem> Hei {user} </NavItem>
+          <NavItem> Hei {payload.user} </NavItem>
           <Navbar.Form pullLeft>
-            <Button type="submit" bsStyle="warning" onClick={this.logOut} >Kirjaudu ulos</Button>
+            <Button href={window.location.pathname != '/' ? '/' : '#'} type="submit" bsStyle="warning" onClick={this.logOut} >Kirjaudu ulos</Button>
           </Navbar.Form>
           <AlertModal message={this.state.alert} />
         </Nav>

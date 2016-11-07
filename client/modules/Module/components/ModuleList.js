@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Accordion, Panel, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import ModuleListItem from './ModuleListItem/ModuleListItem';
+import { getTokenPayload } from '../../../util/authStorage';
 
 import { fetchModules, addModuleRequest } from '../ModuleActions';
 
@@ -26,13 +27,18 @@ class ModuleList extends Component {
   }
   
   handleAddModule = () => {
-    if (!this.state.formInfo || !this.state.formTitle) {
-      return;
+    if (!this.state.formInfo || !this.state.formTitle) return;
+    
+    var number = 0;
+    if (this.state.modules.length > 0) {
+      number = this.state.modules[this.state.modules.length-1].orderNumber+1;
     }
-    addModuleRequest({ title: this.state.formTitle, 
-                       info: this.state.formInfo, 
-                       orderNumber: this.state.modules[this.state.modules.length-1].orderNumber+1 })
-            .then(module => this.setState({ modules: [...this.state.modules, module] }));
+    
+    addModuleRequest({ 
+        title: this.state.formTitle, 
+        info: this.state.formInfo, 
+        orderNumber: number })
+    .then(module => this.setState({ modules: [...this.state.modules, module] }));
   }
   
   handleEditModule = () => {
@@ -43,18 +49,31 @@ class ModuleList extends Component {
       
   }
   
+  panelHeader = (title) => {
+    return (
+      <div className="clearfix">
+        <div className={styles['panel-heading']}>
+          {title}
+        </div>
+      </div>
+      );
+  }
+  
   render() {
     var i = 0;
     return (
       
       <Accordion>
         {this.state.modules.map(module => (
-            <Panel header={module.title} eventKey={++i} key={i}>
+            <Panel header={this.panelHeader(module.title)} eventKey={++i} key={i}>
               <ModuleListItem module={module}/>
             </Panel>
           ))
         }
-        <Panel header="Moduulin lisäys" eventKey={++i}>
+        
+        <Panel header="Moduulin lisäys" bsStyle='success' 
+            className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden' } 
+                eventKey={++i}>
           <FormGroup>
             <ControlLabel> Otsikko </ControlLabel>
             <FormControl type="text" value={this.state.formTitle} onChange={this.handleTitleChange} placeholder="Otsikko" />

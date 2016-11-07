@@ -6,6 +6,12 @@ import mongoose from 'mongoose';
 import Module from '../../models/module';
 
 
+//Used to stub token, keep our own tokensecret a secret.
+import sinon from 'sinon';
+import * as usercon from '../user.controller';
+import * as jwt from 'jwt-simple';
+
+
 const modules = [
   new Module ({ title: 'Kolmas testimoduuli', info: 'esittelytekstiä', orderNumber: 3, cuid: 'f34gb2bh24b24b2' }),
   new Module ({ title: 'Ensimmäinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 1, cuid: 'f34gb2bh24b24b3' }),
@@ -54,12 +60,17 @@ test.serial('Should correctly give number of modules and sorts them correctly', 
   await drop();
 });
 
-test.serial('Adds new module correctly', async t => {
+test.only.serial('Adds new module correctly', async t => {
+  
   const module = {title: 'viides moduuli', info: 'esittelevää tekstiä', orderNumber: 5};
-
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+  var stub = sinon.stub(usercon, 'decodeTokenFromRequest')
+  stub.returns(jwt.decode(token, 'secret', true));
+  
   const res = await request(app)
     .post('/api/modules')
     .set('Accept', 'application/json')
+    .set('authorization', token)
     .send({ module });
 
   t.is(res.status, 200);
@@ -67,6 +78,7 @@ test.serial('Adds new module correctly', async t => {
   const p = await Module.findOne({ title: module.title }).exec();
   t.is(p.info, module.info);
 
+  stub.restore();
   await drop();
 });
 

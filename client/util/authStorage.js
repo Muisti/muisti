@@ -1,3 +1,5 @@
+import * as jwt from 'jwt-simple';
+
 let ownStorage = false;
 
 export function setStorage(s) {
@@ -14,6 +16,14 @@ export function getToken() {
       } else {
         return "";
       }
+}
+
+export function getTokenPayload() {
+    var token = getToken();
+    if (!token) {
+        return null;
+    }
+    return jwt.decode(token, "token", true);
 }
 
 export function setToken(token) {
