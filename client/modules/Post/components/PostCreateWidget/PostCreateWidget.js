@@ -69,6 +69,15 @@ export class PostCreateWidget extends Component {
     }
   };
 
+  panelHeader = (title) => {
+    return (
+      <div className="clearfix" onClick={this.props.toggleAddPost}>
+        <div className={styles['panel-heading']}>
+          <FormattedMessage id={title} />
+        </div>
+      </div>
+    );
+  };
 
   render() {
     this.updateState();
@@ -77,8 +86,9 @@ export class PostCreateWidget extends Component {
     const title = this.isNewPost() ? "createNewPost" : "editPost";
 
     return (
-      <Panel header={(<a onClick={this.props.toggleAddPost}><FormattedMessage id={title} /></a>)} bsStyle="success"
-                    collapsible expanded={this.props.showAddPost}>
+
+      <Panel header={this.panelHeader(title)} bsStyle="success"
+             collapsible expanded={this.props.showAddPost}>
           <div className={styles['form-content']}>
             <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} >
               <input type="checkbox" ref="private"/> <FormattedMessage id="isPrivate"/>

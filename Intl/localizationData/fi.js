@@ -1,11 +1,16 @@
 export default {
   locale: 'fi',
   messages: {
+    //General
     siteTitle: 'Muistiprojekti',
-    addPost: 'Lisää viesti',
     switchLanguage: 'Vaihda kieli',
     twitterMessage: 'Twitter viesti',
-    by: 'Tekijä',
+    submitAdd: 'Lisää',
+    submitEdit: 'Tallenna',
+    submitGo: 'Siirry!',
+    cancel: 'Peruuta',
+    //Posts
+    addPost: 'Lisää viesti',
     deletePost: 'Poista',
     editPostLink: 'Muokkaa',
     createNewPost: 'Uusi viesti',
@@ -13,10 +18,20 @@ export default {
     authorName: 'Kirjoittajan nimi',
     postTitle: 'Postauksen otsikko',
     postContent: 'Postauksen sisältö',
-    submitAdd: 'Lisää',
-    submitEdit: 'Tallenna',
     isPrivate: 'Näytä vain minulle',
-    cancel: 'Peruuta',
+    by: 'Tekijä',
+    //Modules
+    addModule: 'Lisää moduuli',
+    deleteModule: 'Poista moduuli',
+    moduleTitle: 'Otsikko',
+    moduleContent: 'Kuvaus',
+    //Sections
+    addSection: 'Lisää osio',
+    deleteSection: 'Poista osio',
+    sectionTitle: 'Osion otsikko',
+    sectionContent: 'Osion sisältö, valinnainen',
+    addingSection: 'Uuden osion lisäys:',
+    //Registration and user control
     displayRegisterModal: 'Rekisteröidy',
     registrationSuccessful_title: 'Rekisteröityminen onnistui!',
     registrationSuccessful_info: 'Vahvistusviesti on lähetetty sähköpostiisi.',
@@ -39,6 +54,7 @@ export default {
                 + " Vahvistamistaminen on tarpeellista huijaustunnusten estämiseksi.",
     loggingIn: "Kirjaudutaan...",
     logInButton: "Kirjaudu",
+    logOutButton: 'Kirjaudu ulos',
     
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
