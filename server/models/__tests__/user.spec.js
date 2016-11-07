@@ -27,14 +27,13 @@ test.afterEach.always.serial(t => {
 
 test.serial('Should correctly add a user', async t => {
 
-  t.plan(3);
+  t.plan(2);
 
   const res = await request(app)
     .post('/api/users')
     .send( { user: { name: 'New', surname: 'One', email: 'a@ab.fi', password: 'testing45' } } )
     .set('Accept', 'application/json');
 
-  t.is(res.status, 200);
 
   users.push(res);
 

@@ -14,8 +14,12 @@ const confirmedUser = [
 
 test.beforeEach.serial('connect and add tree users', t => {
   try {
-    var stub = sinon.stub(utilCont, 'getKey');
-    stub.returns('testiavain');
+    var keyStub = sinon.stub(utilCont, 'getKey');
+    var passStub = sinon.stub(utilCont, 'getPassword');
+    var emailStub = sinon.stub(utilCont, 'getEmail');
+    keyStub.returns('testiavain');
+    emailStub.returns('sahkoposti@gmail.com');
+    passStub.returns("salis");
   } catch (e) {}
   connectDB(t, () => {
     User.create(confirmedUser, err => {
@@ -32,14 +36,13 @@ test.afterEach.always.serial(t => {
 
 
 test.serial('Creating user generates confirmation code', async t => {
-  t.plan(2);
+  t.plan(1);
 
   const res = await request(app)
     .post('/api/users')
     .send( { user: { name: 'New', surname: 'One', email: 'a@ab.fi', password: 'testing45' } } )
     .set('Accept', 'application/json');
 
-  t.is(res.status, 200);
   const savedUser = await User.findOne({ surname: 'One' }).exec(); 
   t.truthy(savedUser.confirmation.length > 20);
 });
@@ -52,8 +55,6 @@ test.serial('Cannot login without confirmation', async t => {
     .post('/api/users')
     .send( { user: {...user, password: bcrypt.hashSync(user.password,  bcrypt.genSaltSync())} } )
     .set('Accept', 'application/json');
-
-  t.is(res.status, 200);
     
    const confirm = await request(app)
     .get('/api/login/' + user.email + "/" + user.password + "/")
@@ -70,8 +71,6 @@ test.serial('Login with confirmed user', async t => {
     .post('/api/users')
     .send( { user: {...user, password: bcrypt.hashSync(user.password,  bcrypt.genSaltSync())} } )
     .set('Accept', 'application/json');
-
-  t.is(res.status, 200);
     
   const savedUser = await User.findOne({ name: 'New' }).exec();
   savedUser.confirmation = "confirmed";
@@ -93,8 +92,6 @@ test.serial('Confirmation with generated code', async t => {
     .post('/api/users')
     .send( { user: {...user, password: bcrypt.hashSync(user.password,  bcrypt.genSaltSync())} } )
     .set('Accept', 'application/json');
-
-  t.is(res.status, 200);
     
   const u = await User.findOne({ name: 'New' }).exec();
   const code = u.confirmation;
