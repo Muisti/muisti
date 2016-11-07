@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Button, Grid, Row, Col, Panel } from 'react-bootstrap';
+import { Button, Grid, Row, Col, Panel, PageHeader } from 'react-bootstrap';
 import styles from './PostListPage.css';
 
 // Import Components
@@ -87,27 +87,19 @@ class PostListPage extends Component {
   render() {
     return (
       <div>
-        <div className={styles['topBar']}>
-          <span className={styles['nameTitle']}>{this.state.name}</span>
+        <div>
+          <PageHeader>{this.state.name}</PageHeader>
         </div>
         <Grid>
           <Row className="show-grid">
-            <Col xs={6} xsOffset={1}>
-              <span className={this.showAddButton() ? '' : 'hidden'}>
-                <Button href='#' onClick={this.toggleAddPost}>
-                  <FormattedMessage id="addPost" />
-                </Button>
-              </span>
-            </Col>
-          </Row>
-          <br/>
-          <Row className="show-grid">
             <Col xs={12} sm={3}>
-              <PostCreateWidget
-                addPost={this.handleAddPost} showAddPost={this.state.showAddPost}
-                hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
-                originalPost={this.editingPost}
-              />
+              <div className={getToken() ? '' : 'hidden'}>
+                <PostCreateWidget
+                  addPost={this.handleAddPost} showAddPost={this.state.showAddPost}
+                  hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
+                  originalPost={this.editingPost} toggleAddPost={this.toggleAddPost}
+                />
+              </div>
               <PostList
                 handleDeletePost={this.handleDeletePost} posts={this.props.posts}
                 handleEditPost={this.openEditPost}

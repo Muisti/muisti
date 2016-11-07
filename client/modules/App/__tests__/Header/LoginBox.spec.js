@@ -18,7 +18,7 @@ test('renders properly', t => {
 });
 
 test('renders properly when logged in', t => {
-    var stub = sinon.stub(authStorage, 'getToken');
+    var stub = sinon.stub(authStorage, 'getTokenPayload');
     stub.returns("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzY3ODUwMjA2NjZ9.Du7CVJgWA5Kju4BjEF1ENhlW5GBCs7r3vtO6oOvHJr0");
  
     const wrapper = shallowWithIntl(
