@@ -35,6 +35,7 @@ export default {
     loggingIn: "Logging in...",
     logInButton: "Log in",
     registerTitle: "Register new user",
+    moduleDescription: "Description",
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}
