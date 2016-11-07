@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { PageHeader, Panel } from 'react-bootstrap';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import { getTokenPayload } from '../../../../util/authStorage';
 
@@ -13,7 +14,7 @@ function ModuleListItem(props) {
       {props.module.info}
       <a href={"/module/" + toAddress} 
       className={ getTokenPayload() ? 'btn btn-default pull-right' : 'hidden' } >
-              Siirry
+              <FormattedMessage id={'submitGo'} />
       </a>
     </div>
   );

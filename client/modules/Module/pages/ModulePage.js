@@ -28,37 +28,25 @@ class ModulePage extends Component {
   }
 
   render() {
-    
     return (
-      
       <div>
-      <PageHeader>{this.state.module.title}</PageHeader>
-      <Well>
-        {this.state.module.info}
-      </Well>
-      {this.state.sections.map(section => (
+        <PageHeader>{this.state.module.title}</PageHeader>
+        <Well>
+          {this.state.module.info}
+        </Well>
+        {this.state.sections.map(section => (
             <Panel collapsible defaultExpanded header={section.title} >
               {section.content}
             </Panel>
           ))
-      }
-      <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
-        <SectionCreateModal moduleCuid={this.state.module.cuid} 
-                            orderNumber={this.state.sections.length} 
-                            addSectionToRender={this.addSectionToRender} />
+        }
+        <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
+          <SectionCreateModal moduleCuid={this.state.module.cuid} 
+                              orderNumber={this.state.sections.length} 
+                              addSectionToRender={this.addSectionToRender} />
+        </div>
       </div>
-      
-      </div>
-
-
     );
-
   }
-
 }
-
-
-
-
-
 export default ModulePage;

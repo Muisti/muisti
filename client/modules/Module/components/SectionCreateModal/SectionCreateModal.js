@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel, FieldGroup } from 'react-bootstrap';
-import {addSectionRequest} from '../../SectionActions'
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { addSectionRequest } from '../../SectionActions'
 
 export class SectionCreateModal extends Component {
 
@@ -42,26 +43,29 @@ export class SectionCreateModal extends Component {
 
     return (
       <span>
-        <Button onClick={this.open} bsStyle="primary">Lisää uusi</Button>
+        <Button onClick={this.open} bsStyle="primary"><FormattedMessage id="addSection"/></Button>
 
         <Modal show={this.state.showModal} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
 
           <Modal.Header closeButton>
-            <Modal.Title>Uuden sectionin lisäys</Modal.Title>
+            <Modal.Title><FormattedMessage id="addingSection"/></Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <form>
-              <ControlLabel> Otsikko </ControlLabel>
-              <FormControl type="text" value={this.state.formTitle} onChange={this.handleTitleChange} placeholder="Otsikko (valinnainen)" />
-              <ControlLabel> Sisältö </ControlLabel>
-              <FormControl componentClass="textarea" value={this.state.formContent} onChange={this.handleContentChange} placeholder="Sisältö" />
+              <ControlLabel> <FormattedMessage id="sectionTitle"/> </ControlLabel>
+              <FormControl type="text" value={this.state.formTitle} onChange={this.handleTitleChange} 
+                    placeholder={this.props.intl.messages.sectionTitle} />
+              
+              <ControlLabel> <FormattedMessage id="sectionContent"/> </ControlLabel>
+              <FormControl componentClass="textarea" value={this.state.formContent} onChange={this.handleContentChange} 
+                    placeholder={this.props.intl.messages.sectionContent} />
             </form>
           </Modal.Body>
 
           <Modal.Footer>
-            <Button bsStyle="primary" onClick={this.handleAddSection}> Lisää </Button>
-            <Button onClick={this.close}>Peruuta</Button>
+            <Button bsStyle="primary" onClick={this.handleAddSection}> <FormattedMessage id="submitAdd"/> </Button>
+            <Button onClick={this.close}> <FormattedMessage id="cancel"/> </Button>
           </Modal.Footer>
 
         </Modal>
@@ -76,7 +80,8 @@ SectionCreateModal.propTypes = {
   moduleCuid: PropTypes.string.isRequired,
   orderNumber: PropTypes.number.isRequired,
   addSectionToRender: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
 };
 
-export default SectionCreateModal;
+export default injectIntl(SectionCreateModal);
 
