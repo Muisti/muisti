@@ -157,6 +157,23 @@ test.serial('Logged in user can delete own post', async t => {
   await drop();
 });
 
+test.serial('Logged in user can edit own post', async t => {
+    await data();
+    const token = await login(0);
+    
+    var post = { userCuid: users[0].cuid, cuid: posts[0].cuid, content: "All dogs meow 'mern!'", shared: posts[0].shared };
+    
+    const res = await request(app)
+      .put('/api/posts/')
+      .set('authorization', token)
+      .set('Accept', 'application/json')
+      .send({ post });
+      
+      t.is(res.status, 200);
+      const p = await Post.findOne({ cuid: posts[0].cuid })
+      t.is(p.content, post.content);
+});
+
 
 let login = async userIndex => {
  const user = users[userIndex];
