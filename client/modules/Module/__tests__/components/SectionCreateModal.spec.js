@@ -1,10 +1,10 @@
 import React from 'react';
 import test from 'ava';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
-import SectionCreateModal from '../../components/SectionCreateModal/SectionCreateModal';
+import { SectionCreateModal } from '../../components/SectionCreateModal/SectionCreateModal';
 import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test-helper';
 import * as SectionActions from '../../SectionActions';
+import * as authStorage from '../../../../util/authStorage';
 
 
 test('SectionsCreateModal renders properly', t => {
@@ -18,7 +18,7 @@ test('SectionsCreateModal renders properly', t => {
 });
 
 test('handleAddSections does not add section if content empty', t =>{
-	const wrapper = shallowWithIntl(
+  const wrapper = shallowWithIntl(
     <SectionCreateModal />
   );
 	var instance = wrapper.instance();

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Accordion, Panel, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import ModuleListItem from './ModuleListItem/ModuleListItem';
 import { getTokenPayload } from '../../../util/authStorage';
 
@@ -7,10 +8,10 @@ import { fetchModules, addModuleRequest } from '../ModuleActions';
 
 import styles from './ModuleList.css';
 
-class ModuleList extends Component {
+export class ModuleList extends Component {
   
-  constructor(props) {
-      super(props);
+  constructor() {
+      super();
       this.state = { modules: [], formTitle: '', formInfo: '' };
   }
   
@@ -59,10 +60,19 @@ class ModuleList extends Component {
       );
   }
   
+  addHeader = () => {
+    return (
+      <div className="clearfix">
+        <div className={styles['panel-heading']}>
+          {this.props.intl.messages.addModule}
+        </div>
+      </div>
+      );
+  };
+  
   render() {
     var i = 0;
     return (
-      
       <Accordion>
         {this.state.modules.map(module => (
             <Panel header={this.panelHeader(module.title)} eventKey={++i} key={i}>
@@ -71,22 +81,27 @@ class ModuleList extends Component {
           ))
         }
         
-        <Panel header="Moduulin lisäys" bsStyle='success' 
+        <Panel header={this.addHeader()} bsStyle='success' 
             className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden' } 
                 eventKey={++i}>
           <FormGroup>
-            <ControlLabel> Otsikko </ControlLabel>
-            <FormControl type="text" value={this.state.formTitle} onChange={this.handleTitleChange} placeholder="Otsikko" />
-            <ControlLabel> Kuvaus </ControlLabel>
-            <FormControl componentClass="textarea" value={this.state.fromInfo} onChange={this.handleInfoChange} placeholder="Kuvaus" />
-            <Button type="submit" onClick={this.handleAddModule}> Luo uusi! </Button>
+            <ControlLabel> <FormattedMessage id={'moduleTitle'} /> </ControlLabel>
+            <FormControl type="text" value={this.state.formTitle} onChange={this.handleTitleChange} 
+                placeholder={this.props.intl.messages.moduleTitle} />
+            
+            <ControlLabel> <FormattedMessage id={'moduleContent'} /> </ControlLabel>
+            <FormControl componentClass="textarea" value={this.state.fromInfo} onChange={this.handleInfoChange} 
+                placeholder={this.props.intl.messages.moduleContent} />
+            <Button type="submit" onClick={this.handleAddModule}> <FormattedMessage id={'submitAdd'} /> </Button>
           </FormGroup>
         </Panel>
       </Accordion>
-
     );
   }
 }
 
+ModuleList.propTypes = {
+  intl: intlShape.isRequired,
+};
 
-export default ModuleList;
+export default injectIntl(ModuleList);
