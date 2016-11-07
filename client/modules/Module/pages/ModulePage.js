@@ -13,40 +13,44 @@ class ModulePage extends Component {
     super(props);
     this.state = {module: {}, sections: [] };
   }
-  
+
   componentDidMount() {
     fetchModule(this.props.params.title)
       .then(module => fetchSections(module.cuid)
         .then(sections => {
-            if (!sections) sections = []; 
-            this.setState({sections, module});
+          if (!sections) sections = [];
+          this.setState({sections, module});
         }));
   }
 
   addSectionToRender = (newSection) => {
     this.setState({sections: [...this.state.sections, newSection]});
-  }
+  };
 
   render() {
+
     return (
+
       <div>
-        <PageHeader>{this.state.module.title}</PageHeader>
+        <PageHeader> <Button href={"/"} bsStyle="primary">Palaa</Button> {this.state.module.title}</PageHeader>
         <Well>
           {this.state.module.info}
         </Well>
-        {this.state.sections.map(section => (
-            <Panel collapsible defaultExpanded header={section.title} >
+        {this.state.sections.map(section => { if (section) {
+          return(
+            <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
               {section.content}
-            </Panel>
-          ))
+            </Panel>)
+        }})
         }
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
-          <SectionCreateModal moduleCuid={this.state.module.cuid} 
-                              orderNumber={this.state.sections.length} 
+          <SectionCreateModal moduleCuid={this.state.module.cuid}
+                              orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
       </div>
     );
   }
 }
+
 export default ModulePage;
