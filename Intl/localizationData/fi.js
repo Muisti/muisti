@@ -28,6 +28,7 @@ export default {
     nameNotValid: 'Etunimi tai sukunimi puuttuu.',
     passwordNotValid: 'Salasana ei ole tarpeeksi vahva.'
                             + ' Salasanan on oltava yli 8 merkkiä pitkä',
+    verifyError: 'Salasanat eivät täsmää. Korjaa kirjoitusvirheet.',
     formEmail: 'Sähköposti',
     formName: 'Etunimi',
     formSurname: 'Sukunimi',

@@ -25,6 +25,7 @@ export default {
     emailNotValid: 'Invalid email address!',
     nameNotValid: 'Please fill your name and surname correctly.',
     passwordNotValid: 'Your password is not strong enough. Password minimum length is 8 characters.',
+    verifyError: 'Your password does not match with verification.',
     formEmail: 'Email',
     formName: 'First name',
     formSurname: 'Surname',
