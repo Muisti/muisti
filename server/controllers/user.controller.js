@@ -26,7 +26,6 @@ export function addUser(req, res) {
     // we care security - not send confirmation code to client
     .then(() => res.json({ user: {...newUser, confirmation: ""} }))
     .catch(err => {
-      console.log(err);
       return res.status(500).send(err);
     });
 }
