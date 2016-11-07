@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import * as bcrypt from 'react-native-bcrypt';
+import * as bcrypt from 'bcryptjs';
 import {addUserRequest, fetchUser} from '../UserActions'
 import AlertModal, { basicAlert } from '../../App/components/AlertModal';
 
@@ -113,7 +113,7 @@ export class UserCreateModal extends Component {
   colorController = (key) => {
     var str = 'color' + key;
     if (this.state[key] == null) {
-      this.setState({ [str]: null })
+      this.setState({ [str]: null });
     } else if (key == 'formPassVerify') {
       if (this.validatePassword()) {
         this.setState({ [str]: 'success'});
@@ -126,7 +126,7 @@ export class UserCreateModal extends Component {
       }
     } else if (key == 'formEmail') {
         if (this.validateEmail()) {
-            this.setState({ [str]: 'success' })
+            this.setState({ [str]: 'success' });
         } else {
             this.setState({ [str]: 'warning'});
       }
