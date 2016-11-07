@@ -51,7 +51,6 @@ export default {
     loggingIn: "Logging in...",
     logInButton: "Log in",
     logOutButton: 'Log out',
-    
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}

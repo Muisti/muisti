@@ -4,7 +4,7 @@ import * as bcrypt from 'react-native-bcrypt';
 import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 
-import { getKey } from './util.controller'
+import { getKey, getEmail, getPassword } from './util.controller'
 
 
 export function addUser(req, res) {
@@ -26,7 +26,6 @@ export function addUser(req, res) {
     // we care security - not send confirmation code to client
     .then(() => res.json({ user: {...newUser, confirmation: ""} }))
     .catch(err => {
-      console.log(err);
       return res.status(500).send(err);
     });
 }
@@ -129,15 +128,15 @@ function isUserAccountConfirmed(user){
  * this function uses it to build confirmation link
  */
 
-function sendConfirmationEmail(ownUrl, user){
+async function sendConfirmationEmail(ownUrl, user){
 
   var transporter = mailer.createTransport({
     host: "smtp.gmail.com", // hostname
     secure: true,
     port: 465,   // port for secure SMTP
     auth: {
-      user: "muistivahvistus@gmail.com",
-      pass: "ohtu2016"
+      user: await getEmail(),
+      pass: await getPassword()
     },
     tls: {
       rejectUnauthorized: false
