@@ -1,12 +1,11 @@
 import React from 'react';
 import test from 'ava';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
-import ModuleList from '../../components/ModuleList';
+import { ModuleList } from '../../components/ModuleList';
 import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test-helper';
 
 import * as moduleActions from '../../ModuleActions';
-import * as modulist from '../../components/ModuleList';
+import * as authStorage from '../../../../util/authStorage';
 
 
 test('renders properly', t => {
