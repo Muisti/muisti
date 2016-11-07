@@ -25,7 +25,7 @@ class ModulePage extends Component {
 
   addSectionToRender = (newSection) => {
     this.setState({sections: [...this.state.sections, newSection]});
-  }
+  };
 
   render() {
 
