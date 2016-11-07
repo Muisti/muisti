@@ -2,8 +2,8 @@ import Section from '../models/section';
 import cuid from 'cuid';
 import { decodeTokenFromRequest } from './user.controller';
 
-export function getSections(req, res) {
-  var token = decodeTokenFromRequest(req);
+export async function getSections(req, res) {
+  let token = await decodeTokenFromRequest(req);
   if (!token) {
       return res.status(403).end();
   }
@@ -15,10 +15,12 @@ export function getSections(req, res) {
   });
 }
 
-export function addSection(req, res) {
-  var token = decodeTokenFromRequest(req);
+export async function addSection(req, res) {
+  let token = await decodeTokenFromRequest(req);
   var sect = req.body.section;
-  if (!token || !token.isAdmin || !sect || !sect.moduleCuid || !sect.content || !sect.orderNumber) {
+
+
+  if (!token || !token.isAdmin || !sect || !sect.moduleCuid || !sect.content || sect.orderNumber == undefined) {
     return res.status(403).end();
   }
   const newSection = new Section(sect);

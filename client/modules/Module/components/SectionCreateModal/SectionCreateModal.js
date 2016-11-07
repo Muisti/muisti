@@ -68,14 +68,13 @@ export class SectionCreateModal extends Component {
 
       </span>
     );
-
   }
 }
 
 SectionCreateModal.propTypes = {
   moduleCuid: PropTypes.string.isRequired,
   orderNumber: PropTypes.number.isRequired,
-  addSectionToRender: PropTypes.func.isRequired,
+  addSectionToRender: PropTypes.func.isRequired
 };
 
 export default SectionCreateModal;

@@ -32,15 +32,16 @@ class ModulePage extends Component {
     return (
 
       <div>
-        <PageHeader>{this.state.module.title}</PageHeader>
+        <PageHeader> <Button href={"/"} bsStyle="primary">Palaa</Button> {this.state.module.title}</PageHeader>
         <Well>
           {this.state.module.info}
         </Well>
-        {this.state.sections.map(section => (
-          <Panel collapsible defaultExpanded header={section.title} >
-            {section.content}
-          </Panel>
-        ))
+        {this.state.sections.map(section => { if (section) {
+          return(
+            <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
+              {section.content}
+            </Panel>)
+        }})
         }
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}
