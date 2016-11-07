@@ -102,8 +102,8 @@ export class UserCreateModal extends Component {
 
   colorController = (key) => {
     var str = 'color' + key;
-    if (this.state[key] == '') {
-      this.setState({ [str]: '' })
+    if (this.state[key] == null) {
+      this.setState({ [str]: null })
     } else if (key == 'formPassVerify') {
       if (this.validatePassword()) {
         this.setState({ [str]: 'success'})
@@ -120,7 +120,7 @@ export class UserCreateModal extends Component {
         if (this.validatePassword()) {
             this.setState({ colorformPassVerify: 'success' })
         } else {
-            this.setState({ colorformPassVerify: '' })
+            this.setState({ colorformPassVerify: null })
         }
     }
   }
@@ -131,7 +131,7 @@ export class UserCreateModal extends Component {
       this.state[key] = '';
     }
     if (this.state['color'+key] === undefined) {
-        this.state['color'+key] = '';
+        this.state['color'+key] = null;
     }
     return (
       <FormGroup controlId={controlId} validationState={this.state['color'+key]}>
