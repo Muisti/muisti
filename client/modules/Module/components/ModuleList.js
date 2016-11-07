@@ -8,10 +8,10 @@ import { fetchModules, addModuleRequest } from '../ModuleActions';
 
 import styles from './ModuleList.css';
 
-class ModuleList extends Component {
+export class ModuleList extends Component {
   
-  constructor(props) {
-      super(props);
+  constructor() {
+      super();
       this.state = { modules: [], formTitle: '', formInfo: '' };
   }
   
@@ -73,7 +73,6 @@ class ModuleList extends Component {
   render() {
     var i = 0;
     return (
-      
       <Accordion>
         {this.state.modules.map(module => (
             <Panel header={this.panelHeader(module.title)} eventKey={++i} key={i}>
@@ -97,7 +96,6 @@ class ModuleList extends Component {
           </FormGroup>
         </Panel>
       </Accordion>
-
     );
   }
 }
@@ -105,6 +103,5 @@ class ModuleList extends Component {
 ModuleList.propTypes = {
   intl: intlShape.isRequired,
 };
-
 
 export default injectIntl(ModuleList);
