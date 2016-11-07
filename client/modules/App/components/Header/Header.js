@@ -30,7 +30,7 @@ export function Header(props) {
             <NavItem eventKey={1} href="/muisti">Muisti</NavItem>
           </Nav>
             <Nav pullRight>
-              <LoginBox fetchPosts={() => props.dispatch(fetchPosts())} />
+              <LoginBox fetchPosts={() => props.dispatch(fetchPosts())} intl={props.intl} />
             <NavDropdown eventKey={2} title="Vaihda kieli" id="basic-nav-dropdown">
                 {languageNodes}
             </NavDropdown>

@@ -92,7 +92,9 @@ export class LoginBox extends Component {
         <Nav pullLeft>
           <NavItem> Hei {payload.user} </NavItem>
           <Navbar.Form pullLeft>
-            <Button href={window.location.pathname != '/' ? '/' : '#'} type="submit" bsStyle="warning" onClick={this.logOut} >Kirjaudu ulos</Button>
+            <Button href={window.location.pathname != '/' ? '/' : '#'} type="submit" bsStyle="warning" onClick={this.logOut} >
+              <FormattedMessage id={'logOutButton'} />
+            </Button>
           </Navbar.Form>
           <AlertModal message={this.state.alert} />
         </Nav>
@@ -106,12 +108,14 @@ export class LoginBox extends Component {
         <Navbar.Form pullLeft>
           <form>
             <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
-              <FormControl type="email" placeholder='Sähköposti' onChange={this.emailChange} ref="email"/>
+              <FormControl type="email" placeholder={this.props.intl.messages.formEmail} 
+                    onChange={this.emailChange} ref="email"/>
               <FormControl.Feedback />
             </FormGroup>
             {' '}
             <FormGroup controlId="passwordForm" validationState={this.state.validPass}>
-              <FormControl type="password" placeholder="Salasana" onChange={this.passwordChange} ref="password"/>
+              <FormControl type="password" placeholder={this.props.intl.messages.formPassword}
+                    onChange={this.passwordChange} ref="password"/>
               <FormControl.Feedback />
             </FormGroup>
             {' '}
@@ -130,6 +134,7 @@ export class LoginBox extends Component {
 
 LoginBox.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
+  intl: PropTypes.object.isRequired,
 };
 
 export default LoginBox;
