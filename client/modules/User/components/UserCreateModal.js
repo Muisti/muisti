@@ -94,10 +94,20 @@ export class UserCreateModal extends Component {
     return true;
   };
 
+  validatePasswordVerify = () => {
+    var pass = this.state.formPassword;
+    var verifier = this.state.formPassVerify;
+    return verifier.length < pass.length || verifier == pass;
+  };
+
   handleChange = key => e => {
     this.state[key] = e.target.value;
     this.colorController(key);
     this.setState({});
+  };
+  
+  clearError = () => {
+    if(this.state.error){ this.setState({ error: null }); }
   };
 
   colorController = (key) => {
@@ -106,9 +116,13 @@ export class UserCreateModal extends Component {
       this.setState({ [str]: null })
     } else if (key == 'formPassVerify') {
       if (this.validatePassword()) {
-        this.setState({ [str]: 'success'})
-      } else {
+        this.setState({ [str]: 'success'});
+        this.clearError();
+      } else if(!this.validatePasswordVerify()) {
+        this.setState({ [str]: 'error', error: 'Salasanat eivät täsmää, korjaa kirjoitusvirheet.' });
+      }else {
         this.setState({ [str]: 'warning'});
+        this.clearError();
       }
     } else if (key == 'formEmail') {
         if (this.validateEmail()) {
@@ -118,9 +132,10 @@ export class UserCreateModal extends Component {
       }
     } else if (key == 'formPassword') {
         if (this.validatePassword()) {
-            this.setState({ colorformPassVerify: 'success' })
+            this.clearError();
+            this.setState({ colorformPassVerify: 'success' });
         } else {
-            this.setState({ colorformPassVerify: null })
+            this.setState({ colorformPassVerify: null });
         }
     }
   }
