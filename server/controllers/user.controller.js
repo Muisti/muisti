@@ -1,6 +1,6 @@
 import User from '../models/user';
 import cuid from 'cuid';
-import * as bcrypt from 'react-native-bcrypt';
+import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 
