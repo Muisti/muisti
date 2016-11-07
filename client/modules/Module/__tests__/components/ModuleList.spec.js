@@ -23,12 +23,12 @@ test('handleAddModule does addModuleRequest', t => {
     var instance = wrapper.instance();
     var stub = sinon.stub(moduleActions, 'addModuleRequest');
     stub.returns(Promise.resolve({title: 'title', info: 'info', orderNumber: 0, cuid: 'cuidi'}))
-    
+
     instance.setState({ formInfo: 'Informaatio'});
     instance.setState({ formTitle: 'Otsikko' });
-    
+
     instance.handleAddModule();
-    
+
     t.truthy(stub.calledOnce);
     stub.restore();
 });
@@ -40,11 +40,11 @@ test('handleAddModule does not do addModuleRequest if field is empty', t => {
     var instance = wrapper.instance();
     var stub = sinon.stub(moduleActions, 'addModuleRequest');
     stub.returns(Promise.resolve({title: 'title', info: 'info', orderNumber: 0, cuid: 'cuidi'}))
-    
+
     instance.setState({ formInfo: 'Informaatio'});
-    
+
     instance.handleAddModule();
-    
+
     t.truthy(!stub.calledOnce);
     stub.restore();
 });
@@ -52,12 +52,13 @@ test('handleAddModule does not do addModuleRequest if field is empty', t => {
 test('componentDidMount works', t => {
     var stub = sinon.stub(moduleActions, 'fetchModules');
         stub.returns(Promise.resolve([]));
-    
+
     const wrapper = shallowWithIntl(
-      <ModuleList />        
+      <ModuleList />
     );
     wrapper.instance().componentDidMount();
-    
+
     t.truthy(stub.calledOnce);
     stub.restore();
 });
+
