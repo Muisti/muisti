@@ -14,7 +14,6 @@ export class SectionCreateModal extends Component {
   };
 
   close = () => {
-    this.clearFields();
     this.setState({ showModal: false });
   };
 
@@ -31,7 +30,7 @@ export class SectionCreateModal extends Component {
   };
 
   handleAddSection = () => {
-    if (!this.state.formContent) return this.clearFields();
+    if (!this.state.formContent) return;
 
     addSectionRequest({
       moduleCuid: this.props.moduleCuid,

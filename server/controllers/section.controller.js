@@ -3,7 +3,7 @@ import cuid from 'cuid';
 import { decodeTokenFromRequest } from './user.controller';
 
 export async function getSections(req, res) {
-  let token = await decodeTokenFromRequest(req);
+  let token = decodeTokenFromRequest(req);
   if (!token) {
       return res.status(403).end();
   }
