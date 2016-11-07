@@ -68,7 +68,7 @@ export class ModuleList extends Component {
         </div>
       </div>
       );
-  }
+  };
   
   render() {
     var i = 0;
