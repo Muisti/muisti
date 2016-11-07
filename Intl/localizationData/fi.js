@@ -26,8 +26,8 @@ export default {
     userAlreadyExists: `Käyttäjä {user} on jo olemassa!`,
     emailNotValid: 'Sähköpostiosoitteessa on kirjoitusvirhe!',
     nameNotValid: 'Etunimi tai sukunimi puuttuu.',
-    passwordNotValid: 'Salasana ei ole tarpeeksi vahva tai se ei täsmää vahvistussalasanan kanssa.'
-                            + 'Salasanan on oltava yli 8 merkkiä pitkä',
+    passwordNotValid: 'Salasana ei ole tarpeeksi vahva.'
+                            + ' Salasanan on oltava yli 8 merkkiä pitkä',
     formEmail: 'Sähköposti',
     formName: 'Etunimi',
     formSurname: 'Sukunimi',

@@ -24,7 +24,7 @@ export default {
     userAlreadyExists: `User {user} already exists!`,
     emailNotValid: 'Invalid email address!',
     nameNotValid: 'Please fill your name and surname correctly.',
-    passwordNotValid: 'Your password is not strong enough or confirmation password does not match. Password minimum length is 8 characters.',
+    passwordNotValid: 'Your password is not strong enough. Password minimum length is 8 characters.',
     formEmail: 'Email',
     formName: 'First name',
     formSurname: 'Surname',
