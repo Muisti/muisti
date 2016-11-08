@@ -21,7 +21,6 @@ export class LoginBox extends Component {
     this.state = { isLoading: false };
   }
 
-
   emailChange = event => this.setState({ validEmail: null });
   passwordChange = event => this.setState({ validPass: null });
 
@@ -85,8 +84,8 @@ export class LoginBox extends Component {
   };
 
   render() {
-    
     var payload = getTokenPayload();
+    console.log("Payload: " + payload);
     if (payload) {
       return (   
         <Nav pullLeft>
