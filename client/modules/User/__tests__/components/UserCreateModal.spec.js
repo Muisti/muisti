@@ -12,7 +12,7 @@ test('renders properly', t => {
 
   t.is(wrapper.find('span').length, 1);
   t.is(wrapper.find('FormGroup').length, 5);
-  t.is(wrapper.find('Button').length, 3);
+  t.is(wrapper.find('Button').length, 4);
 
 });
 
