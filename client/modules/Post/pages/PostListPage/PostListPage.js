@@ -88,7 +88,7 @@ class PostListPage extends Component {
     return (
       <div>
         <div>
-          <PageHeader>{this.state.name}</PageHeader>
+          <PageHeader></PageHeader>
         </div>
         <Grid>
           <Row className="show-grid">
