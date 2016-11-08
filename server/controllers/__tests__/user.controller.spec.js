@@ -4,7 +4,7 @@ import app from '../../server';
 import sinon from 'sinon';
 import { connectDB, dropDB } from '../../util/test-helpers';
 import User from '../../models/user';
-import * as bcrypt from 'react-native-bcrypt';
+import * as bcrypt from 'bcryptjs';
 import * as utilCont from '../util.controller';
 
 

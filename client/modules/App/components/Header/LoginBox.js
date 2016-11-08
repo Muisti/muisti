@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Button, Fade, Nav, Navbar, NavItem, NavDropdown, MenuItem, FormGroup, FormControl } from 'react-bootstrap';
-import * as bcrypt from 'react-native-bcrypt';
+import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jwt-simple';
 import ReactDOM from 'react-dom';
 

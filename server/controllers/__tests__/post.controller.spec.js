@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import Post from '../../models/post';
 import User from '../../models/user';
 import { connectDB, dropDB } from '../../util/test-helpers';
-import * as bcrypt from 'react-native-bcrypt';
+import * as bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import * as utilCont from '../util.controller';
 
@@ -41,7 +41,7 @@ test.afterEach.always.serial(async t => {
 });
 
 test.serial('Adding post with logged in user works', async t => {
-    await data();
+  await data();
 
   const token = await login(0);
   const post = { userCuid: users[0].cuid, content: "new Poost!", shared: true };
