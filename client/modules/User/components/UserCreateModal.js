@@ -20,7 +20,8 @@ export class UserCreateModal extends Component {
     this.setState({ showModal: true });
   };
 
-  handleAddUser = () => {
+  handleAddUser = e => {
+    if(e) e.preventDefault();
     const email = this.state.formEmail;
     const error = this.validate();
     this.setState({ error });
@@ -169,19 +170,20 @@ export class UserCreateModal extends Component {
         <Button onClick={this.open} bsStyle="primary"><FormattedMessage id='displayRegisterModal' /> </Button>
 
         <Modal show={this.state.showModal} onHide={this.close}>
+          <form>
           <Modal.Header closeButton>
             <Modal.Title><FormattedMessage id='registerTitle' /></Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <Form horizontal>
-
               {this.registerField('formEmail', "email", 'matti.meikalainen@gmail.com')}
               {this.registerField('formName', "text", 'Matti')}
               {this.registerField('formSurname', "text", 'Meikäläinen')}
               {this.registerField('formPassword',  "password", 'Salasana')}
               {this.registerField('formPassVerify', "password", 'Salasana')}
-
+              
+              <Button type="submit" className='hidden' onClick={this.handleAddUser} />
             </Form>
             <div className={this.state.error ? '' : 'hidden'}>
                 <Alert bsStyle="warning">
@@ -190,9 +192,10 @@ export class UserCreateModal extends Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="primary" onClick={this.handleAddUser}> Rekisteröidy </Button>
+            <Button type="submit" bsStyle="primary" onClick={this.handleAddUser}> Rekisteröidy </Button>
             <Button onClick={this.close}>Peruuta</Button>
           </Modal.Footer>
+          </form>
         </Modal>
         <AlertModal message={this.state.alert} />
       </span>
