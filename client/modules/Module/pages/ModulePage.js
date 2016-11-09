@@ -4,8 +4,10 @@ import { Button, Grid, Row, Col, PageHeader, Panel, Well } from 'react-bootstrap
 import SectionCreateModal from '../components/SectionCreateModal/SectionCreateModal';
 import SectionFactory from '../components/SectionFactory/SectionFactory'
 import ModuleListItem from '../components/ModuleListItem/ModuleListItem';
-import { fetchModule, fetchSections } from '../ModuleActions';
+import { fetchModule } from '../ModuleActions';
+import { fetchSections } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
+import validator from 'validator';
 
 class ModulePage extends Component {
 
@@ -27,20 +29,32 @@ class ModulePage extends Component {
     this.setState({sections: [...this.state.sections, newSection]});
   };
 
+  
+
   render() {
 
     return (
 
       <div>
+       
         <PageHeader> <Button href={"/"} bsStyle="primary">Palaa</Button> {this.state.module.title}</PageHeader>
         <Well>
           {this.state.module.info}
         </Well>
         {this.state.sections.map(section => { if (section) {
+          
+          if(validator.isURL(section.content)){
+            return(
+            <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
+             <img src={section.content} />
+            </Panel>);
+
+          } else {
           return(
             <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
-              {section.content}
-            </Panel>)
+             {section.content}
+            </Panel>);
+          }
         }})
         }
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
@@ -48,7 +62,8 @@ class ModulePage extends Component {
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
-        <SectionFactory moduleCuid={this.state.module.cuid}></SectionFactory>
+        
+        <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
 
       </div>
     );

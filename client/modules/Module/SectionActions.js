@@ -6,5 +6,11 @@ export function addSectionRequest(section) {
 }
 
 export function deleteSectionRequest(cuid) {
-	return callApi('sections/${cuid}', 'delete').then(res => res);
+	return callApi(`sections/${cuid}`, 'delete')
+		.then(res => res);
+}
+
+export function fetchSections(moduleCuid){
+	return callApi(`sections/${moduleCuid}`)
+      .then(res => res.sections);
 }

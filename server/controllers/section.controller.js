@@ -34,9 +34,12 @@ export async function addSection(req, res) {
 }
 
 export async function deleteSection(req, res){
-  Section.findOne({cuid:req.params.cuid}).exec((err, section) => {
+  console.log(req.params.cuid);
+  Section.findOne({cuid: req.params.cuid}).exec((err, section) => {
     if(err){
       return res.status(500).send(err);
+    }else if(!section){
+      return res.status(404).end();
     }
     return section.remove(() => res.status(200).end());
   });
