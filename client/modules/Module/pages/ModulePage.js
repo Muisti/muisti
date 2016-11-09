@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { Button, Grid, Row, Col, PageHeader, Panel, Well } from 'react-bootstrap';
 
 import SectionCreateModal from '../components/SectionCreateModal/SectionCreateModal';
-
+import SectionFactory from '../components/SectionFactory/SectionFactory'
 import ModuleListItem from '../components/ModuleListItem/ModuleListItem';
 import { fetchModule, fetchSections } from '../ModuleActions';
 import { getTokenPayload } from '../../../util/authStorage';
@@ -48,6 +48,8 @@ class ModulePage extends Component {
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
+        <SectionFactory moduleCuid={this.state.module.cuid}></SectionFactory>
+
       </div>
     );
   }

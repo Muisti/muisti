@@ -32,3 +32,13 @@ export async function addSection(req, res) {
       return res.status(500).send(err);
     });
 }
+
+export async function deleteSection(req, res){
+  Section.findOne({cuid:req.params.cuid}).exec((err, section) => {
+    if(err){
+      return res.status(500).send(err);
+    }
+    return section.remove(() => res.status(200).end());
+  });
+
+}
