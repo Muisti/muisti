@@ -28,8 +28,9 @@ export default {
     //Sections
     addSection: 'Add section',
     deleteSection: 'Delete section',
-    sectionTitle: 'Section header',
-    sectionContent: 'Section content, not required',
+    sectionTitle: 'Section header, not required',
+    sectionContent: 'Section content',
+    sectionLink: 'Link to Multimediacontent (images, videos etc.)',
     addingSection: 'Adding a new section:',
     //Registration and user control
     displayRegisterModal: 'Register',

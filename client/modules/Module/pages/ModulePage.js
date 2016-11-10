@@ -29,7 +29,20 @@ class ModulePage extends Component {
     this.setState({sections: [...this.state.sections, newSection]});
   };
 
-  
+  checkMultimediaFileType = function(link) {
+    if(validator.contains(link, ".webm") || validator.contains(link, ".mp4") || validator.contains(link, ".ogg"))
+      return "video";
+    if(validator.contains(link, ".jpg") || validator.contains(link, ".jpeg") || validator.contains(link, ".gif"))
+      return "image";
+    else
+      return "error"; 
+  };
+
+  FileTypeRender = (type) => {
+    if(type === "video")
+     return; 
+
+  }
 
   render() {
 
@@ -43,13 +56,23 @@ class ModulePage extends Component {
         </Well>
         {this.state.sections.map(section => { if (section) {
           
-          if(validator.isURL(section.content)){
+          if(this.checkMultimediaFileType(section.content) === "video"){
             return(
             <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
-             <img src={section.content} />
+             <video width="320" height="240" controls>
+              <source src={section.content} type="video/webm" />
+             </video> 
             </Panel>);
 
-          } else {
+          }else if(this.checkMultimediaFileType(section.content) === "image"){
+            return(
+            <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
+             <video width="320" height="240" controls>
+              <source src={section.content} type="video/webm" />
+             </video> 
+            </Panel>);
+
+          }else {
           return(
             <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
              {section.content}
@@ -63,8 +86,10 @@ class ModulePage extends Component {
                               addSectionToRender={this.addSectionToRender} />
         </div>
         
-        <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
-
+        <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
+          <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
+        </div>
+      
       </div>
     );
   }

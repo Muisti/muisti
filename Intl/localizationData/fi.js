@@ -28,8 +28,9 @@ export default {
     //Sections
     addSection: 'Lisää osio',
     deleteSection: 'Poista osio',
-    sectionTitle: 'Osion otsikko',
-    sectionContent: 'Osion sisältö, valinnainen',
+    sectionTitle: 'Osion otsikko, valinnainen',
+    sectionContent: 'Osion sisältö',
+    sectionLink: 'Linkki multimediasisältöön (kuvat, videot ym.)',
     addingSection: 'Uuden osion lisäys:',
     //Registration and user control
     displayRegisterModal: 'Rekisteröidy',

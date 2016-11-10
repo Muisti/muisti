@@ -19,7 +19,7 @@ export class SectionFactory extends Component {
 		
 		for(var i = 0; i < sectionsCount; i++){
 			
-			if(i%2) testContent = "http://i.imgur.com/4PD98.gif";
+			if(i%2) testContent = "http://www.w3schools.com/html/mov_bbb.mp4";
 				else testContent = "koe sisältöä sectioihin " + i;
 			
 			addSectionRequest({
