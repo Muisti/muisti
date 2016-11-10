@@ -48,7 +48,7 @@ export class SectionCreateModal extends Component {
 
     return (
       <span>
-        <Button onClick={this.open} bsStyle="primary"><FormattedMessage id="addSection"/></Button>
+          <Button onClick={this.open} bsStyle="primary"><FormattedMessage id="addSection"/></Button>
 
         <Modal show={this.state.showModal} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
 
