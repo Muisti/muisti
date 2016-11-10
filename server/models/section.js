@@ -6,7 +6,7 @@ const sectionSchema = new Schema({
   moduleCuid: { type: 'String', required: true },
   title: { type: 'String', required: false },
   link: { type: 'String', required: false },
-  content: { type: 'String', required: true },
+  content: { type: 'String', required: false },
   orderNumber: { type: 'Number', required: true }
 });
 
