@@ -20,7 +20,6 @@ export function getToken() {
 
 export function getTokenPayload() {
     var token = getToken();
-    console.log("Token: " + token);
     if (!token) {
         return null;
     }
