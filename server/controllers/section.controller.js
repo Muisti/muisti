@@ -20,7 +20,8 @@ export async function addSection(req, res) {
   var sect = req.body.section;
 
 
-  if (!token || !token.isAdmin || !sect || !sect.moduleCuid || !sect.content || sect.orderNumber == undefined) {
+  if (!token || !token.isAdmin || !sect || !sect.moduleCuid
+          || (!sect.content && !sect.link) || sect.orderNumber == undefined) {
     return res.status(403).end();
   }
   const newSection = new Section(sect);

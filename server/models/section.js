@@ -5,6 +5,7 @@ const sectionSchema = new Schema({
   cuid: { type: 'String', required: true },
   moduleCuid: { type: 'String', required: true },
   title: { type: 'String', required: false },
+  link: { type: 'String', required: false },
   content: { type: 'String', required: true },
   orderNumber: { type: 'Number', required: true }
 });
