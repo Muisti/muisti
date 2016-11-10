@@ -87,9 +87,6 @@ class PostListPage extends Component {
   render() {
     return (
       <div>
-        <div>
-          <PageHeader>{this.state.name}</PageHeader>
-        </div>
         <Grid>
           <Row className="show-grid">
             <Col xs={12} sm={3}>
@@ -117,7 +114,7 @@ class PostListPage extends Component {
 }
 
 // Actions required to provide data for this component to render in sever side.
-PostListPage.need = [() => { return fetchPosts(); }];
+//PostListPage.need = [() => { return fetchPosts(); }];
 
 // Retrieve data from store as props
 function mapStateToProps(state) {
