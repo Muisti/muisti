@@ -29,6 +29,7 @@ class ModulePage extends Component {
     this.setState({sections: [...this.state.sections, newSection]});
   };
 
+
   checkMultimediaFileType = function(link) {
     if(validator.contains(link, ".webm") || validator.contains(link, ".mp4") || validator.contains(link, ".ogg"))
       return "video";
@@ -38,13 +39,31 @@ class ModulePage extends Component {
       return "error"; 
   };
 
-  FileTypeRender = (type) => {
-    if(type === "video")
-     return; 
+  RenderMultimediaFileType = function(type, section) {
+    if(type === "video"){
+      return(
+        <video width="640" height="420" controls>
+        <source src={section.link} type="video/webm" />
+        </video> 
+        );
+    }else if (type === "image"){
+      return(
+        <img src={section.link}/>
+        );
+    }else{
+      return (
+        <div> Virhe!</div>
+        );
+    }
 
   }
 
+  
+
   render() {
+
+    
+
 
     return (
 
@@ -54,38 +73,24 @@ class ModulePage extends Component {
         <Well>
           {this.state.module.info}
         </Well>
+        
         {this.state.sections.map(section => { if (section) {
-          
-          if(this.checkMultimediaFileType(section.content) === "video"){
             return(
             <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
-             <video width="320" height="240" controls>
-              <source src={section.content} type="video/webm" />
-             </video> 
-            </Panel>);
-
-          }else if(this.checkMultimediaFileType(section.content) === "image"){
-            return(
-            <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
-             <video width="320" height="240" controls>
-              <source src={section.content} type="video/webm" />
-             </video> 
-            </Panel>);
-
-          }else {
-          return(
-            <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
-             {section.content}
-            </Panel>);
-          }
-        }})
+             {section.content ? section.content : ''}
+             {section.link ? this.RenderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
+            </Panel>
+            );
+          }})
         }
+        
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
         
+
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>

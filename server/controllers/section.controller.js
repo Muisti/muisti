@@ -44,4 +44,6 @@ export async function deleteSection(req, res){
     return section.remove(() => res.status(200).end());
   });
 
+
 }
+

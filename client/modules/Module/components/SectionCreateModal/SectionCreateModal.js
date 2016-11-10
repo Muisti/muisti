@@ -37,14 +37,14 @@ export class SectionCreateModal extends Component {
   handleAddSection = () => {
     if (!this.state.formContent && !this.state.formLink) return;
 
-    /*addSectionRequest({
+    addSectionRequest({
       moduleCuid: this.props.moduleCuid,
       content: this.state.formContent,
       title: this.state.formTitle,
       link: this.state.formLink,
       orderNumber: this.props.orderNumber })
       .then(this.props.addSectionToRender);
-    */
+    
     this.clearFields();
     //this.close();
     

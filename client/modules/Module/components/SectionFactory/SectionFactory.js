@@ -14,18 +14,21 @@ export class SectionFactory extends Component {
 
 	createSections = (button, sectionsCount = 1) => {
 		
-		var testContent = "";	
+		var testContent = "";
+		var testLink = "";	
 		sectionsCount = this.numberOfSecs;	
 		
 		for(var i = 0; i < sectionsCount; i++){
 			
-			if(i%2) testContent = "http://www.w3schools.com/html/mov_bbb.mp4";
-				else testContent = "koe sisältöä sectioihin " + i;
+			testContent = "koe sisältöä contenttiin " + i;
+			if(i%2) testLink = "http://www.w3schools.com/html/mov_bbb.mp4";
+				else testLink = "";
 			
 			addSectionRequest({
 				moduleCuid: this.props.moduleCuid,
 				content: testContent,
 				title: "koeotsikko " + i,
+				link: testLink,
 				orderNumber: i
 			}).then(newSection => {this.setState({sections: [...this.state.sections, newSection]});
 					this.props.addSectionToRender(newSection)});
