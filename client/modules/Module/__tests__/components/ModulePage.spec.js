@@ -6,7 +6,6 @@ import ModulePage from '../../pages/ModulePage';
 import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test-helper';
 import * as moduleActions from '../../ModuleActions';
 
-
 test('renders properly', t => {
   const wrapper = shallowWithIntl(
     <ModulePage />
@@ -27,9 +26,43 @@ test('ModulePage fetches module', t =>{
 		<ModulePage params={{title: "koe"}} />
 	);
 	var instance = wrapper.instance().componentDidMount();
-	
+
 	t.truthy(stub.calledOnce);
-	
+
 	stub.restore();
 	stub2.restore();
+});
+
+test('ModulePage with no sections', t => {
+  const module = { title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12' };
+  const section = { title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid' };
+  const section2 = { title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid2' };
+
+  const wrapper = shallowWithIntl(
+    <ModulePage />
+  );
+
+  wrapper.setState({ module: {module} });
+  wrapper.setState({ sections: [{section}, {section2}]});
+
+  t.is(wrapper.find('Panel').length, 2);
+
+});
+
+test('Adds new sections', t => {
+  const module = { title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12' };
+  const section = { title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid' };
+
+  const wrapper = shallowWithIntl(
+    <ModulePage />
+  );
+
+  wrapper.setState({ module: {module} });
+
+  t.is(wrapper.state().sections.length, 0);
+
+  var instance = wrapper.instance();
+  instance.addSectionToRender(section);
+
+  t.is(wrapper.state().sections.length, 1);
 });
