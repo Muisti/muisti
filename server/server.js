@@ -36,6 +36,7 @@ import posts from './routes/post.routes';
 import users from './routes/user.routes';
 import modules from './routes/module.routes';
 import sections from './routes/section.routes';
+import scores from './routes/score.routes';
 import serverConfig from './config';
 
 // Set native promises as mongoose promise
@@ -55,7 +56,7 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
-app.use('/api', posts, users, modules, sections);
+app.use('/api', posts, users, modules, sections, scores);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
@@ -142,7 +143,7 @@ app.use((req, res, next) => {
 // start app
 app.listen(serverConfig.port, (error) => {
   if (!error) {
-    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
+    console.log(`MERN is running on port: ${serverConfig.port}! Kohta joulu!`); // eslint-disable-line
   }
 });
 

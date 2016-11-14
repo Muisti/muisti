@@ -4,6 +4,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import SectionCreateModal from '../components/SectionCreateModal/SectionCreateModal';
 import SectionFactory from '../components/SectionFactory/SectionFactory'
 import ModuleListItem from '../components/ModuleListItem/ModuleListItem';
+import QuizItem from '../../Quiz/components/QuizItem';
 import { fetchModule } from '../ModuleActions';
 import { fetchSections } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
@@ -90,12 +91,10 @@ class ModulePage extends Component {
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
-        
 
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>
-      
       </div>
     );
   }
