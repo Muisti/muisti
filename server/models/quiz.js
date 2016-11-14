@@ -1,0 +1,11 @@
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
+
+const quizSchema = new Schema({
+  cuid: { type: 'String', required: true },
+  sectionCuid: { type: 'String', required: true },
+  question: { type: 'String', required: true},
+  options: { type: [{ text: 'String', answer: 'Boolean' }], required: true }
+});
+
+export default mongoose.model('Quiz', quizSchema);
