@@ -33,7 +33,7 @@ export class Section extends Component{
       var optionNumber = 0;
       
       return (
-        <div style={{marginBottom: '15px'}}>
+        <div style={{marginBottom: '17px'}}>
         <div style={{color: '#5555bb', fontWeight: 'bold', marginBottom: '10px'}}>
         <span style={{marginRight: '9px', background: '#dfdfff', borderRadius: '15px', 
             padding: '4px', paddingLeft: '9px', paddingRight: '5px', fontSize: '1.15em'}}>
@@ -52,7 +52,6 @@ export class Section extends Component{
   
   getUserSelections = (quiz, index) => {
     var result = [];
-
     for(var i = 0; i < quiz.options.length; i++){
       var checked = document.getElementById('quiz' + index + 'option' + i).checked;
       result.push(checked);
@@ -61,14 +60,42 @@ export class Section extends Component{
     return result;
   };
   
+  countPoints = (quiz, userAnswers) => {
+    if(this.correctAnswers(quiz) == 0){
+        return userAnswers.filter(answer => answer).length ? 0 : 1;
+    }
+    let result = 0;
+    for(let i = 0; i < quiz.options.length; i++){
+        if(userAnswers[i] === quiz.options[i].answer){
+            if(quiz.options[i].answer) result++;
+        }else{
+            if(!quiz.options[i].answer) result--;
+        }
+    }
+    
+    return Math.max(result, 0);
+  };
+  
+  correctAnswers = quiz => quiz.options.filter(option => option.answer).length;
+  maxPoints = quiz => this.correctAnswers(quiz) || 1;
+  
+  verifyAnswers = (userAnswers) => {
+      this.props.section.quizzes.forEach((quiz, i) => {
+         const points = this.countPoints(quiz, this.getUserSelections(quiz, i));
+         console.log(points + " / " + this.maxPoints(quiz));
+      });
+  };
+  
+  
     render(){
+      this.props.section.quizzes = [{question: 'mikä eläin sanoo "Hau Hau" ?', options: [
+        {text: 'kissa', answer: false}, {text: 'leijona', answer: false}, {text: 'kukko', answer: false}
+      ]}, {question: 'mikä eläin sanoo "Mau Mau" ?', options: [
+        {text: 'kissa', answer: false}, {text: 'koira', answer: true}, {text: 'kukko', answer: false}
+        , {text: 'kana', answer: false}, {text: 'tiikeri', answer: true}, {text: 'elefantti', answer: false}
+      ]}];
       var section = this.props.section;
       var quizOrderNumber = 0;
-      section.quizzes = [{question: 'mikä eläin sanoo "Hau Hau" ?', options: [
-        {text: 'kissa'}, {text: 'koira'}, {text: 'kukko'}
-      ]}, {question: 'mikä eläin sanoo "Mau Mau" ?', options: [
-        {text: 'kissa'}, {text: 'koira'}, {text: 'kukko'}
-      ]}];
         
       return (
         <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
@@ -90,7 +117,7 @@ export class Section extends Component{
                 </div>)}>
             {section.quizzes.map(quiz => this.renderQuiz(quiz, ++quizOrderNumber))}
             </Panel>
-            <Button onClick={() => console.log(this.getUserSelections(section.quizzes[0], 0))}>tarkista</Button>
+            <Button onClick={this.verifyAnswers}>tarkista</Button>
          </div>
         </Panel>
       );  
@@ -106,9 +133,9 @@ Section.propTypes = {
       quizzes: PropTypes.arrayOf({
           question: PropTypes.string,
           options: PropTypes.arrayOf({
-              text: PropTypes.string,
-              answer: PropTypes.bool
-          })
+              text: PropTypes.string.isRequired,
+              answer: PropTypes.bool.isRequired
+          }).isRequired
       }),
   })
 };
