@@ -4,6 +4,7 @@ import { Button, Grid, Row, Col, PageHeader, Panel, Well } from 'react-bootstrap
 import SectionCreateModal from '../components/SectionCreateModal/SectionCreateModal';
 
 import ModuleListItem from '../components/ModuleListItem/ModuleListItem';
+import QuizItem from '../../Quiz/components/QuizItem';
 import { fetchModule, fetchSections } from '../ModuleActions';
 import { getTokenPayload } from '../../../util/authStorage';
 
@@ -48,6 +49,7 @@ class ModulePage extends Component {
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
+        <QuizItem />
       </div>
     );
   }
