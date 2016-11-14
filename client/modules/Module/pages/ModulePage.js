@@ -1,10 +1,12 @@
 import React, { PropTypes, Component } from 'react';
 import { Button, Grid, Row, Col, PageHeader, Panel, Well } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+
 import SectionCreateModal from '../components/SectionCreateModal';
 import SectionFactory from '../components/SectionFactory'
 import ModuleListItem from '../components/ModuleListItem';
 import Section from '../components/Section';
+
 import { fetchModule } from '../ModuleActions';
 import { fetchSections } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
@@ -47,12 +49,10 @@ class ModulePage extends Component {
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
-        
 
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>
-      
       </div>
     );
   }

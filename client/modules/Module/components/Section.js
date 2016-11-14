@@ -50,8 +50,10 @@ export class Section extends Component{
 
          {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
          
+         <Panel collapsible header={<span style={{}}>Tehtävät</span>}>
          {this.renderQuiz({question: "Mikä eläin sanoo 'hau hau'?", 
                  answers: ['koira', 'kissa', 'kukko']})}
+         </Panel>
         </Panel>
       );  
     }
