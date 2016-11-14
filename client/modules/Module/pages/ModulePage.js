@@ -32,24 +32,25 @@ class ModulePage extends Component {
     this.setState({sections: [...this.state.sections, newSection]});
   };
 
-  render() {
-    return (
 
+  render() {
+
+    return (
       <div>
-        
         <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
         <Well>
           {this.state.module.info}
         </Well>
+
         
         {this.state.sections.map(section => section ? <Section section={section} /> : '')}
         
+
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
-
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>

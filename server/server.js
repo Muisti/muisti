@@ -36,6 +36,7 @@ import posts from './routes/post.routes';
 import users from './routes/user.routes';
 import modules from './routes/module.routes';
 import sections from './routes/section.routes';
+import quizzes from './routes/quiz.routes';
 import scores from './routes/score.routes';
 import serverConfig from './config';
 
@@ -56,7 +57,7 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist')));
-app.use('/api', posts, users, modules, sections, scores);
+app.use('/api', posts, users, modules, sections, quizzes, scores);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {

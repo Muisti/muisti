@@ -25,7 +25,7 @@ test('SectionsCreateModal renders properly', t => {
 
 test('handleAddSections does not add section if content empty', t => {
 
-	const wrapper = shallowWithIntl(
+  const wrapper = shallowWithIntl(
     <SectionCreateModal {...props} />
   );
 	var instance = wrapper.instance();
