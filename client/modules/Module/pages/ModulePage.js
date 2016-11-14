@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Button, Grid, Row, Col, PageHeader, Panel, Well } from 'react-bootstrap';
-
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import SectionCreateModal from '../components/SectionCreateModal/SectionCreateModal';
 import SectionFactory from '../components/SectionFactory/SectionFactory'
 import ModuleListItem from '../components/ModuleListItem/ModuleListItem';
@@ -30,7 +30,7 @@ class ModulePage extends Component {
   };
 
 
-  checkMultimediaFileType = function(link) {
+  checkMultimediaFileType = (link) => {
     if(validator.contains(link, ".webm") || validator.contains(link, ".mp4") || validator.contains(link, ".ogg"))
       return "video";
     if(validator.contains(link, ".jpg") || validator.contains(link, ".jpeg") || validator.contains(link, ".gif"))
@@ -39,20 +39,20 @@ class ModulePage extends Component {
       return "error"; 
   };
 
-  RenderMultimediaFileType = function(type, section) {
+  renderMultimediaFileType = (type, section) => {
     if(type === "video"){
       return(
-        <video width="640" height="420" controls>
+        <video width="640"  controls>
         <source src={section.link} type="video/webm" />
         </video> 
         );
     }else if (type === "image"){
       return(
-        <img src={section.link}/>
+        <img src={section.link} width="480" />
         );
     }else{
       return (
-        <div> Virhe!</div>
+        <div> Filetype not supported!</div>
         );
     }
 
@@ -68,8 +68,8 @@ class ModulePage extends Component {
     return (
 
       <div>
-       
-        <PageHeader> <Button href={"/"} bsStyle="primary">Palaa</Button> {this.state.module.title}</PageHeader>
+        
+        <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
         <Well>
           {this.state.module.info}
         </Well>
@@ -77,8 +77,9 @@ class ModulePage extends Component {
         {this.state.sections.map(section => { if (section) {
             return(
             <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
-             {section.content ? section.content : ''}
-             {section.link ? this.RenderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
+             <div>{section.content ? section.content : ''}</div>
+             
+             {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
             </Panel>
             );
           }})

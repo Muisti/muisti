@@ -6,7 +6,7 @@ import ModulePage from '../../pages/ModulePage'
 export class SectionFactory extends Component {
 	constructor(props){
 		super(props);
-		this.state = { sections: []};
+		this.state = { sections: [] };
 		this.numberOfSecs = 1;
 		}
 	
@@ -22,8 +22,9 @@ export class SectionFactory extends Component {
 			
 			testContent = "koe sisältöä contenttiin " + i;
 			if(i%2) testLink = "http://www.w3schools.com/html/mov_bbb.mp4";
-				else testLink = "";
-			
+			else if(i%3) testLink = "http://i.imgur.com/hXvANaX.jpg";
+			else testLink= "";
+
 			addSectionRequest({
 				moduleCuid: this.props.moduleCuid,
 				content: testContent,

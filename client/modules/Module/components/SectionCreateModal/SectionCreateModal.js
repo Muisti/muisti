@@ -11,7 +11,7 @@ export class SectionCreateModal extends Component {
   }
 
   clearFields = () => {
-    this.state = {formTitle: "", formContent: "", formLink: "" };
+    this.setState({formTitle: "", formContent: "", formLink: "" });
   };
 
   close = () => {
@@ -30,13 +30,17 @@ export class SectionCreateModal extends Component {
     this.setState({ formContent: e.target.value });
   };
 
-  handleLinkChange = (e) =>{
-    this.setState({ formLink: e.target.value })  
+  handleLinkChange = (e) => {
+    this.setState({ formLink: e.target.value, error: "" })  
   }
 
-  handleAddSection = () => {
-    if (!this.state.formContent && !this.state.formLink) return;
-
+  handleAddSection = (e) => {
+    if(e) e.preventDefault();
+    this.setState({error: this.validateLink()})    
+    
+    //Jos molemmat pakollisista kentistä, tai ei URL niin validointi false
+    if ((!this.state.formContent && !this.state.formLink) || this.validateLink()) return false;
+    
     addSectionRequest({
       moduleCuid: this.props.moduleCuid,
       content: this.state.formContent,
@@ -46,9 +50,19 @@ export class SectionCreateModal extends Component {
       .then(this.props.addSectionToRender);
     
     this.clearFields();
-    //this.close();
+    this.close();
     
   };
+
+  validateLink = () => {
+    
+
+    if(this.state.formLink && !validator.isURL(this.state.formLink))
+      return (<FormattedMessage id="sectionLinknotValid" />);
+    else 
+      return "";
+  }
+  
 
   render() {
 
@@ -61,7 +75,7 @@ export class SectionCreateModal extends Component {
           <Modal.Header closeButton>
             <Modal.Title><FormattedMessage id="addingSection"/></Modal.Title>
           </Modal.Header>
-          <form>
+          <form onSubmit={this.handleAddSection}>
           <Modal.Body>
             
               <ControlLabel> <FormattedMessage id="sectionTitle"/> </ControlLabel>
@@ -73,14 +87,19 @@ export class SectionCreateModal extends Component {
                     placeholder={this.props.intl.messages.sectionContent} />
                
                <ControlLabel> <FormattedMessage id="sectionLink"/> </ControlLabel>
-              <FormControl type="url" value={this.state.formLink} onChange={this.handleLinkChange}
+              <FormControl type="text" value={this.state.formLink} onChange={this.handleLinkChange}
                     placeholder={this.props.intl.messages.sectionLink} />
               
            
           </Modal.Body>
 
           <Modal.Footer>
-            <Button type="submit" bsStyle="primary" onClick={this.handleAddSection}> <FormattedMessage id="submitAdd"/> </Button>
+             <div className={this.state.error ? '' : 'hidden'}>
+                <Alert bsStyle="warning">
+                    <b>{this.state.error}</b>
+                </Alert>
+            </div>
+            <Button type="submit" bsStyle="primary" > <FormattedMessage id="submitAdd"/> </Button>
             <Button onClick={this.close}> <FormattedMessage id="cancel"/> </Button>
           </Modal.Footer>
            </form>

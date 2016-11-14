@@ -7,7 +7,8 @@ export default {
     twitterMessage: 'Twitter viesti',
     submitAdd: 'Lisää',
     submitEdit: 'Tallenna',
-    submitGo: 'Siirry!',
+    submitGo: 'Siirry',
+    submitBack: 'Palaa',
     cancel: 'Peruuta',
     //Posts
     addPost: 'Lisää viesti',
@@ -31,6 +32,7 @@ export default {
     sectionTitle: 'Osion otsikko, valinnainen',
     sectionContent: 'Osion sisältö',
     sectionLink: 'Linkki multimediasisältöön (kuvat, videot ym.)',
+     sectionLinknotValid:'Ei validi Osoite',
     addingSection: 'Uuden osion lisäys:',
     //Registration and user control
     displayRegisterModal: 'Rekisteröidy',
