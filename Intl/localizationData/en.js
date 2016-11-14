@@ -7,7 +7,8 @@ export default {
     twitterMessage: 'We are on Twitter',
     submitAdd: 'Add',
     submitEdit: 'Save',
-    submitGo: 'Go!',
+    submitGo: 'Go',
+    submitBack: 'Back',
     cancel: 'Cancel',
     //Posts
     addPost: 'Add Post',
@@ -28,8 +29,10 @@ export default {
     //Sections
     addSection: 'Add section',
     deleteSection: 'Delete section',
-    sectionTitle: 'Section header',
-    sectionContent: 'Section content, not required',
+    sectionTitle: 'Section header, not required',
+    sectionContent: 'Section content',
+    sectionLink: 'Link to Multimediacontent (images, videos etc.)',
+    sectionLinknotValid:'Not a valid URL',
     addingSection: 'Adding a new section:',
     //Registration and user control
     displayRegisterModal: 'Register',
