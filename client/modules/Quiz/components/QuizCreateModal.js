@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Button, Checkbox, Modal, Form, FormControl, ControlLabel, FieldGroup } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { addQuizRequest } from '../QuizActions';
 
 export class QuizCreateModal extends Component {
 
@@ -28,13 +29,21 @@ export class QuizCreateModal extends Component {
     }
   };
   
-  createQuiz = () => {
-      
-  }
-  
   //sectionCuid, question, options
-  addQuizRequest = () => {
-      var quiz = this.createQuiz();
+  handleAddQuiz = () => {
+      const sectionCuid = this.props.sectionCuid;
+      const question = this.state.formQuestion;
+      const options = [];
+      for (var i = 1; i-1 < this.state.fieldSize; i++) {
+          var text = this.state[i+'answer'];
+          var answer = this.state[i + 'chk'] == true;
+          options.push({text, answer});
+      }
+      if (!sectionCuid || !question || !options || options.length < 1) {
+          return;
+      }
+      addQuizRequest({sectionCuid, question, options});
+      
   };
   
   handleQuestionChange = e => {
@@ -92,7 +101,7 @@ export class QuizCreateModal extends Component {
             </Modal.Body>
 
             <Modal.Footer>
-              <Button onClick={this.addQuizRequest}> VALMIS </Button>
+              <Button onClick={this.handleAddQuiz}> VALMIS </Button>
               <Button onClick={this.close}> CANCEL </Button>
              </Modal.Footer>
         </Modal>
