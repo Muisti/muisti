@@ -5,7 +5,7 @@ import { SectionCreateModal } from '../../components/SectionCreateModal/SectionC
 import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test-helper';
 import * as SectionActions from '../../SectionActions';
 import * as authStorage from '../../../../util/authStorage';
-
+import validator from 'validator'
 
 const props = {
   moduleCuid: 'cuid12',
@@ -23,7 +23,7 @@ test('SectionsCreateModal renders properly', t => {
   t.is(wrapper.find('Button').length, 3);
 });
 
-test('handleAddSections does not add section if content empty', t =>{
+test('handleAddSections does not add section if content empty', t => {
 
 	const wrapper = shallowWithIntl(
     <SectionCreateModal {...props} />
@@ -43,7 +43,7 @@ test('handleAddSections does not add section if content empty', t =>{
 });
 
 
-test('handleAddSections calls addSectionRequest', t =>{
+test('handleAddSections calls addSectionRequest', t => {
 	const wrapper = shallowWithIntl(
     <SectionCreateModal {...props} />
   );
@@ -61,3 +61,20 @@ test('handleAddSections calls addSectionRequest', t =>{
 
 });
 
+test('if link not valid does not add section', t => {
+	const wrapper = shallowWithIntl(
+    <SectionCreateModal {...props} />
+  );
+	var instance = wrapper.instance();
+
+	var stub = sinon.stub(SectionActions, 'addSectionRequest');
+	stub.returns(Promise.resolve({}));
+
+	wrapper.setState({formLink: "koe!"});
+	wrapper.find('Button').at(1).simulate('click');
+
+	var linkError = wrapper.state().error;
+	t.truthy(linkError != "");
+	t.truthy(!stub.called);
+	stub.restore();
+});

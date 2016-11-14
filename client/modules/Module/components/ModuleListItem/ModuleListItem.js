@@ -14,7 +14,7 @@ function ModuleListItem(props) {
       {props.module.info}
       <a href={"/module/" + toAddress} 
       className={ getTokenPayload() ? 'btn btn-default pull-right' : 'hidden' } >
-              <FormattedMessage id={'submitGo'} />
+              <FormattedMessage id={'submitGo'} />&rarr;
       </a>
     </div>
   );
