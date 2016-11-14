@@ -1,7 +1,7 @@
 const config = {
   mongoURL: process.env.NODE_ENV == 'test' ? 
-            'mongodb://testaaja:testaaja@ds029436.mlab.com:29436/testikanta' : 
-            process.env.MONGO_URL || 'mongodb://developer:developer@ds021036.mlab.com:21036/muistikanta',
+            'mongodb://testaaja:testaaja@ds147497.mlab.com:47497/testikanta4' : 
+            process.env.MONGO_URL || 'mongodb://ohtumuisti:ohtu2016@ds147487.mlab.com:47487/muistidevaus',
   port: process.env.PORT || 8000,
 };
 
