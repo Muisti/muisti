@@ -6,4 +6,6 @@ router.route('/sections/:moduleCuid').get(SectionController.getSections);
 
 router.route('/sections').post(SectionController.addSection);
 
+router.route('/sections/:cuid').delete(SectionController.deleteSection);
+
 export default router;

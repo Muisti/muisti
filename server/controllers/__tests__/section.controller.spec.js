@@ -69,7 +69,7 @@ test.serial('Should correctly give number of sections and sorts them correctly',
   t.deepEqual(res.body.sections.length, howManySections.length);
 
   for(let i = 0; i < res.body.sections.length; i++) {
-    t.deepEqual(res.body.sections[i].orderNumber, i+1);
+    t.is(res.body.sections[i].orderNumber, i+1);
   }
 
   await drop();
