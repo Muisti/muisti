@@ -4,6 +4,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import SectionCreateModal from '../components/SectionCreateModal/SectionCreateModal';
 import SectionFactory from '../components/SectionFactory/SectionFactory'
 import ModuleListItem from '../components/ModuleListItem/ModuleListItem';
+import QuizItem from '../../Quiz/components/QuizItem';
 import { fetchModule } from '../ModuleActions';
 import { fetchSections } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
@@ -43,45 +44,38 @@ class ModulePage extends Component {
     if(type === "video"){
       return(
         <video width="640"  controls>
-        <source src={section.link} type="video/webm" />
+          <source src={section.link} type="video/webm" />
         </video>
-        );
+      );
     }else if (type === "image"){
       return(
         <img src={section.link} width="480" />
-        );
+      );
     }else{
       return (
         <div> Filetype not supported!</div>
-        );
+      );
     }
-
-  }
-
-
+  };
 
   render() {
-
-
-
 
     return (
 
       <div>
-
         <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
         <Well>
           {this.state.module.info}
         </Well>
 
         {this.state.sections.map(section => { if (section) {
-            return(
+          return(
             <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
-             <div>{section.content ? section.content : ''}</div>
-             {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
+              <div>{section.content ? section.content : ''}</div>
+              {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
             </Panel>
-            );
-          }})
+          );
+        }})
         }
 
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
@@ -89,12 +83,9 @@ class ModulePage extends Component {
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
-
-
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>
-
       </div>
     );
   }
