@@ -69,7 +69,7 @@ test.serial('Should correctly give number of sections and sorts them correctly',
   t.deepEqual(res.body.sections.length, howManySections.length);
 
   for(let i = 0; i < res.body.sections.length; i++) {
-    t.deepEqual(res.body.sections[i].orderNumber, i+1);
+    t.is(res.body.sections[i].orderNumber, i+1);
   }
 
   await drop();
@@ -114,5 +114,54 @@ test.serial('Does not add sections with incorrect informations', async t => {
 
   t.is(res.status, 403);
 
+  await drop();
+});
+
+test.serial('Adding section without content, but link provided', async t => {
+  await data();
+
+  const section = {moduleCuid: 'f34gb2bh24b24b3', title: 'Title-esimerkki', link: "linkki", orderNumber:2, cuid: 'f67g4d6bh31b2asdsdd' };
+
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+  var stub = sinon.stub(usercon, 'decodeTokenFromRequest')
+  stub.returns(jwt.decode(token, 'secret', true));
+
+  const res = await request(app)
+    .post('/api/sections')
+    .set('Accept', 'application/json')
+    .set('authorization', token)
+    .send({ section });
+
+  t.is(res.status, 200);
+
+  const res2 = await request(app)
+    .get('/api/sections/' + 'f34gb2bh24b24b3' + '/')
+    .set('Accept', 'application/json');
+
+  const sections = await Section.find({ moduleCuid: 'f34gb2bh24b24b3' }).exec();
+  t.deepEqual(res2.body.sections.length, sections.length);
+
+  stub.restore();
+  await drop();
+});
+
+test.serial('Cannot add section without content and link', async t => {
+  await data();
+
+  const section = {moduleCuid: 'f34gb2bh24b24b3', title: 'Title-esimerkki', orderNumber:2, cuid: 'f67g4d6bh31b2asdsdd' };
+
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+  var stub = sinon.stub(usercon, 'decodeTokenFromRequest')
+  stub.returns(jwt.decode(token, 'secret', true));
+
+  const res = await request(app)
+    .post('/api/sections')
+    .set('Accept', 'application/json')
+    .set('authorization', token)
+    .send({ section });
+
+  t.is(res.status, 403);
+  
+  stub.restore();
   await drop();
 });
