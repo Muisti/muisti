@@ -1,18 +1,30 @@
 import Section from '../models/section';
 import cuid from 'cuid';
+
 import { decodeTokenFromRequest } from './user.controller';
+import { getQuizzesForSection } from './quiz.controller'
 
 export async function getSections(req, res) {
+
   let token = decodeTokenFromRequest(req);
   if (!token) {
-      return res.status(403).end();
+    return res.status(403).end();
   }
-  Section.find({ moduleCuid: req.params.moduleCuid }).sort('orderNumber').exec((err, sections) => {
-    if (err) {
+
+  Section.find({ moduleCuid: req.params.moduleCuid }).sort('orderNumber').lean().exec(async (err, sections) => {
+    if(err) {
       return res.status(500).send(err);
+    }
+
+    for (let i = 0; i < sections.length; i++) {
+      await getQuizzes(sections[i]);
     }
     return res.json({ sections });
   });
+}
+
+async function getQuizzes(section) {
+  section.quizzes = await getQuizzesForSection(section);
 }
 
 export async function addSection(req, res) {
@@ -20,7 +32,7 @@ export async function addSection(req, res) {
   var sect = req.body.section;
 
   if (!token || !token.isAdmin || !sect || !sect.moduleCuid
-          || (!sect.content && !sect.link) || sect.orderNumber == undefined) {
+    || (!sect.content && !sect.link) || sect.orderNumber == undefined) {
     return res.status(403).end();
   }
   const newSection = new Section(sect);
@@ -43,7 +55,4 @@ export async function deleteSection(req, res){
     }
     return section.remove(() => res.status(200).end());
   });
-
-
 }
-

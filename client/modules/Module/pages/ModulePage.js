@@ -36,7 +36,7 @@ class ModulePage extends Component {
     if(validator.contains(link, ".jpg") || validator.contains(link, ".jpeg") || validator.contains(link, ".gif"))
       return "image";
     else
-      return "error"; 
+      return "error";
   };
 
   renderMultimediaFileType = (type, section) => {
@@ -44,7 +44,7 @@ class ModulePage extends Component {
       return(
         <video width="640"  controls>
         <source src={section.link} type="video/webm" />
-        </video> 
+        </video>
         );
     }else if (type === "image"){
       return(
@@ -58,44 +58,43 @@ class ModulePage extends Component {
 
   }
 
-  
+
 
   render() {
 
-    
+
 
 
     return (
 
       <div>
-        
+
         <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
         <Well>
           {this.state.module.info}
         </Well>
-        
+
         {this.state.sections.map(section => { if (section) {
             return(
             <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
              <div>{section.content ? section.content : ''}</div>
-             
              {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
             </Panel>
             );
           }})
         }
-        
+
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
-        
+
 
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>
-      
+
       </div>
     );
   }
