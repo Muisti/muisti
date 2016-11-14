@@ -29,6 +29,18 @@ export class Section extends Component{
 
   }
   
+  renderQuiz = quiz => {
+      return (
+        <Panel header={quiz.question}>
+          {quiz.answers.map(answer => (
+            <div style={{marginLeft: '25px'}}>
+            <label><input type="checkbox" style={{marginRight: '6px'}} />{answer}</label>
+            </div>
+          ))}
+        </Panel>
+      );
+  }
+  
     render(){
       var section = this.props.section;
         
@@ -37,6 +49,8 @@ export class Section extends Component{
          <div>{section.content ? section.content : ''}</div>
 
          {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
+         {this.renderQuiz({question: "Mikä eläin sanoo 'hau hau'?", 
+                 answers: ['koira', 'kissa', 'kukko']})}
         </Panel>
       );  
     }
@@ -47,7 +61,7 @@ Section.propTypes = {
   section: PropTypes.shape({
       content: PropTypes.string,
       title: PropTypes.string,
-      link: PropTypes.string 
+      link: PropTypes.string,
   })
 };
 
