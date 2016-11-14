@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Button, Grid, Row, Col, PageHeader, Panel, Well } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-
+ 
 import SectionCreateModal from '../components/SectionCreateModal';
 import SectionFactory from '../components/SectionFactory'
 import ModuleListItem from '../components/ModuleListItem';

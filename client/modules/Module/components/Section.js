@@ -31,13 +31,18 @@ export class Section extends Component{
   
   renderQuiz = quiz => {
       return (
-        <Panel header={(<span style={{color: '#5555bb', fontWeight: 'bold'}}>{quiz.question}</span>)}>
+        <div>
+        <div style={{color: '#5555bb', fontWeight: 'bold', marginBottom: '10px'}}>
+        <span style={{marginRight: '8px'}}>
+            1.
+        </span>
+        {quiz.question}</div>
           {quiz.answers.map(answer => (
             <div style={{marginLeft: '25px'}}>
             <label><input type="checkbox" style={{marginRight: '6px'}} />{answer}</label>
             </div>
           ))}
-        </Panel>
+        </div>
       );
   }
   
@@ -50,10 +55,21 @@ export class Section extends Component{
 
          {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
          
-         <Panel collapsible header={<span style={{}}>Tehtävät</span>}>
+         <div show={true}>
+         <br />
+         <Panel collapsible header={(
+             <div className='clearfix'>
+             <div style={{cursor: 'pointer'}}>
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi" />
+             <span style={{marginLeft: '7px', color: '#000066'}}>
+                Tehtävät
+             </span>
+             </div>
+             </div>)}>
          {this.renderQuiz({question: "Mikä eläin sanoo 'hau hau'?", 
                  answers: ['koira', 'kissa', 'kukko']})}
          </Panel>
+         </div>
         </Panel>
       );  
     }
