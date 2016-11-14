@@ -3,7 +3,7 @@ import request from 'supertest';
 import app from '../../server'
 import { connectDB, dropDB } from '../../util/test-helpers';
 import mongoose from 'mongoose';
-import Section from '../../models/section'
+import Section from '../../models/section';
 import Module from '../../models/module';
 
 //Used to stub token, keep our own tokensecret a secret.
