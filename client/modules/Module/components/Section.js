@@ -31,7 +31,7 @@ export class Section extends Component{
   
   renderQuiz = quiz => {
       return (
-        <Panel header={quiz.question}>
+        <Panel header={(<span style={{color: '#5555bb', fontWeight: 'bold'}}>{quiz.question}</span>)}>
           {quiz.answers.map(answer => (
             <div style={{marginLeft: '25px'}}>
             <label><input type="checkbox" style={{marginRight: '6px'}} />{answer}</label>
@@ -49,6 +49,7 @@ export class Section extends Component{
          <div>{section.content ? section.content : ''}</div>
 
          {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
+         
          {this.renderQuiz({question: "Mikä eläin sanoo 'hau hau'?", 
                  answers: ['koira', 'kissa', 'kukko']})}
         </Panel>
