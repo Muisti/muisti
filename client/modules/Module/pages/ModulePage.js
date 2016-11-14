@@ -56,20 +56,11 @@ class ModulePage extends Component {
         <div> Filetype not supported!</div>
         );
     }
-
   }
-
   
-
   render() {
-
-    
-
-
     return (
-
       <div>
-        
         <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
         <Well>
           {this.state.module.info}
