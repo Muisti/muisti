@@ -48,7 +48,7 @@ test.serial('Adding a new scoreboard works', async t => {
       .put('/api/scores/')
       .set('authorization', token)
       .set('Accept', 'application/json')
-      .send({ quiz });
+      .send({ quizzes: [quiz] });
     
     t.is(res.status, 200);
     
@@ -84,7 +84,7 @@ test.serial('Updating a scoreboard works', async t => {
       .put('/api/scores/')
       .set('authorization', token)
       .set('Accept', 'application/json')
-      .send({ quiz });
+      .send({ quizzes: [quiz] });
     
     t.is(res.status, 200);
     

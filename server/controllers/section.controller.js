@@ -39,7 +39,7 @@ export async function addSection(req, res) {
   newSection.cuid = cuid();
 
   return newSection.save()
-    .then(() => res.json({ section: newSection }))
+    .then(() => res.json({ section: {...newSection, quizzes: []} }))
     .catch(err => {
       return res.status(500).send(err);
     });

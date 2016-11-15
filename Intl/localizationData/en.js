@@ -31,8 +31,8 @@ export default {
     //Sections
     addSection: 'Add section',
     deleteSection: 'Delete section',
-    sectionTitle: 'Section header, not required',
-    sectionContent: 'Section content',
+    sectionTitle: 'Section header',
+    sectionContent: 'Section content, optional',
     sectionLink: 'Link to Multimediacontent (images, videos etc.)',
     sectionLinknotValid: 'Not a valid URL',
     addingSection: 'Adding a new section:',
