@@ -41,6 +41,10 @@ export class QuizPanel extends Component{
   maxPoints = quiz => this.correctAnswers(quiz) || 1;
   show = condition => (condition ? {} : { display: 'none' });
   
+  quizFeedback = (wrongAnswers) => {
+      
+  };
+  
   verifyAnswers = (userAnswers) => {
       let maxPointsTotal = 0;
       let pointsTotal = 0;
@@ -51,7 +55,7 @@ export class QuizPanel extends Component{
          
          maxPointsTotal += maxPoints;
          pointsTotal += points;
-         console.log(points + " / " + this.maxPoints(quiz));
+         quiz.feedback = quizFeedback({true, true}, {false, true});
       });
       
       this.setState({ totalFeedback: 'pisteet: ' + pointsTotal + " / " + maxPointsTotal });
