@@ -23,7 +23,6 @@ export function getModule(req, res) {
 
 export async function addModule(req, res) {
   let token = await decodeTokenFromRequest(req);
-  console.log(token);
   if (!token || !token.isAdmin || !req.body.module.title || !req.body.module.info || req.body.module.orderNumber == undefined) {
     return res.status(403).end();
   }
