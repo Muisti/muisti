@@ -18,8 +18,6 @@ if (typeof require.ensure !== 'function') {
 if (process.env.NODE_ENV !== 'production') {
   // Require async routes only in development for react-hot-reloader to work.
   require('./modules/Post/pages/PostListPage/PostListPage');
-  require('./modules/Post/pages/PostListPage/Muisti');
-  require('./modules/User/pages/Signup');
   require('./modules/Module/pages/ModulePage');
 }
 
@@ -31,22 +29,6 @@ export default (
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
-        });
-      }}
-    />
-    <Route
-      path="/muisti"
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostListPage/Muisti').default);
-        });
-      }}
-    />
-    <Route
-      path="/signup"
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/User/pages/Signup').default);
         });
       }}
     />

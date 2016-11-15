@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
-import { addSectionRequest, deleteSectionRequest, fetchSections } from '../../SectionActions'
+import { addSectionRequest, deleteSectionRequest, fetchSections } from '../SectionActions'
 import { Button, ButtonToolbar, Well, DropdownButton, MenuItem } from 'react-bootstrap'
-import ModulePage from '../../pages/ModulePage'
+import ModulePage from '../pages/ModulePage'
 
 export class SectionFactory extends Component {
 	constructor(props){
