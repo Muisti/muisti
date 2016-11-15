@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Accordion, Panel, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import ModuleListItem from './ModuleListItem/ModuleListItem';
+import ModuleListItem from './ModuleListItem';
 import { getTokenPayload } from '../../../util/authStorage';
 
 import { fetchModules, addModuleRequest } from '../ModuleActions';
