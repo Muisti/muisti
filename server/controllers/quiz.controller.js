@@ -4,10 +4,10 @@ import cuid from 'cuid';
 import { decodeTokenFromRequest } from './user.controller';
 
 export async function getQuizzes (req, res) {
-  let token = await decodeTokenFromRequest(req);
-  if (!token) {
-    return res.status(403).end();
-  }
+ let token = decodeTokenFromRequest(req);
+ if (!token) {
+  return res.status(403).end();
+ }
 
   Quiz.find({ sectionCuid: req.params.sectionCuid }).exec((err, quizzes) => {
     if (err) {
@@ -22,7 +22,7 @@ export async function getQuizzesForSection(section) {
   return quizzes;
 }
 
-export async function addQuiz (req, res) {
+export async function addQuiz(req, res) {
   let token = await decodeTokenFromRequest(req);
   var quiz = req.body.quiz;
 

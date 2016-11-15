@@ -6,7 +6,9 @@ export default {
     switchLanguage: 'Vaihda kieli',
     twitterMessage: 'Twitter viesti',
     submitAdd: 'Lisää',
+    submitCreate: 'Luo',
     submitEdit: 'Tallenna',
+    submitRemove: 'Poista',
     submitGo: 'Siirry',
     submitBack: 'Palaa',
     cancel: 'Peruuta',
@@ -34,6 +36,12 @@ export default {
     sectionLink: 'Linkki multimediasisältöön (kuvat, videot ym.)',
      sectionLinknotValid:'Ei validi Osoite',
     addingSection: 'Uuden osion lisäys:',
+    //Quizzes
+    addQuiz: 'Lisää tehtävä',
+    addQuizTitle: 'Luodaan uutta tehtävää',
+    question: 'Kysymys',
+    option: 'Vaihtoehto',
+    rightAnswer: 'Tämä on oikein',
     //Registration and user control
     displayRegisterModal: 'Rekisteröidy',
     registrationSuccessful_title: 'Rekisteröityminen onnistui!',
