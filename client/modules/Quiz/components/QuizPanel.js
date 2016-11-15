@@ -41,8 +41,32 @@ export class QuizPanel extends Component{
   maxPoints = quiz => this.correctAnswers(quiz) || 1;
   show = condition => (condition ? {} : { display: 'none' });
   
-  quizFeedback = (wrongAnswers) => {
+  quizFeedback = (wrongAnswers, selected) => {
+      const correct = (wrongAnswers == 0);
+      let text = correct ? 'Oikein!' : (wrongAnswers == 1 ? 'Yksi valinta väärin!' : 
+              'Vääriä valintoja: ' + wrongAnswers + "!");
+      if(selected == 0 && !correct) text = 'Valitse vähintään yksi vaihtoehto.';
+      let style = { borderRadius: '15px', color: '#aaaaaa', 
+          fontWeight: 'bold',   display: 'inline-block', padding: '2px' };
+      if(correct){
+          style = {...style, color: '#005500', background: '#ddffdd'};
+      }
+      if(!correct && selected) style = {...style, color: '#dd8866'};
+
+      return (<div style={style}>{text}</div>);
+  };
+  
+  correctUserAnswers = (quiz, quizIndex) => {
+      const userAnswers = this.getUserSelections(quiz, quizIndex);
+      let result = 0;
       
+      for(let i = 0; i < userAnswers.length; i++){
+          if(userAnswers[i] == quiz.options[i].answer){
+              result++;
+          }
+      }
+      
+      return result;
   };
   
   verifyAnswers = (userAnswers) => {
@@ -55,10 +79,19 @@ export class QuizPanel extends Component{
          
          maxPointsTotal += maxPoints;
          pointsTotal += points;
-         quiz.feedback = quizFeedback({true, true}, {false, true});
+         const wrongCount = quiz.options.length - this.correctUserAnswers(quiz, i);
+         const selectedCount = this.getUserSelections(quiz, i).filter(s => s).length;
+         quiz.feedback = this.quizFeedback(wrongCount, selectedCount);
+         if(wrongCount == 0){
+             quiz.options.forEach(option => {
+                option.highlight = option.answer;
+             });
+         }
       });
       
-      this.setState({ totalFeedback: 'pisteet: ' + pointsTotal + " / " + maxPointsTotal });
+      let totalFeedback = 'pisteet: ' + pointsTotal + " / " + maxPointsTotal;
+      if(this.props.quizzes.length == 1) totalFeedback = '';
+      this.setState({ totalFeedback });
   };
   
   renderQuiz = (quiz, quizIndex) => {
@@ -74,12 +107,14 @@ export class QuizPanel extends Component{
         </span>
         {quiz.question}</div>
           {quiz.options.map(option => (
-            <div style={{marginLeft: '25px'}}>
+            <div style={{marginLeft: '15px', paddingLeft: '10px', background: option.highlight ? '#ddffdd' : 'white'}}>
             <label><input id={this.optionCheckboxId(quizIndex, optionIndex++)}
-                type="checkbox" style={{marginRight: '6px'}} />{option.text}</label>
+                type="checkbox" style={{marginRight: '6px'}} />
+                        {option.text}
+                </label>
             </div>
           ))}
-        <div style={{...this.show(quiz.feedback)}}>
+        <div>
             {quiz.feedback}
         </div>
         </div>

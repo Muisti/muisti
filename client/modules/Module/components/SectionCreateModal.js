@@ -3,6 +3,8 @@ import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel, 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { addSectionRequest } from '../SectionActions'
 import validator from 'validator'
+
+
 export class SectionCreateModal extends Component {
 
   constructor(props) {

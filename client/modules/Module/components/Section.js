@@ -3,6 +3,8 @@ import { PageHeader, Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import validator from 'validator';
 import QuizPanel from '../../Quiz/components/QuizPanel';
+import QuizCreateModal from '../../Quiz/components/QuizCreateModal';
+import { getTokenPayload } from '../../../util/authStorage';
 
 
 export class Section extends Component{
@@ -31,9 +33,11 @@ export class Section extends Component{
 
   }
   
+  addQuiz = (quiz) => { this.props.section.quizzes.push(quiz); this.setState({}); }
 
     render(){
       var section = this.props.section;
+      const token = getTokenPayload();
         
       return (
         <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
@@ -45,6 +49,9 @@ export class Section extends Component{
             <br />
             <QuizPanel quizzes={section.quizzes} />
          </div>
+         <div style={token && token.isAdmin ? {} : {display : 'none'}}>
+            <QuizCreateModal addQuiz={this.addQuiz} sectionCuid={section.cuid} />
+         </div>
         </Panel>
       );  
     }
@@ -53,6 +60,7 @@ export class Section extends Component{
 Section.propTypes = {
   intl: intlShape.isRequired,  
   section: PropTypes.shape({
+      cuid: PropTypes.string,
       content: PropTypes.string,
       title: PropTypes.string,
       link: PropTypes.string,
