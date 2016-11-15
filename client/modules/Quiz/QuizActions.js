@@ -10,8 +10,7 @@ export function fetchScores() {
       .then(res => res.modules);
 }
 
-export function sendScoreRequest(quiz) {
-    console.log("SENDING SCORE: " + quiz.points);
-    return callApi('scores', 'put', {quiz})
+export function sendScoreRequest(quizzes) {
+    return callApi('scores', 'put', {quizzes})
         .then(res => res.module);
 }
