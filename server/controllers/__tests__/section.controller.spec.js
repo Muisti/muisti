@@ -161,7 +161,7 @@ test.serial('Cannot add section without content and link', async t => {
     .send({ section });
 
   t.is(res.status, 403);
-  
+
   stub.restore();
   await drop();
 });
