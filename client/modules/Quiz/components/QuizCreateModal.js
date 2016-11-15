@@ -49,8 +49,8 @@ export class QuizCreateModal extends Component {
       }
       this.close();
       this.clearFields();
-      addQuizRequest({sectionCuid, question, options});
-      
+      addQuizRequest({sectionCuid, question, options})
+        .then(this.props.addQuiz);
   };
   
   handleQuestionChange = e => {
@@ -121,6 +121,7 @@ export class QuizCreateModal extends Component {
 QuizCreateModal.propTypes = {
   sectionCuid: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
+  addQuiz: PropTypes.func.isRequired
 };
 
 export default injectIntl(QuizCreateModal);

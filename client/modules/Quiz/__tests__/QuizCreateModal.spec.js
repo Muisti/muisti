@@ -7,7 +7,8 @@ import * as QuizActions from '../QuizActions';
 import * as authStorage from '../../../util/authStorage';
 
 const props = {
-  sectionCuid: 'cuid12'
+  sectionCuid: 'cuid12',
+  addQuiz: () => {}
 };
 
 test('SectionsCreateModal renders properly', t => {
@@ -44,6 +45,7 @@ test('handleAddQuiz calls addQuizRequest and closes', t => {
     
     var stub = sinon.stub(QuizActions, 'addQuizRequest');
     var stub2 = sinon.stub(instance, 'clearFields')
+    stub.returns( Promise.resolve(null) );
     
     instance.state.formQuestion = "kysymys";
     instance.state.fieldSize = 1;

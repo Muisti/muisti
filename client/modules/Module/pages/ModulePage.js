@@ -1,14 +1,16 @@
 import React, { PropTypes, Component } from 'react';
 import { Button, Grid, Row, Col, PageHeader, Panel, Well } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import SectionCreateModal from '../components/SectionCreateModal/SectionCreateModal';
-import SectionFactory from '../components/SectionFactory/SectionFactory'
-import ModuleListItem from '../components/ModuleListItem/ModuleListItem';
-import QuizItem from '../../Quiz/components/QuizItem';
+ 
+import SectionCreateModal from '../components/SectionCreateModal';
+import SectionFactory from '../components/SectionFactory'
+import ModuleListItem from '../components/ModuleListItem';
+import Section from '../components/Section';
+
 import { fetchModule } from '../ModuleActions';
 import { fetchSections } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
-import validator from 'validator';
+
 
 class ModulePage extends Component {
 
@@ -31,34 +33,6 @@ class ModulePage extends Component {
   };
 
 
-  checkMultimediaFileType = (link) => {
-    if(validator.contains(link, ".webm") || validator.contains(link, ".mp4") || validator.contains(link, ".ogg"))
-      return "video";
-    if(validator.contains(link, ".jpg") || validator.contains(link, ".jpeg") || validator.contains(link, ".gif"))
-      return "image";
-    else
-      return "error";
-  };
-
-  renderMultimediaFileType = (type, section) => {
-    if(type === "video"){
-      return(
-        <video width="640"  controls>
-          <source src={section.link} type="video/webm" />
-        </video>
-      );
-    }else if (type === "image"){
-      return(
-        <img src={section.link} width="480" />
-      );
-    }else{
-      return (
-        <div> Filetype not supported!</div>
-      );
-    }
-
-  };
-
   render() {
 
     return (
@@ -68,15 +42,9 @@ class ModulePage extends Component {
           {this.state.module.info}
         </Well>
 
-        {this.state.sections.map(section => { if (section) {
-          return(
-            <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
-              <div>{section.content ? section.content : ''}</div>
-              {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
-            </Panel>
-          );
-        }})
-        }
+        
+        {this.state.sections.map(section => section ? <Section section={section} /> : '')}
+        
 
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}
