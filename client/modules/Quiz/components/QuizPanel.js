@@ -47,13 +47,11 @@ export class QuizPanel extends Component{
               'Vääriä valintoja: ' + wrongAnswers + "!");
       if(selected == 0 && !correct) text = 'Valitse vähintään yksi vaihtoehto.';
       let style = { borderRadius: '15px', color: '#aaaaaa', 
-          fontWeight: 'bold',   display: 'inline-block', padding: '2px' };
-      if(correct){
-          style = {...style, color: '#005500', background: '#ddffdd'};
-      }
+          fontWeight: 'bold',   display: 'inline-block'};
+      if(correct) style = {...style, color: '#005500', background: '#ddffdd'};
       if(!correct && selected) style = {...style, color: '#dd8866'};
 
-      return (<div style={style}>{text}</div>);
+      return (<span style={style}>{text}</span>);
   };
   
   correctUserAnswers = (quiz, quizIndex) => {
@@ -115,7 +113,7 @@ export class QuizPanel extends Component{
                 </label>
             </div>
           ))}
-        <div>
+        <div style={{minHeight: '17px'}}>
             {quiz.feedback}
         </div>
         </div>
