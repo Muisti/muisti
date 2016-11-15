@@ -89,8 +89,9 @@ export class QuizPanel extends Component{
          }
          
          quiz.points = points;
-         sendScoreRequest(quiz);
       });
+      
+      sendScoreRequest(this.props.quizzes);
       
       let totalFeedback = 'pisteet: ' + pointsTotal + " / " + maxPointsTotal;
       if(this.props.quizzes.length == 1) totalFeedback = '';
