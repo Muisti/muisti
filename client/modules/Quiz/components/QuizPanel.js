@@ -85,6 +85,7 @@ export class QuizPanel extends Component{
          if(wrongCount == 0){
              quiz.options.forEach(option => {
                 option.highlight = option.answer;
+                option.disabled = true;
              });
          }
       });
@@ -109,7 +110,7 @@ export class QuizPanel extends Component{
           {quiz.options.map(option => (
             <div style={{marginLeft: '15px', paddingLeft: '10px', background: option.highlight ? '#ddffdd' : 'white'}}>
             <label><input id={this.optionCheckboxId(quizIndex, optionIndex++)}
-                type="checkbox" style={{marginRight: '6px'}} />
+                type="checkbox" style={{marginRight: '6px'}} disabled={option.disabled} />
                         {option.text}
                 </label>
             </div>
