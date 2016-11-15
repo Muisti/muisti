@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { Panel, Button } from 'react-bootstrap';
+import { Panel, Button, ProgressBar } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 export class QuizPanel extends Component{
 
   constructor(){
       super();
-      this.state = { totalFeedBack: '' };
+      this.state = { totalFeedBack: '', totalProsent: -1 };
   }
 
   getUserSelections = (quiz, quizIndex) => {
@@ -88,12 +88,16 @@ export class QuizPanel extends Component{
              });
          }
       });
-      
-      let totalFeedback = 'pisteet: ' + pointsTotal + " / " + maxPointsTotal;
+      let totalProsent = (pointsTotal / maxPointsTotal) * 100;
+      let totalFeedback = 'pisteet: ' + pointsTotal + "/" + maxPointsTotal;
       if(this.props.quizzes.length == 1) totalFeedback = '';
-      this.setState({ totalFeedback });
+      
+      this.setState({ totalFeedback, totalProsent });
+      
   };
   
+  
+
   renderQuiz = (quiz, quizIndex) => {
       const quizOrderNumber = quizIndex + 1;
       let optionIndex = 0;
@@ -128,16 +132,22 @@ export class QuizPanel extends Component{
       return (
         <Panel collapsible header={(
                 <div className='clearfix'>
-                <div style={{cursor: 'pointer'}}>
+                <div style={{cursor: 'pointer', color: '#000066'}}>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi" 
-                        style={{ verticalAlign: 'bottom' }}/>
-                <span style={{marginLeft: '7px', color: '#000066'}}>
-                   Tehtävät
-                </span>
+                        style={{ verticalAlign: 'bottom', marginRight: '7px' }}/>
+                
+                   Tehtävät <span style={{align:'right'}}>{this.state.totalFeedback}</span>
+                
                 </div>
                 </div>)}>
             {quizzes.map(quiz => this.renderQuiz(quiz, quizIndex++))}
-            <div>{this.state.totalFeedback}</div>
+            <div>
+            <ProgressBar style={this.show(this.state.totalProsent != -1)}>
+              <ProgressBar now={this.state.totalProsent} bsStyle="success" label={`${this.state.totalProsent}%`} key={1}/>
+              <ProgressBar now={100 - this.state.totalProsent} bsStyle="danger" key={2}/>
+            </ProgressBar>
+           
+            </div>
             <Button onClick={this.verifyAnswers}>Tarkista</Button>
         </Panel>
     );
