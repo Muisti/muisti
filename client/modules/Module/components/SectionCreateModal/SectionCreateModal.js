@@ -8,7 +8,7 @@ export class SectionCreateModal extends Component {
   constructor(props) {
     super(props);
     this.state = { showModal: false };
-  }
+  };
 
   clearFields = () => {
     this.setState({formTitle: "", formContent: "", formLink: "" });
@@ -118,4 +118,3 @@ SectionCreateModal.propTypes = {
 };
 
 export default injectIntl(SectionCreateModal);
-
