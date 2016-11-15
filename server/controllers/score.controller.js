@@ -19,7 +19,7 @@ export async function getScores(req, res) {
 
 export async function setScore(req, res) {
     let token = await decodeTokenFromRequest(req);
-    let quiz = req.body.quiz;
+    let quizzes = req.body.quizzes;
     
     if (!token) {
       return res.status(403).end();
@@ -30,11 +30,11 @@ export async function setScore(req, res) {
         foundScore = new Score({ userCuid: token.cuid, scores: [] });
     }
     
-    var newScore = { quizCuid: quiz.cuid, quizPoints: quiz.points };
-    
-    foundScore.scores = foundScore.scores.filter(s => s.quizCuid != quiz.cuid);
-    foundScore.scores.push(newScore);
-
+    quizzes.forEach(quiz => {
+      var newScore = { quizCuid: quiz.cuid, quizPoints: quiz.points };
+      foundScore.scores = foundScore.scores.filter(s => s.quizCuid != quiz.cuid);
+      foundScore.scores.push(newScore);
+    });
     foundScore.save()
       .then(() => res.json({ score: foundScore }))
       .catch(err => {

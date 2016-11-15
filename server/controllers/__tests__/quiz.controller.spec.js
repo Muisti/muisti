@@ -34,20 +34,6 @@ test.afterEach.always.serial(t => {
   });
 });
 
-let data = async () => {
-  await Promise.all(sections.map(section => {
-    return new Section(section).save();
-  }));
-  await Promise.all(quizzes.map(quiz => {
-    return new Quiz(quiz).save();
-  }));
-};
-
-let drop = async () => {
-  await Section.remove({}).exec();
-  await Quiz.remove({}).exec();
-};
-
 test.serial('Should correctly give number of quizzes', async t => {
   await data();
 
@@ -84,3 +70,17 @@ test.serial('Adds new quiz correctly', async t => {
   stub.restore();
   await drop();
 });
+
+let data = async () => {
+  await Promise.all(sections.map(section => {
+    return new Section(section).save();
+  }));
+  await Promise.all(quizzes.map(quiz => {
+    return new Quiz(quiz).save();
+  }));
+};
+
+let drop = async () => {
+  await Section.remove({}).exec();
+  await Quiz.remove({}).exec();
+};
