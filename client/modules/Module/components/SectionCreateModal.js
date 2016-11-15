@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel, FieldGroup } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import { addSectionRequest } from '../../SectionActions'
+import { addSectionRequest } from '../SectionActions'
 import validator from 'validator'
+
+
 export class SectionCreateModal extends Component {
 
   constructor(props) {
