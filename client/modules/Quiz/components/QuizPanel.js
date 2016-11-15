@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { sendScoreRequest } from '../QuizActions';
+
 
 export class QuizPanel extends Component{
 
@@ -46,14 +48,11 @@ export class QuizPanel extends Component{
       let text = correct ? 'Oikein!' : (wrongAnswers == 1 ? 'Yksi valinta väärin!' : 
               'Vääriä valintoja: ' + wrongAnswers + "!");
       if(selected == 0 && !correct) text = 'Valitse vähintään yksi vaihtoehto.';
-      let style = { borderRadius: '15px', color: '#aaaaaa', 
-          fontWeight: 'bold',   display: 'inline-block', padding: '2px' };
-      if(correct){
-          style = {...style, color: '#005500', background: '#ddffdd'};
-      }
+      let style = { color: '#aaaaaa', fontWeight: 'bold',   display: 'inline-block'};
+      if(correct) style = {...style, color: '#005500'};
       if(!correct && selected) style = {...style, color: '#dd8866'};
 
-      return (<div style={style}>{text}</div>);
+      return (<span style={style}>{text}</span>);
   };
   
   correctUserAnswers = (quiz, quizIndex) => {
@@ -85,9 +84,14 @@ export class QuizPanel extends Component{
          if(wrongCount == 0){
              quiz.options.forEach(option => {
                 option.highlight = option.answer;
+                option.disabled = true;
              });
          }
+         
+         quiz.points = points;
       });
+      
+      sendScoreRequest(this.props.quizzes);
       
       let totalFeedback = 'pisteet: ' + pointsTotal + " / " + maxPointsTotal;
       if(this.props.quizzes.length == 1) totalFeedback = '';
@@ -109,12 +113,12 @@ export class QuizPanel extends Component{
           {quiz.options.map(option => (
             <div style={{marginLeft: '15px', paddingLeft: '10px', background: option.highlight ? '#ddffdd' : 'white'}}>
             <label><input id={this.optionCheckboxId(quizIndex, optionIndex++)}
-                type="checkbox" style={{marginRight: '6px'}} />
+                type="checkbox" style={{marginRight: '6px'}} disabled={option.disabled} />
                         {option.text}
                 </label>
             </div>
           ))}
-        <div>
+        <div style={{minHeight: '17px'}}>
             {quiz.feedback}
         </div>
         </div>
