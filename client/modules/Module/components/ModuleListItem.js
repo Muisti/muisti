@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import { PageHeader, Panel } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
-import { getTokenPayload } from '../../../../util/authStorage';
+import { getTokenPayload } from '../../../util/authStorage';
 
-import ModulePage from '../../pages/ModulePage'
+import ModulePage from '../pages/ModulePage'
 
 function ModuleListItem(props) {
   var toAddress = encodeURI(props.module.title);
