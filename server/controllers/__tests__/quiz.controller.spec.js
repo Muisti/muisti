@@ -25,14 +25,7 @@ const quizzes = [
 ];
 
 test.beforeEach.serial('connect and add', t => {
-  connectDB(t, () => {
-    Section.create(sections, err => {
-      if (err) t.fail('Unable to create sections');
-    });
-    Quiz.create(quizzes, err => {
-      if (err) t.fail('Unable to create quizzes');
-    });
-  });
+  connectDB(t, () => { });
 });
 
 test.afterEach.always.serial(t => {
@@ -91,5 +84,3 @@ test.serial('Adds new quiz correctly', async t => {
   stub.restore();
   await drop();
 });
-
-

@@ -26,14 +26,7 @@ const sections = [
 ];
 
 test.beforeEach.serial('connect and add', t => {
-  connectDB(t, () => {
-    Module.create(modules, err => {
-      if (err) t.fail('Unable to create modules');
-    });
-    Section.create(sections, err => {
-      if (err) t.fail('Unable to create sections');
-    });
-  });
+  connectDB(t, () => { });
 });
 
 test.afterEach.always.serial(t => {
@@ -75,7 +68,7 @@ test.serial('Should correctly give number of sections and sorts them correctly',
   await drop();
 });
 
-test.serial('Adds new section correctly', async t => {
+test.serial('Adds new sections correctly', async t => {
   await data();
 
   const section = {moduleCuid: 'f34gb2bh24b24b3', title: 'Title-esimerkki', content: 'Toisen sectionin sisältöä, joka kuuluu moduuliin kaksi', orderNumber:2, cuid: 'f67g4d6bh31b2asdsdd' };
