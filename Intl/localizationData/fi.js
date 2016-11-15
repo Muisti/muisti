@@ -31,8 +31,8 @@ export default {
     //Sections
     addSection: 'Lisää osio',
     deleteSection: 'Poista osio',
-    sectionTitle: 'Osion otsikko, valinnainen',
-    sectionContent: 'Osion sisältö',
+    sectionTitle: 'Osion otsikko',
+    sectionContent: 'Osion sisältö, valinnainen',
     sectionLink: 'Linkki multimediasisältöön (kuvat, videot ym.)',
      sectionLinknotValid:'Ei validi Osoite',
     addingSection: 'Uuden osion lisäys:',

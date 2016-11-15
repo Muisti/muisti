@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { sendScoreRequest } from '../QuizActions';
+
 
 export class QuizPanel extends Component{
 
@@ -46,9 +48,8 @@ export class QuizPanel extends Component{
       let text = correct ? 'Oikein!' : (wrongAnswers == 1 ? 'Yksi valinta väärin!' : 
               'Vääriä valintoja: ' + wrongAnswers + "!");
       if(selected == 0 && !correct) text = 'Valitse vähintään yksi vaihtoehto.';
-      let style = { borderRadius: '15px', color: '#aaaaaa', 
-          fontWeight: 'bold',   display: 'inline-block'};
-      if(correct) style = {...style, color: '#005500', background: '#ddffdd'};
+      let style = { color: '#aaaaaa', fontWeight: 'bold',   display: 'inline-block'};
+      if(correct) style = {...style, color: '#005500'};
       if(!correct && selected) style = {...style, color: '#dd8866'};
 
       return (<span style={style}>{text}</span>);
@@ -86,6 +87,9 @@ export class QuizPanel extends Component{
                 option.disabled = true;
              });
          }
+         
+         quiz.points = points;
+         sendScoreRequest(quiz);
       });
       
       let totalFeedback = 'pisteet: ' + pointsTotal + " / " + maxPointsTotal;

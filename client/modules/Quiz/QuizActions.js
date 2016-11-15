@@ -11,6 +11,7 @@ export function fetchScores() {
 }
 
 export function sendScoreRequest(quiz) {
+    console.log("SENDING SCORE: " + quiz.points);
     return callApi('scores', 'put', {quiz})
         .then(res => res.module);
 }

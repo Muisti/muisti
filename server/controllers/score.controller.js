@@ -31,6 +31,8 @@ export async function setScore(req, res) {
     }
     
     var newScore = { quizCuid: quiz.cuid, quizPoints: quiz.points };
+    console.log("score:");
+    console.log(newScore);
     
     foundScore.scores = foundScore.scores.filter(s => s.quizCuid != quiz.cuid);
     foundScore.scores.push(newScore);
