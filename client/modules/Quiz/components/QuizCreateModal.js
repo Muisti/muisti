@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Checkbox, Modal, Form, FormControl, ControlLabel, FieldGroup } from 'react-bootstrap';
+import { Button, ButtonGroup, Checkbox, Modal, Form, FormControl, ControlLabel, FieldGroup } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { addQuizRequest } from '../QuizActions';
 
@@ -7,8 +7,11 @@ export class QuizCreateModal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { showModal: false };
-    this.state = { fieldSize: 1 };
+    this.state = { showModal: false, fieldSize: 1 };
+  }
+  
+  clearFields = () => {
+    this.state = { showModal: this.state.showModal, fieldSize: 1 };
   }
 
   close = () => {
@@ -25,23 +28,27 @@ export class QuizCreateModal extends Component {
   
   removeField = () => {
     if (this.state.fieldSize > 1) {
-      this.setState({ fieldSize: this.state.fieldSize-1 });
+      var i = this.state.fieldSize;
+      this.setState({ [i+'answer']: undefined, [i+'chk']: undefined, fieldSize: i-1 });
     }
   };
   
-  //sectionCuid, question, options
   handleAddQuiz = () => {
       const sectionCuid = this.props.sectionCuid;
       const question = this.state.formQuestion;
       const options = [];
       for (var i = 1; i-1 < this.state.fieldSize; i++) {
           var text = this.state[i+'answer'];
-          var answer = this.state[i + 'chk'] == true;
-          options.push({text, answer});
+          if (text) {
+            var answer = this.state[i + 'chk'] == true;
+            options.push({text, answer});
+          }
       }
       if (!sectionCuid || !question || !options || options.length < 1) {
           return;
       }
+      this.close();
+      this.clearFields();
       addQuizRequest({sectionCuid, question, options});
       
   };
@@ -92,25 +99,25 @@ export class QuizCreateModal extends Component {
               <FormControl componentClass="textarea" value={this.state.formQuestion} onChange={this.handleQuestionChange}
                     placeholder='Kysymys' />
                
-            {this.optionField(this.state.fieldSize)}
+              {this.optionField(this.state.fieldSize)}
               
-              <Button onClick={this.addField} bsStyle="danger"> MORE </Button>
-                {' '}
-              <Button onClick={this.removeField} bsStyle="danger"> LESS </Button>
-           
+              <ButtonGroup>
+                <Button onClick={this.addField} bsStyle="danger"> MORE </Button>
+                <Button onClick={this.removeField} bsStyle="danger"> LESS </Button>
+              </ButtonGroup>
             </Modal.Body>
 
             <Modal.Footer>
               <Button onClick={this.handleAddQuiz}> VALMIS </Button>
-              <Button onClick={this.close}> CANCEL </Button>
-             </Modal.Footer>
+              <Button onClick={() => {this.close(); this.clearFields();}}> CANCEL </Button>
+            </Modal.Footer>
         </Modal>
 
       </span>
     );
   }
 }
-//sectionCuid, question, options
+
 QuizCreateModal.propTypes = {
   sectionCuid: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
