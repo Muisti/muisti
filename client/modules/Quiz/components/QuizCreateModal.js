@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, ButtonGroup, Checkbox, Modal, Form, FormControl, ControlLabel, FieldGroup } from 'react-bootstrap';
+import { Button, ButtonToolbar, Checkbox, Modal, Form, FormControl, ControlLabel, FieldGroup } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { addQuizRequest } from '../QuizActions';
 
@@ -8,11 +8,11 @@ export class QuizCreateModal extends Component {
   constructor(props) {
     super(props);
     this.state = { showModal: false, fieldSize: 1 };
-  }
+  };
   
   clearFields = () => {
     this.state = { showModal: this.state.showModal, fieldSize: 1 };
-  }
+  };
 
   close = () => {
     this.setState({ showModal: false });
@@ -70,10 +70,10 @@ export class QuizCreateModal extends Component {
       var fields = [];
       for (var i = 1; i-1 < fieldNumber; i++) {
               fields.push(<Form horizontal>
-                <ControlLabel> Vaihtoehto {i} </ControlLabel>
-                <Checkbox onChange={this.handleCheckboxChange(i)}> Oikea vastaus </Checkbox>
+                <ControlLabel> <FormattedMessage id='option' /> {i} </ControlLabel>
+                <Checkbox onChange={this.handleCheckboxChange(i)}> <FormattedMessage id='rightAnswer' /> </Checkbox>
                 <FormControl type="text" value={this.state[i + 'answer']} onChange={this.handleAnswerChange(i)}
-                    placeholder='Kissa sanoo mau: ' /> 
+                    placeholder={this.props.intl.messages.option} /> 
               </Form>)
            };
       return (
@@ -87,29 +87,29 @@ export class QuizCreateModal extends Component {
 
     return (
       <span>
-        <Button onClick={this.open} bsStyle="primary">QUIZ CREATE</Button>
+        <Button onClick={this.open} bsStyle="primary"><FormattedMessage id='addQuiz' /></Button>
 
         <Modal show={this.state.showModal} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
 
           <Modal.Header closeButton>
-            <Modal.Title>OTSIKKO</Modal.Title>
+            <Modal.Title><FormattedMessage id='addQuizTitle' /></Modal.Title>
           </Modal.Header>
             <Modal.Body>
-              <ControlLabel> Kysymys </ControlLabel>
+              <ControlLabel> <FormattedMessage id='question' /> </ControlLabel>
               <FormControl componentClass="textarea" value={this.state.formQuestion} onChange={this.handleQuestionChange}
-                    placeholder='Kysymys' />
+                    placeholder={this.props.intl.messages.question} />
                
               {this.optionField(this.state.fieldSize)}
               
-              <ButtonGroup>
-                <Button onClick={this.addField} bsStyle="danger"> MORE </Button>
-                <Button onClick={this.removeField} bsStyle="danger"> LESS </Button>
-              </ButtonGroup>
+              <ButtonToolbar>
+                <Button onClick={this.addField} bsStyle="danger"> <FormattedMessage id='submitAdd' /> </Button>
+                <Button onClick={this.removeField} bsStyle="danger"> <FormattedMessage id='submitRemove' /> </Button>
+              </ButtonToolbar>
             </Modal.Body>
 
             <Modal.Footer>
-              <Button onClick={this.handleAddQuiz}> VALMIS </Button>
-              <Button onClick={() => {this.close(); this.clearFields();}}> CANCEL </Button>
+              <Button onClick={this.handleAddQuiz}> <FormattedMessage id='submitCreate' /> </Button>
+              <Button onClick={() => {this.close(); this.clearFields();}}> <FormattedMessage id='cancel' /> </Button>
             </Modal.Footer>
         </Modal>
 
