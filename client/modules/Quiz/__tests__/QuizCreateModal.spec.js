@@ -7,7 +7,8 @@ import * as QuizActions from '../QuizActions';
 import * as authStorage from '../../../util/authStorage';
 
 const props = {
-  sectionCuid: 'cuid12'
+  sectionCuid: 'cuid12',
+  addQuiz: () => {}
 };
 
 test('SectionsCreateModal renders properly', t => {
@@ -33,4 +34,28 @@ test('handleAddQuiz does not allow empty fields', t => {
   t.truthy(!stub.called);
   
   stub.restore();
+});
+
+test('handleAddQuiz calls addQuizRequest and closes', t => {
+    const wrapper = shallowWithIntl(
+      <QuizCreateModal {...props}/>        
+    );
+    
+    var instance = wrapper.instance();
+    
+    var stub = sinon.stub(QuizActions, 'addQuizRequest');
+    var stub2 = sinon.stub(instance, 'clearFields')
+    stub.returns( Promise.resolve(null) );
+    
+    instance.state.formQuestion = "kysymys";
+    instance.state.fieldSize = 1;
+    instance.state['1answer'] = "vastaus";
+    instance.state['1chk'] = undefined;
+    
+    instance.handleAddQuiz();
+    
+    t.truthy(stub.calledOnce);
+    t.truthy(stub2.calledOnce);
+    stub.restore();
+    stub2.restore();
 });

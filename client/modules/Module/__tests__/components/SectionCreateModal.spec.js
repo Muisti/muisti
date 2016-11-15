@@ -1,7 +1,7 @@
 import React from 'react';
 import test from 'ava';
 import sinon from 'sinon';
-import { SectionCreateModal } from '../../components/SectionCreateModal/SectionCreateModal';
+import { SectionCreateModal } from '../../components/SectionCreateModal';
 import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test-helper';
 import * as SectionActions from '../../SectionActions';
 import * as authStorage from '../../../../util/authStorage';

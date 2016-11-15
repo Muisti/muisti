@@ -14,3 +14,4 @@ export function fetchSections(moduleCuid){
 	return callApi(`sections/${moduleCuid}`)
       .then(res => res.sections);
 }
+
