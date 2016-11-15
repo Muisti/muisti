@@ -59,3 +59,28 @@ test('handleAddQuiz calls addQuizRequest and closes', t => {
     stub.restore();
     stub2.restore();
 });
+
+test('removeField clears the field that was removed', t => {
+    const wrapper = shallowWithIntl(
+      <QuizCreateModal {...props}/>
+    );
+    
+    var instance = wrapper.instance();
+    
+    instance.state.formQuestion = "kysymys";
+    instance.state.fieldSize = 2;
+    instance.state['1answer'] = "vastaus1";
+    instance.state['1chk'] = true;
+    instance.state['2answer'] = "vastaus2";
+    instance.state['2chk'] = undefined;
+    
+    instance.removeField();
+    
+    t.is(instance.state.fieldSize, 1);
+    t.is(instance.state['2answer'], undefined);
+    
+    instance.addField();
+    
+    t.is(instance.state.fieldSize, 2);
+    t.is(instance.state['2answer'], undefined);
+});
