@@ -7,7 +7,7 @@ import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test
 import * as moduleActions from '../../ModuleActions';
 import validator from 'validator';
 
-test('renders properly', t => {
+/*test('renders properly', t => {
   
 	const imageSection = { title: 'Section title', content: 'Sections content', link:'https://muistioppi.herokuapp.com/koe.jpg', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid' };
   const wrapper = shallowWithIntl(
@@ -38,4 +38,4 @@ test('Renders mediafiletype correctly', t => {
 	t.is(imageRender.type, "img");
 	t.is(videoRender.type, "video");
 
-});
+});*/
