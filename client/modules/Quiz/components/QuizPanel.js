@@ -105,7 +105,7 @@ export class QuizPanel extends Component{
   
   
 
-  renderQuiz = (quiz, quizIndex) => {
+ renderQuiz = (quiz, quizIndex) => {
       const quizOrderNumber = quizIndex + 1;
       let optionIndex = 0;
       
@@ -132,6 +132,29 @@ export class QuizPanel extends Component{
       );
   };
   
+  renderProgressBar = () => {
+    if (this.state.totalProsent == 0) {
+      return (
+          <div>
+            <ProgressBar>
+              <ProgressBar now={this.state.totalProsent} bsStyle="success" key={1}/>
+              <ProgressBar now={100 - this.state.totalProsent} bsStyle="danger" label={`${this.state.totalProsent}%`} key={2}/>
+            </ProgressBar>
+          </div>
+      );
+    }
+
+    return (  
+         <div>
+          <ProgressBar style={this.show(this.state.totalProsent != -1)}>
+            <ProgressBar now={this.state.totalProsent} bsStyle="success" label={`${this.state.totalProsent}%`} key={1}/>
+            <ProgressBar now={100 - this.state.totalProsent} bsStyle="danger" key={2}/>
+          </ProgressBar>
+        </div>
+        );
+
+  };
+
   render(){
       let quizIndex = 0;
       const quizzes = this.props.quizzes;
@@ -139,22 +162,16 @@ export class QuizPanel extends Component{
       return (
         <Panel collapsible header={(
                 <div className='clearfix'>
-                <div style={{cursor: 'pointer', color: '#000066'}}>
+                <span style={{cursor: 'pointer', color: '#000066'}}>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi" 
                         style={{ verticalAlign: 'bottom', marginRight: '7px' }}/>
                 
-                   Tehtävät <span style={{align:'right'}}>{this.state.totalFeedback}</span>
-                
-                </div>
+                   Tehtävät 
+                  </span>
+                  <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalFeedback}</span>
                 </div>)}>
             {quizzes.map(quiz => this.renderQuiz(quiz, quizIndex++))}
-            <div>
-            <ProgressBar style={this.show(this.state.totalProsent != -1)}>
-              <ProgressBar now={this.state.totalProsent} bsStyle="success" label={`${this.state.totalProsent}%`} key={1}/>
-              <ProgressBar now={100 - this.state.totalProsent} bsStyle="danger" key={2}/>
-            </ProgressBar>
-           
-            </div>
+            {this.renderProgressBar()}
             <Button onClick={this.verifyAnswers}>Tarkista</Button>
         </Panel>
     );
