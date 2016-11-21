@@ -156,7 +156,8 @@ QuizPanel.propTypes = {
         options: PropTypes.arrayOf({
             text: PropTypes.string.isRequired,
             answer: PropTypes.bool.isRequired
-        }).isRequired
+        }).isRequired,
+        points: PropTypes.number,
     })
   };
 

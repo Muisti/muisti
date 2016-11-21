@@ -6,7 +6,6 @@ import QuizPanel from '../../Quiz/components/QuizPanel';
 import QuizCreateModal from '../../Quiz/components/QuizCreateModal';
 import { getTokenPayload } from '../../../util/authStorage';
 
-
 export class Section extends Component{
     
   checkMultimediaFileType = (link) => {
@@ -37,7 +36,7 @@ export class Section extends Component{
         link += v[2];
         return (<iframe width="560" height="315" 
           src={link}
-          frameborder="0" allowfullscreen></iframe> );
+          frameBorder="0" allowFullScreen></iframe> );
     } else {
       return ( <div> Filetype not supported!</div> );
     }
@@ -46,9 +45,9 @@ export class Section extends Component{
   
   addQuiz = (quiz) => { this.props.section.quizzes.push(quiz); this.setState({}); }
 
-    render(){
-      var section = this.props.section;
-      const token = getTokenPayload();
+  render(){
+    var section = this.props.section;
+    const token = getTokenPayload();
         
       return (
         <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
@@ -76,7 +75,7 @@ Section.propTypes = {
       title: PropTypes.string,
       link: PropTypes.string,
       quizzes: PropTypes.array
-  })
+  }),
 };
 
 export default injectIntl(Section);
