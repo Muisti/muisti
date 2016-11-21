@@ -107,6 +107,7 @@ export class QuizPanel extends Component{
   calculateQuizIndices = () => {
       let index = 0;
       this.props.quizzes.forEach(quiz => quiz.index = index++);
+  }
 
   renderProgressBar = () => {
     return (
