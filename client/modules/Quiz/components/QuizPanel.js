@@ -6,12 +6,15 @@ import QuizPanelItem from './QuizPanelItem';
 
 export class QuizPanel extends Component {
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = { totalFeedBack: '', totalPercent: -1 };
-    this.verifyAnswers();
   }
   
+  componentDidMount() {
+    this.verifyAnswers();
+    console.log(this.props.quizzes);
+  }
   
 
   getUserSelections = (quiz, quizIndex) => {
@@ -81,6 +84,7 @@ export class QuizPanel extends Component {
       let points = quiz.points;
       let wrongCount = 0;
       let selectedCount = 0;
+      
       if (maxPoints != quiz.points) {
           points = this.countPoints(quiz, this.getUserSelections(quiz, i));
           wrongCount = quiz.options.length - this.correctUserAnswers(quiz, i);
@@ -150,7 +154,7 @@ export class QuizPanel extends Component {
 
 
 QuizPanel.propTypes = {
-    quizzes: PropTypes.array
+    quizzes: PropTypes.array.isRequired,
 };
 
 export default injectIntl(QuizPanel);

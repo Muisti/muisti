@@ -23,18 +23,17 @@ class ModulePage extends Component {
   componentDidMount() {
     fetchModule(this.props.params.title)
       .then(module => fetchSections(module.cuid)
-        .then(sections => {
-          if (!sections) sections = [];
-          this.setState({ module, sections });
-          return sections;
-        }))
-    .then(sections => fetchScores()
-      .then(scoreboard =>
-        sections.forEach(sec =>
-          sec.quizzes.forEach(qui =>
-            qui.points = scoreboard.scores.find(
-              sco => sco.quizCuid == qui.cuid)))));
-    
+        .then(sections => fetchScores()
+          .then(scoreboard => {
+            if (!sections) sections = [];
+            if (scoreboard) {
+              sections.forEach(sec =>
+                sec.quizzes.forEach(qui =>
+                  qui.points = scoreboard.scores.find(
+                    sco => sco.quizCuid == qui.cuid).quizPoints));
+            }
+            this.setState({ module, sections });
+        })))
   }
 
   addSectionToRender = (newSection) => {
