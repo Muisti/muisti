@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { sendScoreRequest } from '../QuizActions';
+import QuizPanelItem from './QuizPanelItem';
 
 
 export class QuizPanel extends Component{
@@ -98,35 +99,13 @@ export class QuizPanel extends Component{
       this.setState({ totalFeedback });
   };
   
-  renderQuiz = (quiz, quizIndex) => {
-      const quizOrderNumber = quizIndex + 1;
-      let optionIndex = 0;
-      
-      return (
-        <div style={{marginBottom: '17px'}}>
-        <div style={{color: '#5555bb', fontWeight: 'bold', marginBottom: '10px'}}>
-        <span style={{marginRight: '9px', background: '#dfdfff', borderRadius: '15px', 
-            padding: '4px', paddingLeft: '9px', paddingRight: '5px', fontSize: '1.15em'}}>
-          {quizOrderNumber + '.'}
-        </span>
-        {quiz.question}</div>
-          {quiz.options.map(option => (
-            <div style={{marginLeft: '15px', paddingLeft: '10px', background: option.highlight ? '#ddffdd' : 'white'}}>
-            <label><input id={this.optionCheckboxId(quizIndex, optionIndex++)}
-                type="checkbox" style={{marginRight: '6px'}} disabled={option.disabled} />
-                        {option.text}
-                </label>
-            </div>
-          ))}
-        <div style={{minHeight: '17px'}}>
-            {quiz.feedback}
-        </div>
-        </div>
-      );
+  calculateQuizIndices = () => {
+      let index = 0;
+      this.props.quizzes.forEach(quiz => quiz.index = index++);
   };
   
   render(){
-      let quizIndex = 0;
+      this.calculateQuizIndices();
       const quizzes = this.props.quizzes;
       
       return (
@@ -140,7 +119,7 @@ export class QuizPanel extends Component{
                 </span>
                 </div>
                 </div>)}>
-            {quizzes.map(quiz => this.renderQuiz(quiz, quizIndex++))}
+            {quizzes.map(quiz => <QuizPanelItem quiz={quiz} />)}
             <div>{this.state.totalFeedback}</div>
             <Button onClick={this.verifyAnswers}>Tarkista</Button>
         </Panel>
@@ -150,14 +129,7 @@ export class QuizPanel extends Component{
 
 
 QuizPanel.propTypes = {
-    quizzes: PropTypes.arrayOf({
-        cuid: PropTypes.string,
-        question: PropTypes.string,
-        options: PropTypes.arrayOf({
-            text: PropTypes.string.isRequired,
-            answer: PropTypes.bool.isRequired
-        }).isRequired
-    })
-  };
+    quizzes: PropTypes.array
+};
 
 export default injectIntl(QuizPanel);
