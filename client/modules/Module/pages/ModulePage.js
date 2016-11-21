@@ -12,7 +12,6 @@ import { fetchSections } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
 import { fetchScores } from '../../Quiz/QuizActions';
 
-
 class ModulePage extends Component {
 
   constructor(props){
@@ -42,7 +41,6 @@ class ModulePage extends Component {
 
 
   render() {
-
     return (
       <div>
         <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
