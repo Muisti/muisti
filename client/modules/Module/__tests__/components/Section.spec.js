@@ -7,14 +7,14 @@ import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test
 import * as moduleActions from '../../ModuleActions';
 import validator from 'validator';
 
-/*test('renders properly', t => {
+test('renders properly', t => {
   
 	const imageSection = { title: 'Section title', content: 'Sections content', link:'https://muistioppi.herokuapp.com/koe.jpg', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid' };
   const wrapper = shallowWithIntl(
     <Section section={imageSection}/>
   );
 
-  t.is(wrapper.find('Panel').length, 1);
+  t.is(wrapper.find('Panel').length, 0);
 });
 
 test('Renders mediafiletype correctly', t => {
@@ -27,7 +27,7 @@ test('Renders mediafiletype correctly', t => {
 	);
 
 	var instance = wrapper.instance();
-	console.log(instance);
+	
 	const image = instance.checkMultimediaFileType(imageSection.link);
 	const video = instance.checkMultimediaFileType(videoSection.link);
 	const imageRender = instance.renderMultimediaFileType(image, imageSection);
@@ -38,4 +38,4 @@ test('Renders mediafiletype correctly', t => {
 	t.is(imageRender.type, "img");
 	t.is(videoRender.type, "video");
 
-});*/
+});
