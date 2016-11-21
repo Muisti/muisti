@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Panel, Button, ProgressBar } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { sendScoreRequest } from '../QuizActions';
+import QuizPanelItem from './QuizPanelItem';
 
 
 export class QuizPanel extends Component{
@@ -102,35 +103,11 @@ export class QuizPanel extends Component{
     this.setState({ totalFeedback, totalPercent });
 
   };
-
-
-
-  renderQuiz = (quiz, quizIndex) => {
-    const quizOrderNumber = quizIndex + 1;
-    let optionIndex = 0;
-
-    return (
-      <div style={{marginBottom: '17px'}}>
-        <div style={{color: '#5555bb', fontWeight: 'bold', marginBottom: '10px'}}>
-          <span style={{marginRight: '9px', background: '#dfdfff', borderRadius: '15px',
-            padding: '4px', paddingLeft: '9px', paddingRight: '5px', fontSize: '1.15em'}}>
-            {quizOrderNumber + '.'}
-          </span>
-          {quiz.question}</div>
-        {quiz.options.map(option => (
-          <div style={{marginLeft: '15px', paddingLeft: '10px', background: option.highlight ? '#ddffdd' : 'white'}}>
-            <label><input id={this.optionCheckboxId(quizIndex, optionIndex++)}
-                          type="checkbox" style={{marginRight: '6px'}} disabled={option.disabled} />
-              {option.text}
-            </label>
-          </div>
-        ))}
-        <div style={{minHeight: '17px'}}>
-          {quiz.feedback}
-        </div>
-      </div>
-    );
-  };
+  
+  calculateQuizIndices = () => {
+      let index = 0;
+      this.props.quizzes.forEach(quiz => quiz.index = index++);
+  }
 
   renderProgressBar = () => {
     return (
@@ -140,14 +117,15 @@ export class QuizPanel extends Component{
         </ProgressBar>
       </div>
     );
+
   };
 
   render(){
-    let quizIndex = 0;
-    const quizzes = this.props.quizzes;
-
-    return (
-      <Panel collapsible header={(
+      this.calculateQuizIndices();
+      const quizzes = this.props.quizzes;
+      
+      return (
+        <Panel collapsible header={(
                 <div className='clearfix'>
                 <span style={{cursor: 'pointer', color: '#000066'}}>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi"
@@ -157,24 +135,17 @@ export class QuizPanel extends Component{
                   </span>
                   <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalFeedback}</span>
                 </div>)}>
-        {quizzes.map(quiz => this.renderQuiz(quiz, quizIndex++))}
-        {this.renderProgressBar()}
-        <Button onClick={this.verifyAnswers}>Tarkista</Button>
-      </Panel>
+            {quizzes.map(quiz => <QuizPanelItem quiz={quiz} />)}
+            {this.renderProgressBar()}
+            <Button onClick={this.verifyAnswers}>Tarkista</Button>
+        </Panel>
     );
   }
 }
 
 
 QuizPanel.propTypes = {
-  quizzes: PropTypes.arrayOf({
-    cuid: PropTypes.string,
-    question: PropTypes.string,
-    options: PropTypes.arrayOf({
-      text: PropTypes.string.isRequired,
-      answer: PropTypes.bool.isRequired
-    }).isRequired
-  })
+    quizzes: PropTypes.array
 };
 
 export default injectIntl(QuizPanel);
