@@ -45,10 +45,10 @@ QuizPanelItem.propTypes = {
         cuid: PropTypes.string,
         index: PropTypes.number,
         question: PropTypes.string,
-        options: PropTypes.arrayOf({
+        options: PropTypes.arrayOf(PropTypes.shape({
             text: PropTypes.string.isRequired,
             answer: PropTypes.bool.isRequired
-        }).isRequired,
+        })).isRequired,
     })
 };
 
