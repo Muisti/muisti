@@ -35,7 +35,7 @@ export default {
     sectionTitle: 'Osion otsikko',
     sectionContent: 'Osion sisältö, valinnainen',
     sectionLink: 'Linkki multimediasisältöön (kuvat, videot ym.)',
-     sectionLinknotValid:'Ei validi Osoite',
+    sectionLinknotValid:'Ei validi Osoite',
     addingSection: 'Uuden osion lisäys:',
     //Quizzes
     addQuiz: 'Lisää tehtävä',
@@ -48,7 +48,6 @@ export default {
     oneWrongAnswer: 'Yksi valinta väärin!',
     severalWrongAnswers: 'Vääriä valintoja {count}!',
     selectOption: 'Valitse vähintään yksi vaihtoehto',
-    points: 'Pisteet: {points}/{maxPoints}',
     check: 'Tarkista',
     //Registration and user control
     displayRegisterModal: 'Rekisteröidy',

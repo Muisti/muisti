@@ -97,8 +97,6 @@ export class QuizPanel extends Component {
 
     let totalPercent = (pointsTotal / maxPointsTotal) * 100;
 
- //   let totalFeedback = <FormattedMessage id={'points'} values={{points: pointsTotal, maxPoints: maxPointsTotal}} />;
-
     this.setState({ totalPercent });
   };
 
