@@ -7,10 +7,10 @@ export function addQuizRequest(quiz) {
 
 export function fetchScores() {
     return callApi('scores', 'get')
-      .then(res => res.modules);
+      .then(res => res.scores);
 }
 
 export function sendScoreRequest(quizzes) {
     return callApi('scores', 'put', {quizzes})
-        .then(res => res.module);
+        .then(res => res.score);
 }
