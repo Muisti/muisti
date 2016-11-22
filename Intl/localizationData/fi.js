@@ -4,6 +4,7 @@ export default {
     //General
     siteTitle: 'Muistiprojekti',
     switchLanguage: 'Vaihda kieli',
+    logInUser: 'Hei {user}',
     twitterMessage: 'Twitter viesti',
     submitAdd: 'Lisää',
     submitCreate: 'Luo',
@@ -34,7 +35,7 @@ export default {
     sectionTitle: 'Osion otsikko',
     sectionContent: 'Osion sisältö, valinnainen',
     sectionLink: 'Linkki multimediasisältöön (kuvat, videot ym.)',
-     sectionLinknotValid:'Ei validi Osoite',
+    sectionLinknotValid:'Ei validi Osoite',
     addingSection: 'Uuden osion lisäys:',
     //Quizzes
     addQuiz: 'Lisää tehtävä',
@@ -42,6 +43,12 @@ export default {
     question: 'Kysymys',
     option: 'Vaihtoehto',
     rightAnswer: 'Tämä on oikein',
+    quizPanelTitle: 'Tehtävät',
+    rightAnswerFeedback: 'Oikein!',
+    oneWrongAnswer: 'Yksi valinta väärin!',
+    severalWrongAnswers: 'Vääriä valintoja {count}!',
+    selectOption: 'Valitse vähintään yksi vaihtoehto',
+    check: 'Tarkista',
     //Registration and user control
     displayRegisterModal: 'Rekisteröidy',
     registrationSuccessful_title: 'Rekisteröityminen onnistui!',
@@ -66,7 +73,7 @@ export default {
     loggingIn: "Kirjaudutaan...",
     logInButton: "Kirjaudu",
     logOutButton: 'Kirjaudu ulos',
-    
+
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}

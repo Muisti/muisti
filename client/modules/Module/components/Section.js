@@ -8,7 +8,7 @@ import { getTokenPayload } from '../../../util/authStorage';
 import { show } from '../../../util/styles';
 
 export class Section extends Component {
-  
+
   checkMultimediaFileType = (link) => {
     if(validator.contains(link, ".webm") || validator.contains(link, ".mp4") || validator.contains(link, ".ogg"))
       return "video";
@@ -35,7 +35,7 @@ export class Section extends Component {
         var v = re.exec(section.link);
         var link = "https://www.youtube.com/embed/";
         link += v[2];
-        return (<iframe width="560" height="315" 
+        return (<iframe width="560" height="315"
           src={link}
           frameBorder="0" allowFullScreen></iframe> );
     } else {
