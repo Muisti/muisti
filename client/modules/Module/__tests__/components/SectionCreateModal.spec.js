@@ -48,13 +48,9 @@ test('handleAddSections calls addSectionRequest', t => {
     <SectionCreateModal {...props} />
   );
 	var instance = wrapper.instance();
-  console.log(wrapper);
-  console.log(instance);
 
 	var stub = sinon.stub(SectionActions, 'addSectionRequest');
 	stub.returns(Promise.resolve({}));
-
-
 
 	instance.setState({formContent: "koe!"});
 

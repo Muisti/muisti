@@ -139,7 +139,7 @@ export class UserCreateModal extends Component {
             this.setState({ colorformPassVerify: null });
         }
     }
-  }
+  };
 
   registerField = (controlId, type, placeholder) => {
     var key = controlId;
