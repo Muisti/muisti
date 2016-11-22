@@ -69,7 +69,7 @@ App.propTypes = {
 // Retrieve data from store as props
 function mapStateToProps(store) {
   return {
-    intl: store.intl, 
+    intl: store.intl,
   };
 }
 
