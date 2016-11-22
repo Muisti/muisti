@@ -48,7 +48,6 @@ export default {
     oneWrongAnswer: 'One wrong option!',
     severalWrongAnswers: 'The number of wrong options: {count}!',
     selectOption: 'Select at least one option',
-    points: 'Points: {points}/{maxPoints}',
     check: 'Check',
     //Registration and user control
     displayRegisterModal: 'Register',
