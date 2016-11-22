@@ -2,25 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
+import { QuizItemOption } from './QuizItemOption';
+
 export class QuizPanelItem extends Component{
     
-    optionCheckboxId = optionIndex => 'quiz' + this.props.quiz.index + 'option' + optionIndex;
-    
-    renderOption = (option, optionIndex) => {
-      return (
-        <div style={{marginLeft: '15px', paddingLeft: '10px', background: option.highlight ? '#ddffdd' : 'white'}}>
-            <label><input id={this.optionCheckboxId(optionIndex)}
-                type="checkbox" style={{marginRight: '6px'}} disabled={option.disabled} />
-                    {option.text}
-            </label>
-        </div>
-      );  
-    };
+    constructor(props) {
+        super(props);
+    }
     
     render(){
       const quiz = this.props.quiz;
       const quizOrderNumber = quiz.index + 1;
-      let optionIndex = 0;
       
       return (
         <div style={{marginBottom: '17px'}}>
@@ -31,7 +23,8 @@ export class QuizPanelItem extends Component{
                 </span>
                 {quiz.question}
             </div>
-            {quiz.options.map(option => this.renderOption(option, optionIndex++))}
+            {quiz.options.map((option, i) => 
+                <QuizItemOption option={option} index={i}/>)}
             <div style={{minHeight: '17px'}}>
                 {quiz.feedback}
             </div>
@@ -47,7 +40,8 @@ QuizPanelItem.propTypes = {
         question: PropTypes.string,
         options: PropTypes.arrayOf(PropTypes.shape({
             text: PropTypes.string.isRequired,
-            answer: PropTypes.bool.isRequired
+            answer: PropTypes.bool.isRequired,
+            checked: PropTypes.bool,
         })).isRequired,
     })
 };
