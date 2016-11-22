@@ -6,24 +6,21 @@ import QuizPanel from '../../Quiz/components/QuizPanel';
 import QuizCreateModal from '../../Quiz/components/QuizCreateModal';
 import { getTokenPayload } from '../../../util/authStorage';
 
-
 export class Section extends Component {
-
-  constructor(props){
-    super(props);
-  }
 
   checkMultimediaFileType = (link) => {
     if(validator.contains(link, ".webm") || validator.contains(link, ".mp4") || validator.contains(link, ".ogg"))
       return "video";
     if(validator.contains(link, ".jpg") || validator.contains(link, ".jpeg") || validator.contains(link, ".gif"))
       return "image";
+    if(validator.contains(link, "youtube.com") || validator.contains(link, "youtu.be"))
+      return "youtube";
     else
       return "error";
   };
 
   renderMultimediaFileType = (type, section) => {
-    if(type === "video"){
+    if (type === "video") {
       return(
         <video width="640"  controls>
           <source src={section.link} type="video/webm" />
@@ -31,7 +28,16 @@ export class Section extends Component {
       );
     }else if (type === "image"){
       return( <img src={section.link} width="480" /> );
-    }else{
+    } else if (type === "youtube") {
+        //Parseroi v= linkistä.
+        var re = /(v=|embed\/|tu.be\/)(\w+)/g;
+        var v = re.exec(section.link);
+        var link = "https://www.youtube.com/embed/";
+        link += v[2];
+        return (<iframe width="560" height="315"
+          src={link}
+          frameBorder="0" allowFullScreen></iframe> );
+    } else {
       return ( <div> Filetype not supported!</div> );
     }
   };
@@ -70,7 +76,7 @@ Section.propTypes = {
     link: PropTypes.string,
     quizzes: PropTypes.array
   }).isRequired,
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
 };
 
 export default injectIntl(Section);

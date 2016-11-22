@@ -8,12 +8,11 @@ export async function getScores(req, res) {
     if (!token) {
       return res.status(403).end();
     }
-    
-    Score.findOne({ userCuid: token.cuid }).exec((err, score) => {
+    Score.findOne({ userCuid: token.cuid }).exec((err, scores) => {
         if (err) {
             return res.status(500).send(err);
         }
-        return res.json({ score })
+        return res.json({ scores })
     });
 };
 
