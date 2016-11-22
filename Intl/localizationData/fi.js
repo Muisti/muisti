@@ -4,6 +4,7 @@ export default {
     //General
     siteTitle: 'Muistiprojekti',
     switchLanguage: 'Vaihda kieli',
+    logInUser: 'Hei {user}',
     twitterMessage: 'Twitter viesti',
     submitAdd: 'Lisää',
     submitCreate: 'Luo',

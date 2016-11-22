@@ -57,7 +57,7 @@ export class UserCreateModal extends Component {
       email: this.state.formEmail,
       password: this.hashedPassword()
     };
-  }
+  };
 
 
   hashedPassword = () => {
@@ -106,7 +106,7 @@ export class UserCreateModal extends Component {
     this.colorController(key);
     this.setState({});
   };
-  
+
   clearError = () => {
     if(this.state.error){ this.setState({ error: null }); }
   };
@@ -182,7 +182,7 @@ export class UserCreateModal extends Component {
               {this.registerField('formSurname', "text", 'Meikäläinen')}
               {this.registerField('formPassword',  "password", 'Salasana')}
               {this.registerField('formPassVerify', "password", 'Salasana')}
-              
+
               <Button type="submit" className='hidden' onClick={this.handleAddUser} />
             </Form>
             <div className={this.state.error ? '' : 'hidden'}>
@@ -192,8 +192,8 @@ export class UserCreateModal extends Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button type="submit" bsStyle="primary" onClick={this.handleAddUser}> Rekisteröidy </Button>
-            <Button onClick={this.close}>Peruuta</Button>
+            <Button type="submit" bsStyle="primary" onClick={this.handleAddUser}><FormattedMessage id='displayRegisterModal' /></Button>
+            <Button onClick={this.close}><FormattedMessage id='cancel' /></Button>
           </Modal.Footer>
           </form>
         </Modal>

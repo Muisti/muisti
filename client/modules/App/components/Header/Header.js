@@ -12,29 +12,29 @@ import styles from './Header.css';
 import { fetchPosts } from '../../../Post/PostActions';
 
 export function Header(props) {
-    
+
   const languageNodes = props.intl.enabledLanguages.map(
       lang => <MenuItem key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</MenuItem>
   );
-  
+
     return (
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/">Muistiprojekti</a>
+            <a href="/"><FormattedMessage id={'siteTitle'} /></a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
             <Nav pullRight>
               <LoginBox fetchPosts={() => props.dispatch(fetchPosts())} intl={props.intl} />
-            <NavDropdown eventKey={2} title="Vaihda kieli" id="basic-nav-dropdown">
+            <NavDropdown eventKey={2} title={<FormattedMessage id={'switchLanguage'} />} id="basic-nav-dropdown">
                 {languageNodes}
             </NavDropdown>
         </Nav>
         </Navbar.Collapse>
       </Navbar>
-            
+
     );
 }
 
