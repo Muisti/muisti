@@ -38,7 +38,7 @@ export class QuizPanelItem extends Component{
         </div>
       );        
     }
-}
+};
 
 QuizPanelItem.propTypes = {
     quiz: PropTypes.shape({
