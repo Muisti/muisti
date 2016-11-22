@@ -4,6 +4,7 @@ export default {
     //General
     siteTitle: 'Memoryproject',
     switchLanguage: 'Switch Language',
+    logInUser: 'Hello {user}',
     twitterMessage: 'We are on Twitter',
     submitAdd: 'Add',
     submitCreate: 'Create',
