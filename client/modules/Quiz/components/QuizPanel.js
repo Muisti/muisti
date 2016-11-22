@@ -4,13 +4,18 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { sendScoreRequest } from '../QuizActions';
 import QuizPanelItem from './QuizPanelItem';
 
+export class QuizPanel extends Component {
 
-export class QuizPanel extends Component{
-
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = { totalFeedBack: '', totalPercent: -1 };
   }
+  
+  componentDidMount() {
+    this.setPoints();
+    console.log(this.props.quizzes);
+  }
+  
 
   getUserSelections = (quiz, quizIndex) => {
     let result = [];
@@ -69,39 +74,41 @@ export class QuizPanel extends Component{
     return result;
   };
 
-  verifyAnswers = (userAnswers) => {
+  setPoints = () => {
     let maxPointsTotal = 0;
     let pointsTotal = 0;
-
+    
     this.props.quizzes.forEach((quiz, i) => {
-      const points = this.countPoints(quiz, this.getUserSelections(quiz, i));
-      const maxPoints = this.maxPoints(quiz);
 
+      const maxPoints = this.maxPoints(quiz);
+    
       maxPointsTotal += maxPoints;
-      pointsTotal += points;
-      const wrongCount = quiz.options.length - this.correctUserAnswers(quiz, i);
-      const selectedCount = this.getUserSelections(quiz, i).filter(s => s).length;
-      quiz.feedback = this.quizFeedback(wrongCount, selectedCount);
-      if(wrongCount == 0){
-        quiz.options.forEach(option => {
+      pointsTotal += quiz.points;
+
+      if(maxPoints == quiz.points){
+        quiz.options.forEach((option, j) => {
           option.highlight = option.answer;
           option.disabled = true;
+          document.getElementById(this.optionCheckboxId(i, j)).checked = option.answer;
         });
+        quiz.feedback = this.quizFeedback(0);
       }
-
-      quiz.points = points;
     });
 
     let totalPercent = (pointsTotal / maxPointsTotal) * 100;
-    let totalFeedback = 'pisteet: ' + pointsTotal + "/" + maxPointsTotal;
 
+    this.setState({ totalPercent });
+  }
 
+  verifyAnswers = (quiz, i) => {
+    this.props.quizzes.forEach((quiz, i) => {
+      quiz.points = this.countPoints(quiz, this.getUserSelections(quiz, i));
+      const wrongCount = quiz.options.length - this.correctUserAnswers(quiz, i);
+      const selectedCount = this.getUserSelections(quiz, i).filter(s => s).length;
+      quiz.feedback = this.quizFeedback(wrongCount, selectedCount);
+    });
     sendScoreRequest(this.props.quizzes);
-
-    if(this.props.quizzes.length == 1) totalFeedback = '';
-
-    this.setState({ totalFeedback, totalPercent });
-
+    this.setPoints();
   };
   
   calculateQuizIndices = () => {
@@ -145,7 +152,7 @@ export class QuizPanel extends Component{
 
 
 QuizPanel.propTypes = {
-    quizzes: PropTypes.array
+    quizzes: PropTypes.array.isRequired,
 };
 
 export default injectIntl(QuizPanel);
