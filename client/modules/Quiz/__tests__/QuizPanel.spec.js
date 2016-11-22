@@ -68,13 +68,15 @@ test('verification with incorrect answers', t => {
   var stub = sinon.stub(QuizActions, 'sendScoreRequest', p => points = p.map(quiz => quiz.points));
   const countSubStrings = (s, sub) => (s.match(new RegExp(sub, 'g')) || []).length;
 
+  const stub2 = sinon.stub(document, 'getElementById', id => {
+      return {checked: (id == 'quiz0option0' || id == 'quiz1option0' || id == 'quiz1option2' || id == 'quiz1option1')};
+  });
+  
   const wrapper = mountWithIntl(
     <QuizPanel quizzes={quizzes}/>
   );
   
-  const stub2 = sinon.stub(document, 'getElementById', id => {
-      return {checked: (id == 'quiz0option0' || id == 'quiz1option0' || id == 'quiz1option2' || id == 'quiz1option1')};
-  });
+
   wrapper.find('Button').first().simulate('click');
   t.truthy(stub.calledOnce);
   t.is(points[0], 0);
