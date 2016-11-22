@@ -12,7 +12,7 @@ export class QuizPanel extends Component {
   }
   
   componentDidMount() {
-    this.verifyAnswers();
+    this.setPoints();
     console.log(this.props.quizzes);
   }
   
@@ -74,43 +74,41 @@ export class QuizPanel extends Component {
     return result;
   };
 
-  verifyAnswers = () => {
+  setPoints = () => {
     let maxPointsTotal = 0;
     let pointsTotal = 0;
-
+    
     this.props.quizzes.forEach((quiz, i) => {
-        
+
       const maxPoints = this.maxPoints(quiz);
-      let points = quiz.points;
-      let wrongCount = 0;
-      let selectedCount = 0;
-      
-      if (maxPoints != quiz.points) {
-          points = this.countPoints(quiz, this.getUserSelections(quiz, i));
-          wrongCount = quiz.options.length - this.correctUserAnswers(quiz, i);
-          selectedCount = this.getUserSelections(quiz, i).filter(s => s).length;
-          quiz.points = points;
-      }
+    
       maxPointsTotal += maxPoints;
-      pointsTotal += points;
-      quiz.feedback = this.quizFeedback(wrongCount, selectedCount);
-      if(wrongCount == 0){
-        quiz.options.forEach(option => {
+      pointsTotal += quiz.points;
+
+      if(maxPoints == quiz.points){
+        quiz.options.forEach((option, j) => {
           option.highlight = option.answer;
           option.disabled = true;
+          document.getElementById(this.optionCheckboxId(i, j)).checked = option.answer;
         });
+        quiz.feedback = this.quizFeedback(0);
       }
     });
 
     let totalPercent = (pointsTotal / maxPointsTotal) * 100;
-    let totalFeedback = 'pisteet: ' + pointsTotal + "/" + maxPointsTotal;
 
+    this.setState({ totalPercent });
+  }
+
+  verifyAnswers = (quiz, i) => {
+    this.props.quizzes.forEach((quiz, i) => {
+      quiz.points = this.countPoints(quiz, this.getUserSelections(quiz, i));
+      const wrongCount = quiz.options.length - this.correctUserAnswers(quiz, i);
+      const selectedCount = this.getUserSelections(quiz, i).filter(s => s).length;
+      quiz.feedback = this.quizFeedback(wrongCount, selectedCount);
+    });
     sendScoreRequest(this.props.quizzes);
-
-    if(this.props.quizzes.length == 1) totalFeedback = '';
-
-    this.setState({ totalFeedback, totalPercent });
-
+    this.setPoints();
   };
   
   calculateQuizIndices = () => {
