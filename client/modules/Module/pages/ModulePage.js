@@ -10,7 +10,7 @@ import Section from '../components/Section';
 import { fetchModule } from '../ModuleActions';
 import { fetchSections } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
-
+import { fetchScores } from '../../Quiz/QuizActions';
 
 class ModulePage extends Component {
 
@@ -22,10 +22,20 @@ class ModulePage extends Component {
   componentDidMount() {
     fetchModule(this.props.params.title)
       .then(module => fetchSections(module.cuid)
-        .then(sections => {
-          if (!sections) sections = [];
-          this.setState({sections, module});
-        }));
+        .then(sections => fetchScores()
+          .then(scoreboard => {
+            if (!sections) sections = [];
+            if (scoreboard) {
+              sections.forEach(sec =>
+                sec.quizzes.forEach(qui => {
+                var poi = scoreboard.scores.find(sco => sco.quizCuid == qui.cuid);
+                if (poi) {
+                  qui.points = poi.quizPoints;
+                }})
+              );
+            }
+            this.setState({ module, sections });
+        })))
   }
 
   addSectionToRender = (newSection) => {
@@ -34,7 +44,6 @@ class ModulePage extends Component {
 
 
   render() {
-
     return (
       <div>
         <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
@@ -42,9 +51,7 @@ class ModulePage extends Component {
           {this.state.module.info}
         </Well>
 
-        
-        {this.state.sections.map(section => section ? <Section section={section} /> : '')}
-        
+        {this.state.sections.map(section => <Section section={section} />)}
 
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}

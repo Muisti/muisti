@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
-
-
 export class QuizPanelItem extends Component{
     
     optionCheckboxId = optionIndex => 'quiz' + this.props.quiz.index + 'option' + optionIndex;
@@ -18,7 +16,6 @@ export class QuizPanelItem extends Component{
         </div>
       );  
     };
-    
     
     render(){
       const quiz = this.props.quiz;
@@ -48,10 +45,10 @@ QuizPanelItem.propTypes = {
         cuid: PropTypes.string,
         index: PropTypes.number,
         question: PropTypes.string,
-        options: PropTypes.arrayOf({
+        options: PropTypes.arrayOf(PropTypes.shape({
             text: PropTypes.string.isRequired,
             answer: PropTypes.bool.isRequired
-        }).isRequired
+        })).isRequired,
     })
 };
 

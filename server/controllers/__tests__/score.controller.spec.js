@@ -67,7 +67,7 @@ test.serial('Getting scoreboard works', async t => {
      .set('authorization', token)
      .set('Accept', 'application/json');
 
-    const p = res.body.score;
+    const p = res.body.scores;
     t.is(p.scores.length, 2);
     t.is(p.userCuid, users[0].cuid);
     
