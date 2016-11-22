@@ -8,7 +8,7 @@ export class QuizPanel extends Component {
 
   constructor(props){
     super(props);
-    this.state = { totalFeedBack: '', totalPercent: -1 };
+    this.state = { totalPercent: -1 };
   }
   
   componentDidMount() {
@@ -95,7 +95,7 @@ export class QuizPanel extends Component {
       }
     });
 
-    let totalPercent = (pointsTotal / maxPointsTotal) * 100;
+    let totalPercent = Math.round((pointsTotal / maxPointsTotal) * 100);
 
     this.setState({ totalPercent });
   }
@@ -120,7 +120,7 @@ export class QuizPanel extends Component {
     return (
       <div>
         <ProgressBar>
-          <ProgressBar now={this.state.totalPercent} bsStyle="success" label={`${Math.round(this.state.totalPercent)}%`} key={1}/>
+          <ProgressBar now={this.state.totalPercent} bsStyle="success" label={this.state.totalPercent + "%"} key={1}/>
         </ProgressBar>
       </div>
     );
@@ -140,7 +140,7 @@ export class QuizPanel extends Component {
 
                    Tehtävät
                   </span>
-                  <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalFeedback}</span>
+                  <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalPercent + "%"}</span>
                 </div>)}>
             {quizzes.map(quiz => <QuizPanelItem quiz={quiz} />)}
             {this.renderProgressBar()}
