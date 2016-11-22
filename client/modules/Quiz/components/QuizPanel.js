@@ -10,11 +10,11 @@ export class QuizPanel extends Component {
     super(props);
     this.state = { totalPercent: -1 };
   }
-  
+
   componentDidMount() {
     this.setPoints();
   }
-  
+
 
   getUserSelections = (quiz, quizIndex) => {
     let result = [];
@@ -49,9 +49,9 @@ export class QuizPanel extends Component {
 
   quizFeedback = (wrongAnswers, selected) => {
     const correct = (wrongAnswers == 0);
-    let text = correct ? 'Oikein!' : (wrongAnswers == 1 ? 'Yksi valinta väärin!' :
-    'Vääriä valintoja: ' + wrongAnswers + "!");
-    if(selected == 0 && !correct) text = 'Valitse vähintään yksi vaihtoehto.';
+    let text = correct ? <FormattedMessage id={'rightAnswerFeedback'} /> : (wrongAnswers == 1 ? <FormattedMessage id={'oneWrongAnswer'} /> :
+    <FormattedMessage id={'severalWrongAnswers'} values={{count: wrongAnswers}} />);
+    if(selected == 0 && !correct) text = <FormattedMessage id={'selectOption'} />;
     let style = { color: '#aaaaaa', fontWeight: 'bold',   display: 'inline-block'};
     if(correct) style = {...style, color: '#005500'};
     if(!correct && selected) style = {...style, color: '#dd8866'};
@@ -75,11 +75,11 @@ export class QuizPanel extends Component {
   setPoints = () => {
     let maxPointsTotal = 0;
     let pointsTotal = 0;
-    
+
     this.props.quizzes.forEach((quiz, i) => {
 
       const maxPoints = this.maxPoints(quiz);
-    
+
       maxPointsTotal += maxPoints;
       pointsTotal += quiz.points;
 
@@ -96,7 +96,8 @@ export class QuizPanel extends Component {
     let totalPercent = Math.round((pointsTotal / maxPointsTotal) * 100);
 
     this.setState({ totalPercent });
-  }
+  };
+
 
   verifyAnswers = (quiz, i) => {
     this.props.quizzes.forEach((quiz, i) => {
@@ -108,11 +109,11 @@ export class QuizPanel extends Component {
     sendScoreRequest(this.props.quizzes);
     this.setPoints();
   };
-  
+
   calculateQuizIndices = () => {
       let index = 0;
       this.props.quizzes.forEach(quiz => quiz.index = index++);
-  }
+  };
 
   renderProgressBar = () => {
     return (
@@ -128,21 +129,20 @@ export class QuizPanel extends Component {
   render(){
       this.calculateQuizIndices();
       const quizzes = this.props.quizzes;
-      
+
       return (
         <Panel collapsible header={(
                 <div className='clearfix'>
                 <span style={{cursor: 'pointer', color: '#000066'}}>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi"
                         style={{ verticalAlign: 'bottom', marginRight: '7px' }}/>
-
-                   Tehtävät
+                   <FormattedMessage id={'quizPanelTitle'} />
                   </span>
                   <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalPercent + "%"}</span>
                 </div>)}>
             {quizzes.map(quiz => <QuizPanelItem quiz={quiz} />)}
             {this.renderProgressBar()}
-            <Button onClick={this.verifyAnswers}>Tarkista</Button>
+            <Button onClick={this.verifyAnswers}><FormattedMessage id={'check'} /></Button>
         </Panel>
     );
   }

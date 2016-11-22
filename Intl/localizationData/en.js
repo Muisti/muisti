@@ -4,6 +4,7 @@ export default {
     //General
     siteTitle: 'Memoryproject',
     switchLanguage: 'Switch Language',
+    logInUser: 'Hello {user}',
     twitterMessage: 'We are on Twitter',
     submitAdd: 'Add',
     submitCreate: 'Create',
@@ -42,6 +43,12 @@ export default {
     question: 'Question',
     option: 'Option',
     rightAnswer: 'This is correct',
+    quizPanelTitle: 'Quizzes',
+    rightAnswerFeedback: 'Congratulations, that is the right answer!',
+    oneWrongAnswer: 'One wrong option!',
+    severalWrongAnswers: 'The number of wrong options: {count}!',
+    selectOption: 'Select at least one option',
+    check: 'Check',
     //Registration and user control
     displayRegisterModal: 'Register',
     registrationSuccessful_title: 'Registration successful!',

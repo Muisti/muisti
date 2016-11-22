@@ -27,7 +27,7 @@ export class LoginBox extends Component {
   logIn = (e) => {
     e.preventDefault();
     this.setState({ isLoading: true });
-    
+
     var password = ReactDOM.findDOMNode(this.refs.password).value;
     var email = ReactDOM.findDOMNode(this.refs.email).value;
     if (!password || !email) {
@@ -41,7 +41,7 @@ export class LoginBox extends Component {
     removeToken("token");
     this.props.fetchPosts();
     this.setState({});
-  }
+  };
 
 
   checkToken = (token) => {
@@ -53,7 +53,7 @@ export class LoginBox extends Component {
             this.setValidationState("email");
             break;
           case "notConfirmed":
-            this.setState({ alert: 
+            this.setState({ alert:
               errorAlert( (<FormattedMessage id="notConfirmedTitle" />),
                         (<FormattedMessage id="notConfirmedInfo" />)) });
             break;
@@ -63,7 +63,7 @@ export class LoginBox extends Component {
             this.props.fetchPosts();
             break;
       }
-  }
+  };
 
   setValidationState(invalidState) {
       this.setState({ isLoading: false });
@@ -86,9 +86,9 @@ export class LoginBox extends Component {
   render() {
     var payload = getTokenPayload();
     if (payload) {
-      return (   
+      return (
         <Nav pullLeft>
-          <NavItem> Hei {payload.user} </NavItem>
+          <NavItem><FormattedMessage id={'logInUser'} values={{user: payload.user}} /></NavItem>
           <Navbar.Form pullLeft>
             <Button href={window.location.pathname != '/' ? '/' : '#'} type="submit" bsStyle="warning" onClick={this.logOut} >
               <FormattedMessage id={'logOutButton'} />
@@ -98,7 +98,7 @@ export class LoginBox extends Component {
         </Nav>
         );
       }
-    
+
     var isLoading = this.state.isLoading;
 
     return (
@@ -106,7 +106,7 @@ export class LoginBox extends Component {
         <Navbar.Form pullLeft>
           <form>
             <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
-              <FormControl type="email" placeholder={this.props.intl.messages.formEmail} 
+              <FormControl type="email" placeholder={this.props.intl.messages.formEmail}
                     onChange={this.emailChange} ref="email"/>
               <FormControl.Feedback />
             </FormGroup>
