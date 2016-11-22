@@ -27,9 +27,12 @@ class ModulePage extends Component {
             if (!sections) sections = [];
             if (scoreboard) {
               sections.forEach(sec =>
-                sec.quizzes.forEach(qui =>
-                  qui.points = scoreboard.scores.find(
-                    sco => sco.quizCuid == qui.cuid).quizPoints));
+                sec.quizzes.forEach(qui => {
+                var poi = scoreboard.scores.find(sco => sco.quizCuid == qui.cuid);
+                if (poi) {
+                  qui.points = poi.quizPoints;
+                }})
+              );
             }
             this.setState({ module, sections });
         })))
