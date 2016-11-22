@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Panel, Button, ProgressBar } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { sendScoreRequest } from '../QuizActions';
-import QuizPanelItem from './QuizPanelItem';
+import QuizPanelItem from 'QuizPanelItem';
 
 
 export class QuizPanel extends Component{
@@ -126,15 +126,15 @@ export class QuizPanel extends Component{
       
       return (
         <Panel collapsible header={(
-                <div className='clearfix'>
-                <span style={{cursor: 'pointer', color: '#000066'}}>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi"
-                        style={{ verticalAlign: 'bottom', marginRight: '7px' }}/>
+            <div className='clearfix'>
+            <span style={{cursor: 'pointer', color: '#000066'}}>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi"
+                    style={{ verticalAlign: 'bottom', marginRight: '7px' }}/>
 
-                   Tehtävät
-                  </span>
-                  <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalFeedback}</span>
-                </div>)}>
+               Tehtävät
+              </span>
+              <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalFeedback}</span>
+            </div>)}>
             {quizzes.map(quiz => <QuizPanelItem quiz={quiz} />)}
             {this.renderProgressBar()}
             <Button onClick={this.verifyAnswers}>Tarkista</Button>
