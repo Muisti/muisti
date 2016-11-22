@@ -8,21 +8,20 @@ export class QuizPanel extends Component {
 
   constructor(props){
     super(props);
-    this.state = { totalFeedBack: '', totalPercent: -1 };
+    this.state = { totalPercent: -1 };
   }
 
   componentDidMount() {
     this.setPoints();
-    console.log(this.props.quizzes);
   }
 
 
   getUserSelections = (quiz, quizIndex) => {
     let result = [];
-    for(let i = 0; i < quiz.options.length; i++){
-      const checked = document.getElementById(this.optionCheckboxId(quizIndex, i)).checked;
+    quiz.options.forEach((option, i) => {
+      const checked = option.checked;
       result.push(checked);
-    }
+    })
 
     return result;
   };
@@ -44,7 +43,6 @@ export class QuizPanel extends Component {
   };
 
   //helper functions for quizzes
-  optionCheckboxId = (quizIndex, optionIndex) => 'quiz' + quizIndex + 'option' + optionIndex;
   correctAnswers = quiz => quiz.options.filter(option => option.answer).length;
   maxPoints = quiz => this.correctAnswers(quiz) || 1;
   show = condition => (condition ? {} : { display: 'none' });
@@ -89,13 +87,13 @@ export class QuizPanel extends Component {
         quiz.options.forEach((option, j) => {
           option.highlight = option.answer;
           option.disabled = true;
-          document.getElementById(this.optionCheckboxId(i, j)).checked = option.answer;
+          option.checked = option.answer;
         });
         quiz.feedback = this.quizFeedback(0);
       }
     });
 
-    let totalPercent = (pointsTotal / maxPointsTotal) * 100;
+    let totalPercent = Math.round((pointsTotal / maxPointsTotal) * 100);
 
     this.setState({ totalPercent });
   };
@@ -121,7 +119,7 @@ export class QuizPanel extends Component {
     return (
       <div>
         <ProgressBar>
-          <ProgressBar now={this.state.totalPercent} bsStyle="success" label={`${Math.round(this.state.totalPercent)}%`} key={1}/>
+          <ProgressBar now={this.state.totalPercent} bsStyle="success" label={this.state.totalPercent + "%"} key={1}/>
         </ProgressBar>
       </div>
     );
@@ -140,7 +138,7 @@ export class QuizPanel extends Component {
                         style={{ verticalAlign: 'bottom', marginRight: '7px' }}/>
                    <FormattedMessage id={'quizPanelTitle'} />
                   </span>
-                  <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalFeedback}</span>
+                  <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalPercent + "%"}</span>
                 </div>)}>
             {quizzes.map(quiz => <QuizPanelItem quiz={quiz} />)}
             {this.renderProgressBar()}
