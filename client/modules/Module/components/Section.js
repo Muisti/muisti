@@ -13,8 +13,6 @@ export class Section extends Component {
     super(props);
   }
 
-//  koe =function(){console.log("koe");};
-
   checkMultimediaFileType = (link) => {
     if(validator.contains(link, ".webm") || validator.contains(link, ".mp4") || validator.contains(link, ".ogg"))
       return "video";
