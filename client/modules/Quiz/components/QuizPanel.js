@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Panel, Button, ProgressBar } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { sendScoreRequest } from '../QuizActions';
-import QuizPanelItem from 'QuizPanelItem';
+import QuizPanelItem from './QuizPanelItem';
 
 export class QuizPanel extends Component {
 
