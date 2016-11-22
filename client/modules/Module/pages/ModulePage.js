@@ -44,11 +44,11 @@ class ModulePage extends Component {
   };
 
 
-  render() {
+  render() {      
     return (
       <div>
         <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
-        <Well >
+        <Well>
           {this.state.module.info}
         </Well>
 

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import styles from './style.css';
 
 export class QuizPanelItem extends Component{
     
@@ -8,9 +9,9 @@ export class QuizPanelItem extends Component{
     
     renderOption = (option, optionIndex) => {
       return (
-        <div style={{marginLeft: '15px', paddingLeft: '10px', background: option.highlight ? '#ddffdd' : 'white'}}>
-            <label><input id={this.optionCheckboxId(optionIndex)}
-                type="checkbox" style={{marginRight: '6px'}} disabled={option.disabled} />
+        <div className={styles.optionArea + " " + (option.highlight ? styles.optionHighlight : '')}>
+            <label><input id={this.optionCheckboxId(optionIndex)} type="checkbox" 
+               className={styles.ceckbox} disabled={option.disabled} />
                     {option.text}
             </label>
         </div>
