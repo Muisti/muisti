@@ -13,16 +13,15 @@ export class QuizPanel extends Component {
   
   componentDidMount() {
     this.setPoints();
-    console.log(this.props.quizzes);
   }
   
 
   getUserSelections = (quiz, quizIndex) => {
     let result = [];
-    for(let i = 0; i < quiz.options.length; i++){
-      const checked = document.getElementById(this.optionCheckboxId(quizIndex, i)).checked;
+    quiz.options.forEach((option, i) => {
+      const checked = option.checked;
       result.push(checked);
-    }
+    })
 
     return result;
   };
@@ -44,7 +43,6 @@ export class QuizPanel extends Component {
   };
 
   //helper functions for quizzes
-  optionCheckboxId = (quizIndex, optionIndex) => 'quiz' + quizIndex + 'option' + optionIndex;
   correctAnswers = quiz => quiz.options.filter(option => option.answer).length;
   maxPoints = quiz => this.correctAnswers(quiz) || 1;
   show = condition => (condition ? {} : { display: 'none' });
@@ -89,7 +87,7 @@ export class QuizPanel extends Component {
         quiz.options.forEach((option, j) => {
           option.highlight = option.answer;
           option.disabled = true;
-          document.getElementById(this.optionCheckboxId(i, j)).checked = option.answer;
+          option.checked = option.answer;
         });
         quiz.feedback = this.quizFeedback(0);
       }
