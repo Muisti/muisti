@@ -29,9 +29,8 @@ class ModulePage extends Component {
               sections.forEach(sec =>
                 sec.quizzes.forEach(qui => {
                 var poi = scoreboard.scores.find(sco => sco.quizCuid == qui.cuid);
-                if (poi) {
-                  qui.points = poi.quizPoints;
-                }})
+                qui.points = poi ? poi.quizPoints : 0;
+                })
               );
             }
             this.setState({ module, sections });
