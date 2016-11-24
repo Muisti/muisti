@@ -10,6 +10,7 @@ export class QuizItemOption extends Component {
     
     changeChecked = () => {
         this.props.option.checked = !this.props.option.checked;
+        this.setState({});
     }
     
     render() {
@@ -29,7 +30,7 @@ QuizItemOption.propTypes = {
       option: PropTypes.shape({
         text: PropTypes.string.isRequired,
         answer: PropTypes.bool.isRequired,
-        checked: PropTypes.bool,
+        checked: PropTypes.bool
       }).isRequired,
-      index: PropTypes.number.isRequired,
-}
+      index: PropTypes.number.isRequired
+};

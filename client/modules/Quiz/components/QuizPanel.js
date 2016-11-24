@@ -19,7 +19,7 @@ export class QuizPanel extends Component {
   getUserSelections = (quiz, quizIndex) => {
     let result = [];
     quiz.options.forEach((option, i) => {
-      const checked = option.checked;
+      const checked = option.checked ? true : false ;
       result.push(checked);
     })
 
@@ -77,13 +77,12 @@ export class QuizPanel extends Component {
     let pointsTotal = 0;
 
     this.props.quizzes.forEach((quiz, i) => {
-
       const maxPoints = this.maxPoints(quiz);
-
+        
       maxPointsTotal += maxPoints;
       pointsTotal += quiz.points;
 
-      if(maxPoints == quiz.points){
+      if(maxPoints === quiz.points){
         quiz.options.forEach((option, j) => {
           option.highlight = option.answer;
           option.disabled = true;
@@ -92,9 +91,7 @@ export class QuizPanel extends Component {
         quiz.feedback = this.quizFeedback(0);
       }
     });
-
     let totalPercent = Math.round((pointsTotal / maxPointsTotal) * 100);
-
     this.setState({ totalPercent });
   };
 
