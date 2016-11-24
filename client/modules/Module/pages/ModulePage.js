@@ -50,7 +50,7 @@ class ModulePage extends Component {
           {this.state.module.info}
         </Well>
 
-        {this.state.sections.map(section => <Section section={section} />)}
+        {this.state.sections.map((section,key) => <Section key={key} section={section} />)}
 
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}

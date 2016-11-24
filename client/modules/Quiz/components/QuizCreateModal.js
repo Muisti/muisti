@@ -69,7 +69,7 @@ export class QuizCreateModal extends Component {
   optionField = (fieldNumber) => {
       var fields = [];
       for (var i = 1; i-1 < fieldNumber; i++) {
-              fields.push(<Form horizontal>
+              fields.push(<Form horizontal key={i}>
                 <ControlLabel> <FormattedMessage id='option' /> {i} </ControlLabel>
                 <Checkbox onChange={this.handleCheckboxChange(i)}> <FormattedMessage id='rightAnswer' /> </Checkbox>
                 <FormControl type="text" value={this.state[i + 'answer']} onChange={this.handleAnswerChange(i)}
