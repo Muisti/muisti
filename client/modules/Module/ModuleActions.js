@@ -5,6 +5,10 @@ export function fetchModules() {
       .then(res => res.modules);
 }
 
+export function deleteModuleRequest(cuid) {
+	return callApi(`modules/${cuid}`, 'delete')
+		.then(res => res);
+}
 
  export function fetchModule(title) {
     return callApi(`modules/${title}`)
