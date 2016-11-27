@@ -46,7 +46,11 @@ export async function addSection(req, res) {
 }
 
 export async function deleteSection(req, res){
-  console.log(req.params.cuid);
+  
+  let token = await decodeTokenFromRequest(req);
+
+  if(!token || !token.isAdmin) return res.status(403).end();
+
   Section.findOne({cuid: req.params.cuid}).exec((err, section) => {
     if(err){
       return res.status(500).send(err);
@@ -55,4 +59,20 @@ export async function deleteSection(req, res){
     }
     return section.remove(() => res.status(200).end());
   });
+}
+
+export async function deleteSectionsByModule(req, res){
+  let token = await decodeTokenFromRequest(req);
+
+  if(!token || !token.isAdmin) return res.status(403).end();
+  
+  Section.deleteMany({ moduleCuid: req.params.moduleCuid }).exec((err) => {
+    if(err){
+      return res.status(500).send(err);
+    }
+   
+  });
+
+  return res.status(200).end();
+
 }

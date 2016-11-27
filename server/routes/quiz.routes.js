@@ -7,4 +7,6 @@ router.route('/quizzes/:sectionCuid').get(QuizController.getQuizzes);
 
 router.route('/quizzes').post(QuizController.addQuiz);
 
+router.route('/quizzes/:cuid').delete(QuizController.deleteQuiz);
+
 export default router;
