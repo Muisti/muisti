@@ -21,8 +21,8 @@ test('renders properly', t => {
     <Section {...props}/>
   );
 
-  t.is(wrapper.find('Panel').length, 1);
-  t.is(wrapper.find('QuizPanel').length, 0);
+  t.is(wrapper.find('div').length, 4);
+  t.is(wrapper.find('QuizCreateModal').length, 0);
 });
 
 test('Renders image-filetype correctly', t => {
