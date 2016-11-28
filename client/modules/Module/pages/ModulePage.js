@@ -47,7 +47,7 @@ class ModulePage extends Component {
   panelHeader = (section) => {
     return (
       <div className="clearfix">
-        <div className={styles['panel-heading']}>
+        <div>
           {section.title ? section.title : ''}
           {this.panelDeleteButtonForAdmin()}
         </div>
@@ -83,8 +83,8 @@ class ModulePage extends Component {
         {this.state.sections.map((section,key) => <Section key={key} section={section} />)}
 
         <Accordion>
-          {this.state.sections.map(section => (
-            <Panel header={this.panelHeader(section)} eventKey={++i} key={i}>
+          {this.state.sections.map((section, index) => (
+            <Panel header={this.panelHeader(section)} eventKey={index} key={index}>
               <ModuleListItem module={section}/>
             </Panel>
           ))
