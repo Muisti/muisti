@@ -32,48 +32,21 @@ export class Section extends Component {
     }else if (type === "image"){
       return( <img src={section.link} width="480" /> );
     } else if (type === "youtube") {
-        //Parse 3 types of links. v=id, embed/id and tu.be/id
-        var re = /(v=|embed\/|tu.be\/)(\w+)/g;
-        var v = re.exec(section.link);
-        var link = "https://www.youtube.com/embed/";
-        link += v[2];
-        return (<iframe width="560" height="315"
-          src={link}
-          frameBorder="0" allowFullScreen></iframe> );
+      //Parse 3 types of links. v=id, embed/id and tu.be/id
+      var re = /(v=|embed\/|tu.be\/)(\w+)/g;
+      var v = re.exec(section.link);
+      var link = "https://www.youtube.com/embed/";
+      link += v[2];
+      return (<iframe width="560" height="315"
+                      src={link}
+                      frameBorder="0" allowFullScreen></iframe> );
     } else {
       return ( <div> Filetype not supported!</div> );
     }
   };
 
   addQuiz = (quiz) => {
-   this.props.section.quizzes.push(quiz); this.setState({});
-  };
-
-  panelHeader = (section) => {
-    return (
-      <div className="clearfix">
-        <div className={styles['panel-heading']}>
-          {section.title ? section.title : ''}
-          {this.panelDeleteButtonForAdmin()}
-        </div>
-      </div>
-    );
-  };
-
-  panelDeleteButtonForAdmin = () => {
-    if (getTokenPayload() && getTokenPayload().isAdmin) {
-      return (
-        <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteSection()}>
-         Poista section
-        </Button>
-      );
-    }
-  };
-
-  handleDeleteSection = (section) => {
-    if (window.confirm('Haluatko varmasti poistaa sectionin?')) {
-      deleteModuleRequest(section.cuid).then(this.setState({ sections: this.state.sections.filter(sec => sec.cuid !== section.cuid) }));
-    }
+    this.props.section.quizzes.push(quiz); this.setState({});
   };
 
   render(){
@@ -81,7 +54,7 @@ export class Section extends Component {
     const token = getTokenPayload();
 
     return (
-      <Panel collapsible defaultExpanded header={this.panelHeader(section)} >
+      <div>
         <div>{section.content ? section.content : ''}</div>
         {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
         <div style={show(section.quizzes && section.quizzes.length > 0)}>
@@ -91,7 +64,7 @@ export class Section extends Component {
         <div style={show(token && token.isAdmin)}>
           <QuizCreateModal addQuiz={this.addQuiz} sectionCuid={section.cuid} />
         </div>
-      </Panel>
+      </div>
     );
   }
 }
