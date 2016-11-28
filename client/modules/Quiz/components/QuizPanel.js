@@ -27,13 +27,13 @@ export class QuizPanel extends Component {
     return result;
   };
 
-  countPoints = (quiz, userAnswers) => {
+  countPoints = quiz => {
     if(this.correctAnswers(quiz) == 0){
-      return userAnswers.filter(answer => answer).length ? 0 : 1;
+      return quiz.options.filter(option => option.checked).length ? 0 : 1;
     }else{
       return Math.max(
-        quiz.options.reduce((result, option, index) => 
-            ((userAnswers[index] === option.answer) == option.answer ? 
+        quiz.options.reduce((result, option) => 
+            ((option.checked === option.answer) == option.answer ? 
               ( option.answer ? +1 : -1 ) : 0) + result, 0)
         , 0);
     }
@@ -42,6 +42,7 @@ export class QuizPanel extends Component {
   //helper functions for quizzes
   correctAnswers = quiz => quiz.options.filter(option => option.answer).length;
   maxPoints = quiz => this.correctAnswers(quiz) || 1;
+  correctUserAnswers = quiz => quiz.options.filter(option => option.answer == option.checked).length;
 
   quizFeedback = (wrongAnswers, selected) => {
     const correct = (wrongAnswers == 0);
@@ -54,10 +55,7 @@ export class QuizPanel extends Component {
             </span>);
   };
 
-  correctUserAnswers = (quiz, quizIndex) => {
-    const userAnswers = this.getUserSelections(quiz, quizIndex);
-    return userAnswers.filter((answer, index) => answer == quiz.options[index].answer).length;
-  };
+
 
   setPoints = () => {
     let maxPointsTotal = 0;
@@ -86,9 +84,9 @@ export class QuizPanel extends Component {
 
   verifyAnswers = (quiz, i) => {
     this.props.quizzes.forEach((quiz, i) => {
-      quiz.points = this.countPoints(quiz, this.getUserSelections(quiz, i));
+      quiz.points = this.countPoints(quiz);
       const wrongCount = quiz.options.length - this.correctUserAnswers(quiz, i);
-      const selectedCount = this.getUserSelections(quiz, i).filter(s => s).length;
+      const selectedCount = quiz.options.filter(option => option.checked).length;
       quiz.feedback = this.quizFeedback(wrongCount, selectedCount);
     });
     sendScoreRequest(this.props.quizzes);
