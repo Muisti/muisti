@@ -137,7 +137,7 @@ export class QuizPanel extends Component {
                   </span>
                   <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalPercent + "%"}</span>
                 </div>)}>
-            {quizzes.map(quiz => <QuizPanelItem quiz={quiz} />)}
+            {quizzes.map((quiz,key) => <QuizPanelItem key={key} quiz={quiz} />)}
             {this.renderProgressBar()}
             <Button onClick={this.verifyAnswers}><FormattedMessage id={'check'} /></Button>
         </Panel>

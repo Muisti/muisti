@@ -32,5 +32,5 @@ QuizItemOption.propTypes = {
         answer: PropTypes.bool.isRequired,
         checked: PropTypes.bool
       }).isRequired,
-      index: PropTypes.number.isRequired
+      
 };
