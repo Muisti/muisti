@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Button, Grid, Row, Col, PageHeader, Panel, Well } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
- 
+
 import SectionCreateModal from '../components/SectionCreateModal';
 import SectionFactory from '../components/SectionFactory'
 import ModuleListItem from '../components/ModuleListItem';
@@ -42,6 +42,34 @@ class ModulePage extends Component {
   };
 
 
+  panelHeader = (section) => {
+    return (
+      <div className="clearfix">
+        <div className={styles['panel-heading']}>
+          {section.title ? section.title : ''}
+          {this.panelDeleteButtonForAdmin()}
+        </div>
+      </div>
+    );
+  };
+
+  panelDeleteButtonForAdmin = () => {
+    if (getTokenPayload() && getTokenPayload().isAdmin) {
+      return (
+        <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteSection()}>
+          Poista section
+        </Button>
+      );
+    }
+  };
+
+  handleDeleteSection = (section) => {
+    if (window.confirm('Haluatko varmasti poistaa sectionin?')) {
+      deleteModuleRequest(section.cuid).then(this.setState({ sections: this.state.sections.filter(sec => sec.cuid !== section.cuid) }));
+    }
+  };
+
+
   render() {
     return (
       <div>
@@ -52,15 +80,27 @@ class ModulePage extends Component {
 
         {this.state.sections.map((section,key) => <Section key={key} section={section} />)}
 
+        <Accordion>
+          {this.state.modules.map(module => (
+            <Panel header={this.panelHeader(module)} eventKey={++i} key={i}>
+              <ModuleListItem module={module}/>
+            </Panel>
+          ))
+          }
+
+
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
+        </Accordion>
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>
+
       </div>
+
     );
   }
 }

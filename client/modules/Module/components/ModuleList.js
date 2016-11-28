@@ -4,7 +4,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import ModuleListItem from './ModuleListItem';
 import { getTokenPayload } from '../../../util/authStorage';
 
-import { fetchModules, addModuleRequest } from '../ModuleActions';
+import { fetchModules, addModuleRequest, deleteModuleRequest } from '../ModuleActions';
 
 import styles from './ModuleList.css';
 
@@ -46,20 +46,6 @@ export class ModuleList extends Component {
 
   };
 
-  handleDeleteModule = () => {
-
-  };
-
-  panelHeader = (title) => {
-    return (
-      <div className="clearfix">
-        <div className={styles['panel-heading']}>
-          {title}
-        </div>
-      </div>
-    );
-  };
-
   addHeader = () => {
     return (
       <div className="clearfix">
@@ -70,13 +56,40 @@ export class ModuleList extends Component {
     );
   };
 
+  panelHeader = (module) => {
+    return (
+      <div className="clearfix">
+        <div className={styles['panel-heading']}>
+          {module.title}
+          {this.panelDeleteButtonForAdmin(module)}
+        </div>
+      </div>
+    );
+  };
+
+  panelDeleteButtonForAdmin = (module) => {
+    if (getTokenPayload() && getTokenPayload().isAdmin) {
+      return (
+        <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteModule(module)}>
+          Poista Module
+        </Button>
+      );
+    }
+  };
+
+  handleDeleteModule = (module) => {
+    if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
+     deleteModuleRequest(module.cuid).then(this.setState({ modules: this.state.modules.filter(mod => mod.cuid !== module.cuid) }));
+    }
+  };
+
   render() {
     var i = 0;
     return (
 
       <Accordion>
         {this.state.modules.map(module => (
-          <Panel header={this.panelHeader(module.title)} eventKey={++i} key={i}>
+          <Panel header={this.panelHeader(module)} eventKey={++i} key={i}>
             <ModuleListItem module={module}/>
           </Panel>
         ))

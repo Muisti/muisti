@@ -6,7 +6,7 @@ import QuizPanel from '../../Quiz/components/QuizPanel';
 import QuizCreateModal from '../../Quiz/components/QuizCreateModal';
 import { getTokenPayload } from '../../../util/authStorage';
 import { deleteSectionRequest } from '../SectionActions'
-
+import styles from './ModuleList.css';
 
 export class Section extends Component {
 
@@ -48,9 +48,31 @@ export class Section extends Component {
    this.props.section.quizzes.push(quiz); this.setState({});
   };
 
-  deleteSection = () => {
-    deleteSectionRequest(this.props.section.cuid);
+  panelHeader = (section) => {
+    return (
+      <div className="clearfix">
+        <div className={styles['panel-heading']}>
+          {section.title ? section.title : ''}
+          {this.panelDeleteButtonForAdmin()}
+        </div>
+      </div>
+    );
+  };
 
+  panelDeleteButtonForAdmin = () => {
+    if (getTokenPayload() && getTokenPayload().isAdmin) {
+      return (
+        <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteSection()}>
+         Poista section
+        </Button>
+      );
+    }
+  };
+
+  handleDeleteSection = (section) => {
+    if (window.confirm('Haluatko varmasti poistaa sectionin?')) {
+      deleteModuleRequest(section.cuid).then(this.setState({ sections: this.state.sections.filter(sec => sec.cuid !== section.cuid) }));
+    }
   };
 
   render(){
@@ -58,11 +80,9 @@ export class Section extends Component {
     const token = getTokenPayload();
 
     return (
-      <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
+      <Panel collapsible defaultExpanded header={this.panelHeader(section)} >
         <div>{section.content ? section.content : ''}</div>
-
         {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
-
         <div style={!section.quizzes || section.quizzes.length == 0 ? {display: 'none'} : {}}>
           <br />
           <QuizPanel quizzes={section.quizzes} />
@@ -70,7 +90,6 @@ export class Section extends Component {
         <div style={token && token.isAdmin ? {} : {display : 'none'}}>
           <QuizCreateModal addQuiz={this.addQuiz} sectionCuid={section.cuid} />
         </div>
-        <Button bsStyle="danger" onClick={this.deleteSection}>Delete Section</Button>
       </Panel>
     );
   }
