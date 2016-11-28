@@ -3,11 +3,17 @@ import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import { QuizItemOption } from './QuizItemOption';
+import { removeScore } from '../QuizActions';
 
 export class QuizPanelItem extends Component{
     
     constructor(props) {
         super(props);
+    }
+    
+    sendRemove = () => {
+        removeScore([this.props.quiz]);
+        this.setState({});
     }
     
     render(){
@@ -27,6 +33,7 @@ export class QuizPanelItem extends Component{
                 <QuizItemOption option={option} key={i}/>)}
             <div style={{minHeight: '17px'}}>
                 {quiz.feedback}
+                <Button onClick={this.sendRemove}> Nollaa pisteet </Button>
             </div>
         </div>
       );        

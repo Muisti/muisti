@@ -12,5 +12,9 @@ export function fetchScores() {
 
 export function sendScoreRequest(quizzes) {
     return callApi('scores', 'put', {quizzes})
-        .then(res => res.score);
+      .then(res => res.score);
+}
+
+export function removeScore(quizzes) {
+    return callApi('scores', 'delete', {quizzes});
 }

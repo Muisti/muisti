@@ -41,18 +41,19 @@ export async function setScore(req, res) {
       });
 }
 
-//export async function setScore(req, res) {
-//    let token = await decodeTokenFromRequest(req);
-//    console.log('token: ' + token);
-//    let quiz = req.body.quiz;
-//    console.log(quiz);
-//    if (!token) {
-//      return res.status(403).end();
-//    }
-//    
-//    Score.findOneAndUpdate({ userCuid: token.cuid, 'scores.quizCuid': quiz.cuid }, 
-//        { 'scores.$.quizPoints': quiz.points }, { upsert:true, new:true }).exec((err, score) => {
-//        if (err) return res.status(500).send(err);
-//        return res.json({ score });
-//    });
-//};
+export async function deleteScore(req, res) {
+    let token = await decodeTokenFromRequest(req);
+    if (!token || !token.isAdmin) {
+        return res.status(403).end();
+    }
+    let quizzes = req.body.quizzes;
+    quizzes.forEach(quiz => {
+        Score.update({},{$pull: {scores: {quizCuid: quiz.cuid}}}, {multi: true}, (err, score) => {
+            if (err) {
+                console.log("delete score ended with error:");
+                console.log(err);
+            }
+        });
+    });
+    return res.status(200).end();
+}
