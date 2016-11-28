@@ -11,6 +11,7 @@ import sinon from 'sinon';
 import * as usercon from '../user.controller';
 import * as jwt from 'jwt-simple';
 
+
 const modules = [
   new Module ({ title: 'Ensimmäinen testimoduuli', info: 'esittelytekstiä', orderNumber: 1, cuid: 'f34gb2bh24b24b2' }),
   new Module ({ title: 'Toinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 2, cuid: 'f34gb2bh24b24b3' })
@@ -150,17 +151,17 @@ test.serial('deletes a single section', async t => {
     const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
     var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
     stub.returns(jwt.decode(token, 'secret', true));
-    
+
     let section = sections[0];
-    
+
     const res = await request(app)
             .delete('/api/sections/'+section.cuid)
             .send({ section })
             .set('Accept', 'application/json')
             .set('authorization', token);
-    
+
     t.is(res.status, 200);
-    
+
     const p = await Section.findOne({ cuid: section.cuid }).exec();
     t.is(p, null);
     stub.restore();
@@ -173,17 +174,17 @@ test.serial('deleting a section fails without token', async t => {
     const token = "nottoken";
     var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
     stub.returns("");
-    
+
     let section = sections[0];
-    
+
     const res = await request(app)
             .delete('/api/sections/'+section.cuid)
             .send({ section })
             .set('Accept', 'application/json')
             .set('authorization', "");
-    
+
     t.is(res.status, 403);
-    
+
     const p = await Section.findOne({ cuid: section.cuid }).exec();
     t.is(p.title, section.title);
     stub.restore();
@@ -196,17 +197,17 @@ test.serial('deleting a section fails if not admin', async t => {
     const token = "notadmin";
     var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
     stub.returns("notadmin");
-    
+
     let section = sections[0];
-    
+
     const res = await request(app)
             .delete('/api/sections/'+section.cuid)
             .send({ section })
             .set('Accept', 'application/json')
             .set('authorization', token);
-    
+
     t.is(res.status, 403);
-    
+
     const p = await Section.findOne({ cuid: section.cuid }).exec();
     t.is(p.title, section.title);
     stub.restore();

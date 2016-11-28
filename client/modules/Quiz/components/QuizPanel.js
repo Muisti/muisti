@@ -16,7 +16,9 @@ export class QuizPanel extends Component {
     this.setPoints();
   }
 
+
   countPoints = quiz => {
+
     if(this.correctAnswers(quiz) == 0){
       return quiz.options.filter(option => option.checked).length ? 0 : 1;
     }else{
@@ -52,7 +54,7 @@ export class QuizPanel extends Component {
 
     this.props.quizzes.forEach(quiz => {
       const maxPoints = this.maxPoints(quiz);
-        
+
       maxPointsTotal += maxPoints;
       pointsTotal += quiz.points;
 
@@ -112,7 +114,6 @@ export class QuizPanel extends Component {
                   </span>
                 </div></div>)}>
             {quizzes.map((quiz,key) => <QuizPanelItem key={key} quiz={quiz} />)}
-
             {this.renderProgressBar()}
             <Button onClick={this.verifyAnswers}><FormattedMessage id={'check'} /></Button>
         </Panel>
