@@ -27,7 +27,7 @@ export class QuizPanel extends Component {
     }
   };
 
-  //helper functions for quizzes
+  //helper functions for quizzes 
   correctAnswers = quiz => quiz.options.filter(option => option.answer).length;
   maxPoints = quiz => this.correctAnswers(quiz) || 1;
   correctUserAnswers = quiz => quiz.options.filter(option => option.answer == option.checked).length;
@@ -55,7 +55,7 @@ export class QuizPanel extends Component {
         quiz.feedback = this.quizFeedback(0);
       }
     });
-    
+     
     const maxPointsTotal = quizzes.map(this.maxPoints).reduce((a, b) => a + b, 0);
     const pointsTotal = quizzes.map(quiz => quiz.points).reduce((a, b) => a + b, 0);
     let totalPercent = Math.round((pointsTotal / maxPointsTotal) * 100);
