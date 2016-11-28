@@ -30,7 +30,7 @@ export class Section extends Component {
     }else if (type === "image"){
       return( <img src={section.link} width="480" /> );
     } else if (type === "youtube") {
-        //Parseroi v= linkistä.
+        //Parse 3 types of links. v=id, embed/id and tu.be/id
         var re = /(v=|embed\/|tu.be\/)(\w+)/g;
         var v = re.exec(section.link);
         var link = "https://www.youtube.com/embed/";

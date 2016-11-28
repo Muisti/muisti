@@ -3,8 +3,14 @@ import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import styles from './style.css';
 
+import { QuizItemOption } from './QuizItemOption';
+
 export class QuizPanelItem extends Component{
     
+    constructor(props) {
+        super(props);
+    }    
+
     optionCheckboxId = optionIndex => 'quiz' + this.props.quiz.index + 'option' + optionIndex;
     
     renderOption = (option, optionIndex) => {
@@ -21,7 +27,6 @@ export class QuizPanelItem extends Component{
     render(){
       const quiz = this.props.quiz;
       const quizOrderNumber = quiz.index + 1;
-      let optionIndex = 0;
       
       return (
         <div style={{marginBottom: '17px'}}>
@@ -32,7 +37,8 @@ export class QuizPanelItem extends Component{
                 </span>
                 {quiz.question}
             </div>
-            {quiz.options.map(option => this.renderOption(option, optionIndex++))}
+            {quiz.options.map((option, i) => 
+                <QuizItemOption option={option} key={i}/>)}
             <div style={{minHeight: '17px'}}>
                 {quiz.feedback}
             </div>
@@ -48,7 +54,8 @@ QuizPanelItem.propTypes = {
         question: PropTypes.string,
         options: PropTypes.arrayOf(PropTypes.shape({
             text: PropTypes.string.isRequired,
-            answer: PropTypes.bool.isRequired
+            answer: PropTypes.bool.isRequired,
+            checked: PropTypes.bool,
         })).isRequired,
     })
 };

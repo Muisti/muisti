@@ -33,7 +33,7 @@ export class SectionCreateModal extends Component {
   };
 
   handleLinkChange = (e) => {
-    this.setState({ formLink: e.target.value, error: "" })  
+    this.setState({ formLink: e.target.value, error: "" });
   }
 
   handleAddSection = (e) => {
@@ -49,7 +49,9 @@ export class SectionCreateModal extends Component {
       title: this.state.formTitle,
       link: this.state.formLink,
       orderNumber: this.props.orderNumber })
-      .then(this.props.addSectionToRender);
+    .then(section => { 
+      section.quizzes = []; 
+      this.props.addSectionToRender(section)});
     
     this.clearFields();
     this.close();

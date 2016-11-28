@@ -30,9 +30,8 @@ class ModulePage extends Component {
               sections.forEach(sec =>
                 sec.quizzes.forEach(qui => {
                 var poi = scoreboard.scores.find(sco => sco.quizCuid == qui.cuid);
-                if (poi) {
-                  qui.points = poi.quizPoints;
-                }})
+                qui.points = poi ? poi.quizPoints : 0;
+                })
               );
             }
             this.setState({ module, sections });
@@ -52,7 +51,7 @@ class ModulePage extends Component {
           {this.state.module.info}
         </Well>
 
-        {this.state.sections.map(section => <Section section={section} />)}
+        {this.state.sections.map((section,key) => <Section key={key} section={section} />)}
 
         <div style={show(getTokenPayload() && getTokenPayload().isAdmin)}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}

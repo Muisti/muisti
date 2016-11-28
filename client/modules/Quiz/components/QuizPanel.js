@@ -8,21 +8,20 @@ export class QuizPanel extends Component {
 
   constructor(props){
     super(props);
-    this.state = { totalFeedBack: '', totalPercent: -1 };
+    this.state = { totalPercent: -1 };
   }
 
   componentDidMount() {
     this.setPoints();
-    console.log(this.props.quizzes);
   }
 
 
   getUserSelections = (quiz, quizIndex) => {
     let result = [];
-    for(let i = 0; i < quiz.options.length; i++){
-      const checked = document.getElementById(this.optionCheckboxId(quizIndex, i)).checked;
+    quiz.options.forEach((option, i) => {
+      const checked = option.checked ? true : false ;
       result.push(checked);
-    }
+    });
 
     return result;
   };
@@ -44,7 +43,6 @@ export class QuizPanel extends Component {
   };
 
   //helper functions for quizzes
-  optionCheckboxId = (quizIndex, optionIndex) => 'quiz' + quizIndex + 'option' + optionIndex;
   correctAnswers = quiz => quiz.options.filter(option => option.answer).length;
   maxPoints = quiz => this.correctAnswers(quiz) || 1;
   show = condition => (condition ? {} : { display: 'none' });
@@ -72,6 +70,8 @@ export class QuizPanel extends Component {
     }
 
     return result;
+    
+    //return userAnswers.filter((answer, index) => answer == quiz.options[index].answer).length;
   };
 
   setPoints = () => {
@@ -79,24 +79,21 @@ export class QuizPanel extends Component {
     let pointsTotal = 0;
 
     this.props.quizzes.forEach((quiz, i) => {
-
       const maxPoints = this.maxPoints(quiz);
-
+        
       maxPointsTotal += maxPoints;
       pointsTotal += quiz.points;
 
-      if(maxPoints == quiz.points){
+      if(maxPoints === quiz.points){
         quiz.options.forEach((option, j) => {
           option.highlight = option.answer;
           option.disabled = true;
-          document.getElementById(this.optionCheckboxId(i, j)).checked = option.answer;
+          option.checked = option.answer;
         });
         quiz.feedback = this.quizFeedback(0);
       }
     });
-
-    let totalPercent = (pointsTotal / maxPointsTotal) * 100;
-
+    let totalPercent = Math.round((pointsTotal / maxPointsTotal) * 100);
     this.setState({ totalPercent });
   };
 
@@ -121,7 +118,7 @@ export class QuizPanel extends Component {
     return (
       <div>
         <ProgressBar>
-          <ProgressBar now={this.state.totalPercent} bsStyle="success" label={`${Math.round(this.state.totalPercent)}%`} key={1}/>
+          <ProgressBar now={this.state.totalPercent} bsStyle="success" label={this.state.totalPercent + "%"} key={1}/>
         </ProgressBar>
       </div>
     );
@@ -134,15 +131,17 @@ export class QuizPanel extends Component {
 
       return (
         <Panel collapsible header={(
-            <div className='clearfix'>
-            <span style={{cursor: 'pointer', color: '#000066'}}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi"
-                    style={{ verticalAlign: 'bottom', marginRight: '7px' }}/>
-                  <FormattedMessage id={'quizPanelTitle'} />
-              </span>
-              <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalFeedback}</span>
-            </div>)}>
-            {quizzes.map(quiz => <QuizPanelItem quiz={quiz} />)}
+
+                <div className='clearfix'>
+                <span style={{cursor: 'pointer', color: '#000066'}}>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi"
+                        style={{ verticalAlign: 'bottom', marginRight: '7px' }}/>
+                   <FormattedMessage id={'quizPanelTitle'} />
+                  </span>
+                  <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalPercent + "%"}</span>
+                </div>)}>
+            {quizzes.map((quiz,key) => <QuizPanelItem key={key} quiz={quiz} />)}
+
             {this.renderProgressBar()}
             <Button onClick={this.verifyAnswers}><FormattedMessage id={'check'} /></Button>
         </Panel>
