@@ -16,17 +16,14 @@ export class QuizPanel extends Component {
     this.setPoints();
   }
 
-
   countPoints = quiz => {
-
     if(this.correctAnswers(quiz) == 0){
       return quiz.options.filter(option => option.checked).length ? 0 : 1;
     }else{
       return Math.max(
         quiz.options.reduce((result, option) => 
-            ((option.checked === option.answer) == option.answer ? 
-              ( option.answer ? +1 : -1 ) : 0) + result, 0)
-        , 0);
+            (option.checked ? ( option.answer ? +1 : -1 ) : 0) + result
+        , 0), 0);
     }
   };
 
