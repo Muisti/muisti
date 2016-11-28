@@ -30,7 +30,7 @@ test.serial('Removing quiz removes dependent scores from scores array', async t 
 	await newScore2.save();
 
 	await newQuiz.remove();
-	//const module = await Module.find().exec();
+	
 	const scores = await Score.find().exec();
 
 	t.is(scores[0].scores.length, 1);
