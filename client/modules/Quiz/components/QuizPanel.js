@@ -3,6 +3,7 @@ import { Panel, Button, ProgressBar } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { sendScoreRequest } from '../QuizActions';
 import QuizPanelItem from './QuizPanelItem';
+import styles from './style.css';
 
 export class QuizPanel extends Component {
 
@@ -15,61 +16,45 @@ export class QuizPanel extends Component {
     this.setPoints();
   }
 
-
   getUserSelections = (quiz, quizIndex) => {
     let result = [];
     quiz.options.forEach((option, i) => {
       const checked = option.checked ? true : false ;
       result.push(checked);
-    })
-
+    });
     return result;
   };
 
   countPoints = (quiz, userAnswers) => {
     if(this.correctAnswers(quiz) == 0){
       return userAnswers.filter(answer => answer).length ? 0 : 1;
+    }else{
+      return Math.max(
+        quiz.options.reduce((result, option, index) =>
+            ((userAnswers[index] === option.answer) == option.answer ?
+              ( option.answer ? +1 : -1 ) : 0) + result, 0)
+        , 0);
     }
-    let result = 0;
-    for(let i = 0; i < quiz.options.length; i++){
-      if(userAnswers[i] === quiz.options[i].answer){
-        if(quiz.options[i].answer) result++;
-      }else{
-        if(!quiz.options[i].answer) result--;
-      }
-    }
-
-    return Math.max(result, 0);
   };
 
   //helper functions for quizzes
   correctAnswers = quiz => quiz.options.filter(option => option.answer).length;
   maxPoints = quiz => this.correctAnswers(quiz) || 1;
-  show = condition => (condition ? {} : { display: 'none' });
 
   quizFeedback = (wrongAnswers, selected) => {
     const correct = (wrongAnswers == 0);
-    let text = correct ? <FormattedMessage id={'rightAnswerFeedback'} /> : (wrongAnswers == 1 ? <FormattedMessage id={'oneWrongAnswer'} /> :
-    <FormattedMessage id={'severalWrongAnswers'} values={{count: wrongAnswers}} />);
-    if(selected == 0 && !correct) text = <FormattedMessage id={'selectOption'} />;
-    let style = { color: '#aaaaaa', fontWeight: 'bold',   display: 'inline-block'};
-    if(correct) style = {...style, color: '#005500'};
-    if(!correct && selected) style = {...style, color: '#dd8866'};
+    const textId = correct ? 'rightAnswerFeedback' : (selected === 0 ? 'selectOption' :
+            (wrongAnswers === 1 ? 'oneWrongAnswer' : 'severalWrongAnswers'));
+    const color = correct ? 'green' : ( selected ? 'red' : 'gray' );
 
-    return (<span style={style}>{text}</span>);
+    return (<span className={styles.quizFeedback + ' ' + styles[color]}>
+               <FormattedMessage id={textId} values={{count: wrongAnswers}} />
+            </span>);
   };
 
   correctUserAnswers = (quiz, quizIndex) => {
     const userAnswers = this.getUserSelections(quiz, quizIndex);
-    let result = 0;
-
-    for(let i = 0; i < userAnswers.length; i++){
-      if(userAnswers[i] == quiz.options[i].answer){
-        result++;
-      }
-    }
-
-    return result;
+    return userAnswers.filter((answer, index) => answer == quiz.options[index].answer).length;
   };
 
   setPoints = () => {
@@ -78,7 +63,7 @@ export class QuizPanel extends Component {
 
     this.props.quizzes.forEach((quiz, i) => {
       const maxPoints = this.maxPoints(quiz);
-        
+
       maxPointsTotal += maxPoints;
       pointsTotal += quiz.points;
 
@@ -92,6 +77,7 @@ export class QuizPanel extends Component {
       }
     });
     let totalPercent = Math.round((pointsTotal / maxPointsTotal) * 100);
+    if(isNaN(totalPercent)) totalPercent = 0;
     this.setState({ totalPercent });
   };
 
@@ -129,14 +115,14 @@ export class QuizPanel extends Component {
 
       return (
         <Panel collapsible header={(
-                <div className='clearfix'>
-                <span style={{cursor: 'pointer', color: '#000066'}}>
+                <div className='clearfix'><div className={styles.quizPanelHeader}>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Question_Circle.svg?uselang=fi"
-                        style={{ verticalAlign: 'bottom', marginRight: '7px' }}/>
+                        className={styles.quizPanelIcon}/>
                    <FormattedMessage id={'quizPanelTitle'} />
+                  <span className={'pull-right '+ styles.quizPanelFeedback}>
+                    {this.state.totalPercent + "%"}
                   </span>
-                  <span className='pull-right' style={{ color: '#428bca' }}>{this.state.totalPercent + "%"}</span>
-                </div>)}>
+                </div></div>)}>
             {quizzes.map((quiz,key) => <QuizPanelItem key={key} quiz={quiz} />)}
             {this.renderProgressBar()}
             <Button onClick={this.verifyAnswers}><FormattedMessage id={'check'} /></Button>
