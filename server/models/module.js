@@ -8,6 +8,7 @@ const moduleSchema = new Schema({
   orderNumber: { type: 'Number', required: true }
 });
 
+
 moduleSchema.pre('remove', async function(next){
 	
 	await this.model('Section').find({moduleCuid: this.cuid}, async function(err, sections) {
@@ -15,7 +16,7 @@ moduleSchema.pre('remove', async function(next){
 			return section.remove();
 		}));
 	});
-		
+
 	next();
 });
 

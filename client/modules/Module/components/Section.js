@@ -7,7 +7,7 @@ import QuizCreateModal from '../../Quiz/components/QuizCreateModal';
 import { getTokenPayload } from '../../../util/authStorage';
 import { show } from '../../../util/styles';
 import { deleteSectionRequest } from '../SectionActions'
-
+import styles from './ModuleList.css';
 
 export class Section extends Component {
 
@@ -32,26 +32,21 @@ export class Section extends Component {
     }else if (type === "image"){
       return( <img src={section.link} width="480" /> );
     } else if (type === "youtube") {
-        //Parse 3 types of links. v=id, embed/id and tu.be/id
-        var re = /(v=|embed\/|tu.be\/)(\w+)/g;
-        var v = re.exec(section.link);
-        var link = "https://www.youtube.com/embed/";
-        link += v[2];
-        return (<iframe width="560" height="315"
-          src={link}
-          frameBorder="0" allowFullScreen></iframe> );
+      //Parse 3 types of links. v=id, embed/id and tu.be/id
+      var re = /(v=|embed\/|tu.be\/)(\w+)/g;
+      var v = re.exec(section.link);
+      var link = "https://www.youtube.com/embed/";
+      link += v[2];
+      return (<iframe width="560" height="315"
+                      src={link}
+                      frameBorder="0" allowFullScreen></iframe> );
     } else {
       return ( <div> Filetype not supported!</div> );
     }
   };
 
   addQuiz = (quiz) => {
-   this.props.section.quizzes.push(quiz); this.setState({});
-  };
-
-  deleteSection = () => {
-    deleteSectionRequest(this.props.section.cuid);
-
+    this.props.section.quizzes.push(quiz); this.setState({});
   };
 
   render(){
@@ -59,11 +54,9 @@ export class Section extends Component {
     const token = getTokenPayload();
 
     return (
-      <Panel collapsible defaultExpanded header={section.title ? section.title : ''} >
+      <div>
         <div>{section.content ? section.content : ''}</div>
-
         {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
-
         <div style={show(section.quizzes && section.quizzes.length > 0)}>
           <br />
           <QuizPanel quizzes={section.quizzes} />
@@ -71,8 +64,7 @@ export class Section extends Component {
         <div style={show(token && token.isAdmin)}>
           <QuizCreateModal addQuiz={this.addQuiz} sectionCuid={section.cuid} />
         </div>
-        <Button bsStyle="danger" onClick={this.deleteSection}>Delete Section</Button>
-      </Panel>
+      </div>
     );
   }
 }
