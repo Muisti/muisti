@@ -8,18 +8,11 @@ import ModulePage from '../pages/ModulePage'
 
 function ModuleListItem(props) {
   var toAddress = encodeURI(props.module.title);
-  
-  let deleteModule = () => {
-    deleteModuleRequest(props.module.cuid);
-  };
-  
+
   return (
     <div>
       {props.module.info}
-      <Button bsStyle="danger" className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden' } onClick={deleteModule}>
-        Delete Module
-      </Button>
-      <a href={"/module/" + toAddress} 
+      <a href={"/module/" + toAddress}
       className={ getTokenPayload() ? 'btn btn-default pull-right' : 'hidden' } >
               <FormattedMessage id={'submitGo'} />&rarr;
       </a>
