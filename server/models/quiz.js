@@ -10,7 +10,6 @@ const quizSchema = new Schema({
 
 
 quizSchema.pre('remove', function(next){
-
 	this.model('Score').update( { }, { $pull: {scores: { quizCuid: this.cuid } } }, { multi: true }, next);
 
 });
