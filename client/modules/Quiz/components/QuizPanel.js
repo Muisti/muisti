@@ -16,17 +16,6 @@ export class QuizPanel extends Component {
     this.setPoints();
   }
 
-
-  getUserSelections = (quiz, quizIndex) => {
-    let result = [];
-    quiz.options.forEach((option, i) => {
-      const checked = option.checked ? true : false ;
-      result.push(checked);
-    });
-
-    return result;
-  };
-
   countPoints = quiz => {
     if(this.correctAnswers(quiz) == 0){
       return quiz.options.filter(option => option.checked).length ? 0 : 1;
@@ -61,14 +50,14 @@ export class QuizPanel extends Component {
     let maxPointsTotal = 0;
     let pointsTotal = 0;
 
-    this.props.quizzes.forEach((quiz, i) => {
+    this.props.quizzes.forEach(quiz => {
       const maxPoints = this.maxPoints(quiz);
         
       maxPointsTotal += maxPoints;
       pointsTotal += quiz.points;
 
       if(maxPoints === quiz.points){
-        quiz.options.forEach((option, j) => {
+        quiz.options.forEach(option => {
           option.highlight = option.answer;
           option.disabled = true;
           option.checked = option.answer;
@@ -82,10 +71,10 @@ export class QuizPanel extends Component {
   };
 
 
-  verifyAnswers = (quiz, i) => {
-    this.props.quizzes.forEach((quiz, i) => {
+  verifyAnswers = () => {
+    this.props.quizzes.forEach(quiz => {
       quiz.points = this.countPoints(quiz);
-      const wrongCount = quiz.options.length - this.correctUserAnswers(quiz, i);
+      const wrongCount = quiz.options.length - this.correctUserAnswers(quiz);
       const selectedCount = quiz.options.filter(option => option.checked).length;
       quiz.feedback = this.quizFeedback(wrongCount, selectedCount);
     });
@@ -94,8 +83,7 @@ export class QuizPanel extends Component {
   };
 
   calculateQuizIndices = () => {
-      let index = 0;
-      this.props.quizzes.forEach(quiz => quiz.index = index++);
+      this.props.quizzes.forEach((quiz, index) => quiz.index = index);
   };
 
   renderProgressBar = () => {
