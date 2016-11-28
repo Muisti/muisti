@@ -22,6 +22,7 @@ export class QuizPanelItem extends Component{
             {quizOrderNumber + '.'}
           </span>
           {quiz.question}
+          <a href="#" >Poista kysymys</a>
         </div>
         {quiz.options.map((option, i) =>
           <QuizItemOption option={option} key={i}/>)}
