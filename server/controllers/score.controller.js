@@ -2,7 +2,6 @@ import Score from '../models/score';
 
 import { decodeTokenFromRequest } from './user.controller';
 
-
 export async function getScores(req, res) {
     let token = await decodeTokenFromRequest(req);
     if (!token) {
@@ -40,19 +39,3 @@ export async function setScore(req, res) {
         return res.status(500).send(err);
       });
 }
-
-//export async function setScore(req, res) {
-//    let token = await decodeTokenFromRequest(req);
-//    console.log('token: ' + token);
-//    let quiz = req.body.quiz;
-//    console.log(quiz);
-//    if (!token) {
-//      return res.status(403).end();
-//    }
-//    
-//    Score.findOneAndUpdate({ userCuid: token.cuid, 'scores.quizCuid': quiz.cuid }, 
-//        { 'scores.$.quizPoints': quiz.points }, { upsert:true, new:true }).exec((err, score) => {
-//        if (err) return res.status(500).send(err);
-//        return res.json({ score });
-//    });
-//};
