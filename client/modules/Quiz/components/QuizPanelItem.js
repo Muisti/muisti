@@ -24,7 +24,7 @@ export class QuizPanelItem extends Component{
                 {quiz.question}
             </div>
             {quiz.options.map((option, i) => 
-                <QuizItemOption option={option} index={i}/>)}
+                <QuizItemOption option={option} key={i}/>)}
             <div style={{minHeight: '17px'}}>
                 {quiz.feedback}
             </div>
