@@ -13,5 +13,4 @@ test('renders properly', t => {
   );
 
   t.is(wrapper.find('div').length, 1);
-
 });

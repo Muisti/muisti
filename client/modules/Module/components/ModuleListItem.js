@@ -6,20 +6,17 @@ import { getTokenPayload } from '../../../util/authStorage';
 import { deleteModuleRequest } from '../ModuleActions';
 import ModulePage from '../pages/ModulePage'
 
-
-
-
 function ModuleListItem(props) {
   var toAddress = encodeURI(props.module.title);
   
-this.deleteModule = () => {
-  deleteModuleRequest(props.module.cuid);
-};
+  let deleteModule = () => {
+    deleteModuleRequest(props.module.cuid);
+  };
   
   return (
     <div>
       {props.module.info}
-      <Button bsStyle="danger" className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden' } onClick={this.deleteModule}>
+      <Button bsStyle="danger" className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden' } onClick={deleteModule}>
         Delete Module
       </Button>
       <a href={"/module/" + toAddress} 
