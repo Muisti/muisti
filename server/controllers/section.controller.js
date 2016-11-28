@@ -4,6 +4,10 @@ import cuid from 'cuid';
 import { decodeTokenFromRequest } from './user.controller';
 import { getQuizzesForSection } from './quiz.controller'
 
+async function getQuizzes(section) {
+  section.quizzes = await getQuizzesForSection(section);
+}
+
 export async function getSections(req, res) {
 
   let token = decodeTokenFromRequest(req);
@@ -21,10 +25,6 @@ export async function getSections(req, res) {
     }
     return res.json({ sections });
   });
-}
-
-async function getQuizzes(section) {
-  section.quizzes = await getQuizzesForSection(section);
 }
 
 export async function addSection(req, res) {
