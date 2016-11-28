@@ -12,6 +12,8 @@ import { fetchSections } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
 import { fetchScores } from '../../Quiz/QuizActions';
 
+import { show } from '../../../util/styles';
+
 class ModulePage extends Component {
 
   constructor(props){
@@ -28,13 +30,13 @@ class ModulePage extends Component {
             if (scoreboard) {
               sections.forEach(sec =>
                 sec.quizzes.forEach(qui => {
-                var poi = scoreboard.scores.find(sco => sco.quizCuid == qui.cuid);
-                qui.points = poi ? poi.quizPoints : 0;
+                  var poi = scoreboard.scores.find(sco => sco.quizCuid == qui.cuid);
+                  qui.points = poi ? poi.quizPoints : 0;
                 })
               );
             }
             this.setState({ module, sections });
-        })))
+          })))
   }
 
   addSectionToRender = (newSection) => {
@@ -89,13 +91,14 @@ class ModulePage extends Component {
           }
 
         </Accordion>
-        <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
+        <div style={show(getTokenPayload() && getTokenPayload().isAdmin)}>
+
           <SectionCreateModal moduleCuid={this.state.module.cuid}
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
 
-        <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
+        <div style={show(getTokenPayload() && getTokenPayload().isAdmin)}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>
 

@@ -14,21 +14,21 @@ export async function getScores(req, res) {
         }
         return res.json({ scores })
     });
-};
+}
 
 export async function setScore(req, res) {
     let token = await decodeTokenFromRequest(req);
     let quizzes = req.body.quizzes;
-    
+
     if (!token) {
       return res.status(403).end();
     }
-    
+
     let foundScore = await Score.findOne({ userCuid: token.cuid }).exec();
     if (!foundScore) {
         foundScore = new Score({ userCuid: token.cuid, scores: [] });
     }
-    
+
     quizzes.forEach(quiz => {
       var newScore = { quizCuid: quiz.cuid, quizPoints: quiz.points };
       foundScore.scores = foundScore.scores.filter(s => s.quizCuid != quiz.cuid);
@@ -41,18 +41,3 @@ export async function setScore(req, res) {
       });
 }
 
-//export async function setScore(req, res) {
-//    let token = await decodeTokenFromRequest(req);
-//    console.log('token: ' + token);
-//    let quiz = req.body.quiz;
-//    console.log(quiz);
-//    if (!token) {
-//      return res.status(403).end();
-//    }
-//    
-//    Score.findOneAndUpdate({ userCuid: token.cuid, 'scores.quizCuid': quiz.cuid }, 
-//        { 'scores.$.quizPoints': quiz.points }, { upsert:true, new:true }).exec((err, score) => {
-//        if (err) return res.status(500).send(err);
-//        return res.json({ score });
-//    });
-//};

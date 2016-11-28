@@ -5,6 +5,7 @@ import validator from 'validator';
 import QuizPanel from '../../Quiz/components/QuizPanel';
 import QuizCreateModal from '../../Quiz/components/QuizCreateModal';
 import { getTokenPayload } from '../../../util/authStorage';
+import { show } from '../../../util/styles';
 import { deleteSectionRequest } from '../SectionActions'
 import styles from './ModuleList.css';
 
@@ -83,11 +84,11 @@ export class Section extends Component {
       <Panel collapsible defaultExpanded header={this.panelHeader(section)} >
         <div>{section.content ? section.content : ''}</div>
         {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
-        <div style={!section.quizzes || section.quizzes.length == 0 ? {display: 'none'} : {}}>
+        <div style={show(section.quizzes && section.quizzes.length > 0)}>
           <br />
           <QuizPanel quizzes={section.quizzes} />
         </div>
-        <div style={token && token.isAdmin ? {} : {display : 'none'}}>
+        <div style={show(token && token.isAdmin)}>
           <QuizCreateModal addQuiz={this.addQuiz} sectionCuid={section.cuid} />
         </div>
       </Panel>

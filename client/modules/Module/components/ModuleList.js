@@ -3,6 +3,7 @@ import { Accordion, Panel, FormGroup, ControlLabel, FormControl, Button } from '
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import ModuleListItem from './ModuleListItem';
 import { getTokenPayload } from '../../../util/authStorage';
+import { show } from '../../../util/styles';
 
 import { fetchModules, addModuleRequest, deleteModuleRequest } from '../ModuleActions';
 
@@ -96,7 +97,7 @@ export class ModuleList extends Component {
         }
 
         <Panel header={this.addHeader()} bsStyle='success'
-               className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden' }
+               className={ show(getTokenPayload() && getTokenPayload().isAdmin) }
                eventKey={++i}>
           <FormGroup>
             <ControlLabel> <FormattedMessage id={'moduleTitle'} /> </ControlLabel>

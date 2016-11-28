@@ -20,8 +20,8 @@ const modules = [
 const sections = [
   new Section({ moduleCuid: 'f34gb2bh24b24b2', title: 'Title-esimerkki', content: 'Toisen sectionin sisältöä, joka kuuluu moduuliin yksi', orderNumber:2, cuid: 'f34gb2bh24b2asdasd' }),
   new Section({ moduleCuid: 'f34gb2bh24b24b2', content: 'Ensimmäisen sectionin sisältöä, joka kuuluu moduuliin yksi', orderNumber:1, cuid: 'f45gb6bh23b2asdasd' }),
-  new Section({moduleCuid: 'f34gb2bh24b24b2', content: 'Neljännen sectionin sisältöä, joka kuuluu moduuliin yksi', orderNumber:4, cuid: 'f67g8d6ad31b2asdsdd' }),
-  new Section({moduleCuid: 'f34gb2bh24b24b2',content: 'Kolmannen sectionin sisältöä, joka kuuluu moduuliin yksi', orderNumber:3, cuid: 'f67g9daafh31b2asdsdd' }),
+  new Section({ moduleCuid: 'f34gb2bh24b24b2', content: 'Neljännen sectionin sisältöä, joka kuuluu moduuliin yksi', orderNumber:4, cuid: 'f67g8d6ad31b2asdsdd' }),
+  new Section({ moduleCuid: 'f34gb2bh24b24b2', content: 'Kolmannen sectionin sisältöä, joka kuuluu moduuliin yksi', orderNumber:3, cuid: 'f67g9daafh31b2asdsdd' }),
   new Section({ moduleCuid: 'f34gb2bh24b24b3', title: 'Title-esimerkki', content: 'Ensimmäisen sectionin sisältöä, joka kuuluu moduuliin kaksi', orderNumber:1, cuid: 'f67gb6bh31b2asdasd' })
 ];
 
@@ -34,20 +34,6 @@ test.afterEach.always.serial(t => {
     return;
   });
 });
-
-let data = async () => {
-  await Promise.all(modules.map(module => {
-    return new Module(module).save();
-  }));
-  await Promise.all(sections.map(section => {
-    return new Section(section).save();
-  }));
-};
-
-let drop = async () => {
-  await Module.remove({}).exec();
-  await Section.remove({}).exec();
-};
 
 test.serial('Should correctly give number of sections and sorts them correctly', async t => {
   await data();
@@ -158,3 +144,86 @@ test.serial('Cannot add section without content and link', async t => {
   stub.restore();
   await drop();
 });
+
+test.serial('deletes a single section', async t => {
+    await data();
+
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns(jwt.decode(token, 'secret', true));
+
+    let section = sections[0];
+
+    const res = await request(app)
+            .delete('/api/sections/'+section.cuid)
+            .send({ section })
+            .set('Accept', 'application/json')
+            .set('authorization', token);
+
+    t.is(res.status, 200);
+
+    const p = await Section.findOne({ cuid: section.cuid }).exec();
+    t.is(p, null);
+    stub.restore();
+    await drop();
+});
+
+test.serial('deleting a section fails without token', async t => {
+    await data();
+
+    const token = "nottoken";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns("");
+
+    let section = sections[0];
+
+    const res = await request(app)
+            .delete('/api/sections/'+section.cuid)
+            .send({ section })
+            .set('Accept', 'application/json')
+            .set('authorization', "");
+
+    t.is(res.status, 403);
+
+    const p = await Section.findOne({ cuid: section.cuid }).exec();
+    t.is(p.title, section.title);
+    stub.restore();
+    await drop();
+});
+
+test.serial('deleting a section fails if not admin', async t => {
+    await data();
+
+    const token = "notadmin";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns("notadmin");
+
+    let section = sections[0];
+
+    const res = await request(app)
+            .delete('/api/sections/'+section.cuid)
+            .send({ section })
+            .set('Accept', 'application/json')
+            .set('authorization', token);
+
+    t.is(res.status, 403);
+
+    const p = await Section.findOne({ cuid: section.cuid }).exec();
+    t.is(p.title, section.title);
+    stub.restore();
+    await drop();
+});
+
+let data = async () => {
+  await Promise.all(modules.map(module => {
+    return new Module(module).save();
+  }));
+  await Promise.all(sections.map(section => {
+    return new Section(section).save();
+  }));
+};
+
+let drop = async () => {
+  await Module.remove({}).exec();
+  await Section.remove({}).exec();
+};

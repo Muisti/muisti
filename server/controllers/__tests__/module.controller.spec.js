@@ -33,16 +33,6 @@ test.afterEach.always.serial(t => {
   });
 });
 
-let data = async () => {
-  await Promise.all(modules.map(module => {
-    return new Module(module).save();
-  }));
-};
-
-let drop = async () => {
-  await Module.remove({}).exec();
-};
-
 test.serial('Should correctly give number of modules and sorts them correctly', async t => {
   await data();
 
@@ -61,12 +51,12 @@ test.serial('Should correctly give number of modules and sorts them correctly', 
 });
 
 test.only.serial('Adds new module correctly', async t => {
-  
+
   const module = {title: 'viides moduuli', info: 'esittelevää tekstiä', orderNumber: 5};
   const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
   var stub = sinon.stub(usercon, 'decodeTokenFromRequest')
   stub.returns(jwt.decode(token, 'secret', true));
-  
+
   const res = await request(app)
     .post('/api/modules')
     .set('Accept', 'application/json')
@@ -108,3 +98,83 @@ test.serial('Does not add modules with incorrect informations', async t => {
 
   await drop();
 });
+
+test.serial('deletes a module', async t => {
+    await data();
+
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns(jwt.decode(token, 'secret', true));
+
+    let module = modules[1];
+
+    const res = await request(app)
+            .delete('/api/sections/'+module.cuid)
+            .send({ module })
+            .set('Accept', 'application/json')
+            .set('authorization', token);
+
+    t.is(res.status, 200);
+
+    const p = await Module.findOne({ cuid: module.cuid }).exec();
+    t.is(p, null);
+    stub.restore();
+    await drop();
+});
+
+test.serial('deleting a module fails without token', async t => {
+        await data();
+
+    const token = "notoken";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns("");
+
+    let module = modules[1];
+
+    const res = await request(app)
+            .delete('/api/sections/'+module.cuid)
+            .send({ module })
+            .set('Accept', 'application/json')
+            .set('authorization', "");
+
+    t.is(res.status, 403);
+
+    const p = await Module.findOne({ cuid: module.cuid }).exec();
+    t.is(p.info, module.info);
+    stub.restore();
+    await drop();
+});
+
+test.serial('deleting a module fails if not admin', async t => {
+    await data();
+
+    const token = "notadmin";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns("notadmin");
+
+    let module = modules[1];
+
+    const res = await request(app)
+            .delete('/api/sections/'+module.cuid)
+            .send({ module })
+            .set('Accept', 'application/json')
+            .set('authorization', token);
+
+    t.is(res.status, 403);
+
+    const p = await Module.findOne({ cuid: module.cuid }).exec();
+    t.is(p.info, module.info);
+    stub.restore();
+    await drop();
+});
+
+let data = async () => {
+  await Promise.all(modules.map(module => {
+    return new Module(module).save();
+  }));
+};
+
+let drop = async () => {
+  await Module.remove({}).exec();
+};
+
