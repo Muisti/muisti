@@ -51,11 +51,11 @@ export class QuizPanel extends Component {
     const correct = (wrongAnswers == 0);
     const textId = correct ? 'rightAnswerFeedback' : (selected === 0 ? 'selectOption' :
             (wrongAnswers === 1 ? 'oneWrongAnswer' : 'severalWrongAnswers'));
-    const text = <FormattedMessage id={textId} values={{count: wrongAnswers}} />;
-    
     const color = correct ? 'green' : ( selected ? 'red' : 'gray' );
 
-    return (<span className={styles.quizFeedback + ' ' + styles[color]}>{text}</span>);
+    return (<span className={styles.quizFeedback + ' ' + styles[color]}>
+               <FormattedMessage id={textId} values={{count: wrongAnswers}} />
+            </span>);
   };
 
   correctUserAnswers = (quiz, quizIndex) => {
