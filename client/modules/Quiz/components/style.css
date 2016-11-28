@@ -1,3 +1,13 @@
+.quizItem{
+    margin-bottom: 17PX;
+}
+
+.questionText{
+    color: #5555BB;
+    font-weight: BOLD;
+    margin-bottom: 10PX;
+}
+
 .optionArea{
     margin-left: 15PX;
     padding-left: 10PX;

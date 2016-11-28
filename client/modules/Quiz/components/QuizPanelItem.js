@@ -29,8 +29,8 @@ export class QuizPanelItem extends Component{
       const quizOrderNumber = quiz.index + 1;
       
       return (
-        <div style={{marginBottom: '17px'}}>
-            <div style={{color: '#5555bb', fontWeight: 'bold', marginBottom: '10px'}}>
+        <div className={styles.quizItem}>
+            <div className={styles.questionText}>
                 <span style={{marginRight: '9px', background: '#dfdfff', borderRadius: '15px', 
                     padding: '4px', paddingLeft: '9px', paddingRight: '5px', fontSize: '1.15em'}}>
                   {quizOrderNumber + '.'}
