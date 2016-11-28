@@ -30,17 +30,13 @@ export class QuizPanel extends Component {
   countPoints = (quiz, userAnswers) => {
     if(this.correctAnswers(quiz) == 0){
       return userAnswers.filter(answer => answer).length ? 0 : 1;
+    }else{
+      return Math.max(
+        quiz.options.reduce((result, option, index) => 
+            ((userAnswers[index] === option.answer) == option.answer ? 
+              ( option.answer ? +1 : -1 ) : 0) + result, 0)
+        , 0);
     }
-    let result = 0;
-    for(let i = 0; i < quiz.options.length; i++){
-      if(userAnswers[i] === quiz.options[i].answer){
-        if(quiz.options[i].answer) result++;
-      }else{
-        if(!quiz.options[i].answer) result--;
-      }
-    }
-
-    return Math.max(result, 0);
   };
 
   //helper functions for quizzes
@@ -83,6 +79,7 @@ export class QuizPanel extends Component {
       }
     });
     let totalPercent = Math.round((pointsTotal / maxPointsTotal) * 100);
+    if(isNaN(totalPercent)) totalPercent = 0;
     this.setState({ totalPercent });
   };
 
