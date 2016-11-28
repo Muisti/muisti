@@ -8,4 +8,6 @@ router.route('/modules/:title').get(ModuleController.getModule);
 
 router.route('/modules').post(ModuleController.addModule);
 
+router.route('/modules/:cuid').delete(ModuleController.deleteModule);
+
 export default router;

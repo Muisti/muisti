@@ -35,3 +35,19 @@ export async function addModule(req, res) {
       return res.status(500).send(err);
     });
 }
+
+export async function deleteModule(req, res){
+  
+  let token = await decodeTokenFromRequest(req);
+
+  if(!token || !token.isAdmin) return res.status(403).end();
+
+  Module.findOne({cuid: req.params.cuid}).exec((err, module) => {
+    if(err){
+      return res.status(500).send(err);
+    }else if(!module){
+      return res.status(404).end();
+    }
+    return module.remove(() => res.status(200).end());
+  });
+}

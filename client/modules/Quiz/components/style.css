@@ -1,3 +1,17 @@
+.quizPanelFeedback{
+    color: #428BCA;
+}
+
+.quizPanelHeader{
+    cursor: POINTER;
+    color: #000066;
+}
+
+.quizPanelIcon{
+    vertical-align: BOTTOM;
+    margin-right: 7PX;
+}
+
 .quizItem{
     margin-bottom: 17PX;
 }
@@ -8,9 +22,27 @@
     margin-bottom: 10PX;
 }
 
+.quizOrderNumber{
+    margin-right: 9PX;
+    background: #DFDFFF;
+    border-radius: 15PX;
+    padding: 4PX;
+    padding-left: 9PX;
+    padding-right: 5PX;
+    font-size: 1.15EM;
+}
+
+.quizFeedbackSpace{
+    min-height: 17PX;
+}
+
 .optionArea{
     margin-left: 15PX;
     padding-left: 10PX;
+}
+
+.optionLabel{
+    cursor: POINTER;
 }
 
 .optionHighlight{
@@ -18,5 +50,23 @@
 }
 
 .checkbox{
+    cursor: POINTER;
     margin-right: 6PX;
+}
+
+.quizFeedback{
+    font-weight: BOLD;
+    display: INLINE-BLOCK;
+}
+
+.gray{
+    color: #AAAAAA;
+}
+
+.green{
+    color: #005500;
+}
+
+.red{
+    color: #DD8866;
 }

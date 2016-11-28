@@ -10,19 +10,6 @@ export class QuizPanelItem extends Component{
     constructor(props) {
         super(props);
     }    
-
-    optionCheckboxId = optionIndex => 'quiz' + this.props.quiz.index + 'option' + optionIndex;
-    
-    renderOption = (option, optionIndex) => {
-      return (
-        <div className={styles.optionArea + " " + (option.highlight ? styles.optionHighlight : '')}>
-            <label><input id={this.optionCheckboxId(optionIndex)} type="checkbox" 
-               className={styles.ceckbox} disabled={option.disabled} />
-                    {option.text}
-            </label>
-        </div>
-      );  
-    };
     
     render(){
       const quiz = this.props.quiz;
@@ -31,15 +18,14 @@ export class QuizPanelItem extends Component{
       return (
         <div className={styles.quizItem}>
             <div className={styles.questionText}>
-                <span style={{marginRight: '9px', background: '#dfdfff', borderRadius: '15px', 
-                    padding: '4px', paddingLeft: '9px', paddingRight: '5px', fontSize: '1.15em'}}>
+                <span className={styles.quizOrderNumber}>
                   {quizOrderNumber + '.'}
                 </span>
                 {quiz.question}
             </div>
             {quiz.options.map((option, i) => 
                 <QuizItemOption option={option} key={i}/>)}
-            <div style={{minHeight: '17px'}}>
+            <div className={styles.quizFeedbackSpace}>
                 {quiz.feedback}
             </div>
         </div>

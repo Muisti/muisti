@@ -6,6 +6,8 @@ import QuizPanel from '../../Quiz/components/QuizPanel';
 import QuizCreateModal from '../../Quiz/components/QuizCreateModal';
 import { getTokenPayload } from '../../../util/authStorage';
 import { show } from '../../../util/styles';
+import { deleteSectionRequest } from '../SectionActions'
+
 
 export class Section extends Component {
 
@@ -47,6 +49,11 @@ export class Section extends Component {
    this.props.section.quizzes.push(quiz); this.setState({});
   };
 
+  deleteSection = () => {
+    deleteSectionRequest(this.props.section.cuid);
+
+  };
+
   render(){
     var section = this.props.section;
     const token = getTokenPayload();
@@ -64,6 +71,7 @@ export class Section extends Component {
         <div style={show(token && token.isAdmin)}>
           <QuizCreateModal addQuiz={this.addQuiz} sectionCuid={section.cuid} />
         </div>
+        <Button bsStyle="danger" onClick={this.deleteSection}>Delete Section</Button>
       </Panel>
     );
   }
