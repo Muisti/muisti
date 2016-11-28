@@ -43,19 +43,10 @@ export class QuizPanel extends Component {
             </span>);
   };
 
-
-
   setPoints = () => {
-    let maxPointsTotal = 0;
-    let pointsTotal = 0;
-
-    this.props.quizzes.forEach(quiz => {
-      const maxPoints = this.maxPoints(quiz);
-
-      maxPointsTotal += maxPoints;
-      pointsTotal += quiz.points;
-
-      if(maxPoints === quiz.points){
+    const quizzes = this.props.quizzes;
+    quizzes.forEach(quiz => {
+      if(this.maxPoints(quiz) === quiz.points){
         quiz.options.forEach(option => {
           option.highlight = option.answer;
           option.disabled = true;
@@ -64,6 +55,9 @@ export class QuizPanel extends Component {
         quiz.feedback = this.quizFeedback(0);
       }
     });
+    
+    const maxPointsTotal = quizzes.map(this.maxPoints).reduce((a, b) => a + b, 0);
+    const pointsTotal = quizzes.map(quiz => quiz.points).reduce((a, b) => a + b, 0);
     let totalPercent = Math.round((pointsTotal / maxPointsTotal) * 100);
     if(isNaN(totalPercent)) totalPercent = 0;
     this.setState({ totalPercent });
