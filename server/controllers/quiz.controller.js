@@ -39,3 +39,37 @@ export async function addQuiz(req, res) {
       return res.status(500).send(err);
     });
 }
+
+export async function deleteQuiz(req, res){
+  
+  let token = await decodeTokenFromRequest(req);
+
+  if(!token || !token.isAdmin) return res.status(403).end();
+
+  Quiz.findOne({ cuid: req.params.cuid }).exec((err, quiz) => {
+    if(err){
+      return res.status(500).send(err);
+    }else if(!quiz){
+      return res.status(404).end();
+    }
+    return quiz.remove(() => res.status(200).end());
+
+  });
+
+}
+
+export async function deleteQuizzesBySection(req, res) {
+  let token = await decodeTokenFromRequest(req);
+
+  if(!token || !token.isAdmin) return res.status(403).end();
+  
+  Quiz.deleteMany({ sectionCuid: req.params.sectionCuid }).exec((err) => {
+    if(err){
+      return res.status(500).send(err);
+    }
+   
+  });
+
+  return res.status(200).end();
+
+}

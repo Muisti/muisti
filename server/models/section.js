@@ -10,4 +10,19 @@ const sectionSchema = new Schema({
   orderNumber: { type: 'Number', required: true }
 });
 
+
+
+sectionSchema.pre('remove', function(next){
+
+	this.model('Quiz').find({sectionCuid: this.cuid}, function(err, quizzes){
+		quizzes.forEach(quiz => {
+			
+			quiz.remove();
+		});
+	
+	});
+	next();
+});
+
+
 export default mongoose.model('Section', sectionSchema);
