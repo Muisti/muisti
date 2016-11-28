@@ -11,6 +11,7 @@ import { fetchModule } from '../ModuleActions';
 import { fetchSections } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
 import { fetchScores } from '../../Quiz/QuizActions';
+import { show } from '../../../util/styles';
 
 class ModulePage extends Component {
 
@@ -42,7 +43,7 @@ class ModulePage extends Component {
   };
 
 
-  render() {
+  render() {      
     return (
       <div>
         <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
@@ -52,12 +53,12 @@ class ModulePage extends Component {
 
         {this.state.sections.map((section,key) => <Section key={key} section={section} />)}
 
-        <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
+        <div style={show(getTokenPayload() && getTokenPayload().isAdmin)}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
-        <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
+        <div style={show(getTokenPayload() && getTokenPayload().isAdmin)}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>
       </div>

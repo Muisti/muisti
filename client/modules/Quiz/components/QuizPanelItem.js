@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import styles from './style.css';
 
 import { QuizItemOption } from './QuizItemOption';
 
@@ -8,30 +9,29 @@ export class QuizPanelItem extends Component{
     
     constructor(props) {
         super(props);
-    }
+    }    
     
     render(){
       const quiz = this.props.quiz;
       const quizOrderNumber = quiz.index + 1;
       
       return (
-        <div style={{marginBottom: '17px'}}>
-            <div style={{color: '#5555bb', fontWeight: 'bold', marginBottom: '10px'}}>
-                <span style={{marginRight: '9px', background: '#dfdfff', borderRadius: '15px', 
-                    padding: '4px', paddingLeft: '9px', paddingRight: '5px', fontSize: '1.15em'}}>
+        <div className={styles.quizItem}>
+            <div className={styles.questionText}>
+                <span className={styles.quizOrderNumber}>
                   {quizOrderNumber + '.'}
                 </span>
                 {quiz.question}
             </div>
             {quiz.options.map((option, i) => 
                 <QuizItemOption option={option} key={i}/>)}
-            <div style={{minHeight: '17px'}}>
+            <div className={styles.quizFeedbackSpace}>
                 {quiz.feedback}
             </div>
         </div>
       );        
     }
-}
+};
 
 QuizPanelItem.propTypes = {
     quiz: PropTypes.shape({

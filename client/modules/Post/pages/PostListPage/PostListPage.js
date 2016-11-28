@@ -7,6 +7,7 @@ import styles from './PostListPage.css';
 // Import Components
 import { confirmUserAccountRequest } from '../../../User/UserActions';
 import { setStorage, getToken } from '../../../../util/authStorage';
+import { show } from '../../../../util/styles';
 import PostList from '../../components/PostList';
 import ModuleList from '../../../Module/components/ModuleList';
 import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
@@ -90,7 +91,7 @@ class PostListPage extends Component {
         <Grid>
           <Row className="show-grid">
             <Col xs={12} sm={3}>
-              <div className={getToken() ? '' : 'hidden'}>
+              <div style={show(getToken())}>
                 <PostCreateWidget
                   addPost={this.handleAddPost} showAddPost={this.state.showAddPost}
                   hideAddPost={this.handleHidePost} editPost={this.handleEditPost}
