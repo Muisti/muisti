@@ -81,20 +81,20 @@ class ModulePage extends Component {
         {this.state.sections.map((section,key) => <Section key={key} section={section} />)}
 
         <Accordion>
-          {this.state.modules.map(module => (
-            <Panel header={this.panelHeader(module)} eventKey={++i} key={i}>
-              <ModuleListItem module={module}/>
+          {this.state.sections.map(section => (
+            <Panel header={this.panelHeader(section)} eventKey={++i} key={i}>
+              <ModuleListItem module={section}/>
             </Panel>
           ))
           }
 
-
+        </Accordion>
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionCreateModal moduleCuid={this.state.module.cuid}
                               orderNumber={this.state.sections.length}
                               addSectionToRender={this.addSectionToRender} />
         </div>
-        </Accordion>
+
         <div className={ getTokenPayload() && getTokenPayload().isAdmin ? '' : 'hidden'}>
           <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
         </div>
