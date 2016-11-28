@@ -14,4 +14,11 @@ const userSchema = new Schema({
   confirmation: { type: 'String', required: true }
 });
 
+userSchema.pre('remove', function(next){
+
+	this.model('Score').remove({ userCuid: this.cuid }, next);
+
+});
+
+
 export default mongoose.model('User', userSchema);

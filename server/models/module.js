@@ -8,4 +8,16 @@ const moduleSchema = new Schema({
   orderNumber: { type: 'Number', required: true }
 });
 
+moduleSchema.pre('remove', function(next){
+	this.model('Section').find({moduleCuid: this.cuid}, function(err, sections) {
+		sections.forEach(section => {
+			section.remove();
+		});
+		
+	});
+		
+	next();
+});
+
+
 export default mongoose.model('Module', moduleSchema);
