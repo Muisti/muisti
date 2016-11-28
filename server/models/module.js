@@ -13,8 +13,9 @@ moduleSchema.pre('remove', function(next){
 		sections.forEach(section => {
 			section.remove();
 		});
+
 	});
-		
+
 	next();
 });
 

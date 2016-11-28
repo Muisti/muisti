@@ -4,6 +4,7 @@ import cuid from 'cuid';
 import { decodeTokenFromRequest } from './user.controller';
 import { getQuizzesForSection } from './quiz.controller'
 
+
 async function getQuizzes(section) {
   section.quizzes = await getQuizzesForSection(section);
 }
@@ -46,7 +47,7 @@ export async function addSection(req, res) {
 }
 
 export async function deleteSection(req, res){
-  
+
   let token = await decodeTokenFromRequest(req);
 
   if(!token || !token.isAdmin) return res.status(403).end();
@@ -65,12 +66,12 @@ export async function deleteSectionsByModule(req, res){
   let token = await decodeTokenFromRequest(req);
 
   if(!token || !token.isAdmin) return res.status(403).end();
-  
+
   Section.deleteMany({ moduleCuid: req.params.moduleCuid }).exec((err) => {
     if(err){
       return res.status(500).send(err);
     }
-   
+
   });
 
   return res.status(200).end();

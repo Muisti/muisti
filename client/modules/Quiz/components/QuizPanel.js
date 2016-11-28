@@ -16,14 +16,12 @@ export class QuizPanel extends Component {
     this.setPoints();
   }
 
-
   getUserSelections = (quiz, quizIndex) => {
     let result = [];
     quiz.options.forEach((option, i) => {
       const checked = option.checked ? true : false ;
       result.push(checked);
     });
-
     return result;
   };
 
@@ -32,8 +30,8 @@ export class QuizPanel extends Component {
       return userAnswers.filter(answer => answer).length ? 0 : 1;
     }else{
       return Math.max(
-        quiz.options.reduce((result, option, index) => 
-            ((userAnswers[index] === option.answer) == option.answer ? 
+        quiz.options.reduce((result, option, index) =>
+            ((userAnswers[index] === option.answer) == option.answer ?
               ( option.answer ? +1 : -1 ) : 0) + result, 0)
         , 0);
     }
@@ -65,7 +63,7 @@ export class QuizPanel extends Component {
 
     this.props.quizzes.forEach((quiz, i) => {
       const maxPoints = this.maxPoints(quiz);
-        
+
       maxPointsTotal += maxPoints;
       pointsTotal += quiz.points;
 
@@ -126,7 +124,6 @@ export class QuizPanel extends Component {
                   </span>
                 </div></div>)}>
             {quizzes.map((quiz,key) => <QuizPanelItem key={key} quiz={quiz} />)}
-
             {this.renderProgressBar()}
             <Button onClick={this.verifyAnswers}><FormattedMessage id={'check'} /></Button>
         </Panel>

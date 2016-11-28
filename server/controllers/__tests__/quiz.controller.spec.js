@@ -77,17 +77,17 @@ test.serial('deletes a single quiz', async t => {
     const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
     var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
     stub.returns(jwt.decode(token, 'secret', true));
-    
+
     let quiz = quizzes[1];
-    
+
     const res = await request(app)
             .delete('/api/quizzes/'+quiz.cuid)
             .send({ quiz })
             .set('Accept', 'application/json')
             .set('authorization', token);
-    
+
     t.is(res.status, 200);
-    
+
     const p = await Quiz.findOne({ cuid: quiz.cuid }).exec();
     t.is(p, null);
     stub.restore();
@@ -100,20 +100,20 @@ test.serial('deleting quiz fails without token', async t => {
     const token = "nottoken";
     var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
     stub.returns("");
-    
+
     let quiz = quizzes[1];
-    
+
     const res = await request(app)
             .delete('/api/quizzes/'+quiz.cuid)
             .send({ quiz })
             .set('Accept', 'application/json')
             .set('authorization', "");
-    
+
     t.is(res.status, 403);
-    
+
     const p = await Quiz.findOne({ cuid: quiz.cuid }).exec();
     t.is(quiz.question, p.question);
-    
+
     stub.restore();
     await drop();
 });
@@ -124,20 +124,20 @@ test.serial('deleting quiz fails if not admin', async t => {
     const token = "nottoken";
     var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
     stub.returns("imnotadmin");
-    
+
     let quiz = quizzes[1];
-    
+
     const res = await request(app)
             .delete('/api/quizzes/'+quiz.cuid)
             .send({ quiz })
             .set('Accept', 'application/json')
             .set('authorization', token);
-    
+
     t.is(res.status, 403);
-    
+
     const p = await Quiz.findOne({ cuid: quiz.cuid }).exec();
     t.is(quiz.question, p.question);
-    
+
     stub.restore();
     await drop();
 });

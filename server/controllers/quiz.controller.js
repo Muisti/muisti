@@ -41,6 +41,7 @@ export async function addQuiz(req, res) {
 }
 
 export async function deleteQuiz(req, res){
+
   let token = await decodeTokenFromRequest(req);
 
   if(!token || !token.isAdmin) return res.status(403).end();
@@ -61,12 +62,12 @@ export async function deleteQuizzesBySection(req, res) {
   let token = await decodeTokenFromRequest(req);
 
   if(!token || !token.isAdmin) return res.status(403).end();
-  
+
   Quiz.deleteMany({ sectionCuid: req.params.sectionCuid }).exec((err) => {
     if(err){
       return res.status(500).send(err);
     }
-   
+
   });
 
   return res.status(200).end();

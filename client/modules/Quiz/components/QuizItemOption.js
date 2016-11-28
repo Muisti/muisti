@@ -4,19 +4,19 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import styles from './style.css';
 
 export class QuizItemOption extends Component {
-    
+
     constructor(props) {
         super(props);
     }
-    
+
     changeChecked = () => {
         this.props.option.checked = !this.props.option.checked;
         this.setState({});
     }
-    
+
     render() {
       const highlight = this.props.option.highlight;
-      
+
       return (
         <div className={styles.optionArea + (highlight ? ' ' + styles.optionHighlight : '')}>
           <label className={styles.optionLabel}>
@@ -27,7 +27,7 @@ export class QuizItemOption extends Component {
                {this.props.option.text}
           </label>
         </div>
-      );  
+      );
     }
 }
 
@@ -37,5 +37,4 @@ QuizItemOption.propTypes = {
         answer: PropTypes.bool.isRequired,
         checked: PropTypes.bool
       }).isRequired,
-      
 };
