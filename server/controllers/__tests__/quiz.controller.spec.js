@@ -71,6 +71,81 @@ test.serial('Adds new quiz correctly', async t => {
   await drop();
 });
 
+//test.serial('deletes a single quiz', async t => {
+//    await data();
+//
+//    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+//    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+//    stub.returns(jwt.decode(token, 'secret', true));
+//    
+//    let quiz = quizzes[1];
+//    
+//    const res = await request(app)
+//            .delete('/api/quizzes')
+//            .send({ quiz })
+//            .set('Accept', 'application/json')
+//            .set('authorization', token);
+//    
+//    t.is(res.status, 200);
+//    
+//    const p = await Quiz.findOne({ cuid: quiz.cuid }).exec();
+//    t.not(p);
+//    stub.restore();
+//    await drop();
+//});
+//
+//test.serial('deleting fails without token', async t => {
+//    await data();
+//
+//    const token = "not token";
+//    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+//    stub.returns(jwt.decode(token, 'secret', false));
+//    
+//    let quiz = quizzes[1];
+//    
+//    const res = await request(app)
+//            .delete('/api/quizzes')
+//            .send({ quiz })
+//            .set('Accept', 'application/json')
+//            .set('authorization', token);
+//    
+//    t.is(res.status, 200);
+//    
+//    const p = await Quiz.findOne({ cuid: quiz.cuid }).exec();
+//    t.is(quiz.question, p.question);
+//    
+//    stub.restore();
+//    await drop();
+//});
+//
+//test.serial('deleting quizzes fails if not admin', async t => {
+//    await data();
+//
+//
+//    await drop();
+//});
+//
+//test.serial('deletes quizzes by section', async t => {
+//    await data();
+//    
+//    
+//    await drop();
+//});
+//
+//test.serial('deleting quizzes by section fails without token', async t => {
+//    await data();
+//    
+//    
+//    await drop();
+//});
+//
+//test.serial('deleting quizzes by section fails if not admin', async t => {
+//    await data();
+//
+//
+//    await drop();
+//});
+
 let data = async () => {
   await Promise.all(sections.map(section => {
     return new Section(section).save();

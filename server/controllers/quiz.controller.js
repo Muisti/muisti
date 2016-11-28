@@ -41,7 +41,6 @@ export async function addQuiz(req, res) {
 }
 
 export async function deleteQuiz(req, res){
-  
   let token = await decodeTokenFromRequest(req);
 
   if(!token || !token.isAdmin) return res.status(403).end();
