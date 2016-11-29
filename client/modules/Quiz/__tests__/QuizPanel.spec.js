@@ -37,7 +37,7 @@ test('QuizPanel renders properly', t => {
     <QuizPanel quizzes={quizzes}/>
   );
 
-    t.is(wrapper.find('Button').length, 1);
+    t.is(wrapper.find('Button').length, 3);
     t.is(wrapper.find('a').length, 1);
     t.is(wrapper.find('img').length, 1);
     t.is(wrapper.find('QuizPanelItem').length, quizzes.length);

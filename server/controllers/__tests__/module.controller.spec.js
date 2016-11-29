@@ -50,7 +50,7 @@ test.serial('Should correctly give number of modules and sorts them correctly', 
   await drop();
 });
 
-test.only.serial('Adds new module correctly', async t => {
+test.serial('Adds new module correctly', async t => {
 
   const module = {title: 'viides moduuli', info: 'esittelevää tekstiä', orderNumber: 5};
   const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
