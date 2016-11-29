@@ -15,4 +15,5 @@ quizSchema.pre('remove', async function(next){
 });
 
 
+
 export default mongoose.model('Quiz', quizSchema);
