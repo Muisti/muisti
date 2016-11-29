@@ -46,6 +46,28 @@ export async function addSection(req, res) {
     });
 }
 
+export async function updateSection(req, res){
+    const token = await decodeTokenFromRequest(req);
+    const section = req.body.section;
+    if(!token || !token.isAdmin || !section) return res.status(403).end();
+    
+    const oldSection = await Section.findOne({cuid: section.cuid});
+    if(!oldSection) return res.status(404).end();
+    if(oldSection.orderNumber !== section.orderNumber){
+        await Section.findOneAndUpdate(
+          {moduleCuid: oldSection.moduleCuid, orderNumber: section.orderNumber}, 
+          {orderNumber: oldSection.orderNumber}).exec();
+    }
+    oldSection.title = section.title;
+    oldSection.content = section.content;
+    oldSection.link = section.link;
+    oldSection.orderNumber = section.orderNumber;
+    
+    return oldSection.save()
+      .then(() => res.status(200).end())
+      .catch(err => res.status(500).send(err));
+}
+
 export async function deleteSection(req, res){
 
   let token = await decodeTokenFromRequest(req);

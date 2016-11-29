@@ -13,14 +13,12 @@ const sectionSchema = new Schema({
 
 
 sectionSchema.pre('remove', async function(next){
-
-	await this.model('Quiz').find({sectionCuid: this.cuid}, async function(err, quizzes){
-		await Promise.all(quizzes.map(quiz => {
-			return quiz.remove();
-		}));
-	
-	});
-	next();
+    await this.model('Quiz').find({sectionCuid: this.cuid}, async function(err, quizzes){
+        await Promise.all(quizzes.map(quiz => {
+                return quiz.remove();
+        }));
+    });
+    next();
 });
 
 

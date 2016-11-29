@@ -214,6 +214,132 @@ test.serial('deleting a section fails if not admin', async t => {
     await drop();
 });
 
+
+test.serial('editing section', async t => {
+    await data();
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns(jwt.decode(token, 'secret', true));
+
+    const old = sections[0];
+    const section = {cuid: old.cuid, orderNumber: old.orderNumber, title: 'uusi otsikko',
+        content: 'uusi sisältö', link: 'uusi linkki'};
+
+    const res = await request(app)
+            .put('/api/sections')
+            .send({ section })
+            .set('Accept', 'application/json')
+            .set('authorization', token);
+
+    t.is(res.status, 200);
+
+    const s = await Section.findOne({ cuid: old.cuid }).exec();
+    t.is(s.title, section.title);
+    t.is(s.content, section.content);
+    t.is(s.link, section.link);
+    stub.restore();
+    await drop();
+});
+
+test.serial('swap section order', async t => {
+    await data();
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns(jwt.decode(token, 'secret', true));
+
+    const old = sections[0];
+    old.orderNumber = sections[1].orderNumber;
+
+    const res = await request(app)
+            .put('/api/sections')
+            .send({ section: old })
+            .set('Accept', 'application/json')
+            .set('authorization', token);
+
+    t.is(res.status, 200);
+
+    const s = await Section.findOne({ cuid: old.cuid }).exec();
+    const next = await Section.findOne({ cuid: sections[1].cuid }).exec();
+    const other = await Section.findOne({ cuid: sections[4].cuid }).exec();
+    t.is(s.orderNumber, 1);
+    t.is(next.orderNumber, 2);
+    t.is(other.orderNumber, 1);
+    stub.restore();
+    await drop();
+});
+
+test.serial('normal user cannot edit section', async t => {
+    await data();
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns({ cuid: 'ciudpmdj60000takr46egfa24', user: 'Bnimi', time: 1478010185788 });
+
+    const old = sections[0];
+    const section = {cuid: old.cuid, orderNumber: old.orderNumber, title: 'uusi otsikko',
+        content: 'uusi sisältö', link: 'uusi linkki'};
+
+    const res = await request(app)
+            .put('/api/sections')
+            .send({ section })
+            .set('Accept', 'application/json')
+            .set('authorization', '');
+
+    t.is(res.status, 403);
+
+    const s = await Section.findOne({ cuid: old.cuid }).exec();
+    t.is(s.title, old.title);
+    t.is(s.content, old.content);
+    t.is(s.link, old.link);
+    stub.restore();
+    await drop();
+});
+
+test.serial('trying to edit nonexisting section gives error', async t => {
+    await data();
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns(jwt.decode(token, 'secret', true));
+
+    const old = sections[0];
+    const section = {cuid: "jsdcinsdfu9nsfsn", orderNumber: old.orderNumber, title: 'uusi otsikko',
+        content: 'uusi sisältö', link: 'uusi linkki'};
+
+    const res = await request(app)
+            .put('/api/sections')
+            .send({ section })
+            .set('Accept', 'application/json')
+            .set('authorization', token);
+
+    t.is(res.status, 404);
+
+    const s = await Section.findOne({ cuid: old.cuid }).exec();
+    t.is(s.title, old.title);
+    stub.restore();
+    await drop();
+});
+
+test.serial('give new orderNumber', async t => {
+    await data();
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns(jwt.decode(token, 'secret', true));
+
+    const old = sections[3];
+    old.orderNumber = 100;
+
+    const res = await request(app)
+            .put('/api/sections')
+            .send({ section: old })
+            .set('Accept', 'application/json')
+            .set('authorization', token);
+
+    t.is(res.status, 200);
+
+    const s = await Section.findOne({ cuid: old.cuid }).exec();
+    t.is(s.orderNumber, 100);
+    stub.restore();
+    await drop();
+});
+
 let data = async () => {
   await Promise.all(modules.map(module => {
     return new Module(module).save();
