@@ -15,7 +15,7 @@ moduleSchema.pre('remove', async function(next){
 		await Promise.all(sections.map(section => {
 			return section.remove();
 		}));
-	});
+	}); 
 
 	next();
 });
