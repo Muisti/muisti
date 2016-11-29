@@ -30,7 +30,8 @@ export class QuizPanel extends Component {
   //helper functions for quizzes 
   correctAnswers = quiz => quiz.options.filter(option => option.answer).length;
   maxPoints = quiz => this.correctAnswers(quiz) || 1;
-  correctUserAnswers = quiz => quiz.options.filter(option => option.answer == option.checked).length;
+  correctUserAnswers = quiz => quiz.options.filter(
+          option => option.answer == (option.checked == true)).length;
 
   quizFeedback = (wrongAnswers, selected) => {
     const correct = (wrongAnswers == 0);

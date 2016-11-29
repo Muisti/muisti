@@ -24,10 +24,7 @@ test('handleAddModule does addModuleRequest', t => {
     var stub = sinon.stub(moduleActions, 'addModuleRequest');
     stub.returns(Promise.resolve({title: 'title', info: 'info', orderNumber: 0, cuid: 'cuidi'}))
 
-    instance.setState({ formInfo: 'Informaatio'});
-    instance.setState({ formTitle: 'Otsikko' });
-
-    instance.handleAddModule();
+    instance.handleAddModule("Informaatio","Otsikko");
 
     t.truthy(stub.calledOnce);
     stub.restore();
