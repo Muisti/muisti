@@ -6,7 +6,7 @@ export function addQuizRequest(quiz) {
 }
 
 export function deleteQuizRequest(cuid) {
-  return callApi(`quiz/${cuid}`, 'delete')
+  return callApi(`quizzes/${cuid}`, 'delete')
     .then(res => res);
 }
 

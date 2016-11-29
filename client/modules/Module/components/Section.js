@@ -11,6 +11,10 @@ import styles from './ModuleList.css';
 
 export class Section extends Component {
 
+  constructor(props){
+    super(props);
+  }
+
   checkMultimediaFileType = (link) => {
     if(validator.contains(link, ".webm") || validator.contains(link, ".mp4") || validator.contains(link, ".ogg"))
       return "video";
@@ -49,6 +53,11 @@ export class Section extends Component {
     this.props.section.quizzes.push(quiz); this.setState({});
   };
 
+  deleteQuiz = (quiz) => {
+    this.props.section.quizzes = this.props.section.quizzes.filter(qu => qu.cuid !== quiz.cuid);
+    this.setState({});
+  };
+
   render(){
     var section = this.props.section;
     const token = getTokenPayload();
@@ -59,7 +68,7 @@ export class Section extends Component {
         {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
         <div style={show(section.quizzes && section.quizzes.length > 0)}>
           <br />
-          <QuizPanel quizzes={section.quizzes} />
+          <QuizPanel quizzes={section.quizzes} deleteQuizRender={this.deleteQuiz} />
         </div>
         <div style={show(token && token.isAdmin)}>
           <QuizCreateModal addQuiz={this.addQuiz} sectionCuid={section.cuid} />
