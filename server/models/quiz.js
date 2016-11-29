@@ -8,12 +8,8 @@ const quizSchema = new Schema({
   options: { type: [{ text: 'String', answer: 'Boolean' }], required: true }
 });
 
-
-quizSchema.pre('remove', function(next){
-
-	this.model('Score').update( { }, { $pull: {scores: { quizCuid: this.cuid } } }, { multi: true }, next);
-
+quizSchema.pre('remove', async function(next){
+    await this.model('Score').update( { }, { $pull: {scores: { quizCuid: this.cuid } } }, { multi: true }, next);
 });
-
 
 export default mongoose.model('Quiz', quizSchema);

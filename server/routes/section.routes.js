@@ -8,5 +8,6 @@ router.route('/sections').post(SectionController.addSection);
 
 router.route('/sections/:cuid').delete(SectionController.deleteSection);
 
+router.route('/sections').put(SectionController.updateSection);
 
 export default router;
