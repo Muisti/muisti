@@ -79,9 +79,9 @@ export class ModuleList extends Component {
   };
 
   handleDeleteModule = (module) => {
-    if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
+ //   if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
      deleteModuleRequest(module.cuid).then(this.setState({ modules: this.state.modules.filter(mod => mod.cuid !== module.cuid) }));
-    }
+  //  }
   };
 
   render() {

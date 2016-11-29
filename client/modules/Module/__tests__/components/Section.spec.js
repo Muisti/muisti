@@ -12,7 +12,7 @@ const props = {
     cuid: 'cuid12',
     content: 'Sections content',
     title: 'Title',
-    quizzes: [{sectionCuid: 'cuid12', question: 'What animal?', options: [{ text: 'Cat', answer: true }, {text: 'Snake', answer: false}]}]
+    quizzes: [{sectionCuid: 'cuid142', cuid: 'quizcuid11', question: 'What animal?', options: [{ text: 'Cat', answer: true }, {text: 'Snake', answer: false}]}]
   }
 };
 
@@ -62,11 +62,25 @@ test('Add quizzes correctly', t => {
     <Section {...props} />
   );
 
-  const quiz = { sectionCuid: 'cuid142', question: 'What animal?', options: [{ text: 'Lion', answer: true }, {text: 'Cow', answer: false}] };
+  const quiz = { sectionCuid: 'cuid142', cuid: 'quizcuid22', question: 'What animal?', options: [{ text: 'Lion', answer: true }, {text: 'Cow', answer: false}] };
 
   let instance = wrapper.instance();
   t.is(instance.props.section.quizzes.length, 1);
 
   instance.addQuiz(quiz);
   t.is(instance.props.section.quizzes.length, 2);
+});
+
+test('Delete quizzes correctly', t => {
+  const wrapper = shallowWithIntl(
+    <Section {...props} />
+  );
+
+  let instance = wrapper.instance();
+  t.is(instance.props.section.quizzes.length, 2);
+
+  const quiz = props.section.quizzes[1];
+
+  instance.deleteQuiz(quiz);
+  t.is(instance.props.section.quizzes.length, 1);
 });

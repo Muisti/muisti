@@ -69,3 +69,21 @@ test('Adds new sections', t => {
   t.is(wrapper.state().sections.length, 1);
 });
 
+test('Delete sections correctly', t => {
+  const module = { title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12' };
+  const section = { title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid' };
+
+  const wrapper = shallowWithIntl(
+    <ModulePage />
+  );
+
+  wrapper.setState({ module: {module} });
+
+  let instance = wrapper.instance();
+  instance.addSectionToRender(section);
+  t.is(wrapper.state().sections.length, 1);
+
+  instance.handleDeleteSection(section);
+  t.is(wrapper.state().sections.length, 0);
+});
+
