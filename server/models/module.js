@@ -9,14 +9,12 @@ const moduleSchema = new Schema({
 });
 
 moduleSchema.pre('remove', function(next){
-	this.model('Section').find({moduleCuid: this.cuid}, function(err, sections) {
-		sections.forEach(section => {
-			section.remove();
-		});
-
+    this.model('Section').find({moduleCuid: this.cuid}, function(err, sections) {
+	sections.forEach(section => {
+            section.remove();
+          });
 	});
-
-	next();
+    next();
 });
 
 
