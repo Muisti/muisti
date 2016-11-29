@@ -44,7 +44,7 @@ export class QuizPanel extends Component {
   };
 
   setPoints = () => {
-    let quizzes = this.props.quizzes;
+    const quizzes = this.props.quizzes;
     quizzes.forEach(quiz => {
       if(this.maxPoints(quiz) === quiz.points){
         quiz.options.forEach(option => {
