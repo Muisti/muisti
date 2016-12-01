@@ -8,17 +8,13 @@ const moduleSchema = new Schema({
   orderNumber: { type: 'Number', required: true }
 });
 
-
 moduleSchema.pre('remove', async function(next){
-	
-	await this.model('Section').find({moduleCuid: this.cuid}, async function(err, sections) {
-		await Promise.all(sections.map(section => {
-			return section.remove();
-		}));
-	});
-
-	next();
+    await this.model('Section').find({moduleCuid: this.cuid}, async function(err, sections) {
+        await Promise.all(sections.map(section => {
+            return section.remove();
+        }));
+    }); 
+    next();
 });
-
 
 export default mongoose.model('Module', moduleSchema);

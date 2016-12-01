@@ -22,7 +22,7 @@ const remSection = new Section(
 	title: 'PoistoSection', orderNumber: 2 }
 	);
 
-
+ 
 test.serial('Removing module removes dependent sections', async t =>{
 	
 	await newModule.save();
@@ -33,7 +33,7 @@ test.serial('Removing module removes dependent sections', async t =>{
 	
 	const sections = await Section.find().exec();
 
-	t.is(sections.length, 0);
+	t.deepEqual(sections.length, 0);
 
 
 });

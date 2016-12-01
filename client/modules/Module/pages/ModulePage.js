@@ -47,34 +47,6 @@ class ModulePage extends Component {
   panelHeader = (section) => {
     return (
       <div className="clearfix">
-        <div>
-          {section.title ? section.title : ''}
-          {this.panelDeleteButtonForAdmin()}
-        </div>
-      </div>
-    );
-  };
-
-  panelDeleteButtonForAdmin = () => {
-    if (getTokenPayload() && getTokenPayload().isAdmin) {
-      return (
-        <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteSection()}>
-          Poista section
-        </Button>
-      );
-    }
-  };
-
-  handleDeleteSection = (section) => {
-    if (window.confirm('Haluatko varmasti poistaa sectionin?')) {
-      deleteModuleRequest(section.cuid).then(this.setState({ sections: this.state.sections.filter(sec => sec.cuid !== section.cuid) }));
-    }
-  };
-
-
-  panelHeader = (section) => {
-    return (
-      <div className="clearfix">
         <div className={styles['panel-heading']}>
           {section.title ? section.title : ''}
           {this.panelDeleteButtonForAdmin(section)}
@@ -94,9 +66,9 @@ class ModulePage extends Component {
   };
 
   handleDeleteSection = (section) => {
-    if (window.confirm('Haluatko varmasti poistaa sectionin?')) {
+  //  if (window.confirm('Haluatko varmasti poistaa sectionin?')) {
       deleteSectionRequest(section.cuid).then(this.setState({ sections: this.state.sections.filter(sec => sec.cuid !== section.cuid) }));
-    }
+  //  }
   };
 
 

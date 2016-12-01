@@ -1,15 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import styles from './style.css';
-
+import { getTokenPayload } from '../../../util/authStorage';
 import { QuizItemOption } from './QuizItemOption';
+import styles from './style.css';
 
 export class QuizPanelItem extends Component{
 
   constructor(props) {
     super(props);
   }
+
+  sendDelete = () => {
+    this.props.onDelete(this.props.quiz);
+  };
 
   render(){
     const quiz = this.props.quiz;
@@ -22,6 +26,11 @@ export class QuizPanelItem extends Component{
             {quizOrderNumber + '.'}
           </span>
           {quiz.question}
+          <span className={getTokenPayload() && getTokenPayload().isAdmin ? 'pull-right' : 'hidden' }>
+            <span className={styles['quiz-action']}>
+              <Button bsStyle="link" onClick={this.sendDelete}>Poista kysymys</Button>
+            </span>
+          </span>
         </div>
         {quiz.options.map((option, i) =>
           <QuizItemOption option={option} key={i}/>)}
@@ -43,6 +52,7 @@ QuizPanelItem.propTypes = {
       answer: PropTypes.bool.isRequired,
       checked: PropTypes.bool,
     })).isRequired,
+    onDelete: PropTypes.func.isRequired,
   })
 };
 

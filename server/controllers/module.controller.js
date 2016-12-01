@@ -37,17 +37,29 @@ export async function addModule(req, res) {
 }
 
 export async function deleteModule(req, res){
-  
   let token = await decodeTokenFromRequest(req);
 
   if(!token || !token.isAdmin) return res.status(403).end();
-
-  Module.findOne({cuid: req.params.cuid}).exec((err, module) => {
-    if(err){
+  
+  Module.findOne({ cuid: req.params.cuid }).exec((err, module) => {
+    if (err) {
       return res.status(500).send(err);
-    }else if(!module){
+    } else if (!module) {
       return res.status(404).end();
     }
     return module.remove(() => res.status(200).end());
   });
+}
+
+export async function updateModule(req, res) {
+    let token = await decodeTokenFromRequest(req);
+    
+    if (!token || !token.isAdmin) return res.status(403).end();
+    
+    const module = req.body.module;
+    
+    Module.findOneAndUpdate({cuid: module.cuid}, {title: module.title, info: module.info}, {upsert:true, new:true}, function(err, doc){
+      if (err) return res.status(500).send(err);
+      return res.json({ module });
+    });
 }
