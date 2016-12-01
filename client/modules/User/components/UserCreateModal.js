@@ -2,14 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import * as bcrypt from 'bcryptjs';
-import {addUserRequest, fetchUser} from '../UserActions'
+import {addUserRequest, fetchUser, fetchUserByCuid} from '../UserActions'
 import AlertModal, { basicAlert } from '../../App/components/AlertModal';
+import {getToken, getTokenPayload} from '../../../util/authStorage'
+
 
 export class UserCreateModal extends Component {
 
   constructor(props) {
     super(props);
     this.state = { showModal: false };
+    if(this.props.editUser){
+      console.log("koe");
+      this.initFieldsForEdit();
+    }
   }
 
   close = () => {
@@ -26,7 +32,18 @@ export class UserCreateModal extends Component {
     const error = this.validate();
     this.setState({ error });
     if(error) return;
+    
+      
+
     fetchUser(email).then(user => {
+        
+        if(this.props.editUser){
+          if(user && user.cuid != this.state.userToEdit.cuid){
+            this.setState({ error: <FormattedMessage id="userAlreadyExists" values={{user: email}} /> });
+          }
+          editUserRequest(this.constructUser());
+        }
+
         if(!user){
           this.createUser();
         }else{
@@ -141,6 +158,18 @@ export class UserCreateModal extends Component {
     }
   };
 
+  initFieldsForEdit = () => {
+    console.log("inited");
+    var userToken = getTokenPayload();
+    console.log(userToken);
+    fetchUserByCuid(userToken.cuid ).then(user => {
+      this.setState({formEmail: user.email, formName: user.name, 
+                    formSurname: user.surname, formPassword: user.password, formPassVerify: user.password})
+      this.setState({userToEdit: user});
+    });
+  }
+  
+
   registerField = (controlId, type, placeholder) => {
     var key = controlId;
     if(this.state[key] === undefined){
@@ -163,8 +192,12 @@ export class UserCreateModal extends Component {
   };
 
 
-  render() {
+  
 
+
+  render() {
+    
+    
     return (
       <span>
         <Button onClick={this.open} bsStyle="primary"><FormattedMessage id='displayRegisterModal' /> </Button>
@@ -182,7 +215,6 @@ export class UserCreateModal extends Component {
               {this.registerField('formSurname', "text", 'Meikäläinen')}
               {this.registerField('formPassword',  "password", 'Salasana')}
               {this.registerField('formPassVerify', "password", 'Salasana')}
-
               <Button type="submit" className='hidden' onClick={this.handleAddUser} />
             </Form>
             <div className={this.state.error ? '' : 'hidden'}>
@@ -192,6 +224,7 @@ export class UserCreateModal extends Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
+            
             <Button type="submit" bsStyle="primary" onClick={this.handleAddUser}><FormattedMessage id='displayRegisterModal' /></Button>
             <Button onClick={this.close}><FormattedMessage id='cancel' /></Button>
           </Modal.Footer>
@@ -204,6 +237,7 @@ export class UserCreateModal extends Component {
 }
 
 UserCreateModal.propTypes = {
+  editUser: PropTypes.bool.isRequired,
 
 };
 

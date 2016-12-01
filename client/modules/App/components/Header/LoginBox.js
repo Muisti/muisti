@@ -93,6 +93,7 @@ export class LoginBox extends Component {
             <Button href={window.location.pathname != '/' ? '/' : '#'} type="submit" bsStyle="warning" onClick={this.logOut} >
               <FormattedMessage id={'logOutButton'} />
             </Button>
+          <UserCreateModal editUser={true}/>
           </Navbar.Form>
           <AlertModal message={this.state.alert} />
         </Nav>
@@ -121,7 +122,7 @@ export class LoginBox extends Component {
               <FormattedMessage id={isLoading ? "loggingIn" : 'logInButton'} />
             </Button>
             {' '}
-            <UserCreateModal />
+            <UserCreateModal editUser={false}/>
           </form>
         </Navbar.Form>
         <AlertModal message={this.state.alert} />

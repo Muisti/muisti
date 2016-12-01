@@ -28,3 +28,15 @@ export function confirmUserAccountRequest(code, resultCallback) {
     return callApi(`confirmation/${code}`)
       .then(res => resultCallback(res.confirmed))
 }
+
+export function editUserRequest(user){
+    return callApi('users','put', {
+      user:{ 
+          cuid: user.cuid,
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          password: user.password,   
+      }
+    }).then(res => res.user);
+}

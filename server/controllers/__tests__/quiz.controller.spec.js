@@ -142,7 +142,7 @@ test.serial('deleting quiz fails if not admin', async t => {
     await drop();
 });
 
-test.only.serial('Admin can edit quiz', async t => {
+test.serial('Admin can edit quiz', async t => {
   await data();
   
   const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
