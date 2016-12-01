@@ -40,6 +40,7 @@ export default {
     //Quizzes
     addQuiz: 'Lisää tehtävä',
     addQuizTitle: 'Luodaan uutta tehtävää',
+    editQuizTitle: 'Muokataan tehtävää',
     question: 'Kysymys',
     option: 'Vaihtoehto',
     rightAnswer: 'Tämä on oikein',

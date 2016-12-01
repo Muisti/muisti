@@ -5,6 +5,11 @@ export function addQuizRequest(quiz) {
     .then(res => res.quiz);
 }
 
+export function editQuizRequest(quiz) {
+    return callApi('quizzes', 'put', {quiz})
+      .then(res => res.quiz);
+}
+
 export function deleteQuizRequest(cuid) {
   return callApi(`quizzes/${cuid}`, 'delete')
     .then(res => res);

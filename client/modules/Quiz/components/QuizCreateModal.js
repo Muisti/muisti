@@ -7,19 +7,19 @@ export class QuizCreateModal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { showModal: false, fieldSize: 1 };
+    this.state = { fieldSize: 1 };
+    this.previousShow = false;
   };
   
-  clearFields = () => {
-    this.state = { showModal: this.state.showModal, fieldSize: 1 };
-  };
-
-  close = () => {
-    this.setState({ showModal: false });
-  };
-
-  open = () => {
-    this.setState({ showModal: true });
+  setQuiz = () => {
+    const quiz = this.props.quiz;
+    const optionCount = quiz.options.length;
+    this.state = { fieldSize: optionCount, formQuestion: quiz.question };
+    quiz.options.forEach((option, i) => {
+        this.state[(i+1) + "answer"] = option.text;
+        this.state[(i+1) + "chk"] = option.answer;
+    });
+    this.previousShow = this.props.show;
   };
   
   addField = () => {
@@ -33,10 +33,10 @@ export class QuizCreateModal extends Component {
     }
   };
   
-  handleAddQuiz = () => {
-      const sectionCuid = this.props.sectionCuid;
+  handleSaveQuiz = () => {
       const question = this.state.formQuestion;
       const options = [];
+      
       for (var i = 1; i-1 < this.state.fieldSize; i++) {
           var text = this.state[i+'answer'];
           if (text) {
@@ -44,13 +44,12 @@ export class QuizCreateModal extends Component {
             options.push({text, answer});
           }
       }
-      if (!sectionCuid || !question || !options || options.length < 1) {
+      
+      if (!question || !options || options.length < 1) {
           return;
       }
-      this.close();
-      this.clearFields();
-      addQuizRequest({sectionCuid, question, options})
-        .then(this.props.addQuiz);
+      
+      this.props.save({question, options});
   };
   
   handleQuestionChange = e => {
@@ -84,15 +83,14 @@ export class QuizCreateModal extends Component {
   };
 
   render() {
+    if(!this.previousShow && this.props.show){ this.setQuiz(); } 
+    const isNewQuiz = !this.props.quiz.cuid;
 
     return (
-      <span>
-        <Button onClick={this.open} bsStyle="primary"><FormattedMessage id='addQuiz' /></Button>
-
-        <Modal show={this.state.showModal} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
+        <Modal show={this.props.show} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
 
           <Modal.Header closeButton>
-            <Modal.Title><FormattedMessage id='addQuizTitle' /></Modal.Title>
+            <Modal.Title><FormattedMessage id={isNewQuiz ? 'addQuizTitle' : 'editQuizTitle'} /></Modal.Title>
           </Modal.Header>
             <Modal.Body>
               <ControlLabel> <FormattedMessage id='question' /> </ControlLabel>
@@ -108,20 +106,22 @@ export class QuizCreateModal extends Component {
             </Modal.Body>
 
             <Modal.Footer>
-              <Button onClick={this.handleAddQuiz}> <FormattedMessage id='submitCreate' /> </Button>
-              <Button onClick={() => {this.close(); this.clearFields();}}> <FormattedMessage id='cancel' /> </Button>
+              <Button onClick={this.handleSaveQuiz}> 
+                  <FormattedMessage id={isNewQuiz ? 'submitCreate' : 'submitEdit'} /> 
+              </Button>
+              <Button onClick={this.props.cancel}> <FormattedMessage id='cancel' /> </Button>
             </Modal.Footer>
         </Modal>
-
-      </span>
     );
   }
 }
 
 QuizCreateModal.propTypes = {
-  sectionCuid: PropTypes.string.isRequired,
+  quiz: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
-  addQuiz: PropTypes.func.isRequired
+  save: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired
 };
 
 export default injectIntl(QuizCreateModal);

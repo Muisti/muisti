@@ -66,11 +66,10 @@ export async function updateQuiz(req, res) {
   if(!token || !token.isAdmin) return res.status(403).end();
 
   const quiz = req.body.quiz;
-
+  
   Quiz.findOne({ cuid: quiz.cuid }).exec((err, q) => {
     if(err) return res.status(500).send(err);
 
-    console.log(areOptionsEqual(q.options, quiz.options));
     if (!areOptionsEqual(q.options, quiz.options)){
       removeScorefromScoresArrays(q.cuid);
     }

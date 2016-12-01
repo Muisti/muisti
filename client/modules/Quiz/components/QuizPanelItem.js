@@ -14,6 +14,10 @@ export class QuizPanelItem extends Component{
   sendDelete = () => {
     this.props.onDelete(this.props.quiz);
   };
+  
+  sendEdit = () => {
+    this.props.onEdit(this.props.quiz);
+  };
 
   render(){
     const quiz = this.props.quiz;
@@ -29,6 +33,7 @@ export class QuizPanelItem extends Component{
           <span className={getTokenPayload() && getTokenPayload().isAdmin ? 'pull-right' : 'hidden' }>
             <span className={styles['quiz-action']}>
               <Button bsStyle="link" onClick={this.sendDelete}>Poista kysymys</Button>
+              <Button bsStyle="link" onClick={this.sendEdit}>Muokkaa kysymystä</Button>
             </span>
           </span>
         </div>
@@ -53,6 +58,7 @@ QuizPanelItem.propTypes = {
       checked: PropTypes.bool,
     })).isRequired,
     onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
   })
 };
 
