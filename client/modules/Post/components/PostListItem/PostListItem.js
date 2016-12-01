@@ -6,7 +6,6 @@ import { Panel } from 'react-bootstrap';
 // Import Style
 import styles from './PostListItem.css';
 
-
 function PostListItem(props) {
     
   return (

@@ -23,5 +23,9 @@ export function fetchSections(moduleCuid){
 export function addModuleRequest(module) {
     return callApi('modules', 'post', {module})
             .then(res => res.module);
+}
 
+export function editModuleRequest(module) {
+    return callApi('modules', 'put', {module})
+            .then(res => res.module);
 }

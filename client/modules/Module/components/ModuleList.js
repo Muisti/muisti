@@ -2,10 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { Accordion, Panel, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import ModuleListItem from './ModuleListItem';
+import ModuleCreateWidget from './ModuleCreateWidget';
 import { getTokenPayload } from '../../../util/authStorage';
 import { show } from '../../../util/styles';
 
-import { fetchModules, addModuleRequest, deleteModuleRequest } from '../ModuleActions';
+import { fetchModules, addModuleRequest, deleteModuleRequest, editModuleRequest } from '../ModuleActions';
 
 import styles from './ModuleList.css';
 
@@ -13,23 +14,15 @@ export class ModuleList extends Component {
 
   constructor() {
     super();
-    this.state = { modules: [], formTitle: '', formInfo: '' };
+    this.state = { modules: [], editing: -1 };
   }
 
   componentDidMount() {
     fetchModules().then(modules => this.setState({modules}));
   }
 
-  handleTitleChange = (e) => {
-    this.setState({ formTitle: e.target.value });
-  };
-
-  handleInfoChange = (e) => {
-    this.setState({ formInfo: e.target.value });
-  };
-
-  handleAddModule = () => {
-    if (!this.state.formInfo || !this.state.formTitle) return;
+  handleAddModule = (title, info) => {
+    if (!title || !info) return;
 
     var number = 0;
     if (this.state.modules.length > 0) {
@@ -37,14 +30,10 @@ export class ModuleList extends Component {
     }
 
     addModuleRequest({
-      title: this.state.formTitle,
-      info: this.state.formInfo,
+      title: title,
+      info: info,
       orderNumber: number })
       .then(module => this.setState({ modules: [...this.state.modules, module] }));
-  };
-
-  handleEditModule = () => {
-
   };
 
   addHeader = () => {
@@ -57,16 +46,27 @@ export class ModuleList extends Component {
     );
   };
 
-  panelHeader = (module) => {
+  panelHeader = (module, index) => {
     return (
       <div className="clearfix">
         <div className={styles['panel-heading']}>
           {module.title}
+          {this.panelEditButtonForAdmin(module, index)}
           {this.panelDeleteButtonForAdmin(module)}
         </div>
       </div>
     );
   };
+  
+  panelEditButtonForAdmin = (module, index) => {
+    if (getTokenPayload() && getTokenPayload().isAdmin) {
+      return (
+        <Button className="pull-right" bsStyle="warning" bsSize="xsmall" onClick={() => this.showEditModule(module, index)}>
+          Muokkaa Modulea
+        </Button>
+      )
+    }
+  }
 
   panelDeleteButtonForAdmin = (module) => {
     if (getTokenPayload() && getTokenPayload().isAdmin) {
@@ -77,38 +77,45 @@ export class ModuleList extends Component {
       );
     }
   };
+  
+  showEditModule = (module, index) => {
+      this.setState({ editing: index });
+  }
+  
+  handleEditModule = (module) => (title, info) => {
+      module.info = info;
+      module.title = title;
+      editModuleRequest(module).then(this.setState({ editing: -1 }));
+  }
 
   handleDeleteModule = (module) => {
- //   if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
+//   if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
      deleteModuleRequest(module.cuid).then(this.setState({ modules: this.state.modules.filter(mod => mod.cuid !== module.cuid) }));
-  //  }
+//  }
   };
 
   render() {
     var i = 0;
     return (
-
+      
       <Accordion>
         {this.state.modules.map(module => (
-          <Panel header={this.panelHeader(module)} eventKey={++i} key={i}>
-            <ModuleListItem module={module}/>
+          <Panel header={this.panelHeader(module, ++i)} eventKey={i} key={i}>
+            <div style={show( i===this.state.editing)}>
+              <ModuleCreateWidget sendModule={this.handleEditModule(module)}
+                    oldModule={{title: module.title, info: module.info}}/>
+            </div>
+            <div style={show( i!==this.state.editing)}>
+              <ModuleListItem module={module}/>
+            </div>
           </Panel>
         ))
         }
 
         <Panel header={this.addHeader()} bsStyle='success'
-               className={ show(getTokenPayload() && getTokenPayload().isAdmin) }
+               style={ show(getTokenPayload() && getTokenPayload().isAdmin) }
                eventKey={++i}>
-          <FormGroup>
-            <ControlLabel> <FormattedMessage id={'moduleTitle'} /> </ControlLabel>
-            <FormControl type="text" value={this.state.formTitle} onChange={this.handleTitleChange}
-                         placeholder={this.props.intl.messages.moduleTitle} />
-
-            <ControlLabel> <FormattedMessage id={'moduleContent'} /> </ControlLabel>
-            <FormControl componentClass="textarea" value={this.state.fromInfo} onChange={this.handleInfoChange}
-                         placeholder={this.props.intl.messages.moduleContent} />
-            <Button type="submit" onClick={this.handleAddModule}> <FormattedMessage id={'submitAdd'} /> </Button>
-          </FormGroup>
+            <ModuleCreateWidget sendModule={this.handleAddModule}/>
         </Panel>
       </Accordion>
     );
@@ -116,7 +123,7 @@ export class ModuleList extends Component {
 }
 
 ModuleList.propTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired
 };
 
 export default injectIntl(ModuleList);
