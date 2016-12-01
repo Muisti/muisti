@@ -62,25 +62,6 @@ test.serial('Finds module correctly', async t => {
   await drop();
 });
 
-test.serial('Does not add modules with incorrect informations', async t => {
-    const module = {title: 'eiMene'};
-
-    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
-    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
-    stub.returns(jwt.decode(token, 'secret', true));
-
-    const res = await request(app)
-      .post('/api/modules')
-      .set('Accept', 'application/json')
-      .send({ module })
-      .set('authorization', token);
-
-    t.is(res.status, 403);
-
-    stub.restore();
-    await drop();
-});
-
 test.serial('deletes a module', async t => {
     await data();
 
@@ -205,7 +186,7 @@ test.serial('Adds new module correctly', async t => {
 
   const module = {title: 'viides moduuli', info: 'esittelevää tekstiä', orderNumber: 5};
   const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
-  var stub = sinon.stub(usercon, 'decodeTokenFromRequest')
+  var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
   stub.returns(jwt.decode(token, 'secret', true));
 
   const res = await request(app)
@@ -221,6 +202,25 @@ test.serial('Adds new module correctly', async t => {
 
   stub.restore();
   await drop();
+});
+
+test.serial('Does not add modules with incorrect informations', async t => {
+    const module = {title: 'eiMene'};
+
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+    stub.returns(jwt.decode(token, 'secret', true));
+
+    const res = await request(app)
+      .post('/api/modules')
+      .set('Accept', 'application/json')
+      .send({ module })
+      .set('authorization', token);
+
+    t.is(res.status, 403);
+
+    stub.restore();
+    await drop();
 });
 
 let data = async () => {

@@ -38,9 +38,7 @@ test('handleAddModule does not do addModuleRequest if field is empty', t => {
   var stub = sinon.stub(moduleActions, 'addModuleRequest');
   stub.returns(Promise.resolve({title: 'title', info: 'info', orderNumber: 0, cuid: 'cuidi'}))
 
-  instance.setState({ formInfo: 'Informaatio'});
-
-  instance.handleAddModule();
+  instance.handleAddModule("Informaatio", "");
 
   t.truthy(!stub.calledOnce);
   stub.restore();
