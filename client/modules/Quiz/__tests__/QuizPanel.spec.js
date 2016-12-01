@@ -34,10 +34,10 @@ const quizzes2 = [
 
 test('QuizPanel renders properly', t => {
   const wrapper = mountWithIntl(
-    <QuizPanel quizzes={quizzes}/>
+    <QuizPanel quizzes={quizzes} deleteQuizRender={() => {}}/>
   );
 
-    t.is(wrapper.find('Button').length, 1);
+    t.is(wrapper.find('Button').length, 3);
     t.is(wrapper.find('a').length, 1);
     t.is(wrapper.find('img').length, 1);
     t.is(wrapper.find('QuizPanelItem').length, quizzes.length);
@@ -46,7 +46,7 @@ test('QuizPanel renders properly', t => {
 
 test('QuizPanelItem renders properly', t => {
   const wrapper = mountWithIntl(
-    <QuizPanelItem quiz={quizzes[0]}/>
+    <QuizPanelItem quiz={quizzes[0]} deleteQuizRender={() => {}}/>
   );
 
     t.is(wrapper.find('input').length, 3);
@@ -61,10 +61,10 @@ test('verification with correct answers', t => {
   const countSubStrings = (s, sub) => (s.match(new RegExp(sub, 'g')) || []).length;
 
   const wrapper = mountWithIntl(
-    <QuizPanel quizzes={quizzes}/>
+    <QuizPanel quizzes={quizzes} deleteQuizRender={() => {}}/>
   );
 
-  wrapper.find('Button').first().simulate('click');
+  wrapper.find('Button').last().simulate('click');
   t.truthy(stub.calledOnce);
   t.is(points[0], 1);
   t.is(points[1], 2);
@@ -78,10 +78,10 @@ test('verification with incorrect answers', t => {
   const countSubStrings = (s, sub) => (s.match(new RegExp(sub, 'g')) || []).length;
 
   const wrapper = mountWithIntl(
-    <QuizPanel quizzes={quizzes2}/>
+    <QuizPanel quizzes={quizzes2} deleteQuizRender={() => {}}/>
   );
 
-  wrapper.find('Button').first().simulate('click');
+  wrapper.find('Button').last().simulate('click');
   t.truthy(stub.calledOnce);
   t.is(points[0], 0);
   t.is(points[1], 1);
