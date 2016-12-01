@@ -1,5 +1,6 @@
 import Quiz from '../models/quiz';
 import cuid from 'cuid';
+import { removeScorefromScoresArrays } from './score.controller';
 
 import { decodeTokenFromRequest } from './user.controller';
 
@@ -40,7 +41,7 @@ export async function addQuiz(req, res) {
     });
 }
 
-export async function deleteQuiz(req, res){
+export async function deleteQuiz(req, res) {
 
   let token = await decodeTokenFromRequest(req);
 
@@ -58,18 +59,45 @@ export async function deleteQuiz(req, res){
 
 }
 
-export async function deleteQuizzesBySection(req, res) {
+export async function updateQuiz(req, res) {
+
   let token = await decodeTokenFromRequest(req);
 
   if(!token || !token.isAdmin) return res.status(403).end();
 
-  Quiz.deleteMany({ sectionCuid: req.params.sectionCuid }).exec((err) => {
-    if(err){
-      return res.status(500).send(err);
+  const quiz = req.body.quiz;
+
+  Quiz.findOne({ cuid: quiz.cuid }).exec((err, q) => {
+    if(err) return res.status(500).send(err);
+
+    console.log(areOptionsEqual(q.options, quiz.options));
+    if (!areOptionsEqual(q.options, quiz.options)){
+      removeScorefromScoresArrays(q.cuid);
     }
 
   });
 
-  return res.status(200).end();
 
+  Quiz.update({ cuid: quiz.cuid }, { question: quiz.question, 
+    options: quiz.options}, function(err){
+      if(err) return res.status(500).send(err);
+      
+      return res.json({ quiz: quiz });
+    });
+
+}
+
+
+function areOptionsEqual(arr1, arr2){
+
+  if(arr1.length != arr2.length)
+    return false;
+
+
+    if(arr1.find(obj => 
+      !arr2.find(obj2 => 
+        obj.text === obj2.text && obj.answer === obj2.answer )))
+      return false;
+  
+  return true;
 }

@@ -12,4 +12,5 @@ quizSchema.pre('remove', async function(next){
     await this.model('Score').update( { }, { $pull: {scores: { quizCuid: this.cuid } } }, { multi: true }, next);
 });
 
+
 export default mongoose.model('Quiz', quizSchema);
