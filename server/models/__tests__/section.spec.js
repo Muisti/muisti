@@ -31,10 +31,16 @@ test.serial('Removing section removes dependent quizzes', async t =>{
 	await newQuiz2.save();
 
 	await newSection.remove();
-	
+	await sleep(500);
+
 	const quizzes = await Quiz.find().exec();
 
 	t.deepEqual(quizzes.length, 0);
 
 
 });
+
+function sleep(ms){
+		
+	return new Promise(resolve => setTimeout(resolve, ms));
+};

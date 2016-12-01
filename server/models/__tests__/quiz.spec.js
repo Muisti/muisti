@@ -31,6 +31,7 @@ test.serial('Removing quiz removes dependent scores from scores array', async t 
 
 	await newQuiz.remove();
 	
+	await sleep(500);
 	const scores = await Score.find().exec();
 
 	t.is(scores[0].scores.length, 1);
@@ -40,3 +41,8 @@ test.serial('Removing quiz removes dependent scores from scores array', async t 
 	await Score.remove().exec();		
 	
 });
+
+function sleep(ms){
+		
+	return new Promise(resolve => setTimeout(resolve, ms));
+};

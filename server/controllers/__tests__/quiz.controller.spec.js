@@ -4,7 +4,7 @@ import app from '../../server'
 import { connectDB, dropDB } from '../../util/test-helpers';
 import mongoose from 'mongoose';
 import sinon from 'sinon';
-
+import * as scorecon from '../score.controller';
 import * as usercon from '../user.controller';
 import Quiz from '../../models/quiz';
 import Section from '../../models/section';
@@ -142,6 +142,43 @@ test.serial('deleting quiz fails if not admin', async t => {
     await drop();
 });
 
+test.only.serial('Admin can edit quiz', async t => {
+  await data();
+  
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
+    
+  var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
+  stub.returns(jwt.decode(token, 'secret', true));
+
+  var stub2 = sinon.stub(scorecon, 'removeScorefromScoresArrays');
+  stub2.returns(true);
+
+  let quiz = new Quiz({ cuid: 'quiz123', sectionCuid: 'section12', question: 'What mammal?',
+    options: [{ text: 'Cow', answer: true }, { text: 'Dog', answer: false }] });
+
+  const res = await request(app)
+            .put('/api/quizzes/')
+            .set('authorization', token)
+            .set('Accept','application/json')
+            .send({ quiz });
+
+  t.is(res.status, 200);
+  
+  const dbQuiz = await Quiz.findOne({cuid: quiz.cuid}).exec();           
+  t.is(dbQuiz.question, quiz.question);
+  t.is(dbQuiz.options[0].text, quiz.options[0].text);
+
+  stub.restore();
+  stub2.restore();
+  await drop();
+
+});
+
+
+
+
+
+
 let data = async () => {
   await Promise.all(sections.map(section => {
     return new Section(section).save();
@@ -155,3 +192,5 @@ let drop = async () => {
   await Section.remove({}).exec();
   await Quiz.remove({}).exec();
 };
+
+
