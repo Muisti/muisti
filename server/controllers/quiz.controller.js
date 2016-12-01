@@ -93,8 +93,10 @@ function areOptionsEqual(arr1, arr2){
   if(arr1.length != arr2.length)
     return false;
 
-  
-    if(arr1.find(obj => !arr2.find(obj2 => obj.text === obj2.text && obj.answer === obj2.answer )));  
+
+    if(arr1.find(obj => 
+      !arr2.find(obj2 => 
+        obj.text === obj2.text && obj.answer === obj2.answer )))
       return false;
   
   return true;

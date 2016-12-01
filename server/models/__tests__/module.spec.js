@@ -31,9 +31,16 @@ test.serial('Removing module removes dependent sections', async t =>{
 
 	await newModule.remove();
 	
-	const sections = await Section.find().exec();
-
+	await sleep(500);
+	
+	var sections = await Section.find().exec();
+	
 	t.is(sections.length, 0);
 
 
 });
+
+function sleep(ms){
+		
+	return new Promise(resolve => setTimeout(resolve, ms));
+};
