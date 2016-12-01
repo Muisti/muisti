@@ -35,7 +35,7 @@ test.serial('Removing section removes dependent quizzes', async t =>{
 
 	const quizzes = await Quiz.find().exec();
 
-	t.is(quizzes.length, 0);
+	t.deepEqual(quizzes.length, 0);
 
 
 });
