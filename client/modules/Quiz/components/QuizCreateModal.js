@@ -19,7 +19,6 @@ export class QuizCreateModal extends Component {
         this.state[(i+1) + "answer"] = option.text;
         this.state[(i+1) + "chk"] = option.answer;
     });
-    this.previousShow = this.props.show;
   };
   
   addField = () => {
@@ -57,7 +56,7 @@ export class QuizCreateModal extends Component {
   }
   
   handleCheckboxChange = (number) => e => {
-    this.state[number + 'chk'] = e.target.checked;
+    this.setState({[number + 'chk']: e.target.checked});
   }
   
   handleAnswerChange = (number) => e => {
@@ -70,7 +69,9 @@ export class QuizCreateModal extends Component {
       for (var i = 1; i-1 < fieldNumber; i++) {
               fields.push(<Form horizontal key={i}>
                 <ControlLabel> <FormattedMessage id='option' /> {i} </ControlLabel>
-                <Checkbox onChange={this.handleCheckboxChange(i)}> <FormattedMessage id='rightAnswer' /> </Checkbox>
+                <Checkbox checked={this.state[i + 'chk']} onChange={this.handleCheckboxChange(i)}>
+                    <FormattedMessage id='rightAnswer' /> 
+                </Checkbox>
                 <FormControl type="text" value={this.state[i + 'answer']} onChange={this.handleAnswerChange(i)}
                     placeholder={this.props.intl.messages.option} /> 
               </Form>)
@@ -84,6 +85,7 @@ export class QuizCreateModal extends Component {
 
   render() {
     if(!this.previousShow && this.props.show){ this.setQuiz(); } 
+    this.previousShow = this.props.show;
     const isNewQuiz = !this.props.quiz.cuid;
 
     return (
