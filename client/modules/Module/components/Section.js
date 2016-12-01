@@ -4,6 +4,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import validator from 'validator';
 import QuizPanel from '../../Quiz/components/QuizPanel';
 import QuizCreateModal from '../../Quiz/components/QuizCreateModal';
+import SectionCreateModal from './SectionCreateModal';
 import { getTokenPayload } from '../../../util/authStorage';
 import { show } from '../../../util/styles';
 import { deleteSectionRequest } from '../SectionActions'
@@ -48,6 +49,22 @@ export class Section extends Component {
       return ( <div> Filetype not supported!</div> );
     }
   };
+  
+  editFields = (content, title, link) => {
+      let sec = {};
+      //construct sec by combining old and new
+      const thisSection = this.props.section;
+      sec.cuid = thisSection.cuid;
+      sec.content = content;
+      sec.title = title;
+      sec.link = link;
+      sec.quizzes = thisSection.quizzes;
+      
+      //Order number changing is not implemented yet.
+      sec.orderNumber = thisSection.orderNumber;
+      
+      this.props.editSection(sec);
+  }
 
   addQuiz = (quiz) => {
     this.props.section.quizzes.push(quiz); this.setState({});
@@ -72,6 +89,7 @@ export class Section extends Component {
         </div>
         <div style={show(token && token.isAdmin)}>
           <QuizCreateModal addQuiz={this.addQuiz} sectionCuid={section.cuid} />
+          <SectionCreateModal editSection={this.editFields} section={this.props.section}  />
         </div>
       </div>
     );
@@ -84,8 +102,10 @@ Section.propTypes = {
     content: PropTypes.string,
     title: PropTypes.string,
     link: PropTypes.string,
-    quizzes: PropTypes.array
+    quizzes: PropTypes.array,
+    orderNumber: PropTypes.number
   }).isRequired,
+  editSection: PropTypes.func,
   intl: intlShape.isRequired,
 };
 

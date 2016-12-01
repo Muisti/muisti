@@ -5,85 +5,94 @@ import { shallow } from 'enzyme';
 import ModulePage from '../../pages/ModulePage';
 import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test-helper';
 import * as moduleActions from '../../ModuleActions';
+import * as sectionActions from '../../SectionActions';
 import validator from 'validator';
 
 test('renders properly', t => {
-  const wrapper = shallowWithIntl(
-    <ModulePage />
-  );
+    const wrapper = shallowWithIntl(
+            <ModulePage />
+    );
 
-  t.is(wrapper.find('Well').length, 1);
+    t.is(wrapper.find('Well').length, 1);
 });
 
 
-test('ModulePage fetches module', t =>{
-	var stub = sinon.stub(moduleActions, 'fetchModule');
-	stub.returns(Promise.resolve({title: 'title', info: 'info', orderNumber: 0, cuid: 'cuidi'}));
+test('ModulePage fetches module', t => {
+    var stub = sinon.stub(moduleActions, 'fetchModule');
+    stub.returns(Promise.resolve({title: 'title', info: 'info', orderNumber: 0, cuid: 'cuidi'}));
 
-	var stub2 = sinon.stub(moduleActions, 'fetchSections');
-	stub2.returns(Promise.resolve([]));
+    var stub2 = sinon.stub(moduleActions, 'fetchSections');
+    stub2.returns(Promise.resolve([]));
 
-	const wrapper = shallowWithIntl(
-		<ModulePage params={{title: "koe"}} />
-	);
-	var instance = wrapper.instance().componentDidMount();
+    const wrapper = shallowWithIntl(
+            <ModulePage params={{title: "koe"}} />
+    );
+    var instance = wrapper.instance().componentDidMount();
 
-	t.truthy(stub.calledOnce);
+    t.truthy(stub.calledOnce);
 
-	stub.restore();
-	stub2.restore();
+    stub.restore();
+    stub2.restore();
 });
 
 //please change this test
 test('ModulePage with no sections', t => {
-  const module = { title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12' };
-  const section = { title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid' };
-  const section2 = { title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid2' };
+    const module = {title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12'};
+    const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
+    const section2 = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid2'};
 
-  const wrapper = shallowWithIntl(
-    <ModulePage />
-  );
+    const wrapper = shallowWithIntl(
+            <ModulePage />
+    );
 
-  wrapper.setState({ module: {module} });
-  wrapper.setState({ sections: [{section}, {section2}]});
+    wrapper.setState({module: {module}});
+    wrapper.setState({sections: [{section}, {section2}]});
 
-  t.is(wrapper.find('Section').length, 0);
+    t.is(wrapper.find('Section').length, 0);
 
 });
 
 test('Adds new sections', t => {
-  const module = { title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12' };
-  const section = { title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid' };
+    const module = {title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12'};
+    const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
 
-  const wrapper = shallowWithIntl(
-    <ModulePage />
-  );
+    var stub = sinon.stub(sectionActions, 'addSectionRequest');
+    stub.returns(Promise.resolve(section));
 
-  wrapper.setState({ module: {module} });
+    const wrapper = shallowWithIntl(
+            <ModulePage />
+    );
 
-  t.is(wrapper.state().sections.length, 0);
+    wrapper.setState({module: {module}});
 
-  var instance = wrapper.instance();
-  instance.addSectionToRender(section);
+    t.is(wrapper.state().sections.length, 0);
 
-  t.is(wrapper.state().sections.length, 1);
+    var instance = wrapper.instance();
+    instance.handleAddSection(section);
+    
+    t.truthy(stub.calledOnce);
+
+    t.is(wrapper.state().sections.length, 1);
 });
 
 test('Delete sections correctly', t => {
-  const module = { title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12' };
-  const section = { title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid' };
+    const module = {title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12'};
+    const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
 
-  const wrapper = shallowWithIntl(
-    <ModulePage />
-  );
+    var stub = sinon.stub(sectionActions, 'addSectionRequest');
+    stub.returns(Promise.resolve(section));
 
-  wrapper.setState({ module: {module} });
+    const wrapper = shallowWithIntl(
+            <ModulePage />
+    );
 
-  let instance = wrapper.instance();
-  instance.addSectionToRender(section);
-  t.is(wrapper.state().sections.length, 1);
+    wrapper.setState({module: {module}});
 
-  instance.handleDeleteSection(section);
-  t.is(wrapper.state().sections.length, 0);
+    let instance = wrapper.instance();
+    instance.handleAddSection(section);
+    t.is(wrapper.state().sections.length, 1);
+
+    instance.handleDeleteSection(section);
+    t.is(wrapper.state().sections.length, 0);
 });
 

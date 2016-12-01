@@ -58,7 +58,7 @@ class PostListPage extends Component {
   handleEditPost = post => {
     this.toggleAddPost();
     this.props.dispatch(editPostRequest(post));
-    setTimeout(100)
+    setTimeout(100);
     this.editingPost = null;
   };
 

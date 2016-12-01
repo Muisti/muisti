@@ -8,7 +8,7 @@ import ModuleListItem from '../components/ModuleListItem';
 import Section from '../components/Section';
 
 import { fetchModule } from '../ModuleActions';
-import { fetchSections, deleteSectionRequest } from '../SectionActions';
+import { fetchSections, deleteSectionRequest, addSectionRequest, editSectionRequest } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
 import { fetchScores } from '../../Quiz/QuizActions';
 
@@ -40,9 +40,23 @@ class ModulePage extends Component {
           })))
   }
 
-  addSectionToRender = (newSection) => {
-    this.setState({sections: [...this.state.sections, newSection]});
+  handleAddSection = (newSection) => {
+    newSection.moduleCuid = this.state.module.cuid;
+    newSection.orderNumber = this.state.sections.length;
+    newSection.quizzes = [];
+    addSectionRequest(newSection).then(savedSection => {
+        this.setState({sections: [...this.state.sections, savedSection]});
+    });
   };
+  
+  handleEditSection = (editedSection) => {
+    var newSections = [];
+    newSections = this.state.sections.filter(sec => sec.cuid !== editedSection.cuid);
+    newSections.push(editedSection);
+    this.setState({sections: newSections});
+  
+    editSectionRequest(editedSection);
+  }
 
   panelHeader = (section) => {
     return (
@@ -56,7 +70,7 @@ class ModulePage extends Component {
   };
 
   panelDeleteButtonForAdmin = (section) => {
-    if (getTokenPayload() && getTokenPayload().isAdmin) {
+    if (getTokenPayload() && getTokenPayload().isAdmin && section.cuid) {
       return (
         <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteSection(section)}>
           Poista section
@@ -83,19 +97,18 @@ class ModulePage extends Component {
 
         {this.state.sections.map(section => (
           <Panel collapsible defaultExpanded header={this.panelHeader(section)} eventKey={++i} key={i}>
-            <Section section={section} />
+            <Section section={section} editSection={this.handleEditSection} />
           </Panel>
         ))}
 
         <div style={show(getTokenPayload() && getTokenPayload().isAdmin)}>
 
           <SectionCreateModal moduleCuid={this.state.module.cuid}
-                              orderNumber={this.state.sections.length}
-                              addSectionToRender={this.addSectionToRender} />
+                              addSection={this.handleAddSection} />
         </div>
 
         <div style={show(getTokenPayload() && getTokenPayload().isAdmin)}>
-          <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
+          <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.handleAddSection}></SectionFactory>
         </div>
 
       </div>
