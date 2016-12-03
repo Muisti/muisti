@@ -67,6 +67,7 @@ export async function updateQuiz(req, res) {
 
   const quiz = req.body.quiz;
 
+<<<<<<< HEAD
   await Quiz.findOne({ cuid: quiz.cuid }).exec((err, q) => {
     if(err) return res.status(500).send(err);
 
@@ -79,8 +80,8 @@ export async function updateQuiz(req, res) {
 
   });
 
-
   await Quiz.update({ cuid: quiz.cuid }, { question: quiz.question, 
+
     options: quiz.options}, function(err){
       if(err) return res.status(500).send(err);
       
