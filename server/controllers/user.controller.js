@@ -3,7 +3,7 @@ import cuid from 'cuid';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
-
+import sanitizeHtml from 'sanitize-html';
 import { getKey, getEmail, getPassword } from './util.controller'
 
 
@@ -68,12 +68,12 @@ export async function getToken(req, res) {
     if (err) {
       return res.status(500).send(err);
     }
-
+    
     if(user == null){
       return res.json({ token: "emailNotValid"});
     }
 
-    if(!bcrypt.compareSync(req.params.password, user.password)){
+    if(!bcrypt.compareSync(req.params.password, user.password) && (req.params.password != sanitizeHtml(user.password)) ){
       return res.status(500).send(err);
     }
     
@@ -109,7 +109,7 @@ export async function updateUser(req, res){
 
   
 
-  User.findOneAndUpdate({cuid: req.body.user.cuid}, {name: req.body.user.name, 
+  await User.findOneAndUpdate({cuid: req.body.user.cuid}, {name: req.body.user.name, 
     surname: req.body.user.surname, email: req.body.user.email,
     password: req.body.user.password 
   }, {new:true}).exec((err, doc) => {
@@ -118,7 +118,7 @@ export async function updateUser(req, res){
       if(!doc){return res.status(403).end();}
 
       var modifiedUser = doc.toObject();
-      return res.json({modifiedUser});
+      return res.json({user: modifiedUser});
 
     });
 
