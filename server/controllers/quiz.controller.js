@@ -70,7 +70,6 @@ export async function updateQuiz(req, res) {
   Quiz.findOne({ cuid: quiz.cuid }).exec((err, q) => {
     if(err) return res.status(500).send(err);
 
-    console.log(areOptionsEqual(q.options, quiz.options));
     if (!areOptionsEqual(q.options, quiz.options)){
       removeScorefromScoresArrays(q.cuid);
     }

@@ -144,8 +144,9 @@ app.use((req, res, next) => {
 // start app
 app.listen(serverConfig.port, (error) => {
   var now = new Date();
+  var time = 24+(11-now.getMonth())*30-now.getDate();
   if (!error) {
-    console.log(`MERN is running on port: ${serverConfig.port}! ${24 - now.getDate()} päivää jouluun!`); // eslint-disable-line
+    console.log(`MERN is running on port: ${serverConfig.port}! ${time} päivää jouluun!`); // eslint-disable-line
   }
 });
 

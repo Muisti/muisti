@@ -34,7 +34,6 @@ export async function addSection(req, res) {
 
   if (!token || !token.isAdmin || !sect || !sect.moduleCuid
     || (!sect.content && !sect.link) || sect.orderNumber == undefined) {
-    console.log(sect);
     return res.status(403).end();
   }
   const newSection = new Section(sect);
