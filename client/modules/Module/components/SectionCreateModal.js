@@ -4,7 +4,6 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { addSectionRequest } from '../SectionActions'
 import validator from 'validator'
 
-
 export class SectionCreateModal extends Component {
 
   constructor(props) {
@@ -23,6 +22,11 @@ export class SectionCreateModal extends Component {
   open = () => {
     this.setState({ showModal: true });
   };
+  
+  openEditor = () => {
+    this.setState({ showModal: true, formTitle: this.props.section.title,
+                    formContent: this.props.section.content, formLink: this.props.section.link})
+  }
 
   handleTitleChange = (e) => {
     this.setState({ formTitle: e.target.value });
@@ -36,50 +40,61 @@ export class SectionCreateModal extends Component {
     this.setState({ formLink: e.target.value, error: "" });
   }
 
-  handleAddSection = (e) => {
+  sendSection = (e) => {
     if(e) e.preventDefault();
     this.setState({error: this.validateLink()})    
     
     //Jos molemmat pakollisista kentistä, tai ei URL niin validointi false
     if ((!this.state.formContent && !this.state.formLink) || this.validateLink()) return false;
+
+    let newSection = {};
+    newSection.content = this.state.formContent;
+    newSection.title = this.state.formTitle;
+    newSection.link = this.state.formLink;
     
-    addSectionRequest({
-      moduleCuid: this.props.moduleCuid,
-      content: this.state.formContent,
-      title: this.state.formTitle,
-      link: this.state.formLink,
-      orderNumber: this.props.orderNumber })
-    .then(section => { 
-      section.quizzes = []; 
-      this.props.addSectionToRender(section)});
-    
+    if (this.props.editSection) {
+        this.props.editSection(newSection.content, newSection.title, newSection.link);
+    } else {
+        this.props.addSection(newSection);
+    }
     this.clearFields();
     this.close();
-    
   };
 
   validateLink = () => {
-    
-
     if(this.state.formLink && !validator.isURL(this.state.formLink))
       return (<FormattedMessage id="sectionLinknotValid" />);
     else 
       return "";
   }
   
-
+  chooseButton = () => {
+      if (!this.props.editSection) {
+          return (
+            <Button onClick={this.open} bsStyle="primary">
+                <FormattedMessage id="addSection"/>
+            </Button>
+          );
+      } else {
+          return (
+            <Button onClick={this.openEditor} bsStyle="warning" bsSize="xsmall" className="pull-right">
+                MUOKKAA SECTIONIA
+            </Button>
+          );
+      }
+  };
+  
   render() {
-
     return (
       <span>
-          <Button onClick={this.open} bsStyle="primary"><FormattedMessage id="addSection"/></Button>
-
+        {this.chooseButton()}
+        
         <Modal show={this.state.showModal} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
 
           <Modal.Header closeButton>
             <Modal.Title><FormattedMessage id="addingSection"/></Modal.Title>
           </Modal.Header>
-          <form onSubmit={this.handleAddSection}>
+          <form onSubmit={this.sendSection}>
           <Modal.Body>
             
               <ControlLabel> <FormattedMessage id="sectionTitle"/> </ControlLabel>
@@ -115,10 +130,17 @@ export class SectionCreateModal extends Component {
 }
 
 SectionCreateModal.propTypes = {
-  moduleCuid: PropTypes.string.isRequired,
-  orderNumber: PropTypes.number.isRequired,
-  addSectionToRender: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
+  addSection: PropTypes.func,
+  editSection: PropTypes.func,
+  section: PropTypes.shape({
+    cuid: PropTypes.string,
+    content: PropTypes.string,
+    title: PropTypes.string,
+    link: PropTypes.string,
+    quizzes: PropTypes.array,
+    orderNumber: PropTypes.number
+  }),
+  intl: intlShape.isRequired
 };
 
 export default injectIntl(SectionCreateModal);

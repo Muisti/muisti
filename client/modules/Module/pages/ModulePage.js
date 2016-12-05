@@ -8,7 +8,7 @@ import ModuleListItem from '../components/ModuleListItem';
 import Section from '../components/Section';
 
 import { fetchModule } from '../ModuleActions';
-import { fetchSections, deleteSectionRequest } from '../SectionActions';
+import { fetchSections, deleteSectionRequest, addSectionRequest, editSectionRequest } from '../SectionActions';
 import { getTokenPayload } from '../../../util/authStorage';
 import { fetchScores } from '../../Quiz/QuizActions';
 
@@ -22,6 +22,13 @@ class ModulePage extends Component {
     this.state = {module: {}, sections: [] };
   }
 
+  /*
+   * Gets the module with title then
+   * gets all sections associated the module then
+   * gets the scores for all sections then
+   * goes through all quizzes within sections and lastly
+   * set the quiz points as they're saved inside scores
+   */
   componentDidMount() {
     fetchModule(this.props.params.title)
       .then(module => fetchSections(module.cuid)
@@ -39,28 +46,63 @@ class ModulePage extends Component {
             this.setState({ module, sections });
           })))
   }
+  
+  //Sections have to be sorted or edited section would be rendered as last.
+  addToState = (newSection) => {
+    var newSections = [];
+    newSections = this.state.sections.filter(sec => sec.cuid !== newSection.cuid);
+    newSections.push(newSection);
+    newSections.sort((a, b) => a.orderNumber-b.orderNumber);
+    this.setState({sections: newSections});
+  }
 
-  addSectionToRender = (newSection) => {
-    this.setState({sections: [...this.state.sections, newSection]});
+  handleAddSection = (newSection) => {
+    newSection.moduleCuid = this.state.module.cuid;
+    newSection.orderNumber = this.state.sections.length;
+    newSection.quizzes = [];
+    addSectionRequest(newSection).then(savedSection => {
+        this.addToState(savedSection);
+    });
   };
+  
+  handleEditSection = (oldSection) => (content, title, link) => {
+    let editedSection = {};
+    //constructed by combining old and new
+    const thisSection = oldSection;
+    editedSection.cuid = thisSection.cuid;
+    editedSection.content = content;
+    editedSection.title = title;
+    editedSection.link = link;
+    editedSection.quizzes = thisSection.quizzes;
+      
+    //Order number changing is not implemented yet.
+    editedSection.orderNumber = thisSection.orderNumber;
+      
+    this.addToState(editedSection);
+  
+    editSectionRequest(editedSection);
+  }
 
   panelHeader = (section) => {
     return (
       <div className="clearfix">
         <div className={styles['panel-heading']}>
           {section.title ? section.title : ''}
-          {this.panelDeleteButtonForAdmin(section)}
+          {this.panelButtonsForAdmin(section)}
         </div>
       </div>
     );
   };
 
-  panelDeleteButtonForAdmin = (section) => {
-    if (getTokenPayload() && getTokenPayload().isAdmin) {
+  panelButtonsForAdmin = (section) => {
+    if (getTokenPayload() && getTokenPayload().isAdmin && section.cuid) {
       return (
-        <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteSection(section)}>
-          Poista section
-        </Button>
+        <span>
+          <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteSection(section)}>
+            Poista section
+          </Button>
+          <SectionCreateModal editSection={this.handleEditSection(section)} section={section} />
+        </span>
       );
     }
   };
@@ -88,18 +130,9 @@ class ModulePage extends Component {
         ))}
 
         <div style={show(getTokenPayload() && getTokenPayload().isAdmin)}>
-
-          <SectionCreateModal moduleCuid={this.state.module.cuid}
-                              orderNumber={this.state.sections.length}
-                              addSectionToRender={this.addSectionToRender} />
+          <SectionCreateModal moduleCuid={this.state.module.cuid} addSection={this.handleAddSection} />
         </div>
-
-        <div style={show(getTokenPayload() && getTokenPayload().isAdmin)}>
-          <SectionFactory moduleCuid={this.state.module.cuid} addSectionToRender={this.addSectionToRender}></SectionFactory>
-        </div>
-
       </div>
-
     );
   }
 }

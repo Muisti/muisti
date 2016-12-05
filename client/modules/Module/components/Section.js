@@ -4,9 +4,11 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import validator from 'validator';
 import QuizPanel from '../../Quiz/components/QuizPanel';
 import QuizCreateModal from '../../Quiz/components/QuizCreateModal';
+import SectionCreateModal from './SectionCreateModal';
 import { getTokenPayload } from '../../../util/authStorage';
 import { show } from '../../../util/styles';
 import { deleteSectionRequest } from '../SectionActions'
+
 import styles from './ModuleList.css';
 import { addQuizRequest, editQuizRequest } from '../../Quiz/QuizActions';
 
@@ -103,7 +105,7 @@ export class Section extends Component {
 
     return (
       <div>
-        <div>{section.content ? section.content : ''}</div>
+        <div className={styles.textarea}>{section.content ? section.content : ''}</div>
         {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
         <div style={show(section.quizzes && section.quizzes.length > 0)}>
           <br />
@@ -128,7 +130,8 @@ Section.propTypes = {
     content: PropTypes.string,
     title: PropTypes.string,
     link: PropTypes.string,
-    quizzes: PropTypes.array
+    quizzes: PropTypes.array,
+    orderNumber: PropTypes.number
   }).isRequired,
   intl: intlShape.isRequired,
 };

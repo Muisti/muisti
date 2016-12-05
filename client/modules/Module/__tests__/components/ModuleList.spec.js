@@ -7,7 +7,6 @@ import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test
 import * as moduleActions from '../../ModuleActions';
 import * as authStorage from '../../../../util/authStorage';
 
-
 test('renders properly', t => {
   const wrapper = shallowWithIntl(
     <ModuleList />
@@ -41,6 +40,20 @@ test('handleAddModule does not do addModuleRequest if field is empty', t => {
   instance.handleAddModule("Informaatio", "");
 
   t.truthy(!stub.calledOnce);
+  stub.restore();
+});
+
+test('handleEditModule calls editModuleRequest', t => {
+  const wrapper = shallowWithIntl(
+    <ModuleList />
+  );
+  var instance = wrapper.instance();
+  var stub = sinon.stub(moduleActions, 'editModuleRequest');
+  stub.returns(Promise.resolve({}));
+  const module = {title: 'title', info: 'info', orderNumber: 0, cuid: 'cuidi'};
+  instance.handleEditModule(module)("new title", "new info");
+
+  t.truthy(stub.calledOnce);
   stub.restore();
 });
 
