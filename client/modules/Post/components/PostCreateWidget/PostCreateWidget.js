@@ -28,7 +28,6 @@ export class PostCreateWidget extends Component {
     });
   };
 
-
   addPost = () => {
     const contentRef = this.refs.content;
     const privateRef = this.refs.private.checked;

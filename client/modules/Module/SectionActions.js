@@ -1,8 +1,8 @@
 import callApi from '../../util/apiCaller';
 
 export function addSectionRequest(section) {
-  return callApi('sections', 'post', {section})
-    .then(res => res.section);
+        return callApi('sections', 'post', {section})
+                .then(res => res.section);
 }
 
 export function deleteSectionRequest(cuid) {
@@ -10,8 +10,13 @@ export function deleteSectionRequest(cuid) {
 		.then(res => res);
 }
 
+export function editSectionRequest(section) {
+        return callApi('sections', 'put', {section})
+                .then(res => res.section);
+}
+
 export function fetchSections(moduleCuid){
 	return callApi(`sections/${moduleCuid}`)
-      .then(res => res.sections);
+                .then(res => res.sections);
 }
 
