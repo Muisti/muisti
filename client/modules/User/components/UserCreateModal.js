@@ -11,14 +11,9 @@ export class UserCreateModal extends Component {
 
   constructor(props) {
     super(props);
-    
     this.state = { showModal: false };
     this.getFormFieldTags();
-    
-    if(this.props.editUser){
-      this.initFieldsForEdit();
     }
-  }
 
   close = () => {
     this.setState({ showModal: false });
@@ -26,6 +21,9 @@ export class UserCreateModal extends Component {
 
   open = () => {
     this.setState({ showModal: true });
+    if(this.props.editing){
+      this.initFieldsForEdit();
+    }
   };
 
   handleAddUser = e => {
@@ -36,8 +34,7 @@ export class UserCreateModal extends Component {
     if(error) return;
     
     fetchUser(email).then(user => {
-        
-        if(this.props.editUser){
+        if(this.props.editing){
           if(user && user.cuid != this.state.userToEdit.cuid){
             this.setState({ error: <FormattedMessage id="userAlreadyExists" values={{user: email}} /> });
           }else{
@@ -58,7 +55,6 @@ export class UserCreateModal extends Component {
 
 
   editUser = () => {
-     
      var editedUser = this.constructUser();
      editedUser.cuid = this.state.userToEdit.cuid;
      
@@ -134,7 +130,7 @@ export class UserCreateModal extends Component {
   };
 
   validatePassword = () => {
-    if(this.props.editUser && this.state.formPassword == "" && this.state.formPassVerify == "" ){
+    if(this.props.editing && this.state.formPassword == "" && this.state.formPassVerify == "" ){
       return true;
     }
     var pass = this.state.formPassword;
@@ -203,7 +199,7 @@ export class UserCreateModal extends Component {
   };
   
   getFormFieldTags = () => {
-    if(this.props.editUser){
+    if(this.props.editing){
       this.state = {
         formTitle: 'editTitle', 
         formButton: 'displayEditModal',
@@ -287,7 +283,7 @@ export class UserCreateModal extends Component {
 }
 
 UserCreateModal.propTypes = {
-  editUser: PropTypes.bool.isRequired,
+  editing: PropTypes.bool.isRequired,
   
 };
 

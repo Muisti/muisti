@@ -94,7 +94,7 @@ export class LoginBox extends Component {
       return (
         <Nav pullLeft>
           <NavDropdown title={(<FormattedMessage id={'logInUser'} values={{user: payload.user + '!'}} />)}>
-            <MenuItem eventKey="1"><UserCreateModal refreshUser={this.refreshUser} editUser={true}/></MenuItem>
+            <MenuItem eventKey="1"><UserCreateModal refreshUser={this.refreshUser} editing={true}/></MenuItem>
           </NavDropdown>
           <Navbar.Form pullLeft>
             <Button href={window.location.pathname != '/' ? '/' : '#'} type="submit" bsStyle="warning" onClick={this.logOut} >
@@ -129,7 +129,7 @@ export class LoginBox extends Component {
               <FormattedMessage id={isLoading ? "loggingIn" : 'logInButton'} />
             </Button>
             {' '}
-            <UserCreateModal refreshUser={this.refreshUser} editUser={false}/>
+            <UserCreateModal refreshUser={this.refreshUser} editing={false}/>
           </form>
         </Navbar.Form>
         <AlertModal message={this.state.alert} />
