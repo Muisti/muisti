@@ -43,6 +43,11 @@ export class LoginBox extends Component {
     this.setState({});
   };
 
+  refreshUser = (user) => {
+    
+    fetchToken(user.email, user.password, this.checkToken);
+  }; 
+
 
   checkToken = (token) => {
       switch (token) {
@@ -88,11 +93,14 @@ export class LoginBox extends Component {
     if (payload) {
       return (
         <Nav pullLeft>
-          <NavItem><FormattedMessage id={'logInUser'} values={{user: payload.user}} /></NavItem>
+          <NavDropdown title={(<FormattedMessage id={'logInUser'} values={{user: payload.user + '!'}} />)}>
+            <MenuItem eventKey="1"><UserCreateModal refreshUser={this.refreshUser} editing={true}/></MenuItem>
+          </NavDropdown>
           <Navbar.Form pullLeft>
             <Button href={window.location.pathname != '/' ? '/' : '#'} type="submit" bsStyle="warning" onClick={this.logOut} >
               <FormattedMessage id={'logOutButton'} />
             </Button>
+          
           </Navbar.Form>
           <AlertModal message={this.state.alert} />
         </Nav>
@@ -121,7 +129,7 @@ export class LoginBox extends Component {
               <FormattedMessage id={isLoading ? "loggingIn" : 'logInButton'} />
             </Button>
             {' '}
-            <UserCreateModal />
+            <UserCreateModal refreshUser={this.refreshUser} editing={false}/>
           </form>
         </Navbar.Form>
         <AlertModal message={this.state.alert} />

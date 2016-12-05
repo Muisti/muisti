@@ -16,13 +16,23 @@ import { Modal, Button, Alert } from 'react-bootstrap';
 export class AlertModal extends Component{
     constructor(props){
         super(props);
-        this.state = { closed: false };
+        this.state = { closed: false, oldMessage: null };
     }
     
     close = () => this.setState({ closed: true });
     
+    update = () =>  {
+
+        if(this.props.message != this.state.oldMessage){
+            this.setState({closed: false, oldMessage: this.props.message});
+
+        }
+
+
+    };
+
     render() {
-        
+      this.update();  
       return (
         <Modal show={this.props.message && !this.state.closed}>
             <Modal.Body>
