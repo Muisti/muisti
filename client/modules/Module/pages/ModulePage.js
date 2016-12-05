@@ -49,6 +49,7 @@ class ModulePage extends Component {
   
   //Sections have to be sorted or edited section would be rendered as last.
   addToState = (newSection) => {
+    console.log("addToStatessa")
     var newSections = [];
     newSections = this.state.sections.filter(sec => sec.cuid !== newSection.cuid);
     newSections.push(newSection);
