@@ -6,7 +6,6 @@ import * as mailer from 'nodemailer';
 
 import { getKey, getEmail, getPassword } from './util.controller'
 
-
 export function addUser(req, res) {
   if (!req.body.user.name || !req.body.user.surname || !req.body.user.email
     || !req.body.user.password ) {

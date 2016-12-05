@@ -13,7 +13,11 @@ export class QuizPanel extends Component {
   }
 
   componentDidMount() {
-    this.setPoints();
+    var quizzes = [];
+    if (this.props.quizzes) { 
+        quizzes = this.props.quizzes;
+    }
+    this.setPoints(quizzes);
   }
 
   countPoints = quiz => {
@@ -44,8 +48,7 @@ export class QuizPanel extends Component {
     </span>);
   };
 
-  setPoints = () => {
-    const quizzes = this.props.quizzes;
+  setPoints = (quizzes) => {
     quizzes.forEach(quiz => {
       if(this.maxPoints(quiz) === quiz.points){
         quiz.options.forEach(option => {
@@ -73,7 +76,7 @@ export class QuizPanel extends Component {
       quiz.feedback = this.quizFeedback(wrongCount, selectedCount);
     });
     sendScoreRequest(this.props.quizzes);
-    this.setPoints();
+    this.setPoints(this.props.quizzes);
   };
 
   calculateQuizIndices = () => {
@@ -100,9 +103,11 @@ export class QuizPanel extends Component {
 
 
   render(){
-    this.calculateQuizIndices();
-    const quizzes = this.props.quizzes;
-
+    var quizzes = []
+    if (this.props.quizzes) {
+      this.calculateQuizIndices();
+      quizzes = this.props.quizzes;
+    }
     return (
       <Panel collapsible header={(
                 <div className='clearfix'><div className={styles.quizPanelHeader}>
@@ -128,7 +133,7 @@ export class QuizPanel extends Component {
 
 
 QuizPanel.propTypes = {
-  quizzes: PropTypes.array.isRequired,
+  quizzes: PropTypes.array,
   deleteQuizRender: PropTypes.func.isRequired,
 };
 
