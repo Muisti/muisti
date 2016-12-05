@@ -8,6 +8,7 @@ import SectionCreateModal from './SectionCreateModal';
 import { getTokenPayload } from '../../../util/authStorage';
 import { show } from '../../../util/styles';
 import { deleteSectionRequest } from '../SectionActions'
+
 import styles from './ModuleList.css';
 
 export class Section extends Component {
@@ -65,7 +66,7 @@ export class Section extends Component {
 
     return (
       <div>
-        <div>{section.content ? section.content : ''}</div>
+        <div className={styles.textarea}>{section.content ? section.content : ''}</div>
         {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
         <div style={show(section.quizzes && section.quizzes.length > 0)}>
           <br />
