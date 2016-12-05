@@ -66,18 +66,22 @@ export async function updateQuiz(req, res) {
   if(!token || !token.isAdmin) return res.status(403).end();
 
   const quiz = req.body.quiz;
-  
-  Quiz.findOne({ cuid: quiz.cuid }).exec((err, q) => {
+
+
+  await Quiz.findOne({ cuid: quiz.cuid }).exec((err, q) => {
     if(err) return res.status(500).send(err);
 
+    if(!q){
+      return res.status(404).end();
+    }  
     if (!areOptionsEqual(q.options, quiz.options)){
       removeScorefromScoresArrays(q.cuid);
     }
 
   });
 
+  await Quiz.update({ cuid: quiz.cuid }, { question: quiz.question, 
 
-  Quiz.update({ cuid: quiz.cuid }, { question: quiz.question, 
     options: quiz.options}, function(err){
       if(err) return res.status(500).send(err);
       

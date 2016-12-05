@@ -52,11 +52,16 @@ export default {
     check: 'Tarkista',
     //Registration and user control
     displayRegisterModal: 'Rekisteröidy',
+    displayEditMenuItem: 'Muuta käyttäjän tietoja',
+    displayEditModal: 'Lähetä muutokset',
     registrationSuccessful_title: 'Rekisteröityminen onnistui!',
     registrationSuccessful_info: 'Vahvistusviesti on lähetetty sähköpostiisi.',
+    editSuccessful: 'Muokkaukset tallennettu!',
+    editFailed: 'Muokkausten tallentaminen epäonnistui!',
     sendConfirmFail: 'Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää'
                         + 'Onko sähköpostiosoitteesi toimiva?',
     registerTitle: "Uuden käyttäjän rekisteröinti",
+    editTitle: "Käyttäjän tietojen hallinta",
     userAlreadyExists: `Käyttäjä {user} on jo olemassa!`,
     emailNotValid: 'Sähköpostiosoitteessa on kirjoitusvirhe!',
     nameNotValid: 'Etunimi tai sukunimi puuttuu.',
