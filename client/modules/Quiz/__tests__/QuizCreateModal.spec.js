@@ -129,7 +129,7 @@ test('Section gives editing quiz to quizcreatemodal', t => {
 });
 
 
-test('Editing sends request with correct quiz cuid', t => {
+test('Editing sends request with correct quiz cuid', async t => {
   const section = {
       cuid: '234342423',
       content: '', title: '', link: '',
@@ -158,6 +158,11 @@ test('Editing sends request with correct quiz cuid', t => {
   wrapper.find('QuizCreateModal').first().props().save(newData);
   t.is(savedQuiz.cuid, section.quizzes[0].cuid);
   t.deepEqual(savedQuiz.options, newData.options);
+  await Promise.resolve();
+  const quizzes = wrapper.instance().props.section.quizzes;
+  t.is(quizzes.length, 1);
+  t.is(quizzes[0].question, 'muokattu kysymys?');
+  t.is(quizzes[0].cuid, section.quizzes[0].cuid);
   wrapper.unmount();
 });
 

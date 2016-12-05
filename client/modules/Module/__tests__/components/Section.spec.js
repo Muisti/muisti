@@ -6,6 +6,7 @@ import { Section } from '../../components/Section';
 import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test-helper';
 import * as moduleActions from '../../ModuleActions';
 import validator from 'validator';
+import * as QuizActions from '../../../Quiz/QuizActions';
 
 const props = {
   section: {
@@ -57,18 +58,21 @@ test('Renders video-filetype correctly', t => {
   t.is(videoRender.type, "video");
 });
 
-test('Add quizzes correctly', t => {
+test('Add quizzes correctly', async t => {
+  const stub = sinon.stub(QuizActions, 'addQuizRequest', q => Promise.resolve(q));
   const wrapper = shallowWithIntl(
     <Section {...props} />
   );
-
+  
   const quiz = { sectionCuid: 'cuid142', cuid: 'quizcuid22', question: 'What animal?', options: [{ text: 'Lion', answer: true }, {text: 'Cow', answer: false}] };
 
   let instance = wrapper.instance();
   t.is(instance.props.section.quizzes.length, 1);
 
   instance.addQuiz(quiz);
+  await Promise.resolve();
   t.is(instance.props.section.quizzes.length, 2);
+  
 });
 
 test('Delete quizzes correctly', t => {
