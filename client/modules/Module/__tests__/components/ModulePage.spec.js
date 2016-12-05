@@ -90,7 +90,6 @@ test('handleEditSection calls editSectionRequest', t => {
     const wrapper = shallowWithIntl(
             <ModulePage />
     );
-    console.log("testissä");
     var instance = wrapper.instance();
     var stub2 = sinon.stub(instance, 'addToState');
 
@@ -102,7 +101,6 @@ test('handleEditSection calls editSectionRequest', t => {
     t.truthy(stub.calledOnce);
     stub.restore();
     stub2.restore();
-    console.log("testi ohi");
 });
 
 test('addToState adds new section', t => {
