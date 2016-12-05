@@ -52,7 +52,7 @@ test('ModulePage with no sections', t => {
 
 });
 
-test('Adds new sections', t => {
+test('handleAddSection calls addSectionRequest', t => {
     const module = {title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12'};
     const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
 
@@ -62,24 +62,84 @@ test('Adds new sections', t => {
     const wrapper = shallowWithIntl(
             <ModulePage />
     );
+    var instance = wrapper.instance();
+
+    wrapper.setState({module: {module}});
+    instance.handleAddSection(section);
+    
+    t.truthy(stub.calledOnce);
+    stub.restore();
+});
+
+test('handleEditSection calls editSectionRequest', t => {
+    const module = {title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12'};
+    const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
+
+    var stub = sinon.stub(sectionActions, 'editSectionRequest');
+    const wrapper = shallowWithIntl(
+            <ModulePage />
+    );
+    var instance = wrapper.instance();
+    var stub2 = sinon.stub(instance, 'addToState');
+
+    wrapper.setState({module: {module}});
+    
+    instance.handleEditSection(section)(module.title,"","");
+    
+    t.truthy(stub2.calledOnce);
+    t.truthy(stub.calledOnce);
+    stub.restore();
+    stub2.restore();
+});
+
+test('addToState adds new section', t => {
+    const module = {title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12'};
+    const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
+
+    const wrapper = shallowWithIntl(
+            <ModulePage />
+    );
+    var instance = wrapper.instance();
 
     wrapper.setState({module: {module}});
 
     t.is(wrapper.state().sections.length, 0);
-
-    var instance = wrapper.instance();
-    instance.handleAddSection(section);
     
-    t.truthy(stub.calledOnce);
+    instance.addToState(section);
 
     t.is(wrapper.state().sections.length, 1);
+});
+
+test('addToState edits a section', t => {
+    const module = {title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12'};
+    const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
+
+    const wrapper = shallowWithIntl(
+            <ModulePage />
+    );
+    var instance = wrapper.instance();
+
+    wrapper.setState({module: {module}});
+    instance.addToState(section);
+
+    t.is(wrapper.state().sections.length, 1);
+    
+    const title = wrapper.state().sections[0];
+    
+    var editedSection = {title: 'Otsikko', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'}
+    
+    instance.addToState(editedSection);
+    
+    t.is(wrapper.state().sections.length, 1);
+    
+    t.is(wrapper.state().sections[0].title, editedSection.title);
 });
 
 test('Delete sections correctly', t => {
     const module = {title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12'};
     const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
 
-    var stub = sinon.stub(sectionActions, 'addSectionRequest');
+    var stub = sinon.stub(sectionActions, 'deleteSectionRequest');
     stub.returns(Promise.resolve(section));
 
     const wrapper = shallowWithIntl(
@@ -89,10 +149,12 @@ test('Delete sections correctly', t => {
     wrapper.setState({module: {module}});
 
     let instance = wrapper.instance();
-    instance.handleAddSection(section);
+    instance.addToState(section);
     t.is(wrapper.state().sections.length, 1);
 
     instance.handleDeleteSection(section);
     t.is(wrapper.state().sections.length, 0);
+    
+    stub.restore();
 });
 

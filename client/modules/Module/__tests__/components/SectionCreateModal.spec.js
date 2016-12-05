@@ -43,7 +43,7 @@ test('sendSection does not add section if content empty', t => {
 });
 
 
-test('sendSection calls addSectionRequest', t => {
+test('sendSection calls addSection', t => {
     var stub = sinon.stub(props, 'addSection');
     
     const wrapper = shallowWithIntl(
@@ -58,6 +58,28 @@ test('sendSection calls addSectionRequest', t => {
     t.truthy(stub.calledOnce);
     stub.restore();
 
+});
+
+test('sendSection calls editSection', t => {
+    var props2 = {
+        moduleCuid: 'cuid12',
+        orderNumber: 1,
+        addSection: () => {},
+        editSection: () => {}
+    };
+    var stub = sinon.stub(props2, 'editSection');
+    
+    const wrapper = shallowWithIntl(
+            <SectionCreateModal {...props2} />
+    );
+    var instance = wrapper.instance();
+    
+    instance.setState({formContent: "content!"});
+    
+    instance.sendSection();
+    
+    t.truthy(stub.calledOnce);
+    stub.restore();
 });
 
 test('if link not valid does not add section', t => {
