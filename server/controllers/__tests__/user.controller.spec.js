@@ -21,23 +21,15 @@ test.beforeEach.serial('connect and add tree users', t => {
     emailStub.returns('sahkoposti@gmail.com');
     passStub.returns("salis");
   } catch (e) {}
-  connectDB(t, () => {
-    User.create(confirmedUser, err => {
-      if (err) t.fail('Unable to create users');
-    });
-  });
-});
-
-test.afterEach.always.serial(t => {
-  dropDB(t, () => {
-    return;
-  });
+  
 });
 
 
 test.serial('Creating user generates confirmation code', async t => {
-  t.plan(1);
+  await data ();
 
+  t.plan(1);
+  
   const res = await request(app)
     .post('/api/users')
     .send( { user: { name: 'New', surname: 'One', email: 'a@ab.fi', password: 'testing45' } } )
@@ -45,10 +37,14 @@ test.serial('Creating user generates confirmation code', async t => {
 
   const savedUser = await User.findOne({ surname: 'One' }).exec(); 
   t.truthy(savedUser.confirmation.length > 20);
+
+  await drop();
 });
 
 
 test.serial('Cannot login without confirmation', async t => {
+ await data ();
+ 
  const user = { name: 'New', surname: 'One', email: 'a@ab.fi', password: 'testing45' };
 
   const res = await request(app)
@@ -61,10 +57,14 @@ test.serial('Cannot login without confirmation', async t => {
     .set('Accept', 'application/json');
     
   t.is(confirm.body.token, "notConfirmed");
+
+  await drop();
 });
 
 
 test.serial('Login with confirmed user', async t => {
+ await data ();
+
  const user = { name: 'New', surname: 'One', email: 'a@ab.fi', password: 'testing45' };
 
   const res = await request(app)
@@ -82,10 +82,14 @@ test.serial('Login with confirmed user', async t => {
     .set('Accept', 'application/json');
     
   t.truthy(confirm.body.token.startsWith("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9."));
+
+  await drop();
 });
 
 
 test.serial('Confirmation with generated code', async t => {
+ await data ();
+
  const user = { name: 'New', surname: 'One', email: 'a@ab.fi', password: 'testing45' };
 
   const res = await request(app)
@@ -107,4 +111,45 @@ test.serial('Confirmation with generated code', async t => {
   const savedUser = await User.findOne({ name: 'New' }).exec();
   
   t.is(savedUser.confirmation, "confirmed");
+
+  await drop();
 });
+ 
+test.serial('User can edit userFields', async t => {
+    await data ();
+
+    var us = await User.find({}).exec();
+
+    
+
+    const user = new User(
+      { name: 'pete', surname: 'Puntch', email: 'a@aa.fi', 
+        password: 'newtesting12', cuid: 'f34gb2bh24b24b2', 
+        confirmation: "confirmed" 
+      });
+
+    const res = await request(app)
+        .put('/api/users/')
+        .set('Accept','application/json')
+        .send({user});
+
+    t.is(res.status, 200);
+
+  const dbUser = await User.findOne({cuid: user.cuid}).exec();
+  t.is(dbUser.name, user.name); 
+  t.is(dbUser.surname, user.surname);
+  t.is(dbUser.password, user.password);
+
+  await drop();
+});
+
+let data = async () => {
+  await Promise.all(confirmedUser.map(user => {
+    
+    return new User(user).save();
+  }));
+};
+
+let drop = async () => {
+  await User.remove({}).exec();
+};

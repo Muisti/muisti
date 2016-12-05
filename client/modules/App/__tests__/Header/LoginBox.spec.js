@@ -26,7 +26,7 @@ test('renders properly when logged in', t => {
     );
    
     t.is(wrapper.find('Button').length, 1);
-    t.is(wrapper.find('UserCreateModal').length, 0)
+    t.is(wrapper.find('FormGroup').length, 0)
     
     stub.restore();
 });
