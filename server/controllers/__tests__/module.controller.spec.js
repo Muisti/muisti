@@ -16,20 +16,16 @@ const modules = [
   new Module ({ title: 'Neljäs testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 4, cuid: 'f34gb2bh24b24b4' }),
   new Module ({ title: 'Toinen testimoduuli', info: 'toisen esittelytekstiä', orderNumber: 2, cuid: 'f34gb2bh24b24b5' })
 ];
-
-test.beforeEach.serial('connect and add', t => {
-  connectDB(t, () => {
-    Module.create(modules, err => {
-      if (err) t.fail('Unable to create users');
-    });
-  });
-});
-
-test.afterEach.always.serial(t => {
-  dropDB(t, () => {
-    return;
-  });
-});
+//
+//test.beforeEach.serial('connect and add', t => {
+//  connectDB(t, () => {});
+//});
+//
+//test.afterEach.always.serial(t => {
+//  dropDB(t, () => {
+//    return;
+//  });
+//}); 
 
 test.serial('Should correctly give number of modules and sorts them correctly', async t => {
   await data();
