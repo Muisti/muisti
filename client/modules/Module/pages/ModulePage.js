@@ -23,7 +23,6 @@ class ModulePage extends Component {
   }
 
   /*
-   * Gets the module with title then
    * gets all sections associated the module then
    * gets the scores for all sections then
    * goes through all quizzes within sections and lastly

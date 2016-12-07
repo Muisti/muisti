@@ -115,6 +115,12 @@ class PostListPage extends Component {
             );
   };
 
+  /*
+    Function that is given to all children as a prop, so that
+    they could update main page render function (ergo give new 
+    view element to their parent). 
+  */  
+
   addToElementFunctionsArray = (elementFunction = null) => {
     
     if(!elementFunction){
@@ -126,6 +132,10 @@ class PostListPage extends Component {
                      
 };
 
+  /*
+    Creates component view from element functions to be given 
+    to render function. 
+  */
 
   putElementsInRenderArray = () => {
       this.renderElements = [];
@@ -133,7 +143,6 @@ class PostListPage extends Component {
       
       this.state.renderFunctionsArray.some(f => {
         element = f();
-        console.log(element.length);
         if(element.length){
           this.renderElements = element;
         }else {
@@ -146,7 +155,7 @@ class PostListPage extends Component {
  
 
   render() {
-    console.log(this.renderElements[0]);
+
     this.putElementsInRenderArray(); 
      
     return (

@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 import { getTokenPayload } from '../../../util/authStorage';
 import { deleteModuleRequest } from '../ModuleActions';
 import ModulePage from '../pages/ModulePage'
-import { Col } from 'react-bootstrap';
+import { Col, Fade } from 'react-bootstrap';
 
 
 export class ModuleListItem extends Component {
