@@ -63,6 +63,7 @@ export function fetchPosts() {
   return (dispatch) => {
     return callApi('posts', 'get').then(res => {
       dispatch(addPosts(res.posts));
+      return res.posts;
     });
   };
 }
