@@ -15,8 +15,8 @@ import styles from './ModuleList.css';
 
 export class ModuleListItem extends Component {
   constructor(props){
-    super(props)
-    this.state = { module: this.props.module }
+    super(props);
+    this.state = { module: this.props.module };
   }
   
   modulePageElement = () => {
@@ -26,7 +26,7 @@ export class ModuleListItem extends Component {
   render() {
     return (
       <div>
-        <div className={styles.textarea}>{props.module.info}</div>
+        <div className={styles.textarea}>{this.props.module.info}</div>
         <Button onClick={()=> this.props.addElementFunctionToMainview(this.modulePageElement)}
         className={ getTokenPayload() ? 'btn btn-default pull-right' : 'hidden' } >
                 <FormattedMessage id={'submitGo'} />&rarr;

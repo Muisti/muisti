@@ -29,7 +29,7 @@ class ModulePage extends Component {
    * set the quiz points as they're saved inside scores
    */
   componentWillMount() {
-    
+      console.log("componentWillMountissa Modulepagella");
       fetchSections(this.props.module.cuid)
         .then(sections => fetchScores()
           .then(scoreboard => {
@@ -42,7 +42,6 @@ class ModulePage extends Component {
                 })
               );
             }
-           
             this.setState({ sections });
           }));
   }
