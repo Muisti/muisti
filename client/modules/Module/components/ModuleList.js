@@ -61,7 +61,7 @@ export class ModuleList extends Component {
         <div className={styles['panel-heading']}>
           {module.title}
           {this.panelEditButtonForAdmin(module, index)}
-          {this.panelDeleteButtonForAdmin(module)}
+          {this.panelDeleteButtonForAdmin(module, index)}
         </div>
       </div>
     );
@@ -70,26 +70,34 @@ export class ModuleList extends Component {
   panelEditButtonForAdmin = (module, index) => {
     if (getTokenPayload() && getTokenPayload().isAdmin) {
       return (
-        <Button className="pull-right" bsStyle="warning" bsSize="xsmall" onClick={() => this.showEditModule(module, index)}>
+        <Button className="pull-right" bsStyle="warning" bsSize="xsmall" onClick={this.showEditModule(module, index)}>
           Muokkaa Modulea
         </Button>
       )
     }
   }
 
-  panelDeleteButtonForAdmin = (module) => {
+  panelDeleteButtonForAdmin = (module, index) => {
     if (getTokenPayload() && getTokenPayload().isAdmin) {
       return (
-        <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteModule(module)}>
+        <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={this.handleDeleteModule(module, index)}>
           Poista Module
         </Button>
       );
     }
   };
   
-  showEditModule = (module, index) => {
-      this.setState({ editing: index });
-  }
+  updateSelection = index => {
+      const nextOpen = (this.state.open === index) ? null : index;
+      this.state = {...this.state, open: nextOpen};
+  };
+  
+  showEditModule = (module, index) => e => {
+      if(this.state.open === index && this.state.editing !== index){ 
+          e.stopPropagation();
+      }
+      this.setState({ editing: index }); 
+  };
   
   handleEditModule = (module) => (title, info) => {
       module.info = info;
@@ -97,9 +105,11 @@ export class ModuleList extends Component {
       editModuleRequest(module).then(this.setState({ editing: -1 }));
   };
 
-  handleDeleteModule = (module) => {
+  handleDeleteModule = (module, index) => e => {
+     if(this.state.open !== index){ e.stopPropagation(); }
 //   if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
-     deleteModuleRequest(module.cuid).then(this.setState({ modules: this.state.modules.filter(mod => mod.cuid !== module.cuid) }));
+     deleteModuleRequest(module.cuid)
+        .then(() => this.setState({ modules: this.state.modules.filter(mod => mod.cuid !== module.cuid) }));
 //  }
   };
 
@@ -107,7 +117,7 @@ export class ModuleList extends Component {
     var i = 0;
     return (
       
-      <Accordion>
+      <Accordion onSelect={this.updateSelection} >
         {this.state.modules.map(module => (
           <Panel header={this.panelHeader(module, ++i)} eventKey={i} key={i}>
             <div style={show( i===this.state.editing)}>

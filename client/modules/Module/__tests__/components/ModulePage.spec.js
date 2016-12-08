@@ -150,6 +150,7 @@ test('Delete sections correctly', t => {
 
     var stub = sinon.stub(sectionActions, 'deleteSectionRequest');
     stub.returns(Promise.resolve(section));
+    var event = {stopPropagation: () => {}};
 
     const wrapper = shallowWithIntl(
             <ModulePage module={modules[0]}/>
@@ -161,7 +162,7 @@ test('Delete sections correctly', t => {
     instance.addToState(section);
     t.is(wrapper.state().sections.length, 1);
 
-    instance.handleDeleteSection(section);
+    instance.handleDeleteSection(section, 1)(event);
     t.is(wrapper.state().sections.length, 0);
     
     stub.restore();
