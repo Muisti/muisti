@@ -10,6 +10,13 @@ import { fetchModules, addModuleRequest, deleteModuleRequest, editModuleRequest 
 
 import styles from './ModuleList.css';
 
+/*
+ * ModuleList is a list of ModuleListItems. It takes care of adding, editing and
+ * removing ModuleListItems from it's array and sending it to the db.
+ * 
+ * Contains ModuleListItems to list them and ModuleCreateWidget to create and edit the Items
+ */
+
 export class ModuleList extends Component {
 
   constructor() {

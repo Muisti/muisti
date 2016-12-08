@@ -7,8 +7,15 @@ import { deleteModuleRequest } from '../ModuleActions';
 import ModulePage from '../pages/ModulePage';
 import styles from './ModuleList.css';
 
+/*
+ * ModuleListItem is a single module in the list of modules.
+ * ModuleListItem is rendered when the user clicks on the header of a panel
+ * which is located in ModuleList.js
+ */
+
 function ModuleListItem(props) {
   var toAddress = encodeURI(props.module.title);
+  //Take the last 3 symbols of cuid and add them to the link.
   toAddress += '-' + props.module.cuid.slice(-3);
   return (
     <div>

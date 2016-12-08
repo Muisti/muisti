@@ -12,6 +12,13 @@ import { deleteSectionRequest } from '../SectionActions'
 import styles from './ModuleList.css';
 import { addQuizRequest, editQuizRequest } from '../../Quiz/QuizActions';
 
+/*
+ * Sections are displayed inside ModulePage in a list. Sections contain quizzes 
+ * and can edit, create and delete them.
+ * 
+ * Contains QuizPanels to list them and QuizCreateModal to create and edit quizzes.
+ */
+
 export class Section extends Component {
 
   constructor(props){
