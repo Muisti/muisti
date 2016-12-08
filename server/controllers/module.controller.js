@@ -12,8 +12,10 @@ export function getModules(req, res) {
 }
 
 export function getModule(req, res) {
-  const decoded = decodeURI(req.params.title);
-  Module.findOne({ title: decoded }).exec((err, module) => {
+  const decoded = decodeURI(req.params.title).split("-");
+  console.log(decoded[1]);
+  Module.findOne({ title: decoded[0], cuid: new RegExp(decoded[1]+'$', 'i') }).exec((err, module) => {
+    console.log(module);
     if (err) {
       return res.status(500).send(err);
     }
