@@ -76,11 +76,12 @@ test('Delete module correctly', t => {
     <ModuleList />
   );
 
+  const event = { stopPropagation: () => {} };
   var instance = wrapper.instance();
   var stub = sinon.stub(moduleActions, 'deleteModuleRequest');
   stub.returns(Promise.resolve({module}));
 
-  instance.handleDeleteModule(module);
+  instance.handleDeleteModule(module, 1)(event);
 
   t.truthy(stub.calledOnce);
   stub.restore();
