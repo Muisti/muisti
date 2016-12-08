@@ -33,7 +33,7 @@ export class UserCreateModal extends Component {
           if(user && user.cuid != this.state.userToEdit.cuid){
             this.setState({ error: <FormattedMessage id="userAlreadyExists" values={{user: email}} /> });
           }else{
-          this.editUser();
+            this.editUser();
           }
         }
         else{

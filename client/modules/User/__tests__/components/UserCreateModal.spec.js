@@ -15,7 +15,7 @@ test('renders properly', t => {
 
   t.is(wrapper.find('span').length, 1);
   t.is(wrapper.find('FormGroup').length, 5);
-  t.is(wrapper.find('Button').length, 3);
+  t.is(wrapper.find('Button').length, 2);
 
 });
 
@@ -99,25 +99,20 @@ test('user can see user information', t => {
 
 
 test('editUser gets called', async t => {
-
  const wrapper = shallowWithIntl(
-    <UserCreateModal editing={true}/>
+    <UserCreateModal close={() => {}}/>
   );
-
   var instance = wrapper.instance();
   
   wrapper.setState({formEmail: 'a@a.aa', formName: 'aaa' , 
-                    formSurname: 'bbb', formPassword: "", formPassVerify: ""});
-
-  
+                    formSurname: 'bbb', formPassword: "", formPassVerify: "",
+                    editing: true});
 
   var stub = sinon.stub(instance, 'editUser');
-  
 
   var stub2 = sinon.stub(userActions, 'fetchUser');
   
   stub2.returns(Promise.resolve(null));
-
 
   instance.handleAddUser(null);
   
