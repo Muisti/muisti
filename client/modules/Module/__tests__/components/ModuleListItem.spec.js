@@ -12,5 +12,5 @@ test('renders properly', t => {
     <ModuleListItem module={modules[0]} />
   );
 
-  t.is(wrapper.find('div').length, 1);
+  t.is(wrapper.find('div').length, 2);
 });
