@@ -101,7 +101,6 @@ export class QuizPanel extends Component {
     //   }
   };
 
-
   render(){
     var quizzes = []
     if (this.props.quizzes) {
@@ -123,6 +122,7 @@ export class QuizPanel extends Component {
             key={key}
             quiz={quiz}
             onDelete={this.handleDeleteQuiz}
+            onEdit={this.props.handleEditQuiz}
           />)}
         {this.renderProgressBar()}
         <Button onClick={this.verifyAnswers}><FormattedMessage id={'check'} /></Button>
@@ -135,6 +135,7 @@ export class QuizPanel extends Component {
 QuizPanel.propTypes = {
   quizzes: PropTypes.array,
   deleteQuizRender: PropTypes.func.isRequired,
+  handleEditQuiz: PropTypes.func.isRequired,
 };
 
 export default injectIntl(QuizPanel);

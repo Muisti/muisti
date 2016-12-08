@@ -10,11 +10,13 @@ import { show } from '../../../util/styles';
 import { deleteSectionRequest } from '../SectionActions'
 
 import styles from './ModuleList.css';
+import { addQuizRequest, editQuizRequest } from '../../Quiz/QuizActions';
 
 export class Section extends Component {
 
   constructor(props){
     super(props);
+    this.state = { showEditModal: false, editingQuiz: {} };
   }
 
   checkMultimediaFileType = (link) => {
@@ -50,15 +52,52 @@ export class Section extends Component {
       return ( <div> Filetype not supported!</div> );
     }
   };
+  
+  startEditingQuiz = quiz => {
+      this.setState({ editingQuiz: quiz, showEditModal: true });
+  };
 
-  addQuiz = (quiz) => {
-    this.props.section.quizzes.push(quiz); this.setState({});
+  startCreatingQuiz = () => this.startEditingQuiz({
+      question: '',
+      options: [{text: '', answer: false}]
+  });
+
+  saveQuiz = quiz => {
+    const isNewQuiz = !this.state.editingQuiz.cuid;
+    if(isNewQuiz){
+        this.addQuiz(quiz);
+    }else{
+        this.updateQuiz(quiz);
+    }
+  };
+
+  updateQuiz = quiz => {
+    quiz.cuid = this.state.editingQuiz.cuid;
+    editQuizRequest(quiz).then(() => {
+        const oldQuiz = this.state.editingQuiz;
+        if(oldQuiz){
+            oldQuiz.question = quiz.question;
+            oldQuiz.options = quiz.options;
+        }
+        this.setState({ showEditModal: false });
+      });
+  };
+
+  addQuiz = quiz => {
+    quiz.sectionCuid = this.props.section.cuid;
+    addQuizRequest(quiz).then(savedQuiz => {
+        this.props.section.quizzes.push(savedQuiz); 
+        this.setState({ showEditModal: false });
+    });
   };
 
   deleteQuiz = (quiz) => {
     this.props.section.quizzes = this.props.section.quizzes.filter(qu => qu.cuid !== quiz.cuid);
     this.setState({});
   };
+  
+  cancelEdit = () => this.setState({ showEditModal: false });
+  
 
   render(){
     var section = this.props.section;
@@ -70,10 +109,15 @@ export class Section extends Component {
         {section.link ? this.renderMultimediaFileType(this.checkMultimediaFileType(section.link), section) : ''}
         <div style={show(section.quizzes && section.quizzes.length > 0)}>
           <br />
-          <QuizPanel quizzes={section.quizzes} deleteQuizRender={this.deleteQuiz} />
+          <QuizPanel quizzes={section.quizzes}
+                deleteQuizRender={this.deleteQuiz} handleEditQuiz={this.startEditingQuiz} />
         </div>
         <div style={show(token && token.isAdmin)}>
-          <QuizCreateModal addQuiz={this.addQuiz} sectionCuid={section.cuid} />
+          <Button onClick={this.startCreatingQuiz} bsStyle="primary">
+                <FormattedMessage id='addQuiz' />
+          </Button>
+          <QuizCreateModal quiz={this.state.editingQuiz} cancel={this.cancelEdit} 
+                  save={this.saveQuiz} show={this.state.showEditModal}/>
         </div>
       </div>
     );

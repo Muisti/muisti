@@ -7,6 +7,8 @@ router.route('/users').post(UserController.addUser);
 
 router.route('/users').get(UserController.getUsers);
 
+router.route('/users').put(UserController.updateUser);
+
 router.route('/users/:email').get(UserController.getUser);
 
 router.route('/user/:cuid').get(UserController.getUserByCuid);

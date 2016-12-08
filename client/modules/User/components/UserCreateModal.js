@@ -2,15 +2,18 @@ import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Alert, Button, Modal, Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import * as bcrypt from 'bcryptjs';
-import {addUserRequest, fetchUser} from '../UserActions'
+import {addUserRequest, fetchUser, fetchUserByCuid, editUserRequest} from '../UserActions'
 import AlertModal, { basicAlert } from '../../App/components/AlertModal';
+import {getToken, getTokenPayload} from '../../../util/authStorage'
+import sanitizeHtml from 'sanitize-html';
 
 export class UserCreateModal extends Component {
 
   constructor(props) {
     super(props);
     this.state = { showModal: false };
-  }
+    this.getFormFieldTags();
+    }
 
   close = () => {
     this.setState({ showModal: false });
@@ -18,6 +21,9 @@ export class UserCreateModal extends Component {
 
   open = () => {
     this.setState({ showModal: true });
+    if(this.props.editing){
+      this.initFieldsForEdit();
+    }
   };
 
   handleAddUser = e => {
@@ -26,14 +32,51 @@ export class UserCreateModal extends Component {
     const error = this.validate();
     this.setState({ error });
     if(error) return;
+    
     fetchUser(email).then(user => {
-        if(!user){
-          this.createUser();
-        }else{
-          this.setState({ error: <FormattedMessage id="userAlreadyExists" values={{user: email}} /> });
+        if(this.props.editing){
+          if(user && user.cuid != this.state.userToEdit.cuid){
+            this.setState({ error: <FormattedMessage id="userAlreadyExists" values={{user: email}} /> });
+          }else{
+          this.editUser();
+          }
+        }
+        else{
+          if(!user){
+            this.createUser();
+          }else{
+            this.setState({ error: <FormattedMessage id="userAlreadyExists" values={{user: email}} /> });
+          }
         }
       });
   };
+
+  
+
+
+  editUser = () => {
+     var editedUser = this.constructUser();
+     editedUser.cuid = this.state.userToEdit.cuid;
+     
+     if(this.state.formPassword == ""){
+      editedUser.password = sanitizeHtml(this.state.userToEdit.password);
+     }
+
+     editUserRequest(editedUser).then(user => {
+      if(user){
+          this.close();
+          this.setState({ alert:
+            basicAlert((<FormattedMessage id="editSuccessful" />)
+                       )});
+          this.props.refreshUser(user);
+          this.initFieldsForEdit();
+        }else{
+            this.setState({ error: (<FormattedMessage id="editFailed" />) });
+        }
+     });
+
+  };
+
 
   createUser = () => {
     const state = this.state;
@@ -87,6 +130,9 @@ export class UserCreateModal extends Component {
   };
 
   validatePassword = () => {
+    if(this.props.editing && this.state.formPassword == "" && this.state.formPassVerify == "" ){
+      return true;
+    }
     var pass = this.state.formPassword;
     var verifier = this.state.formPassVerify;
     if (pass.length < 8 || pass.length > 18 || pass != verifier) {
@@ -141,6 +187,37 @@ export class UserCreateModal extends Component {
     }
   };
 
+  initFieldsForEdit = () => {
+    
+    var userToken = getTokenPayload();
+    
+    fetchUserByCuid( userToken.cuid ).then(user => {
+      this.setState({formEmail: user.email, formName: user.name, 
+                    formSurname: user.surname, formPassword: "", formPassVerify: ""})
+      this.setState({userToEdit: user});
+    });
+  };
+  
+  getFormFieldTags = () => {
+    if(this.props.editing){
+      this.state = {
+        formTitle: 'editTitle', 
+        formButton: 'displayEditModal',
+        openButton:'displayEditMenuItem',
+        openButtonStyle:'link' 
+      }
+    }
+    else { 
+      this.state = {
+      formTitle: 'registerTitle', 
+      formButton: 'displayRegisterModal',
+      openButton:'displayRegisterModal',
+      openButtonStyle: 'primary'
+     }
+    }
+  }; 
+  
+
   registerField = (controlId, type, placeholder) => {
     var key = controlId;
     if(this.state[key] === undefined){
@@ -162,29 +239,31 @@ export class UserCreateModal extends Component {
     );
   };
 
+  
+
 
   render() {
-
+    
+    
     return (
       <span>
-        <Button onClick={this.open} bsStyle="primary"><FormattedMessage id='displayRegisterModal' /> </Button>
+        <Button onClick={this.open} bsStyle={this.state.openButtonStyle}><FormattedMessage id={this.state.openButton} /> </Button>
 
         <Modal show={this.state.showModal} onHide={this.close}>
-          <form>
+          
           <Modal.Header closeButton>
-            <Modal.Title><FormattedMessage id='registerTitle' /></Modal.Title>
+            <Modal.Title><FormattedMessage id={this.state.formTitle} /></Modal.Title>
           </Modal.Header>
-
+          <Form onSubmit={this.handleAddUser} horizontal>
           <Modal.Body>
-            <Form horizontal>
+            
               {this.registerField('formEmail', "email", 'matti.meikalainen@gmail.com')}
               {this.registerField('formName', "text", 'Matti')}
               {this.registerField('formSurname', "text", 'Meikäläinen')}
               {this.registerField('formPassword',  "password", 'Salasana')}
               {this.registerField('formPassVerify', "password", 'Salasana')}
-
-              <Button type="submit" className='hidden' onClick={this.handleAddUser} />
-            </Form>
+              
+           
             <div className={this.state.error ? '' : 'hidden'}>
                 <Alert bsStyle="warning">
                     <b>{this.state.error}</b>
@@ -192,10 +271,10 @@ export class UserCreateModal extends Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button type="submit" bsStyle="primary" onClick={this.handleAddUser}><FormattedMessage id='displayRegisterModal' /></Button>
+            <Button type="submit" bsStyle="primary" ><FormattedMessage id={this.state.formButton} /></Button>
             <Button onClick={this.close}><FormattedMessage id='cancel' /></Button>
           </Modal.Footer>
-          </form>
+          </Form>
         </Modal>
         <AlertModal message={this.state.alert} />
       </span>
@@ -204,7 +283,8 @@ export class UserCreateModal extends Component {
 }
 
 UserCreateModal.propTypes = {
-
+  editing: PropTypes.bool.isRequired,
+  
 };
 
 export default UserCreateModal;

@@ -18,7 +18,7 @@ test('QuizPanelItem renders properly', t => {
 
   t.is(wrapper.find('div').length, 6);
   t.is(wrapper.find('span').length, 6);
-  t.is(wrapper.find('Button').length, 1);
+  t.is(wrapper.find('Button').length, 2);
   t.is(wrapper.find('QuizItemOption').length, quiz.options.length);
   wrapper.unmount();
 });

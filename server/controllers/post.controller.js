@@ -10,6 +10,7 @@ let userToCuids = {};
 //get all shared posts and own posts
 
 export async function getPosts(req, res) {
+  userToCuids = {};
   let token = await decodeTokenFromRequest(req);
   let userCuid = token ? token.cuid : "not user";
 

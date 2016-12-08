@@ -48,9 +48,9 @@ export async function deleteQuiz(req, res) {
   if(!token || !token.isAdmin) return res.status(403).end();
 
   Quiz.findOne({ cuid: req.params.cuid }).exec((err, quiz) => {
-    if(err){
+    if (err){
       return res.status(500).send(err);
-    }else if(!quiz){
+    } else if (!quiz){
       return res.status(404).end();
     }
     return quiz.remove(() => res.status(200).end());
@@ -67,17 +67,19 @@ export async function updateQuiz(req, res) {
 
   const quiz = req.body.quiz;
 
-  Quiz.findOne({ cuid: quiz.cuid }).exec((err, q) => {
-    if(err) return res.status(500).send(err);
 
+  await Quiz.findOne({ cuid: quiz.cuid }).exec((err, q) => {
+    if(err) return res.status(500).send(err);
+    if(!q){
+      return res.status(404).end();
+    }
     if (!areOptionsEqual(q.options, quiz.options)){
       removeScorefromScoresArrays(q.cuid);
     }
 
   });
 
-
-  Quiz.update({ cuid: quiz.cuid }, { question: quiz.question, 
+  await Quiz.update({ cuid: quiz.cuid }, { question: quiz.question, 
     options: quiz.options}, function(err){
       if(err) return res.status(500).send(err);
       
@@ -88,15 +90,13 @@ export async function updateQuiz(req, res) {
 
 
 function areOptionsEqual(arr1, arr2){
-
-  if(arr1.length != arr2.length)
+  if(arr1.length != arr2.length) {
     return false;
-
-
-    if(arr1.find(obj => 
+  } 
+  if(arr1.find(obj => 
       !arr2.find(obj2 => 
-        obj.text === obj2.text && obj.answer === obj2.answer )))
+        obj.text === obj2.text && obj.answer === obj2.answer ))) {
       return false;
-  
+  }
   return true;
 }
