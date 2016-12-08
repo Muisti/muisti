@@ -22,13 +22,9 @@ export class AlertModal extends Component{
     close = () => this.setState({ closed: true });
     
     update = () =>  {
-
         if(this.props.message != this.state.oldMessage){
-            this.setState({closed: false, oldMessage: this.props.message});
-
+            this.state = { closed: false, oldMessage: this.props.message };
         }
-
-
     };
 
     render() {

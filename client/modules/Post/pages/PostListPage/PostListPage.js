@@ -136,7 +136,6 @@ class PostListPage extends Component {
     Creates component view from element functions to be given 
     to render function. 
   */
-
   putElementsInRenderArray = () => {
       this.renderElements = [];
       var element;

@@ -13,7 +13,7 @@ test('renders properly', t => {
   );
   
   t.is(wrapper.find('FormGroup').length, 2);
-  t.is(wrapper.find('Button').length, 1);
+  t.is(wrapper.find('Button').length, 2);
   t.is(wrapper.find('UserCreateModal').length, 1);
 });
 
@@ -25,7 +25,7 @@ test('renders properly when logged in', t => {
      <LoginBox />
     );
    
-    t.is(wrapper.find('Button').length, 1);
+    t.is(wrapper.find('Button').length, 2);
     t.is(wrapper.find('FormGroup').length, 0)
     
     stub.restore();

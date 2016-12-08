@@ -10,19 +10,19 @@ import* as authStorage from '../../../../util/authStorage'
 
 test('renders properly', t => {
   const wrapper = shallowWithIntl(
-    <UserCreateModal editing={false}/>
+    <UserCreateModal close={() => {}}/>
   );
 
   t.is(wrapper.find('span').length, 1);
   t.is(wrapper.find('FormGroup').length, 5);
-  t.is(wrapper.find('Button').length, 3);
+  t.is(wrapper.find('Button').length, 2);
 
 });
 
 test('returns errors correctly', t => {
 
   const wrapper = shallowWithIntl(
-    <UserCreateModal editing={false}/>
+    <UserCreateModal close={() => {}}/>
   );
 
   var instance = wrapper.instance();
@@ -55,7 +55,7 @@ test('returns errors correctly', t => {
 
 test('return correct colors', t => {
   const wrapper = shallowWithIntl(
-    <UserCreateModal editing={false}/>
+    <UserCreateModal close={() => {}}/>
   );
 
   let instance = wrapper.instance();
@@ -79,7 +79,7 @@ test('return correct colors', t => {
 
 test('user can see user information', t => {
   const wrapper = shallowWithIntl(
-    <UserCreateModal editing={true}/>
+    <UserCreateModal close={() => {}}/>
   );
 
   var stub = sinon.stub(userActions, 'fetchUserByCuid');
@@ -99,33 +99,30 @@ test('user can see user information', t => {
 
 
 test('editUser gets called', async t => {
-
  const wrapper = shallowWithIntl(
-    <UserCreateModal editing={true}/>
+    <UserCreateModal close={() => {}}/>
   );
-
   var instance = wrapper.instance();
   
   wrapper.setState({formEmail: 'a@a.aa', formName: 'aaa' , 
-                    formSurname: 'bbb', formPassword: "", formPassVerify: ""});
-
-  
+                    formSurname: 'bbb', formPassword: "", formPassVerify: "",
+                    editing: true});
 
   var stub = sinon.stub(instance, 'editUser');
-  
 
   var stub2 = sinon.stub(userActions, 'fetchUser');
   
   stub2.returns(Promise.resolve(null));
 
-
   instance.handleAddUser(null);
   
   await Promise.resolve();
 
+  console.log("ENNEN TRUTHYÄ");
   t.truthy(stub2.called);
   t.truthy(stub.called);
 
+  console.log("ENNEN RESTOREJA");
   stub.restore();
   stub2.restore();
 
