@@ -10,7 +10,7 @@ import* as authStorage from '../../../../util/authStorage'
 
 test('renders properly', t => {
   const wrapper = shallowWithIntl(
-    <UserCreateModal editing={false}/>
+    <UserCreateModal close={() => {}}/>
   );
 
   t.is(wrapper.find('span').length, 1);
@@ -22,7 +22,7 @@ test('renders properly', t => {
 test('returns errors correctly', t => {
 
   const wrapper = shallowWithIntl(
-    <UserCreateModal editing={false}/>
+    <UserCreateModal close={() => {}}/>
   );
 
   var instance = wrapper.instance();
@@ -55,7 +55,7 @@ test('returns errors correctly', t => {
 
 test('return correct colors', t => {
   const wrapper = shallowWithIntl(
-    <UserCreateModal editing={false}/>
+    <UserCreateModal close={() => {}}/>
   );
 
   let instance = wrapper.instance();
@@ -79,7 +79,7 @@ test('return correct colors', t => {
 
 test('user can see user information', t => {
   const wrapper = shallowWithIntl(
-    <UserCreateModal editing={true}/>
+    <UserCreateModal close={() => {}}/>
   );
 
   var stub = sinon.stub(userActions, 'fetchUserByCuid');
@@ -118,9 +118,11 @@ test('editUser gets called', async t => {
   
   await Promise.resolve();
 
+  console.log("ENNEN TRUTHYÄ");
   t.truthy(stub2.called);
   t.truthy(stub.called);
 
+  console.log("ENNEN RESTOREJA");
   stub.restore();
   stub2.restore();
 

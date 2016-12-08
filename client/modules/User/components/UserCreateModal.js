@@ -66,6 +66,7 @@ export class UserCreateModal extends Component {
   };
 
   createUser = () => {
+    console.log("CREATEUSERISSA");
     addUserRequest(this.constructUser()).then(user => {
         if(user){
           this.props.close();
@@ -173,8 +174,6 @@ export class UserCreateModal extends Component {
   };
 
   initFieldsForEdit = (token) => {
-    console.log("initFieldsissä");
-    console.log(token);
     fetchUserByCuid( token.cuid ).then(user => {
       this.setState({formEmail: user.email, formName: user.name, 
                     formSurname: user.surname, formPassword: "", formPassVerify: "", 
@@ -206,7 +205,7 @@ export class UserCreateModal extends Component {
   render() {
     return (
       <span>
-        <Modal show={this.props.show} onHide={this.props.close}>
+        <Modal show={this.props.show} onHide={() => {console.log("ONHiDESSÄ"); this.props.close();}}>
           <Modal.Header closeButton>
             <Modal.Title><FormattedMessage id={'registerTitle'} /></Modal.Title>
           </Modal.Header>
