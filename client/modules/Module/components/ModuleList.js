@@ -10,12 +10,21 @@ import { fetchModules, addModuleRequest, deleteModuleRequest, editModuleRequest 
 
 import styles from './ModuleList.css';
 
+/*
+ * ModuleList is a list of ModuleListItems. It takes care of adding, editing and
+ * removing ModuleListItems from it's array and sending it to the db.
+ * 
+ * Contains ModuleListItems to list them and ModuleCreateWidget to create and edit the Items
+ */
+
 export class ModuleList extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { modules: [], editing: -1 };
   }
+
+  buttonId = -1;
 
   componentDidMount() {
     fetchModules().then(modules => this.setState({modules}));
@@ -86,7 +95,7 @@ export class ModuleList extends Component {
       module.info = info;
       module.title = title;
       editModuleRequest(module).then(this.setState({ editing: -1 }));
-  }
+  };
 
   handleDeleteModule = (module) => {
 //   if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
@@ -106,7 +115,7 @@ export class ModuleList extends Component {
                     oldModule={{title: module.title, info: module.info}}/>
             </div>
             <div style={show( i!==this.state.editing)}>
-              <ModuleListItem module={module}/>
+              <ModuleListItem module={module} addElementFunctionToMainview={this.props.addElementFunctionToMainview} />
             </div>
           </Panel>
         ))
@@ -123,7 +132,9 @@ export class ModuleList extends Component {
 }
 
 ModuleList.propTypes = {
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
+  
+
 };
 
 export default injectIntl(ModuleList);

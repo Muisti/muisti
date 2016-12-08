@@ -25,11 +25,14 @@ class PostListPage extends Component {
   constructor(props) {
     super(props);
     this.state = { showAddPost: false, name: "Opetusmateriaali" };
+    this.state = { renderFunctionsArray: [this.postElement, this.moduleListElement] }
+    
   }
+
 
   componentDidMount() {
     this.props.dispatch(fetchPosts());
-
+   
     if(this.props.params.confirmCode){
       confirmUserAccountRequest(this.props.params.confirmCode, success => {
         this.setState({
@@ -40,7 +43,8 @@ class PostListPage extends Component {
       });
     }
   }
-
+  mainView = () => [this.postElement, this.moduleListElement];
+  renderElements = [];  
   editingPost = null;
 
   handleDeletePost = post => {
@@ -85,11 +89,16 @@ class PostListPage extends Component {
 
   showAddButton = () => !this.state.showAddPost && getToken();
 
-  render() {
+  moduleListElement = () => {
     return (
-      <div>
-        <Grid>
-          <Row className="show-grid">
+            <Col xs={12} sm={9}>
+              <ModuleList addElementFunctionToMainview={this.addToElementFunctionsArray} />
+            </Col>
+            );
+  };
+
+  postElement = () => {
+    return (
             <Col xs={12} sm={3}>
               <div style={show(getToken())}>
                 <PostCreateWidget
@@ -103,9 +112,59 @@ class PostListPage extends Component {
                 handleEditPost={this.openEditPost}
               />
             </Col>
-            <Col xs={12} sm={9}>
-              <ModuleList />
-            </Col>
+            );
+  };
+
+  /*
+    Function that is given to all children as a prop, so that
+    they could update main page render function (ergo give new 
+    view element to their parent). 
+  */  
+
+  addToElementFunctionsArray = (elementFunction = null) => {
+    
+    if(!elementFunction){
+      this.setState({renderFunctionsArray: this.mainView() })
+    }else {
+      this.setState({renderFunctionsArray: [...this.state.renderFunctionsArray, elementFunction]})
+    }
+    this.putElementsInRenderArray();
+                     
+};
+
+  /*
+    Creates component view from element functions to be given 
+    to render function. 
+  */
+
+  putElementsInRenderArray = () => {
+      this.renderElements = [];
+      var element;
+      
+      this.state.renderFunctionsArray.some(f => {
+        element = f();
+        if(element.length){
+          this.renderElements = element;
+        }else {
+          this.renderElements = [...this.renderElements, f() ];  
+        }
+        return element.length;
+      });
+  };
+
+ 
+
+  render() {
+
+    this.putElementsInRenderArray(); 
+     
+    return (
+      <div>
+        <Grid>
+          <Row className="show-grid">
+          
+           {this.renderElements}
+          
           </Row>
         </Grid>
         <AlertModal message={this.state.alert} />
