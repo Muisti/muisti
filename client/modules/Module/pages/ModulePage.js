@@ -19,19 +19,18 @@ class ModulePage extends Component {
 
   constructor(props){
     super(props);
-    this.state = {module: {}, sections: [] };
+    this.state = {module: this.props.module, sections: [] };
   }
 
   /*
-   * Gets the module with title then
    * gets all sections associated the module then
    * gets the scores for all sections then
    * goes through all quizzes within sections and lastly
    * set the quiz points as they're saved inside scores
    */
-  componentDidMount() {
-    fetchModule(this.props.params.title)
-      .then(module => fetchSections(module.cuid)
+  componentWillMount() {
+    
+      fetchSections(this.props.module.cuid)
         .then(sections => fetchScores()
           .then(scoreboard => {
             if (!sections) sections = [];
@@ -43,8 +42,9 @@ class ModulePage extends Component {
                 })
               );
             }
-            this.setState({ module, sections });
-          })))
+           
+            this.setState({ sections });
+          }));
   }
   
   //Sections have to be sorted or edited section would be rendered as last.
@@ -118,7 +118,7 @@ class ModulePage extends Component {
     var i = 0;
     return (
       <div>
-        <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
+        <PageHeader> <Button onClick={()=> this.props.addElementFunctionToMainview()}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
         <Well>
           <div className={styles.textarea}>{this.state.module.info}</div>
         </Well>
@@ -136,5 +136,17 @@ class ModulePage extends Component {
     );
   }
 }
+
+ModulePage.propTypes = {
+  module: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    info: PropTypes.string.isRequired,
+    cuid: PropTypes.string.isRequired,
+  }).isRequired,
+
+};
+
+
+
 
 export default ModulePage;
