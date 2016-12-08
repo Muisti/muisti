@@ -4,14 +4,15 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Button } from 'react-bootstrap';
 import { getTokenPayload } from '../../../util/authStorage';
 import { deleteModuleRequest } from '../ModuleActions';
-import ModulePage from '../pages/ModulePage'
+import ModulePage from '../pages/ModulePage';
+import styles from './ModuleList.css';
 
 function ModuleListItem(props) {
   var toAddress = encodeURI(props.module.title);
 
   return (
     <div>
-      {props.module.info}
+      <div className={styles.textarea}>{props.module.info}</div>
       <a href={"/module/" + toAddress}
       className={ getTokenPayload() ? 'btn btn-default pull-right' : 'hidden' } >
               <FormattedMessage id={'submitGo'} />&rarr;

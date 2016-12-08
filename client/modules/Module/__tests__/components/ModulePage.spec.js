@@ -52,7 +52,7 @@ test('ModulePage with no sections', t => {
 
 });
 
-test('handleAddSection calls addSectionRequest', t => {
+test('handleAddSection calls addSectionRequest', async t => {
     const module = {title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12'};
     const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
 
@@ -63,12 +63,23 @@ test('handleAddSection calls addSectionRequest', t => {
             <ModulePage />
     );
     var instance = wrapper.instance();
+    
+    var stub2 = sinon.stub(instance, 'addToState');
 
     wrapper.setState({module: {module}});
     instance.handleAddSection(section);
     
+    /* The the addToState is called within a "then" and is moved into the bottom
+    *  of the resolve stack. As such the Promise for addSectionRequest is resolved first
+    *  while addToState is stubbed after. We have to wait for another Promise to resolve
+    *  so that the test works as intended.
+    */
+    await Promise.resolve();
+    
     t.truthy(stub.calledOnce);
+    t.truthy(stub2.calledOnce);
     stub.restore();
+    stub2.restore();
 });
 
 test('handleEditSection calls editSectionRequest', t => {

@@ -120,7 +120,7 @@ class ModulePage extends Component {
       <div>
         <PageHeader> <Button href={"/"}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>
         <Well>
-          {this.state.module.info}
+          <div className={styles.textarea}>{this.state.module.info}</div>
         </Well>
 
         {this.state.sections.map(section => (

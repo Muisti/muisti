@@ -46,7 +46,6 @@ test('calls addPost', t => {
   wrapper.ref('content').get(0).value = 'Bla Bla Bla';
 
   wrapper.find('a').at(1).simulate('click');
-  console.log(wrapper.find('a').length);
   t.truthy(addPost.calledOnce);
   t.truthy(addPost.calledWith('Bla Bla Bla'));
 });
