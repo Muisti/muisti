@@ -9,7 +9,7 @@ import styles from './ModuleList.css';
 
 function ModuleListItem(props) {
   var toAddress = encodeURI(props.module.title);
-
+  toAddress += '-' + props.module.cuid.slice(-3);
   return (
     <div>
       <div className={styles.textarea}>{props.module.info}</div>
