@@ -98,7 +98,7 @@ class ModulePage extends Component {
     if (getTokenPayload() && getTokenPayload().isAdmin && section.cuid) {
       return (
         <span>
-          <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.handleDeleteSection(section)}>
+          <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={this.handleDeleteSection(section)}>
             Poista section
           </Button>
           <SectionCreateModal editSection={this.handleEditSection(section)} section={section} />
@@ -107,7 +107,8 @@ class ModulePage extends Component {
     }
   };
 
-  handleDeleteSection = (section) => {
+  handleDeleteSection = (section) => e => {
+      e.stopPropagation();
   //  if (window.confirm('Haluatko varmasti poistaa sectionin?')) {
       deleteSectionRequest(section.cuid).then(this.setState({ sections: this.state.sections.filter(sec => sec.cuid !== section.cuid) }));
   //  }

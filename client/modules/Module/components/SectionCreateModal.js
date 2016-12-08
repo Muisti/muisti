@@ -23,9 +23,10 @@ export class SectionCreateModal extends Component {
     this.setState({ showModal: true });
   };
   
-  openEditor = () => {
+  openEditor = e => {
+    e.stopPropagation();
     this.setState({ showModal: true, formTitle: this.props.section.title,
-                    formContent: this.props.section.content, formLink: this.props.section.link})
+                    formContent: this.props.section.content, formLink: this.props.section.link});
   }
 
   handleTitleChange = (e) => {
