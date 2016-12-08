@@ -26,7 +26,7 @@ export class ModuleListItem extends Component {
   render() {
     return (
       <div>
-        {this.props.module.info}
+        <div className={styles.textarea}>{props.module.info}</div>
         <Button onClick={()=> this.props.addElementFunctionToMainview(this.modulePageElement)}
         className={ getTokenPayload() ? 'btn btn-default pull-right' : 'hidden' } >
                 <FormattedMessage id={'submitGo'} />&rarr;
