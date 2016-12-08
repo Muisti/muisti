@@ -67,6 +67,7 @@ export async function updateQuiz(req, res) {
 
   const quiz = req.body.quiz;
 
+
   await Quiz.findOne({ cuid: quiz.cuid }).exec((err, q) => {
     if(err) return res.status(500).send(err);
 

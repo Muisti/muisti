@@ -40,6 +40,7 @@ export default {
     //Quizzes
     addQuiz: 'Add quiz',
     addQuizTitle: 'Creating a new quiz',
+    editQuizTitle: 'Editing a quiz',
     question: 'Question',
     option: 'Option',
     rightAnswer: 'This is correct',
