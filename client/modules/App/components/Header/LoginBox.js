@@ -16,13 +16,20 @@ export class LoginBox extends Component {
 
   constructor() {
     super();
-    this.state = { validEmail: null };
-    this.state = { validPass: null };
-    this.state = { isLoading: false };
+    this.state = { validEmail: null, validPass: null, 
+        isLoading: false, showModal: false };
   }
 
   emailChange = event => this.setState({ validEmail: null });
   passwordChange = event => this.setState({ validPass: null });
+
+  closeModal = () => {
+      this.setState({ showModal: false });
+  };
+  
+  openModal = () => {
+      this.setState({ showModal: true });
+  };
 
   logIn = (e) => {
     e.preventDefault();
@@ -44,10 +51,8 @@ export class LoginBox extends Component {
   };
 
   refreshUser = (user) => {
-    
     fetchToken(user.email, user.password, this.checkToken);
   }; 
-
 
   checkToken = (token) => {
       switch (token) {
@@ -94,15 +99,20 @@ export class LoginBox extends Component {
       return (
         <Nav pullLeft>
           <NavDropdown title={(<FormattedMessage id={'logInUser'} values={{user: payload.user + '!'}} />)}>
-            <MenuItem eventKey="1"><UserCreateModal refreshUser={this.refreshUser} editing={true}/></MenuItem>
+            <MenuItem eventKey="1">
+              <Button onClick={this.openModal} bsStyle='link'>
+                <FormattedMessage id={'displayEditMenuItem'}/>
+              </Button>
+            </MenuItem>
           </NavDropdown>
           <Navbar.Form pullLeft>
             <Button href={window.location.pathname != '/' ? '/' : '#'} type="submit" bsStyle="warning" onClick={this.logOut} >
               <FormattedMessage id={'logOutButton'} />
             </Button>
-          
           </Navbar.Form>
           <AlertModal message={this.state.alert} />
+          <UserCreateModal refreshUser={this.refreshUser}
+                show={this.state.showModal} close={this.closeModal}/>
         </Nav>
         );
       }
@@ -129,7 +139,11 @@ export class LoginBox extends Component {
               <FormattedMessage id={isLoading ? "loggingIn" : 'logInButton'} />
             </Button>
             {' '}
-            <UserCreateModal refreshUser={this.refreshUser} editing={false}/>
+            <Button onClick={this.openModal} bsStyle="primary">
+                <FormattedMessage id={'displayRegisterModal'}/>
+            </Button>
+            <UserCreateModal refreshUser={this.refreshUser} 
+                show={this.state.showModal} close={this.closeModal}/>
           </form>
         </Navbar.Form>
         <AlertModal message={this.state.alert} />
