@@ -47,6 +47,7 @@ export class LoginBox extends Component {
   logOut = () => {
     removeToken("token");
     this.props.fetchPosts();
+    this.props.fetchModules();
     this.setState({});
   };
 
@@ -71,6 +72,7 @@ export class LoginBox extends Component {
             setToken(token);
             this.setValidationState();
             this.props.fetchPosts();
+            this.props.fetchModules();
             break;
       }
   };
@@ -154,6 +156,7 @@ export class LoginBox extends Component {
 
 LoginBox.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
+  fetchModules: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
 };
 

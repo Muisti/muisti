@@ -1,13 +1,60 @@
 import callApi from '../../util/apiCaller';
 
+// Export Constants
+export const ADD_MODULE = 'ADD_MODULE';
+export const ADD_MODULES = 'ADD_MODULES';
+export const DELETE_MODULE = 'DELETE_MODULE';
+export const EDIT_MODULE = 'EDIT_MODULE';
+
+
+// Export Actions
+
+export function addModule(module) {
+  return {
+    type: ADD_MODULE,
+    module,
+  };
+}
+
+/**  */
+
+export function editModule(module) {
+  return {
+    type: EDIT_MODULE,
+    module,
+  };
+}
+
+export function addModules(modules) {
+  return {
+    type: ADD_MODULES,
+    modules,
+  };
+}
+
+
+export function deleteModule(cuid) {
+  return {
+    type: DELETE_MODULE,
+    cuid,
+  };
+}
+
 export function fetchModules() {
+  return (dispatch) => {
     return callApi('modules', 'get')
-      .then(res => res.modules);
+      .then(res => {
+        dispatch(addModules(res.modules));
+        return res.modules;
+      });
+  };
 }
 
 export function deleteModuleRequest(cuid) {
-	return callApi(`modules/${cuid}`, 'delete')
-		.then(res => res);
+	return (dispatch) => {
+    return callApi(`modules/${cuid}`, 'delete')
+		.then(() => dispatch(deleteModule(cuid)));
+  };
 }
 
  export function fetchModule(title) {
@@ -21,8 +68,10 @@ export function fetchSections(moduleCuid){
 }
 
 export function addModuleRequest(module) {
+  return (dispatch) => {
     return callApi('modules', 'post', {module})
-            .then(res => res.module);
+            .then(res => dispatch(addModule(res.module)));
+  };
 }
 
 export function editModuleRequest(module) {
