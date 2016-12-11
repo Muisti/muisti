@@ -55,7 +55,7 @@ test('setToken works correctly 2', t =>  {
   
 test('setToken works correctly 3', t =>  {
   const wrapper = shallowWithIntl(
-    <LoginBox fetchPosts={() => {}}/>
+    <LoginBox fetchPosts={() => {}} fetchModules={() => {}}/>
   );
   var instance = wrapper.instance();
   var spy = sinon.spy(authStorage, 'setToken');
@@ -85,7 +85,7 @@ test('logIn does not accept empty lines', t => {
 
 test('logOut works as intended', t => {
   const wrapper = shallowWithIntl(
-    <LoginBox fetchPosts={() => {}}/>
+    <LoginBox fetchPosts={() => {}} fetchModules={() => {}}/>
   );
   var instance = wrapper.instance();
   var spy = sinon.spy(authStorage, 'removeToken');

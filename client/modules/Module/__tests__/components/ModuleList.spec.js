@@ -9,7 +9,7 @@ import * as authStorage from '../../../../util/authStorage';
 
 test('renders properly', t => {
   const wrapper = shallowWithIntl(
-    <ModuleList />
+    <ModuleList modules={[]} dispatch={()=> {}}/>
   );
 
   t.is(wrapper.find('Accordion').length, 1);
@@ -17,7 +17,7 @@ test('renders properly', t => {
 
 test('handleAddModule does addModuleRequest', t => {
   const wrapper = shallowWithIntl(
-    <ModuleList />
+    <ModuleList modules={[]} dispatch={()=> {}}/>
   );
   var instance = wrapper.instance();
   var stub = sinon.stub(moduleActions, 'addModuleRequest');
@@ -31,7 +31,7 @@ test('handleAddModule does addModuleRequest', t => {
 
 test('handleAddModule does not do addModuleRequest if field is empty', t => {
   const wrapper = shallowWithIntl(
-    <ModuleList />
+    <ModuleList modules={[]} dispatch={()=> {}}/>
   );
   var instance = wrapper.instance();
   var stub = sinon.stub(moduleActions, 'addModuleRequest');
@@ -45,7 +45,7 @@ test('handleAddModule does not do addModuleRequest if field is empty', t => {
 
 test('handleEditModule calls editModuleRequest', t => {
   const wrapper = shallowWithIntl(
-    <ModuleList />
+    <ModuleList modules={[]} dispatch={()=> {}}/>
   );
   var instance = wrapper.instance();
   var stub = sinon.stub(moduleActions, 'editModuleRequest');
@@ -62,7 +62,7 @@ test('componentDidMount works', t => {
   stub.returns(Promise.resolve([]));
 
   const wrapper = shallowWithIntl(
-    <ModuleList />
+    <ModuleList modules={[]} dispatch={()=> {}}/>
   );
   wrapper.instance().componentDidMount();
 
@@ -73,7 +73,7 @@ test('componentDidMount works', t => {
 test('Delete module correctly', t => {
   const module = { title: 'title', info: 'moduulin info', orderNumber: 1, cuid: 'cuid12' };
   const wrapper = shallowWithIntl(
-    <ModuleList />
+    <ModuleList modules={[]} dispatch={()=> {}}/>
   );
 
   const event = { stopPropagation: () => {} };
