@@ -6,7 +6,7 @@ let savedUtil = null;
 
 export async function fetchUtil(){
     if(!savedUtil){
-        savedUtil = await Util.findOne({}).exec();
+        savedUtil = (await Util.findOne({}).exec()) || {} ;
         await putUtil();
     }
 }
