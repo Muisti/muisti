@@ -97,7 +97,11 @@ export class ModuleList extends Component {
       if(this.state.open === index && this.state.editing !== index){ 
           e.stopPropagation();
       }
-      this.setState({ editing: index }); 
+      if(this.state.editing != -1){
+        this.setState({ editing: -1 });
+      }else{
+        this.setState({ editing: index });
+      } 
   };
   
   handleEditModule = (module) => (title, info) => {
@@ -116,6 +120,11 @@ export class ModuleList extends Component {
         
 //  }
   };
+  closeEditing = () => {
+    if(this.state.editing != -1)
+      this.setState({ editing: -1 }); 
+  };
+  
 
   render() {
     var i = 0;
@@ -123,10 +132,10 @@ export class ModuleList extends Component {
       
       <Accordion onSelect={this.updateSelection} >
         {this.props.modules.map(module => (
-          <Panel header={this.panelHeader(module, ++i)} eventKey={i} key={i}>
+          <Panel onSelect={this.closeEditing} header={this.panelHeader(module, ++i)} eventKey={i} key={i}>
             <div style={show( i===this.state.editing)}>
               <ModuleCreateWidget sendModule={this.handleEditModule(module)}
-                    oldModule={{title: module.title, info: module.info}}/>
+                    oldModule={{title: module.title, info: module.info}} />
             </div>
             <div style={show( i!==this.state.editing)}>
               <ModuleListItem module={module} addElementFunctionToMainview={this.props.addElementFunctionToMainview} />
