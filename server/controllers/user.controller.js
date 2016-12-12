@@ -4,8 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 import sanitizeHtml from 'sanitize-html';
-import { getKey, getEmail, getPassword } from './util.controller'
-
+import { getKey, getEmail, getPassword, getEmailHost, isAdminCuid } from './util.controller'
 
 
 export async function addUser(req, res) {
@@ -83,7 +82,7 @@ export async function getToken(req, res) {
       return res.json({ token: "notConfirmed" });
     }
     
-    const isAdmin = (user.email == 'a@a.aa' || user.cuid == 'citvb704j000010sxlmgj2ggt' || user.cuid == 'ciui0eib700005pkrgugv4vyg');
+    const isAdmin = await isAdminCuid(user.cuid);
     
     var payload = { cuid: user.cuid, user: user.name, time: Date.now(), isAdmin: isAdmin };
     var secret = await getKey();
@@ -109,8 +108,6 @@ export async function updateUser(req, res){
     }
   }
 
-  
-
   await User.findOneAndUpdate({cuid: req.body.user.cuid}, {name: req.body.user.name, 
     surname: req.body.user.surname, email: req.body.user.email,
     password: req.body.user.password 
@@ -123,9 +120,6 @@ export async function updateUser(req, res){
       return res.json({user: modifiedUser});
 
     });
-
-
-
 };
 
 /**
@@ -159,11 +153,6 @@ export async function decodeTokenFromRequest(req){
     }
 }
 
-
-
-
-
-
 function isUserAccountConfirmed(user){
   return user.confirmation == "confirmed";
 }
@@ -176,7 +165,7 @@ function isUserAccountConfirmed(user){
 async function sendConfirmationEmail(ownUrl, user){
 
   var transporter = mailer.createTransport({
-    host: "smtp.gmail.com", // hostname
+    host: await getEmailHost(), // hostname
     secure: true,
     port: 465,   // port for secure SMTP
     auth: {
