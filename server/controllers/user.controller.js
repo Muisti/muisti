@@ -4,8 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jwt-simple';
 import * as mailer from 'nodemailer';
 import sanitizeHtml from 'sanitize-html';
-import { getKey, getEmail, getPassword } from './util.controller'
-
+import { getKey, getEmail, getPassword, isAdminCuid } from './util.controller'
 
 
 export async function addUser(req, res) {
@@ -83,7 +82,7 @@ export async function getToken(req, res) {
       return res.json({ token: "notConfirmed" });
     }
     
-    const isAdmin = (user.email == 'a@a.aa' || user.cuid == 'citvb704j000010sxlmgj2ggt' || user.cuid == 'ciui0eib700005pkrgugv4vyg');
+    const isAdmin = await isAdminCuid(user.cuid);
     
     var payload = { cuid: user.cuid, user: user.name, time: Date.now(), isAdmin: isAdmin };
     var secret = await getKey();

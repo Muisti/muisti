@@ -3,14 +3,9 @@ import Score from '../models/score';
 import { decodeTokenFromRequest } from './user.controller';
 
 
-
 export async function removeScorefromScoresArrays(cuid){
-
-  Score.update( { }, { $pull: {scores: { quizCuid: cuid } } }, { multi: true }, next);
+    Score.update( { }, { $pull: {scores: { quizCuid: cuid } } }, { multi: true }, next);
 }
-
-
-
 
 export async function getScores(req, res) {
     let token = await decodeTokenFromRequest(req);
