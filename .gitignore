@@ -5,6 +5,7 @@ npm-debug.log
 dump.rdb
 .vscode/
 coverage/
+dist/
 .nyc_output/
 *~
 nbproject/private
