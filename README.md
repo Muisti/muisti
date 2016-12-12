@@ -11,9 +11,12 @@
 ## Ohje
 
 Asennusohje:
-git clone https://github.com/Muisti/muisti.git <name-of-the-folder>
-cd <name-of-the-folder>
+git clone https://github.com/Muisti/muisti.git \<name-of-the-folder>
+
+cd \<name-of-the-folder>
+
 npm install
+
 npm start
 
 ## Dokumentaatio
