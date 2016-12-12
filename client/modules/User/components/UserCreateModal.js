@@ -7,6 +7,12 @@ import AlertModal, { basicAlert } from '../../App/components/AlertModal';
 import {getToken, getTokenPayload} from '../../../util/authStorage'
 import sanitizeHtml from 'sanitize-html';
 
+var Header = Modal.Header;
+var Title = Modal.Title;
+var Body = Modal.Body;
+var Feedback = FormControl.Feedback;
+var Footer = Modal.Footer;
+
 export class UserCreateModal extends Component {
 
   constructor(props) {
@@ -200,7 +206,7 @@ export class UserCreateModal extends Component {
         </Col>
         <Col sm={10}>
           <FormControl type={type} value={this.state[key]} onChange={this.handleChange(key)} placeholder={placeholder} />
-          <FormControl.Feedback />
+          <Feedback />
         </Col>
       </FormGroup>
     );
@@ -210,11 +216,11 @@ export class UserCreateModal extends Component {
     return (
       <span>
         <Modal show={this.props.show} onHide={() => {this.props.close();}}>
-          <Modal.Header closeButton>
-            <Modal.Title><FormattedMessage id={'registerTitle'} /></Modal.Title>
-          </Modal.Header>
+          <Header closeButton>
+            <Title><FormattedMessage id={'registerTitle'} /></Title>
+          </Header>
           <Form onSubmit={this.handleAddUser} horizontal>
-          <Modal.Body>
+          <Body>
             
               {this.registerField('formEmail', "email", 'matti.meikalainen@gmail.com')}
               {this.registerField('formName', "text", 'Matti')}
@@ -227,13 +233,13 @@ export class UserCreateModal extends Component {
                     <b>{this.state.error}</b>
                 </Alert>
             </div>
-          </Modal.Body>
-          <Modal.Footer>
+          </Body>
+          <Footer>
             <Button type="submit" bsStyle="primary" disabled={this.isLoading} >
                 <FormattedMessage id={this.state.editing ? 'displayEditModal' : 'displayRegisterModal'} />
             </Button>
             <Button onClick={this.props.close}><FormattedMessage id='cancel' /></Button>
-          </Modal.Footer>
+          </Footer>
           </Form>
         </Modal>
         <AlertModal message={this.state.alert} />

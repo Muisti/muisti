@@ -11,6 +11,8 @@ import { UserCreateModal } from '../../../User/components/UserCreateModal';
 import AlertModal, { errorAlert } from '../AlertModal';
 import { setToken, removeToken, getTokenPayload } from '../../../../util/authStorage';
 
+var Form = Navbar.Form;
+var Feedback = FormControl.Feedback;
 
 export class LoginBox extends Component {
 
@@ -107,11 +109,11 @@ export class LoginBox extends Component {
               </Button>
             </MenuItem>
           </NavDropdown>
-          <Navbar.Form pullLeft>
+          <Form pullLeft>
             <Button href={window.location.pathname != '/' ? '/' : '#'} type="submit" bsStyle="warning" onClick={this.logOut} >
               <FormattedMessage id={'logOutButton'} />
             </Button>
-          </Navbar.Form>
+          </Form>
           <AlertModal message={this.state.alert} />
           <UserCreateModal refreshUser={this.refreshUser}
                 show={this.state.showModal} close={this.closeModal}/>
@@ -123,18 +125,18 @@ export class LoginBox extends Component {
 
     return (
       <Nav>
-        <Navbar.Form pullLeft>
+        <Form pullLeft>
           <form>
             <FormGroup controlId="emailForm" validationState={this.state.validEmail} >
               <FormControl type="email" placeholder={this.props.intl.messages.formEmail}
                     onChange={this.emailChange} ref="email"/>
-              <FormControl.Feedback />
+              <Feedback />
             </FormGroup>
             {' '}
             <FormGroup controlId="passwordForm" validationState={this.state.validPass}>
               <FormControl type="password" placeholder={this.props.intl.messages.formPassword}
                     onChange={this.passwordChange} ref="password"/>
-              <FormControl.Feedback />
+              <Feedback />
             </FormGroup>
             {' '}
             <Button type="submit" bsStyle="primary" disabled={isLoading} onClick={this.logIn}>
@@ -147,7 +149,7 @@ export class LoginBox extends Component {
             <UserCreateModal refreshUser={this.refreshUser} 
                 show={this.state.showModal} close={this.closeModal}/>
           </form>
-        </Navbar.Form>
+        </Form>
         <AlertModal message={this.state.alert} />
       </Nav>
     );
