@@ -13,6 +13,10 @@ import { Modal, Button, Alert } from 'react-bootstrap';
  * title and clearly visible text content. 
 */
 
+var Body = Modal.Body;
+var Footer = Modal.Footer;
+
+
 export class AlertModal extends Component{
     constructor(props){
         super(props);
@@ -31,12 +35,12 @@ export class AlertModal extends Component{
       this.update();  
       return (
         <Modal show={this.props.message && !this.state.closed}>
-            <Modal.Body>
+            <Body>
                 {this.props.message}
-            </Modal.Body>
-            <Modal.Footer>
+            </Body>
+            <Footer>
                 <Button onClick={this.close}>Ok</Button>
-            </Modal.Footer>
+            </Footer>
         </Modal>
       );
     };
