@@ -4,8 +4,7 @@ import cuid from 'cuid';
 
 let savedUtil = null;
 
-async function fetchUtil(){
-    console.log("TEHTIIIN");
+export async function fetchUtil(){
     if(!savedUtil){
         savedUtil = await Util.findOne({}).exec();
         await putUtil();
@@ -31,7 +30,7 @@ async function putUtil() {
     const newadmin = getEnv("NEWADMIN");
     const email = getEnv("EMAIL");
     const epassword = getEnv("EPASSW");
-    console.log(newadmin + " " + email + " " + epassword);
+    const smtp = getEnv("EMAILHOST");
     
     const doUpdate = (!savedUtil.key || newadmin || email || epassword);
     if (newadmin) {
@@ -41,7 +40,10 @@ async function putUtil() {
             console.log(savedUtil.admins);
         }
     }
-    if (email) { savedUtil.emailAddress = email; }
+    if (email && smtp) { 
+        savedUtil.emailAddress = email; 
+        savedUtil.emailHost = smtp; 
+    }
     if (epassword) { savedUtil.emailPassword = epassword; }
     if ((epassword && email) || !savedUtil.key) { savedUtil.key = cuid(); }
     
@@ -63,6 +65,11 @@ export async function getPassword() {
 export async function getEmail() {
     await fetchUtil();
     return savedUtil.emailAddress;
+}
+
+export async function getEmailHost() {
+    await fetchUtil();
+    return savedUtil.emailHost;
 }
 
 export async function isAdminCuid(cuid) {
