@@ -39,6 +39,7 @@ import sections from './routes/section.routes';
 import quizzes from './routes/quiz.routes';
 import scores from './routes/score.routes';
 import serverConfig from './config';
+import { fetchUtil } from './controllers/util.controller';
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -48,8 +49,9 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
   if (error) {
     console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
     throw error;
+  } else {
+      fetchUtil();
   }
-
 });
 
 // Apply body Parser and server public assets and routes
