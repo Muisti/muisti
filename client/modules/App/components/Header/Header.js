@@ -10,6 +10,8 @@ import styles from './Header.css';
 
 // Import actions
 import { fetchPosts } from '../../../Post/PostActions';
+import { fetchModules } from '../../../Module/ModuleActions';
+
 
 export function Header(props) {
 
@@ -27,7 +29,7 @@ export function Header(props) {
         </Navbar.Header>
         <Navbar.Collapse>
             <Nav pullRight>
-              <LoginBox fetchPosts={() => props.dispatch(fetchPosts())} intl={props.intl} />
+              <LoginBox fetchPosts={() => props.dispatch(fetchPosts())} fetchModules={() => props.dispatch(fetchModules())} intl={props.intl} />
             <NavDropdown eventKey={2} title={<FormattedMessage id={'switchLanguage'} />} id="basic-nav-dropdown">
                 {languageNodes}
             </NavDropdown>

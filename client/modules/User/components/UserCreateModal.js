@@ -12,6 +12,7 @@ export class UserCreateModal extends Component {
   constructor(props) {
     super(props);
     this.state = { editing: false };
+    this.isLoading = false;
   };
 
   componentDidMount() {
@@ -28,7 +29,10 @@ export class UserCreateModal extends Component {
     this.setState({ error });
     if(error) return;
     
+    this.isLoading = true;
+    
     fetchUser(email).then(user => {
+        this.isLoading = false;
         if(this.state.editing){
           if(user && user.cuid != this.state.userToEdit.cuid){
             this.setState({ error: <FormattedMessage id="userAlreadyExists" values={{user: email}} /> });
@@ -205,7 +209,7 @@ export class UserCreateModal extends Component {
   render() {
     return (
       <span>
-        <Modal show={this.props.show} onHide={() => {console.log("ONHiDESSÄ"); this.props.close();}}>
+        <Modal show={this.props.show} onHide={() => {this.props.close();}}>
           <Modal.Header closeButton>
             <Modal.Title><FormattedMessage id={'registerTitle'} /></Modal.Title>
           </Modal.Header>
@@ -225,7 +229,7 @@ export class UserCreateModal extends Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button type="submit" bsStyle="primary" >
+            <Button type="submit" bsStyle="primary" disabled={this.isLoading} >
                 <FormattedMessage id={this.state.editing ? 'displayEditModal' : 'displayRegisterModal'} />
             </Button>
             <Button onClick={this.props.close}><FormattedMessage id='cancel' /></Button>

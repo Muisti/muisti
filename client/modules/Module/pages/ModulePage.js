@@ -29,7 +29,7 @@ class ModulePage extends Component {
    * set the quiz points as they're saved inside scores
    */
   componentWillMount() {
-      console.log("componentWillMountissa Modulepagella");
+      
       fetchSections(this.props.module.cuid)
         .then(sections => fetchScores()
           .then(scoreboard => {
@@ -116,7 +116,10 @@ class ModulePage extends Component {
 
 
   render() {
+    
     var i = 0;
+    if(!getTokenPayload()){this.props.addElementFunctionToMainview();}
+    
     return (
       <div>
         <PageHeader> <Button onClick={()=> this.props.addElementFunctionToMainview()}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>

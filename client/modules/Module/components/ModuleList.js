@@ -5,9 +5,9 @@ import ModuleListItem from './ModuleListItem';
 import ModuleCreateWidget from './ModuleCreateWidget';
 import { getTokenPayload } from '../../../util/authStorage';
 import { show } from '../../../util/styles';
-
-import { fetchModules, addModuleRequest, deleteModuleRequest, editModuleRequest } from '../ModuleActions';
-
+import { connect } from 'react-redux';
+import { fetchModules, addModuleRequest, deleteModuleRequest, editModuleRequest, editModule } from '../ModuleActions';
+import { getModules } from '../ModuleReducer';
 import styles from './ModuleList.css';
 
 /*
@@ -21,28 +21,29 @@ export class ModuleList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { modules: [], editing: -1 };
+    this.state = { editing: -1 };
   }
 
   buttonId = -1;
 
   componentDidMount() {
-    fetchModules().then(modules => this.setState({modules}));
+    this.props.dispatch(fetchModules());
+    
   }
 
   handleAddModule = (title, info) => {
     if (!title || !info) return;
 
     var number = 0;
-    if (this.state.modules.length > 0) {
-      number = this.state.modules[this.state.modules.length-1].orderNumber+1;
+    if (this.props.modules.length > 0) {
+      number = this.props.modules[this.props.modules.length-1].orderNumber+1;
     }
 
-    addModuleRequest({
+    this.props.dispatch(addModuleRequest({
       title: title,
       info: info,
-      orderNumber: number })
-      .then(module => this.setState({ modules: [...this.state.modules, module] }));
+      orderNumber: number }));
+      
   };
 
   addHeader = () => {
@@ -102,14 +103,17 @@ export class ModuleList extends Component {
   handleEditModule = (module) => (title, info) => {
       module.info = info;
       module.title = title;
-      editModuleRequest(module).then(this.setState({ editing: -1 }));
+      editModuleRequest(module).then(module => {
+                  this.props.dispatch(editModule(module));            
+                  this.setState({ editing: -1 });
+      });
   };
 
   handleDeleteModule = (module, index) => e => {
      if(this.state.open !== index){ e.stopPropagation(); }
 //   if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
-     deleteModuleRequest(module.cuid)
-        .then(() => this.setState({ modules: this.state.modules.filter(mod => mod.cuid !== module.cuid) }));
+     this.props.dispatch(deleteModuleRequest(module.cuid));
+        
 //  }
   };
 
@@ -118,7 +122,7 @@ export class ModuleList extends Component {
     return (
       
       <Accordion onSelect={this.updateSelection} >
-        {this.state.modules.map(module => (
+        {this.props.modules.map(module => (
           <Panel header={this.panelHeader(module, ++i)} eventKey={i} key={i}>
             <div style={show( i===this.state.editing)}>
               <ModuleCreateWidget sendModule={this.handleEditModule(module)}
@@ -141,10 +145,23 @@ export class ModuleList extends Component {
   }
 }
 
-ModuleList.propTypes = {
-  intl: intlShape.isRequired,
-  
+function mapStateToProps(state) {
+  return {
+    modules: getModules(state),
+  };
+}
 
+
+
+ModuleList.propTypes = {
+  modules: PropTypes.arrayOf(PropTypes.shape({
+    cuid: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    info: PropTypes.string.isRequired,
+    orderNumber: PropTypes.number.isRequired,
+  })).isRequired,
+  intl: intlShape.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
-export default injectIntl(ModuleList);
+export default connect(mapStateToProps)(injectIntl(ModuleList));

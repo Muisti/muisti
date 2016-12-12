@@ -12,7 +12,7 @@ const modules = [{ title: "11nimi", info: "11sisalto", cuid: "cuidi123123" }, { 
 
 test('renders properly', t => {
     const wrapper = shallowWithIntl(
-            <ModulePage module={modules[0]}/>
+            <ModulePage module={modules[0]} addElementFunctionToMainview={()=>{}} />
     );
 
     t.is(wrapper.find('Well').length, 1);
@@ -40,7 +40,7 @@ test('ModulePage with no sections', t => {
     const section2 = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid2'};
 
     const wrapper = shallowWithIntl(
-            <ModulePage module={modules[0]}/>
+            <ModulePage module={modules[0]} addElementFunctionToMainview={()=>{}}/>
     );
 
     wrapper.setState({module: {module}});
@@ -58,7 +58,7 @@ test('handleAddSection calls addSectionRequest', async t => {
     stub.returns(Promise.resolve(section));
 
     const wrapper = shallowWithIntl(
-            <ModulePage module={modules[0]}/>
+            <ModulePage module={modules[0]} addElementFunctionToMainview={()=>{}}/>
     );
     var instance = wrapper.instance();
     
@@ -86,7 +86,7 @@ test('handleEditSection calls editSectionRequest', t => {
 
     var stub = sinon.stub(sectionActions, 'editSectionRequest');
     const wrapper = shallowWithIntl(
-            <ModulePage module={modules[0]}/>
+            <ModulePage module={modules[0]} addElementFunctionToMainview={()=>{}}/>
     );
     var instance = wrapper.instance();
     var stub2 = sinon.stub(instance, 'addToState');
@@ -106,7 +106,7 @@ test('addToState adds new section', t => {
     const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
 
     const wrapper = shallowWithIntl(
-            <ModulePage module={modules[0]}/>
+            <ModulePage module={modules[0]} addElementFunctionToMainview={()=>{}}/>
     );
     var instance = wrapper.instance();
 
@@ -124,7 +124,7 @@ test('addToState edits a section', t => {
     const section = {title: 'Section title', content: 'Sections content', orderNumber: 1, moduleCuid: 'cuid12', cuid: 'secCuid'};
 
     const wrapper = shallowWithIntl(
-            <ModulePage module={modules[0]}/>
+            <ModulePage module={modules[0]} addElementFunctionToMainview={()=>{}}/>
     );
     var instance = wrapper.instance();
 
@@ -153,7 +153,7 @@ test('Delete sections correctly', t => {
     var event = {stopPropagation: () => {}};
 
     const wrapper = shallowWithIntl(
-            <ModulePage module={modules[0]}/>
+            <ModulePage module={modules[0]} addElementFunctionToMainview={()=>{}}/>
     );
 
     wrapper.setState({module: {module}});
