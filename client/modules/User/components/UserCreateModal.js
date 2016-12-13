@@ -76,7 +76,6 @@ export class UserCreateModal extends Component {
   };
 
   createUser = () => {
-    console.log("CREATEUSERISSA");
     addUserRequest(this.constructUser()).then(user => {
         if(user){
           this.props.close();
