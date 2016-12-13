@@ -6,18 +6,46 @@
 
 ## Pikakäynnistys
 
-- [Sivut Herokussa](https://muistioppi.herokuapp.com/)
+- [Sivut Herokussa](https://ohtumuisti.herokuapp.com/)
 
 ## Ohje
 
-Asennusohje:
-git clone https://github.com/Muisti/muisti.git \<name-of-the-folder>
+Asennusohje: NOT READY / EI VALMIS
 
-cd \<name-of-the-folder>
+Kloonaa tämä kansio
+
+`git clone https://github.com/Muisti/muisti.git <name-of-the-folder>`
+
+Siirry kansion sisälle
+
+`cd <name-of-the-folder>`
+
+Varmista että sinulla on node ja npm. Sitten asenna riippuvuudet kutsulla
+
+`npm install`
+
+Rakenna sovellus 
+
+`npm run bs`
+  
+Käynnistä sovellus
+
+`npm start MONGO_URL=mongo-url PORT=port EMAIL=confirmation-email EPASSW=confirmation-email-password EMAILHOST=host-of-email`
+  
+Esimerkki:
+```
+git clone https://github.com/Muisti/muisti.git muisti
+
+cd muisti
 
 npm install
 
-npm start
+npm run bs
+
+npm start MONGO_URL=mongodb://username:password@ds147487.mlab.com:47487/osoite PORT=8000 EMAIL=test@gmail.com EPASSW=3fa9Kj49dfcvFD EMAILHOST=smtp.gmail.com
+```
+  
+Myöhemmin voit lisätä adminin lisäämällä muuttujan NEWADMIN=admin-email
 
 ## Dokumentaatio
 
