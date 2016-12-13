@@ -29,9 +29,11 @@ export default {
     deleteModule: 'Poista moduuli',
     moduleTitle: 'Otsikko',
     moduleContent: 'Kuvaus',
+    editModule: 'Muokkaa modulea',
     //Sections
     addSection: 'Lisää osio',
     deleteSection: 'Poista osio',
+    editSection: 'Muokkaa osiota',
     sectionTitle: 'Osion otsikko, valinnainen',
     sectionContent: 'Osion sisältö',
     sectionLink: 'Linkki multimediasisältöön (kuvat, videot ym.)',

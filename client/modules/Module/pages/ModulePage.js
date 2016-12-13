@@ -98,7 +98,7 @@ class ModulePage extends Component {
       return (
         <span>
           <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={this.handleDeleteSection(section)}>
-            Poista section
+           <FormattedMessage id='deleteSection' />
           </Button>
           <SectionCreateModal editSection={this.handleEditSection(section)} section={section} />
         </span>
