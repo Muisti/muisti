@@ -36,7 +36,6 @@ export class LoginBox extends Component {
   logIn = (e) => {
     e.preventDefault();
     this.setState({ isLoading: true });
-    console.log("koe");
     var password = ReactDOM.findDOMNode(this.refs.password).value;
     var email = ReactDOM.findDOMNode(this.refs.email).value;
     if (!password || !email) {
