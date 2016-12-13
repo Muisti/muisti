@@ -132,6 +132,12 @@
 
 /***/ },
 /* 6 */
+/***/ function(module, exports) {
+
+	module.exports = require("react-redux");
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -480,7 +486,7 @@
 
 	var _user2 = _interopRequireDefault(_user);
 
-	var _cuid = __webpack_require__(7);
+	var _cuid = __webpack_require__(8);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
@@ -506,7 +512,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 	function getUsers(req, res) {
 	  _user2.default.find().sort('-dateAdded').exec(function (err, users) {
@@ -563,16 +569,10 @@
 	}
 
 /***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	module.exports = require("cuid");
-
-/***/ },
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = require("react-redux");
+	module.exports = require("cuid");
 
 /***/ },
 /* 9 */
@@ -711,7 +711,7 @@
 	var API_URL = exports.API_URL = typeof window === 'undefined' || process.env.NODE_ENV === 'test' ? process.env.BASE_URL || 'http://localhost:' + (process.env.PORT || _config2.default.port) + '/api' : '/api';
 
 	function callApi(endpoint) {
-	  var method = arguments.length <= 1 || arguments[1] === undefined ? 'get' : arguments[1];
+	  var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'get';
 	  var body = arguments[2];
 
 
@@ -724,8 +724,8 @@
 	      return { json: json, response: response };
 	    });
 	  }).then(function (_ref) {
-	    var json = _ref.json;
-	    var response = _ref.response;
+	    var json = _ref.json,
+	        response = _ref.response;
 
 	    if (!response.ok) {
 	      return Promise.reject(json);
@@ -807,7 +807,7 @@
 
 	var _reactIntl = __webpack_require__(1);
 
-	var _SectionCreateModal = __webpack_require__(32);
+	var _SectionCreateModal = __webpack_require__(33);
 
 	var _SectionCreateModal2 = _interopRequireDefault(_SectionCreateModal);
 
@@ -815,7 +815,7 @@
 
 	var _SectionFactory2 = _interopRequireDefault(_SectionFactory);
 
-	var _ModuleListItem = __webpack_require__(31);
+	var _ModuleListItem = __webpack_require__(32);
 
 	var _ModuleListItem2 = _interopRequireDefault(_ModuleListItem);
 
@@ -850,6 +850,10 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var _ref = _jsx(_reactIntl.FormattedMessage, {
+	  id: 'deleteSection'
+	});
+
+	var _ref2 = _jsx(_reactIntl.FormattedMessage, {
 	  id: 'submitBack'
 	});
 
@@ -917,7 +921,7 @@
 	          bsStyle: 'danger',
 	          bsSize: 'xsmall',
 	          onClick: _this.handleDeleteSection(section)
-	        }, void 0, 'Poista section'), _jsx(_SectionCreateModal2.default, {
+	        }, void 0, _ref), _jsx(_SectionCreateModal2.default, {
 	          editSection: _this.handleEditSection(section),
 	          section: section
 	        }));
@@ -986,7 +990,7 @@
 	        onClick: function onClick() {
 	          return _this3.props.addElementFunctionToMainview();
 	        }
-	      }, void 0, '←', _ref), ' ', this.state.module.title), _jsx(_reactBootstrap.Well, {}, void 0, _jsx('div', {
+	      }, void 0, '\u2190', _ref2), ' ', this.state.module.title), _jsx(_reactBootstrap.Well, {}, void 0, _jsx('div', {
 	        className: _ModuleList2.default.textarea
 	      }, void 0, this.state.module.info)), this.state.sections.map(function (section) {
 	        return _jsx(_reactBootstrap.Panel, {
@@ -1409,7 +1413,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRedux = __webpack_require__(8);
+	var _reactRedux = __webpack_require__(6);
 
 	var _reactIntl = __webpack_require__(1);
 
@@ -1447,7 +1451,7 @@
 
 	var _PostActions = __webpack_require__(20);
 
-	var _PostReducer = __webpack_require__(33);
+	var _PostReducer = __webpack_require__(34);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1559,7 +1563,7 @@
 	    };
 
 	    _this.addToElementFunctionsArray = function () {
-	      var elementFunction = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+	      var elementFunction = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 
 	      if (!elementFunction) {
@@ -1609,7 +1613,10 @@
 	    /*
 	      Function that is given to all children as a prop, so that
 	      they could update main page render function (ergo give new 
-	      view element to their parent). 
+	      view element to their parent). The function has three options: 
+	      without paramameter it adds mainpage elements, when given a 
+	      react array it replaceses current array and if given a react 
+	      element it adds it to the end of the array. 
 	    */
 
 	    /*
@@ -1983,13 +1990,13 @@
 
 	var _user2 = _interopRequireDefault(_user);
 
-	var _cuid = __webpack_require__(7);
+	var _cuid = __webpack_require__(8);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 	var savedUtil = null;
 
@@ -2044,7 +2051,7 @@
 
 	var _en2 = _interopRequireDefault(_en);
 
-	var _en3 = __webpack_require__(56);
+	var _en3 = __webpack_require__(57);
 
 	var _en4 = _interopRequireDefault(_en3);
 
@@ -2054,7 +2061,7 @@
 
 	var _fi2 = _interopRequireDefault(_fi);
 
-	var _fi3 = __webpack_require__(57);
+	var _fi3 = __webpack_require__(58);
 
 	var _fi4 = _interopRequireDefault(_fi3);
 
@@ -2080,8 +2087,8 @@
 	// use this to allow nested messages, taken from docs:
 	// https://github.com/yahoo/react-intl/wiki/Upgrade-Guide#flatten-messages-object
 	function flattenMessages() {
-	  var nestedMessages = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-	  var prefix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+	  var nestedMessages = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
 	  return Object.keys(nestedMessages).reduce(function (messages, key) {
 	    var value = nestedMessages[key];
@@ -2144,6 +2151,57 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.getIntl = undefined;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _setup = __webpack_require__(28);
+
+	var _IntlActions = __webpack_require__(29);
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	var initLocale = global.navigator && global.navigator.language || 'fi';
+
+	var initialState = _extends({
+	  locale: initLocale,
+	  enabledLanguages: _setup.enabledLanguages
+	}, _setup.localizationData[initLocale] || {});
+
+	var IntlReducer = function IntlReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case _IntlActions.SWITCH_LANGUAGE:
+	      {
+	        var type = action.type,
+	            actionWithoutType = _objectWithoutProperties(action, ['type']); // eslint-disable-line
+
+
+	        return _extends({}, state, actionWithoutType);
+	      }
+	    default:
+	      return state;
+	  }
+	};
+
+	var getIntl = exports.getIntl = function getIntl(state) {
+	  return state.intl;
+	};
+
+	exports.default = IntlReducer;
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.getModules = undefined;
 
 	var _ModuleActions = __webpack_require__(9);
@@ -2153,7 +2211,7 @@
 	var initialState = { modules: [] };
 
 	var ModuleReducer = function ModuleReducer() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
 	  var action = arguments[1];
 
 	  switch (action.type) {
@@ -2198,7 +2256,7 @@
 	exports.default = ModuleReducer;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2224,6 +2282,8 @@
 	var _authStorage = __webpack_require__(3);
 
 	var _ModuleActions = __webpack_require__(9);
+
+	var _reactRedux = __webpack_require__(6);
 
 	var _ModulePage = __webpack_require__(12);
 
@@ -2251,10 +2311,6 @@
 	 * which is located in ModuleList.js
 	 */
 
-	var _ref = _jsx(_reactIntl.FormattedMessage, {
-	  id: 'submitGo'
-	});
-
 	var ModuleListItem = exports.ModuleListItem = function (_Component) {
 	  _inherits(ModuleListItem, _Component);
 
@@ -2271,6 +2327,7 @@
 	    };
 
 	    _this.state = { module: _this.props.module };
+
 	    return _this;
 	  }
 
@@ -2286,17 +2343,23 @@
 	          return _this2.props.addElementFunctionToMainview(_this2.modulePageElement);
 	        },
 	        className: (0, _authStorage.getTokenPayload)() ? 'btn btn-default pull-right' : 'hidden'
-	      }, void 0, _ref, '→'));
+	      }, void 0, this.props.intl.messages.submitGo, ' \u2192'));
 	    }
 	  }]);
 
 	  return ModuleListItem;
 	}(_react.Component);
 
-	exports.default = ModuleListItem;
+	function mapStateToProps(store) {
+	  return {
+	    intl: store.intl
+	  };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps)(ModuleListItem);
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2321,7 +2384,7 @@
 
 	var _SectionActions = __webpack_require__(11);
 
-	var _validator = __webpack_require__(38);
+	var _validator = __webpack_require__(39);
 
 	var _validator2 = _interopRequireDefault(_validator);
 
@@ -2346,32 +2409,36 @@
 	  id: 'addSection'
 	});
 
-	var _ref3 = _jsx(Header, {
+	var _ref3 = _jsx(_reactIntl.FormattedMessage, {
+	  id: 'editSection'
+	});
+
+	var _ref4 = _jsx(Header, {
 	  closeButton: true
 	}, void 0, _jsx(Title, {}, void 0, _jsx(_reactIntl.FormattedMessage, {
 	  id: 'addingSection'
 	})));
 
-	var _ref4 = _jsx(_reactBootstrap.ControlLabel, {}, void 0, ' ', _jsx(_reactIntl.FormattedMessage, {
+	var _ref5 = _jsx(_reactBootstrap.ControlLabel, {}, void 0, ' ', _jsx(_reactIntl.FormattedMessage, {
 	  id: 'sectionTitle'
 	}), ' ');
 
-	var _ref5 = _jsx(_reactBootstrap.ControlLabel, {}, void 0, ' ', _jsx(_reactIntl.FormattedMessage, {
+	var _ref6 = _jsx(_reactBootstrap.ControlLabel, {}, void 0, ' ', _jsx(_reactIntl.FormattedMessage, {
 	  id: 'sectionContent'
 	}), ' ');
 
-	var _ref6 = _jsx(_reactBootstrap.ControlLabel, {}, void 0, ' ', _jsx(_reactIntl.FormattedMessage, {
+	var _ref7 = _jsx(_reactBootstrap.ControlLabel, {}, void 0, ' ', _jsx(_reactIntl.FormattedMessage, {
 	  id: 'sectionLink'
 	}), ' ');
 
-	var _ref7 = _jsx(_reactBootstrap.Button, {
+	var _ref8 = _jsx(_reactBootstrap.Button, {
 	  type: 'submit',
 	  bsStyle: 'primary'
 	}, void 0, ' ', _jsx(_reactIntl.FormattedMessage, {
 	  id: 'submitAdd'
 	}), ' ');
 
-	var _ref8 = _jsx(_reactIntl.FormattedMessage, {
+	var _ref9 = _jsx(_reactIntl.FormattedMessage, {
 	  id: 'cancel'
 	});
 
@@ -2450,7 +2517,7 @@
 	          bsStyle: 'warning',
 	          bsSize: 'xsmall',
 	          className: 'pull-right'
-	        }, void 0, 'MUOKKAA SECTIONIA');
+	        }, void 0, _ref3);
 	      }
 	    };
 
@@ -2466,19 +2533,19 @@
 	        onHide: this.close,
 	        bsSize: 'large',
 	        'aria-labelledby': 'contained-modal-title-lg'
-	      }, void 0, _ref3, _jsx('form', {
+	      }, void 0, _ref4, _jsx('form', {
 	        onSubmit: this.sendSection
-	      }, void 0, _jsx(Body, {}, void 0, _ref4, _jsx(_reactBootstrap.FormControl, {
+	      }, void 0, _jsx(Body, {}, void 0, _ref5, _jsx(_reactBootstrap.FormControl, {
 	        type: 'text',
 	        value: this.state.formTitle,
 	        onChange: this.handleTitleChange,
 	        placeholder: this.props.intl.messages.sectionTitle
-	      }), _ref5, _jsx(_reactBootstrap.FormControl, {
+	      }), _ref6, _jsx(_reactBootstrap.FormControl, {
 	        componentClass: 'textarea',
 	        value: this.state.formContent,
 	        onChange: this.handleContentChange,
 	        placeholder: this.props.intl.messages.sectionContent
-	      }), _ref6, _jsx(_reactBootstrap.FormControl, {
+	      }), _ref7, _jsx(_reactBootstrap.FormControl, {
 	        type: 'text',
 	        value: this.state.formLink,
 	        onChange: this.handleLinkChange,
@@ -2487,9 +2554,9 @@
 	        className: this.state.error ? '' : 'hidden'
 	      }, void 0, _jsx(_reactBootstrap.Alert, {
 	        bsStyle: 'warning'
-	      }, void 0, _jsx('b', {}, void 0, this.state.error))), _ref7, _jsx(_reactBootstrap.Button, {
+	      }, void 0, _jsx('b', {}, void 0, this.state.error))), _ref8, _jsx(_reactBootstrap.Button, {
 	        onClick: this.close
-	      }, void 0, ' ', _ref8, ' ')))));
+	      }, void 0, ' ', _ref9, ' ')))));
 	    }
 	  }]);
 
@@ -2499,7 +2566,7 @@
 	exports.default = (0, _reactIntl.injectIntl)(SectionCreateModal);
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2518,7 +2585,7 @@
 	var initialState = { data: [] };
 
 	var PostReducer = function PostReducer() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
 	  var action = arguments[1];
 
 	  switch (action.type) {
@@ -2572,7 +2639,7 @@
 	exports.default = PostReducer;
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2798,17 +2865,17 @@
 
 	var _quiz2 = _interopRequireDefault(_quiz);
 
-	var _cuid = __webpack_require__(7);
+	var _cuid = __webpack_require__(8);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
-	var _score = __webpack_require__(35);
+	var _score = __webpack_require__(36);
 
-	var _user = __webpack_require__(6);
+	var _user = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 	function areOptionsEqual(arr1, arr2) {
 	  if (arr1.length != arr2.length) {
@@ -2825,7 +2892,7 @@
 	}
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2960,32 +3027,32 @@
 
 	var _score2 = _interopRequireDefault(_score);
 
-	var _user = __webpack_require__(6);
+	var _user = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	module.exports = require("react-dom");
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 /***/ },
 /* 37 */
 /***/ function(module, exports) {
 
-	module.exports = require("redux");
+	module.exports = require("react-dom");
 
 /***/ },
 /* 38 */
 /***/ function(module, exports) {
 
-	module.exports = require("validator");
+	module.exports = require("redux");
 
 /***/ },
 /* 39 */
+/***/ function(module, exports) {
+
+	module.exports = require("validator");
+
+/***/ },
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3002,7 +3069,7 @@
 
 	var _reactIntl = __webpack_require__(1);
 
-	var _reactRedux = __webpack_require__(8);
+	var _reactRedux = __webpack_require__(6);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3024,7 +3091,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(IntlWrapper);
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3043,7 +3110,7 @@
 
 	var _reactRouter = __webpack_require__(18);
 
-	var _App = __webpack_require__(58);
+	var _App = __webpack_require__(59);
 
 	var _App2 = _interopRequireDefault(_App);
 
@@ -3094,7 +3161,7 @@
 	}));
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3105,13 +3172,13 @@
 	});
 	exports.configureStore = configureStore;
 
-	var _redux = __webpack_require__(37);
+	var _redux = __webpack_require__(38);
 
 	var _reduxThunk = __webpack_require__(102);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _DevTools = __webpack_require__(59);
+	var _DevTools = __webpack_require__(60);
 
 	var _DevTools2 = _interopRequireDefault(_DevTools);
 
@@ -3125,7 +3192,7 @@
 	 * Main store function
 	 */
 	function configureStore() {
-	  var initialState = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	  var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 	  // Middleware and store enhancers
 	  var enhancers = [(0, _redux.applyMiddleware)(_reduxThunk2.default)];
@@ -3150,7 +3217,7 @@
 	}
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3184,7 +3251,7 @@
 	exports.default = router;
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3218,7 +3285,7 @@
 	exports.default = router;
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3230,7 +3297,7 @@
 
 	var _express = __webpack_require__(5);
 
-	var _quiz = __webpack_require__(34);
+	var _quiz = __webpack_require__(35);
 
 	var QuizController = _interopRequireWildcard(_quiz);
 
@@ -3249,7 +3316,7 @@
 	exports.default = router;
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3261,7 +3328,7 @@
 
 	var _express = __webpack_require__(5);
 
-	var _score = __webpack_require__(35);
+	var _score = __webpack_require__(36);
 
 	var ScoreController = _interopRequireWildcard(_score);
 
@@ -3278,7 +3345,7 @@
 	exports.default = router;
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3309,7 +3376,7 @@
 	exports.default = router;
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3321,7 +3388,7 @@
 
 	var _express = __webpack_require__(5);
 
-	var _user = __webpack_require__(6);
+	var _user = __webpack_require__(7);
 
 	var UserController = _interopRequireWildcard(_user);
 
@@ -3348,7 +3415,7 @@
 	exports.default = router;
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3375,7 +3442,7 @@
 	  */
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3449,43 +3516,43 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, ""))
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports) {
 
 	module.exports = require("body-parser");
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports) {
 
 	module.exports = require("compression");
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-dom/server");
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports) {
 
 	module.exports = require("webpack-dev-middleware");
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports) {
 
 	module.exports = require("webpack-hot-middleware");
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3525,9 +3592,11 @@
 	    deleteModule: 'Delete module',
 	    moduleTitle: 'Header',
 	    moduleContent: 'Introduction',
+	    editModule: 'Edit module',
 	    //Sections
 	    addSection: 'Add section',
 	    deleteSection: 'Delete section',
+	    editSection: 'Edit Section',
 	    sectionTitle: 'Section header, optional',
 	    sectionContent: 'Section content',
 	    sectionLink: 'Link to Multimediacontent (images, videos etc.)',
@@ -3579,7 +3648,7 @@
 	};
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3619,9 +3688,11 @@
 	    deleteModule: 'Poista moduuli',
 	    moduleTitle: 'Otsikko',
 	    moduleContent: 'Kuvaus',
+	    editModule: 'Muokkaa modulea',
 	    //Sections
 	    addSection: 'Lisää osio',
 	    deleteSection: 'Poista osio',
+	    editSection: 'Muokkaa osiota',
 	    sectionTitle: 'Osion otsikko, valinnainen',
 	    sectionContent: 'Osion sisältö',
 	    sectionLink: 'Linkki multimediasisältöön (kuvat, videot ym.)',
@@ -3651,7 +3722,7 @@
 	    sendConfirmFail: 'Rekisteröityminen epäonnistui, koska vahvistusviestiä ei voitu lähettää' + 'Onko sähköpostiosoitteesi toimiva?',
 	    registerTitle: "Uuden käyttäjän rekisteröinti",
 	    editTitle: "Käyttäjän tietojen hallinta",
-	    userAlreadyExists: 'Käyttäjä {user} on jo olemassa!',
+	    userAlreadyExists: 'K\xE4ytt\xE4j\xE4 {user} on jo olemassa!',
 	    emailNotValid: 'Sähköpostiosoitteessa on kirjoitusvirhe!',
 	    nameNotValid: 'Etunimi tai sukunimi puuttuu.',
 	    passwordNotValid: 'Salasana ei ole tarpeeksi vahva.' + ' Salasanan on oltava yli 8 merkkiä pitkä',
@@ -3674,7 +3745,7 @@
 	};
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3693,7 +3764,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRedux = __webpack_require__(8);
+	var _reactRedux = __webpack_require__(6);
 
 	var _App = {
 	  "container": "App__container__4uEyK"
@@ -3705,11 +3776,11 @@
 
 	var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
 
-	var _PassStorage = __webpack_require__(62);
+	var _PassStorage = __webpack_require__(63);
 
 	var _PassStorage2 = _interopRequireDefault(_PassStorage);
 
-	var _Header = __webpack_require__(60);
+	var _Header = __webpack_require__(61);
 
 	var _Header2 = _interopRequireDefault(_Header);
 
@@ -3793,7 +3864,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 
 /***/ },
-/* 59 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3827,7 +3898,7 @@
 	}, void 0, _jsx(_reduxDevtoolsLogMonitor2.default, {})));
 
 /***/ },
-/* 60 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3857,9 +3928,9 @@
 
 	var _reactBootstrap = __webpack_require__(2);
 
-	var _LoginBox = __webpack_require__(61);
+	var _LoginBox = __webpack_require__(62);
 
-	var _reactDom = __webpack_require__(36);
+	var _reactDom = __webpack_require__(37);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -3932,7 +4003,7 @@
 	exports.default = Header;
 
 /***/ },
-/* 61 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3963,7 +4034,7 @@
 
 	var jwt = _interopRequireWildcard(_jwtSimple);
 
-	var _reactDom = __webpack_require__(36);
+	var _reactDom = __webpack_require__(37);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -4180,7 +4251,7 @@
 	exports.default = LoginBox;
 
 /***/ },
-/* 62 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4244,54 +4315,6 @@
 	;
 
 	exports.default = PassStorage;
-
-/***/ },
-/* 63 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _setup = __webpack_require__(28);
-
-	var _IntlActions = __webpack_require__(29);
-
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-	var initLocale = global.navigator && global.navigator.language || 'fi';
-
-	var initialState = _extends({
-	  locale: initLocale,
-	  enabledLanguages: _setup.enabledLanguages
-	}, _setup.localizationData[initLocale] || {});
-
-	var IntlReducer = function IntlReducer() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case _IntlActions.SWITCH_LANGUAGE:
-	      {
-	        var type = action.type;
-
-	        var actionWithoutType = _objectWithoutProperties(action, ['type']); // eslint-disable-line
-
-
-	        return _extends({}, state, actionWithoutType);
-	      }
-
-	    default:
-	      return state;
-	  }
-	};
-
-	exports.default = IntlReducer;
 
 /***/ },
 /* 64 */
@@ -4420,7 +4443,7 @@
 
 	var _reactIntl = __webpack_require__(1);
 
-	var _ModuleListItem = __webpack_require__(31);
+	var _ModuleListItem = __webpack_require__(32);
 
 	var _ModuleListItem2 = _interopRequireDefault(_ModuleListItem);
 
@@ -4432,11 +4455,11 @@
 
 	var _styles = __webpack_require__(15);
 
-	var _reactRedux = __webpack_require__(8);
+	var _reactRedux = __webpack_require__(6);
 
 	var _ModuleActions = __webpack_require__(9);
 
-	var _ModuleReducer = __webpack_require__(30);
+	var _ModuleReducer = __webpack_require__(31);
 
 	var _ModuleList = {
 	  "panel-heading": "ModuleList__panel-heading__3s4vL",
@@ -4445,6 +4468,8 @@
 	};
 
 	var _ModuleList2 = _interopRequireDefault(_ModuleList);
+
+	var _IntlReducer = __webpack_require__(30);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4508,7 +4533,7 @@
 	          bsStyle: 'warning',
 	          bsSize: 'xsmall',
 	          onClick: _this.showEditModule(module, index)
-	        }, void 0, 'Muokkaa Modulea');
+	        }, void 0, _this.props.intl.messages.editModule);
 	      }
 	    };
 
@@ -4519,7 +4544,7 @@
 	          bsStyle: 'danger',
 	          bsSize: 'xsmall',
 	          onClick: _this.handleDeleteModule(module, index)
-	        }, void 0, 'Poista Module');
+	        }, void 0, _this.props.intl.messages.deleteModule);
 	      }
 	    };
 
@@ -4617,7 +4642,8 @@
 
 	function mapStateToProps(state) {
 	  return {
-	    modules: (0, _ModuleReducer.getModules)(state)
+	    modules: (0, _ModuleReducer.getModules)(state),
+	    intl: (0, _IntlReducer.getIntl)(state)
 	  };
 	}
 
@@ -4647,7 +4673,7 @@
 
 	var _reactIntl = __webpack_require__(1);
 
-	var _validator = __webpack_require__(38);
+	var _validator = __webpack_require__(39);
 
 	var _validator2 = _interopRequireDefault(_validator);
 
@@ -4659,7 +4685,7 @@
 
 	var _QuizCreateModal2 = _interopRequireDefault(_QuizCreateModal);
 
-	var _SectionCreateModal = __webpack_require__(32);
+	var _SectionCreateModal = __webpack_require__(33);
 
 	var _SectionCreateModal2 = _interopRequireDefault(_SectionCreateModal);
 
@@ -4899,7 +4925,7 @@
 			var _this = _possibleConstructorReturn(this, (SectionFactory.__proto__ || Object.getPrototypeOf(SectionFactory)).call(this, props));
 
 			_this.createSections = function (button) {
-				var sectionsCount = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+				var sectionsCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
 
 				var testContent = "";
@@ -5274,7 +5300,7 @@
 	  }, void 0, _jsx('a', {
 	    href: '#',
 	    onClick: props.onDelete
-	  }, void 0, _ref), '   |  ', _jsx('a', {
+	  }, void 0, _ref), ' \xA0 |\xA0\xA0', _jsx('a', {
 	    href: '#',
 	    onClick: props.onEdit
 	  }, void 0, _ref2)));
@@ -5900,7 +5926,7 @@
 	      }, void 0, 'Poista kysymys'), _jsx(_reactBootstrap.Button, {
 	        bsStyle: 'link',
 	        onClick: this.sendEdit
-	      }, void 0, 'Muokkaa kysymystä')))), quiz.options.map(function (option, i) {
+	      }, void 0, 'Muokkaa kysymyst\xE4')))), quiz.options.map(function (option, i) {
 	        return _jsx(_QuizItemOption.QuizItemOption, {
 	          option: option
 	        }, i);
@@ -6284,17 +6310,17 @@
 	  value: true
 	});
 
-	var _redux = __webpack_require__(37);
+	var _redux = __webpack_require__(38);
 
-	var _PostReducer = __webpack_require__(33);
+	var _PostReducer = __webpack_require__(34);
 
 	var _PostReducer2 = _interopRequireDefault(_PostReducer);
 
-	var _ModuleReducer = __webpack_require__(30);
+	var _ModuleReducer = __webpack_require__(31);
 
 	var _ModuleReducer2 = _interopRequireDefault(_ModuleReducer);
 
-	var _IntlReducer = __webpack_require__(63);
+	var _IntlReducer = __webpack_require__(30);
 
 	var _IntlReducer2 = _interopRequireDefault(_IntlReducer);
 
@@ -6463,15 +6489,15 @@
 
 	var _module2 = _interopRequireDefault(_module);
 
-	var _cuid = __webpack_require__(7);
+	var _cuid = __webpack_require__(8);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
-	var _user = __webpack_require__(6);
+	var _user = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 	function getModules(req, res) {
 	  _module2.default.find().sort('orderNumber').exec(function (err, modules) {
@@ -6808,7 +6834,7 @@
 
 	var _user2 = _interopRequireDefault(_user);
 
-	var _cuid = __webpack_require__(7);
+	var _cuid = __webpack_require__(8);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
@@ -6820,13 +6846,13 @@
 
 	var jwt = _interopRequireWildcard(_jwtSimple);
 
-	var _user3 = __webpack_require__(6);
+	var _user3 = __webpack_require__(7);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 	var userToCuids = {};function getPost(req, res) {
 	  _post2.default.findOne({ cuid: req.params.cuid }).exec(function (err, post) {
@@ -7167,17 +7193,17 @@
 
 	var _section2 = _interopRequireDefault(_section);
 
-	var _cuid = __webpack_require__(7);
+	var _cuid = __webpack_require__(8);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
-	var _user = __webpack_require__(6);
+	var _user = __webpack_require__(7);
 
-	var _quiz = __webpack_require__(34);
+	var _quiz = __webpack_require__(35);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 /***/ },
 /* 80 */
@@ -7196,7 +7222,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 	var Schema = _mongoose2.default.Schema;
 
@@ -7305,7 +7331,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 	var Schema = _mongoose2.default.Schema;
 
@@ -7383,7 +7409,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 	var Schema = _mongoose2.default.Schema;
 
@@ -7494,7 +7520,7 @@
 
 	var _express2 = _interopRequireDefault(_express);
 
-	var _compression = __webpack_require__(51);
+	var _compression = __webpack_require__(52);
 
 	var _compression2 = _interopRequireDefault(_compression);
 
@@ -7502,15 +7528,15 @@
 
 	var _mongoose2 = _interopRequireDefault(_mongoose);
 
-	var _bodyParser = __webpack_require__(50);
+	var _bodyParser = __webpack_require__(51);
 
 	var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-	var _path = __webpack_require__(52);
+	var _path = __webpack_require__(53);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _IntlWrapper = __webpack_require__(39);
+	var _IntlWrapper = __webpack_require__(40);
 
 	var _IntlWrapper2 = _interopRequireDefault(_IntlWrapper);
 
@@ -7518,27 +7544,27 @@
 
 	var _webpack2 = _interopRequireDefault(_webpack);
 
-	var _webpackConfig = __webpack_require__(49);
+	var _webpackConfig = __webpack_require__(50);
 
 	var _webpackConfig2 = _interopRequireDefault(_webpackConfig);
 
-	var _webpackDevMiddleware = __webpack_require__(54);
+	var _webpackDevMiddleware = __webpack_require__(55);
 
 	var _webpackDevMiddleware2 = _interopRequireDefault(_webpackDevMiddleware);
 
-	var _webpackHotMiddleware = __webpack_require__(55);
+	var _webpackHotMiddleware = __webpack_require__(56);
 
 	var _webpackHotMiddleware2 = _interopRequireDefault(_webpackHotMiddleware);
 
-	var _store = __webpack_require__(41);
+	var _store = __webpack_require__(42);
 
-	var _reactRedux = __webpack_require__(8);
+	var _reactRedux = __webpack_require__(6);
 
 	var _react = __webpack_require__(0);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _server = __webpack_require__(53);
+	var _server = __webpack_require__(54);
 
 	var _reactRouter = __webpack_require__(18);
 
@@ -7546,33 +7572,33 @@
 
 	var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
 
-	var _routes = __webpack_require__(40);
+	var _routes = __webpack_require__(41);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _fetchData = __webpack_require__(48);
+	var _fetchData = __webpack_require__(49);
 
-	var _post = __webpack_require__(43);
+	var _post = __webpack_require__(44);
 
 	var _post2 = _interopRequireDefault(_post);
 
-	var _user = __webpack_require__(47);
+	var _user = __webpack_require__(48);
 
 	var _user2 = _interopRequireDefault(_user);
 
-	var _module = __webpack_require__(42);
+	var _module = __webpack_require__(43);
 
 	var _module2 = _interopRequireDefault(_module);
 
-	var _section = __webpack_require__(46);
+	var _section = __webpack_require__(47);
 
 	var _section2 = _interopRequireDefault(_section);
 
-	var _quiz = __webpack_require__(44);
+	var _quiz = __webpack_require__(45);
 
 	var _quiz2 = _interopRequireDefault(_quiz);
 
-	var _score = __webpack_require__(45);
+	var _score = __webpack_require__(46);
 
 	var _score2 = _interopRequireDefault(_score);
 
@@ -7672,7 +7698,7 @@
 	  var now = new Date();
 	  var time = 24 + (11 - now.getMonth()) * 30 - now.getDate();
 	  if (!error) {
-	    console.log('MERN is running on port: ' + _config2.default.port + '! ' + time + ' päivää jouluun!'); // eslint-disable-line
+	    console.log('MERN is running on port: ' + _config2.default.port + '! ' + time + ' p\xE4iv\xE4\xE4 jouluun!'); // eslint-disable-line
 	  }
 	});
 
