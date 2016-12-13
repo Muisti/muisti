@@ -1,7 +1,7 @@
 /**
  * Entry Script
 */
-
+require('babel-polyfill');
 if (process.env.NODE_ENV === 'production') {
   process.env.webpackAssets = JSON.stringify(require('./dist/manifest.json'));
   process.env.webpackChunkAssets = JSON.stringify(require('./dist/chunk-manifest.json'));
@@ -20,7 +20,6 @@ if (process.env.NODE_ENV === 'production') {
       ]
     ]
   });
-  require('babel-polyfill');
 
   require('./server/server');
 }
