@@ -20,6 +20,9 @@ export async function getQuizzes (req, res) {
 
 export async function getQuizzesForSection(section) {
   let quizzes = await Quiz.find({ sectionCuid: section.cuid }).exec();
+  if (!quizzes) {
+      return [];
+  }
   return quizzes;
 }
 

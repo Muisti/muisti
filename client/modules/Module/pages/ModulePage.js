@@ -60,6 +60,7 @@ class ModulePage extends Component {
     newSection.orderNumber = this.state.sections.length;
     newSection.quizzes = [];
     addSectionRequest(newSection).then(savedSection => {
+        savedSection.quizzes = [];
         this.addToState(savedSection);
     });
   };
