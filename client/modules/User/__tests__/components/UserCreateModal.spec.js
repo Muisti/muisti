@@ -118,11 +118,9 @@ test('editUser gets called', async t => {
   
   await Promise.resolve();
 
-  console.log("ENNEN TRUTHYÄ");
   t.truthy(stub2.called);
   t.truthy(stub.called);
 
-  console.log("ENNEN RESTOREJA");
   stub.restore();
   stub2.restore();
 

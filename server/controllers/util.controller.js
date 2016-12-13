@@ -38,7 +38,6 @@ async function putUtil() {
         const user = await User.findOne({ email: newadmin }).exec();
         if (user && !(savedUtil.admins.find(admin => admin.adminCuid === user.cuid))) {
             savedUtil.admins.push({ adminCuid: user.cuid });
-            console.log(savedUtil.admins);
         }
     }
     if (email && smtp) { 

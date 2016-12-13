@@ -23,10 +23,6 @@ export async function addUser(req, res) {
   newUser.cuid = cuid();
   newUser.confirmation = cuid();
 
-  //this line is temporary code allowing developers to create account
-  //without confirmation emails: accounts surname must start with letter 'M'
-  if(newUser.surname.startsWith("M")) newUser.confirmation = "confirmed";
-
   return newUser.save()
     .then(() => sendConfirmationEmail(req.body.url, newUser))
     // we care security - not send confirmation code to client
@@ -163,14 +159,17 @@ function isUserAccountConfirmed(user){
  */
 
 async function sendConfirmationEmail(ownUrl, user){
-
+    const emailhost = await getEmailHost();
+    const email = await getEmail();
+    const epassw = await getPassword();
+    
   var transporter = mailer.createTransport({
-    host: await getEmailHost(), // hostname
+    host: emailhost, // hostname
     secure: true,
     port: 465,   // port for secure SMTP
     auth: {
-      user: await getEmail(),
-      pass: await getPassword()
+      user: email,
+      pass: epassw
     },
     tls: {
       rejectUnauthorized: false
@@ -182,7 +181,7 @@ async function sendConfirmationEmail(ownUrl, user){
   var content = "Olet rekisteröitynyt muistisovellukseen. Vahvistaaksesi rekisteröinnin paina linkkiä: " + link;
 
   var mailOptions = {
-    from: '"Muistisovellus " <muistivahvistus@gmail.com>',
+    from: '"Muistisovellus " <' + email + '>',
     to: user.email,
     subject: 'rekisteröinnin vahvistus',
     html: "<b>" + content + "</b>"
