@@ -3,6 +3,11 @@ import { Button, ButtonToolbar, Checkbox, Modal, Form, FormControl, ControlLabel
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { addQuizRequest } from '../QuizActions';
 
+var Header = Modal.Header;
+var Title = Modal.Title;
+var Body = Modal.Body;
+var Footer = Modal.Footer;
+
 export class QuizCreateModal extends Component {
 
   constructor(props) {
@@ -91,10 +96,10 @@ export class QuizCreateModal extends Component {
     return (
         <Modal show={this.props.show} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
 
-          <Modal.Header closeButton>
-            <Modal.Title><FormattedMessage id={isNewQuiz ? 'addQuizTitle' : 'editQuizTitle'} /></Modal.Title>
-          </Modal.Header>
-            <Modal.Body>
+          <Header closeButton>
+            <Title><FormattedMessage id={isNewQuiz ? 'addQuizTitle' : 'editQuizTitle'} /></Title>
+          </Header>
+            <Body>
               <ControlLabel> <FormattedMessage id='question' /> </ControlLabel>
               <FormControl componentClass="textarea" value={this.state.formQuestion} onChange={this.handleQuestionChange}
                     placeholder={this.props.intl.messages.question} />
@@ -105,14 +110,14 @@ export class QuizCreateModal extends Component {
                 <Button onClick={this.addField} bsStyle="danger"> <FormattedMessage id='submitAdd' /> </Button>
                 <Button onClick={this.removeField} bsStyle="danger"> <FormattedMessage id='submitRemove' /> </Button>
               </ButtonToolbar>
-            </Modal.Body>
+            </Body>
 
-            <Modal.Footer>
+            <Footer>
               <Button onClick={this.handleSaveQuiz}> 
                   <FormattedMessage id={isNewQuiz ? 'submitCreate' : 'submitEdit'} /> 
               </Button>
               <Button onClick={this.props.cancel}> <FormattedMessage id='cancel' /> </Button>
-            </Modal.Footer>
+            </Footer>
         </Modal>
     );
   }

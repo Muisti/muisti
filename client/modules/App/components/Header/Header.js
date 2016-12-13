@@ -13,6 +13,11 @@ import { fetchPosts } from '../../../Post/PostActions';
 import { fetchModules } from '../../../Module/ModuleActions';
 
 
+const Heade = Navbar.Header;
+const Brand = Navbar.Brand;
+const Toggle = Navbar.Toggle;
+const Collapse = Navbar.Collapse;
+
 export function Header(props) {
 
   const languageNodes = props.intl.enabledLanguages.map(
@@ -21,20 +26,20 @@ export function Header(props) {
 
     return (
       <Navbar>
-        <Navbar.Header>
-          <Navbar.Brand>
+        <Heade>
+          <Brand>
             <a href="/"><FormattedMessage id={'siteTitle'} /></a>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
+          </Brand>
+          <Toggle />
+        </Heade>
+        <Collapse>
             <Nav pullRight>
               <LoginBox fetchPosts={() => props.dispatch(fetchPosts())} fetchModules={() => props.dispatch(fetchModules())} intl={props.intl} />
             <NavDropdown eventKey={2} title={<FormattedMessage id={'switchLanguage'} />} id="basic-nav-dropdown">
                 {languageNodes}
             </NavDropdown>
         </Nav>
-        </Navbar.Collapse>
+        </Collapse>
       </Navbar>
 
     );

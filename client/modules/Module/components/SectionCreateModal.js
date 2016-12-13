@@ -4,6 +4,11 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { addSectionRequest } from '../SectionActions'
 import validator from 'validator'
 
+var Header = Modal.Header;
+var Title = Modal.Title;
+var Body = Modal.Body;
+var Footer = Modal.Footer;
+
 export class SectionCreateModal extends Component {
 
   constructor(props) {
@@ -92,11 +97,11 @@ export class SectionCreateModal extends Component {
         
         <Modal show={this.state.showModal} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
 
-          <Modal.Header closeButton>
-            <Modal.Title><FormattedMessage id="addingSection"/></Modal.Title>
-          </Modal.Header>
+          <Header closeButton>
+            <Title><FormattedMessage id="addingSection"/></Title>
+          </Header>
           <form onSubmit={this.sendSection}>
-          <Modal.Body>
+          <Body>
             
               <ControlLabel> <FormattedMessage id="sectionTitle"/> </ControlLabel>
               <FormControl type="text" value={this.state.formTitle} onChange={this.handleTitleChange}
@@ -111,9 +116,9 @@ export class SectionCreateModal extends Component {
                     placeholder={this.props.intl.messages.sectionLink} />
               
            
-          </Modal.Body>
+          </Body>
 
-          <Modal.Footer>
+          <Footer>
              <div className={this.state.error ? '' : 'hidden'}>
                 <Alert bsStyle="warning">
                     <b>{this.state.error}</b>
@@ -121,7 +126,7 @@ export class SectionCreateModal extends Component {
             </div>
             <Button type="submit" bsStyle="primary" > <FormattedMessage id="submitAdd"/> </Button>
             <Button onClick={this.close}> <FormattedMessage id="cancel"/> </Button>
-          </Modal.Footer>
+          </Footer>
            </form>
         </Modal>
 
