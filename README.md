@@ -45,7 +45,7 @@ npm run bs
 npm start MONGO_URL=mongodb://username:password@ds147487.mlab.com:47487/osoite PORT=8000 EMAIL=test@gmail.com EPASSW=3fa9Kj49dfcvFD EMAILHOST=smtp.gmail.com
 ```
   
-Myöhemmin voit lisätä adminin lisäämällä muuttujan NEWADMIN=\admin-email
+Myöhemmin voit lisätä adminin lisäämällä muuttujan NEWADMIN=admin-email
 
 ## Dokumentaatio
 
