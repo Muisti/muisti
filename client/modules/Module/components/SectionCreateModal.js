@@ -84,7 +84,7 @@ export class SectionCreateModal extends Component {
       } else {
           return (
             <Button onClick={this.openEditor} bsStyle="warning" bsSize="xsmall" className="pull-right">
-                MUOKKAA SECTIONIA
+                <FormattedMessage id={'editSection'} />
             </Button>
           );
       }
