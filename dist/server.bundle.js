@@ -3805,7 +3805,7 @@
 	  rel: 'stylesheet',
 	  href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
 	  integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u',
-	  crossorigin: 'anonymous'
+	  crossOrigin: 'anonymous'
 	});
 
 	var _ref2 = _jsx(_PassStorage2.default, {});
@@ -7664,6 +7664,8 @@
 
 	// Server Side Rendering based on routes matched by React-router.
 	app.use(function (req, res, next) {
+	  res.header("Access-Control-Allow-Origin", "*");
+	  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	  (0, _reactRouter.match)({ routes: _routes2.default, location: req.url }, function (err, redirectLocation, renderProps) {
 	    if (err) {
 	      return res.status(500).end(renderError(err));
