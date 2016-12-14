@@ -3803,17 +3803,12 @@
 
 	var _ref = _jsx('link', {
 	  rel: 'stylesheet',
-	  href: 'http://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css'
-	});
-
-	var _ref2 = _jsx('link', {
-	  rel: 'stylesheet',
 	  href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
 	  integrity: 'sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u',
 	  crossorigin: 'anonymous'
 	});
 
-	var _ref3 = _jsx(_PassStorage2.default, {});
+	var _ref2 = _jsx(_PassStorage2.default, {});
 
 	var App = exports.App = function (_Component) {
 	  _inherits(App, _Component);
@@ -3837,7 +3832,7 @@
 	    value: function render() {
 	      var _this2 = this;
 
-	      return _jsx('div', {}, void 0, _ref, _ref2, _ref3, _jsx('div', {}, void 0, _jsx(_reactHelmet2.default, {
+	      return _jsx('div', {}, void 0, _ref, _ref2, _jsx('div', {}, void 0, _jsx(_reactHelmet2.default, {
 	        title: 'Muistiprojekti',
 	        titleTemplate: '%s - Muisti',
 	        meta: [{ charset: 'utf-8' }, {
