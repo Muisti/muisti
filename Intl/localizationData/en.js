@@ -29,9 +29,11 @@ export default {
     deleteModule: 'Delete module',
     moduleTitle: 'Header',
     moduleContent: 'Introduction',
+    editModule: 'Edit module',
     //Sections
     addSection: 'Add section',
     deleteSection: 'Delete section',
+    editSection: 'Edit Section',
     sectionTitle: 'Section header, optional',
     sectionContent: 'Section content',
     sectionLink: 'Link to Multimediacontent (images, videos etc.)',

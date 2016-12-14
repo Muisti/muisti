@@ -7,10 +7,22 @@ import { mountWithIntl, shallowWithIntl } from '../../../../util/react-intl-test
 
 const modules = [{ title: "11nimi", info: "11sisalto", cuid: "cuidi123123" }, { title: "22nimi", info: "22sisalto", cuid: "coidi124124" }];
 
-test('renders properly', t => {
-  const wrapper = shallowWithIntl(
-    <ModuleListItem module={modules[0]} />
-  );
+test('loads properly', t => {
+	
 
-  t.is(wrapper.find('div').length, 2);
+	function mockStore() {
+  return {
+    subscribe: () => {},
+    dispatch: () => {},
+    getState: () => {
+      return {};
+    }
+  };
+}  
+	
+  const wrapper = shallowWithIntl(
+    <ModuleListItem module={modules[0]} store={mockStore()} />
+  );
+  
+  t.truthy(wrapper.state() != undefined);
 });

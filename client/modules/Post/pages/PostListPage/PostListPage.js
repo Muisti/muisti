@@ -118,7 +118,10 @@ class PostListPage extends Component {
   /*
     Function that is given to all children as a prop, so that
     they could update main page render function (ergo give new 
-    view element to their parent). 
+    view element to their parent). The function has three options: 
+    without paramameter it adds mainpage elements, when given a 
+    react array it replaceses current array and if given a react 
+    element it adds it to the end of the array. 
   */  
 
   addToElementFunctionsArray = (elementFunction = null) => {

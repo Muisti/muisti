@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { fetchModules, addModuleRequest, deleteModuleRequest, editModuleRequest, editModule } from '../ModuleActions';
 import { getModules } from '../ModuleReducer';
 import styles from './ModuleList.css';
-
+import { getIntl } from '../../Intl/IntlReducer'
 /*
  * ModuleList is a list of ModuleListItems. It takes care of adding, editing and
  * removing ModuleListItems from it's array and sending it to the db.
@@ -72,7 +72,7 @@ export class ModuleList extends Component {
     if (getTokenPayload() && getTokenPayload().isAdmin) {
       return (
         <Button className="pull-right" bsStyle="warning" bsSize="xsmall" onClick={this.showEditModule(module, index)}>
-          Muokkaa Modulea
+          {this.props.intl.messages.editModule}
         </Button>
       )
     }
@@ -82,7 +82,7 @@ export class ModuleList extends Component {
     if (getTokenPayload() && getTokenPayload().isAdmin) {
       return (
         <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={this.handleDeleteModule(module, index)}>
-          Poista Module
+         {this.props.intl.messages.deleteModule}
         </Button>
       );
     }
@@ -150,6 +150,7 @@ export class ModuleList extends Component {
             <ModuleCreateWidget sendModule={this.handleAddModule}/>
         </Panel>
       </Accordion>
+    
     );
   }
 }
@@ -157,6 +158,7 @@ export class ModuleList extends Component {
 function mapStateToProps(state) {
   return {
     modules: getModules(state),
+    intl: getIntl(state),
   };
 }
 
