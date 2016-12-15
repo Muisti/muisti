@@ -71,6 +71,13 @@ export async function addPost(req, res) {
   var token = await decodeTokenFromRequest(req);
 
   if(token) {
+    if (!token.isAdmin && !newPost.shared) {
+        console.log(token);
+        console.log(token.isAdmin);
+        console.log(newPost);
+        console.log(newPost.shared);
+        return res.status(403).end();
+    }
     newPost.userCuid = token.cuid;
     return newPost.save()
       .then(() => completePostInformation(newPost, token.cuid))

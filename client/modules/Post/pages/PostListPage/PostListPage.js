@@ -29,7 +29,6 @@ class PostListPage extends Component {
     
   }
 
-
   componentDidMount() {
     this.props.dispatch(fetchPosts());
    

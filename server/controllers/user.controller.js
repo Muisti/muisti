@@ -94,7 +94,6 @@ export async function updateUser(req, res){
     || !req.body.user.password || !req.body.user.cuid ) {
     return res.status(403).end();
   } 
-
   
   const userIsInDatabase = await User.findOne({email: req.params.email});
   

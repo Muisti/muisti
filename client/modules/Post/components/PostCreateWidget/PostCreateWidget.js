@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Panel } from 'react-bootstrap';
+import { getTokenPayload } from '../../../../util/authStorage';
 
 // Import Style
 import styles from './PostCreateWidget.css';
@@ -30,9 +31,10 @@ export class PostCreateWidget extends Component {
 
   addPost = () => {
     const contentRef = this.refs.content;
-    const privateRef = this.refs.private.checked;
+    //Only admins can create public posts.
+    const publicPost = !this.refs.private.checked && getTokenPayload() && getTokenPayload().isAdmin;
     if (contentRef.value) {
-      this.props.addPost(contentRef.value, !privateRef);
+      this.props.addPost(contentRef.value, publicPost);
       contentRef.value = '';
       this.clearFields();
     }
@@ -83,13 +85,13 @@ export class PostCreateWidget extends Component {
 
     const submitText = this.isNewPost() ? "submitAdd" : "submitEdit";
     const title = this.isNewPost() ? "createNewPost" : "editPost";
-
+    const isAdmin = getTokenPayload() && getTokenPayload().isAdmin;
     return (
 
       <Panel header={this.panelHeader(title)} bsStyle="success"
              collapsible expanded={this.props.showAddPost}>
           <div className={styles['form-content']}>
-            <div className={this.isNewPost() ? 'bootstrap-switch-square' : 'hidden'} >
+            <div className={this.isNewPost() && isAdmin ? 'bootstrap-switch-square' : 'hidden'} >
               <input type="checkbox" ref="private"/> <FormattedMessage id="isPrivate"/>
             </div>
 

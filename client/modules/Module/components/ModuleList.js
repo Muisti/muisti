@@ -117,8 +117,8 @@ export class ModuleList extends Component {
      if(this.state.open !== index){ e.stopPropagation(); }
 //   if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
      this.props.dispatch(deleteModuleRequest(module.cuid));
-        
 //  }
+
   };
   closeEditing = () => {
     if(this.state.editing != -1)
