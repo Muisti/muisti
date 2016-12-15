@@ -60,6 +60,7 @@ class ModulePage extends Component {
     newSection.orderNumber = this.state.sections.length;
     newSection.quizzes = [];
     addSectionRequest(newSection).then(savedSection => {
+        savedSection.quizzes = [];
         this.addToState(savedSection);
     });
   };
@@ -98,7 +99,7 @@ class ModulePage extends Component {
       return (
         <span>
           <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={this.handleDeleteSection(section)}>
-            Poista section
+           <FormattedMessage id='deleteSection' />
           </Button>
           <SectionCreateModal editSection={this.handleEditSection(section)} section={section} />
         </span>

@@ -15,10 +15,11 @@ const IntlReducer = (state = initialState, action) => {
       const { type, ...actionWithoutType } = action; // eslint-disable-line
       return { ...state, ...actionWithoutType };
     }
-
     default:
       return state;
   }
 };
+
+export const getIntl = state => state.intl; 
 
 export default IntlReducer;

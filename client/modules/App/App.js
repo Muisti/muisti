@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 // Import Style
 import styles from './App.css';
 
-
 // Import Components
 import Helmet from 'react-helmet';
 import PassStorage from './components/Header/PassStorage';
@@ -28,6 +27,7 @@ export class App extends Component {
     return (
       <div>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
 
         <PassStorage />
         <div>
