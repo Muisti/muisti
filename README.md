@@ -10,9 +10,9 @@
 
 ## Ohje
 
-Asennusohje: NOT READY / EI VALMIS
+## Asennusohje: NOT READY / EI VALMIS
 
-Kloonaa tämä kansio
+Kloonaa tämä github-repo koneellesi menemällä komentorivillä haluttuun hakemistoon ja kirjoita
 
 `git clone https://github.com/Muisti/muisti.git <name-of-the-folder>`
 
@@ -32,6 +32,10 @@ Käynnistä sovellus
 
 `npm start MONGO_URL=mongo-url PORT=port EMAIL=confirmation-email EPASSW=confirmation-email-password EMAILHOST=host-of-email`
   
+Huom: Sovelluksen ajamiseen ja testaukseen liittyvät pikakomennot on määritelty tiedostossa package.json.
+Siellä on määritelty myös projektissa käytetyt riippuvuudet eli javascript-kirjastot. Aina kun lisäät riippuvuuden,
+aja uudestaan npm install.
+
 Esimerkki:
 ```
 git clone https://github.com/Muisti/muisti.git muisti
