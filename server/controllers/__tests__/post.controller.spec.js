@@ -44,7 +44,7 @@ test.serial('Adding post with logged in user works', async t => {
   await data();
 
   const token = await login(0);
-  const post = { userCuid: users[0].cuid, content: "new Poost!", shared: true };
+  const post = { userCuid: users[0].cuid, content: "new Poost!", shared: false };
 
   const res = await request(app)
     .post('/api/posts/')
