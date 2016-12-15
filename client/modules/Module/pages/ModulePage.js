@@ -87,7 +87,7 @@ class ModulePage extends Component {
     return (
       <div className="clearfix">
         <div className={styles['panel-heading']}>
-          {section.title ? section.title : ''}
+          {(section.title ? section.title : '') + ' '}
           {this.panelButtonsForAdmin(section)}
         </div>
       </div>
@@ -115,6 +115,10 @@ class ModulePage extends Component {
 
   };
 
+  toggleSection = section => () => {
+      section.closed = !section.closed;
+      this.setState({});
+  };
 
   render() {
 
@@ -129,7 +133,8 @@ class ModulePage extends Component {
         </Well>
 
         {this.state.sections.map(section => (
-          <Panel collapsible defaultExpanded header={this.panelHeader(section)} eventKey={++i} key={i}>
+          <Panel collapsible expanded={!section.closed} onSelect={this.toggleSection(section)}
+                    header={this.panelHeader(section)} eventKey={++i} key={i}>
             <Section section={section} />
           </Panel>
         ))}
