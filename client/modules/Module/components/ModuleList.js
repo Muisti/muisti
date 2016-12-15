@@ -13,7 +13,7 @@ import { getIntl } from '../../Intl/IntlReducer'
 /*
  * ModuleList is a list of ModuleListItems. It takes care of adding, editing and
  * removing ModuleListItems from it's array and sending it to the db.
- * 
+ *
  * Contains ModuleListItems to list them and ModuleCreateWidget to create and edit the Items
  */
 
@@ -28,11 +28,15 @@ export class ModuleList extends Component {
 
   componentDidMount() {
     this.props.dispatch(fetchModules());
-    
+
   }
 
   handleAddModule = (title, info) => {
-    if (!title || !info) return;
+    if (!title) return;
+
+    if (!info) {
+      info = '';
+    }
 
     var number = 0;
     if (this.props.modules.length > 0) {
@@ -43,7 +47,7 @@ export class ModuleList extends Component {
       title: title,
       info: info,
       orderNumber: number }));
-      
+
   };
 
   addHeader = () => {
@@ -67,7 +71,7 @@ export class ModuleList extends Component {
       </div>
     );
   };
-  
+
   panelEditButtonForAdmin = (module, index) => {
     if (getTokenPayload() && getTokenPayload().isAdmin) {
       return (
@@ -87,28 +91,28 @@ export class ModuleList extends Component {
       );
     }
   };
-  
+
   updateSelection = index => {
       const nextOpen = (this.state.open === index) ? null : index;
       this.state = {...this.state, open: nextOpen};
   };
-  
+
   showEditModule = (module, index) => e => {
-      if(this.state.open === index && this.state.editing !== index){ 
+      if(this.state.open === index && this.state.editing !== index){
           e.stopPropagation();
       }
       if(this.state.editing != -1){
         this.setState({ editing: -1 });
       }else{
         this.setState({ editing: index });
-      } 
+      }
   };
-  
+
   handleEditModule = (module) => (title, info) => {
       module.info = info;
       module.title = title;
       editModuleRequest(module).then(module => {
-                  this.props.dispatch(editModule(module));            
+                  this.props.dispatch(editModule(module));
                   this.setState({ editing: -1 });
       });
   };
@@ -117,14 +121,14 @@ export class ModuleList extends Component {
      if(this.state.open !== index){ e.stopPropagation(); }
 
      this.props.dispatch(deleteModuleRequest(module.cuid));
-        
-
-  };
-  closeEditing = () => {
-    if(this.state.editing != -1)
-      this.setState({ editing: -1 }); 
   };
   
+
+  closeEditing = () => {
+    if(this.state.editing != -1)
+      this.setState({ editing: -1 });
+  };
+
 
   render() {
     
@@ -150,7 +154,7 @@ export class ModuleList extends Component {
             <ModuleCreateWidget sendModule={this.handleAddModule}/>
         </Panel>
       </Accordion>
-    
+
     );
   }
 }

@@ -29,7 +29,7 @@ test('handleAddModule does addModuleRequest', t => {
   stub.restore();
 });
 
-test('handleAddModule does not do addModuleRequest if field is empty', t => {
+test('handleAddModule does addModuleRequest if field is empty', t => {
   const wrapper = shallowWithIntl(
     <ModuleList modules={[]} dispatch={()=> {}}/>
   );
@@ -39,7 +39,7 @@ test('handleAddModule does not do addModuleRequest if field is empty', t => {
 
   instance.handleAddModule("Informaatio", "");
 
-  t.truthy(!stub.calledOnce);
+  t.truthy(stub.calledOnce);
   stub.restore();
 });
 

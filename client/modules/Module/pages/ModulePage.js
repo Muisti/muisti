@@ -29,7 +29,7 @@ class ModulePage extends Component {
    * set the quiz points as they're saved inside scores
    */
   componentWillMount() {
-      
+
       fetchSections(this.props.module.cuid)
         .then(sections => fetchScores()
           .then(scoreboard => {
@@ -45,7 +45,7 @@ class ModulePage extends Component {
             this.setState({ sections });
           }));
   }
-  
+
   //Sections have to be sorted or edited section would be rendered as last.
   addToState = (newSection) => {
     var newSections = [];
@@ -64,7 +64,7 @@ class ModulePage extends Component {
         this.addToState(savedSection);
     });
   };
-  
+
   handleEditSection = (oldSection) => (content, title, link) => {
     let editedSection = {};
     //constructed by combining old and new
@@ -74,12 +74,12 @@ class ModulePage extends Component {
     editedSection.title = title;
     editedSection.link = link;
     editedSection.quizzes = thisSection.quizzes;
-      
+
     //Order number changing is not implemented yet.
     editedSection.orderNumber = thisSection.orderNumber;
-      
+
     this.addToState(editedSection);
-  
+
     editSectionRequest(editedSection);
   }
 
@@ -117,10 +117,10 @@ class ModulePage extends Component {
 
 
   render() {
-    
+
     var i = 0;
     if(!getTokenPayload()){this.props.addElementFunctionToMainview();}
-    
+
     return (
       <div>
         <PageHeader> <Button onClick={()=> this.props.addElementFunctionToMainview()}>&larr;<FormattedMessage id={'submitBack'} /></Button> {this.state.module.title}</PageHeader>

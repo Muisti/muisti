@@ -108,6 +108,8 @@ const renderError = err => {
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
     if (err) {
       return res.status(500).end(renderError(err));
