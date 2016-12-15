@@ -34,7 +34,7 @@ Käynnistä sovellus
   
 Huom: Sovelluksen ajamiseen ja testaukseen liittyvät pikakomennot on määritelty tiedostossa package.json.
 Siellä on määritelty myös projektissa käytetyt riippuvuudet eli javascript-kirjastot. Aina kun lisäät riippuvuuden,
-aja uudestaan npm install.
+aja uudestaan npm install. 
 
 Esimerkki:
 ```
