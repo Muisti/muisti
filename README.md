@@ -10,9 +10,9 @@
 
 ## Ohje
 
-Asennusohje: NOT READY / EI VALMIS
+## Asennusohje: NOT READY / EI VALMIS
 
-Kloonaa tämä kansio
+Kloonaa tämä github-repo koneellesi menemällä komentorivillä haluttuun hakemistoon ja kirjoita
 
 `git clone https://github.com/Muisti/muisti.git <name-of-the-folder>`
 
@@ -28,11 +28,18 @@ Rakenna sovellus
 
 `npm run bs`
   
-Käynnistä sovellus
+Käynnistä sovellus. Parametrina tarvitaan Mongo-tietokannan osoite, sekä portti (esim. 8080). 
 
-`npm start MONGO_URL=mongo-url PORT=port EMAIL=confirmation-email EPASSW=confirmation-email-password EMAILHOST=host-of-email`
-  
-Esimerkki:
+`npm start MONGO_URL=mongo-url PORT=port`
+
+Sovelluksen voi pysäyttää painamalla Ctrl+C.
+Jotta rekisteröitymiseen tarvittavien vahvistusviestien lähetys käyttäjien sähköpostiin olisi mahdollista, 
+sovellukselle tulee kertoa viestien lähetykseen käytettävän sähköpostitilin tiedot.
+Tämä tapahtuu käynnistämällä sovellus kerran seuraavilla parametreilla:
+
+`npm start MONGO_URL=mongo-url PORT=port EMAIL=confirmation-email EPASSW=confirmation-email-password EMAILHOST=smtp-host-of-email`
+
+Esimerkki asennuksesta:
 ```
 git clone https://github.com/Muisti/muisti.git muisti
 
@@ -44,8 +51,43 @@ npm run bs
 
 npm start MONGO_URL=mongodb://username:password@ds147487.mlab.com:47487/osoite PORT=8000 EMAIL=test@gmail.com EPASSW=3fa9Kj49dfcvFD EMAILHOST=smtp.gmail.com
 ```
+Developer-ympäristön käynnistys:
+
+`npm run start:dev`  
   
-Myöhemmin voit lisätä adminin lisäämällä muuttujan NEWADMIN=admin-email
+Developer-tilassa koodiin tehdyt muutokset päivittyy automaattisesti sovellukseen.
+Rekisteröityneen käyttäjän voi korottaa järjestelmänvalvojaksi (admin) käynnistämällä sovelluksen parametrilla NEWADMIN=sahkoposti
+
+Sovelluksen ajamiseen ja testaukseen liittyvät pikakomennot on määritelty tiedostossa package.json.
+Komento ajetaan seuraavasti:
+
+`npm run command`
+
+Siellä on määritelty myös projektissa käytetyt riippuvuudet eli javascript-kirjastot. Aina kun lisäät riippuvuuden,
+aja uudestaan npm install. 
+
+## Admin-ohje
+
+#### Moduuli - aloitussivun oikealla puolella olevat palkit
+
+Moduulien lisäämisessä ja muokkauksessa pakollisina kenttinä ovat *Otsikko* ja *Kuvaus*.
+
+Moduulin poistamisen yhteydessä poistetaan myös moduulin sisällä olevat materiaalit (esim. videot, kysymykset)
+
+#### Osiot - moduulin sisällä olevat osiot
+
+Osioiden lisäämisessä ja muokkauksessa pakollisina kenttinä ovat joko *Sisältö* tai *Linkki multimediasisältöön (kuvat, videot ym.)*. Osion otsikko on valinnainen. Osioon voidaan lisätä multimediasisältöjä, joiden tiedostotyypit ovat: *.webm, .mp4, .ogg, .jpg, .jpeg, .gif, .png*. Youtube-videot voidaan lisätä sellaisenaan käyttäen Youtube-videon linkkiä.
+
+Osion poistamisen yhteydessä poistetaan koko osion sisältö, ml. mahdolliset tehtävät.
+
+#### Tehtävät
+
+Osioiden sisälle voidaan luoda tehtäviä. Lisäämisessä ja muokkauksessa pakollisina kenttinä ovat *Kuvaus* ja ainakin yksi *Vaihtoehto*. Oikeisiin vastauksiin täpätään ruksi *Tämä on oikein*. Jos mihinkään vaihtoehtoon ei valita oikeaa vastausta, antaa ohjelma käyttäjälle yhden pisteen siitä, kun käyttäjä ei valitse mitään vastausvaihtoehtoa. 
+
+#### Viestit
+
+Admin-käyttäjä voi lisätä julkisia viestejä, jotka näkyvät kaikille käyttäjille (ei täppää kohtaan *Näytä vain minulle*).
+
 
 ## Dokumentaatio
 

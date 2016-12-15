@@ -8,13 +8,13 @@ export class ModuleCreateWidget extends Component {
         super();
         this.state = { formTitle: '', formInfo: '' };
     }
-    
+
     componentDidMount() {
         if (this.props.oldModule && this.state.formTitle === '' && this.state.formInfo === '') {
             this.setState({ formTitle: this.props.oldModule.title, formInfo: this.props.oldModule.info});
         }
     }
-    
+
     handleTitleChange = (e) => {
       this.setState({ formTitle: e.target.value });
     };
@@ -22,12 +22,12 @@ export class ModuleCreateWidget extends Component {
     handleInfoChange = (e) => {
       this.setState({ formInfo: e.target.value });
     };
-    
+
     addModule = () => {
         this.props.sendModule(this.state.formTitle, this.state.formInfo);
         this.setState({ formTitle: '', formInfo: '' });
     };
-    
+
     render() {
         return (
           <FormGroup>
