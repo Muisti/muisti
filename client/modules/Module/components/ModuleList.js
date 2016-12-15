@@ -119,7 +119,6 @@ export class ModuleList extends Component {
 
   handleDeleteModule = (module, index) => e => {
      if(this.state.open !== index){ e.stopPropagation(); }
-
      this.props.dispatch(deleteModuleRequest(module.cuid));
   };
   
