@@ -28,15 +28,18 @@ Rakenna sovellus
 
 `npm run bs`
   
-Käynnistä sovellus
+Käynnistä sovellus. Parametrina tarvitaan Mongo-tietokannan osoite, sekä portti (esim. 8080). 
 
-`npm start MONGO_URL=mongo-url PORT=port EMAIL=confirmation-email EPASSW=confirmation-email-password EMAILHOST=host-of-email`
-  
-Huom: Sovelluksen ajamiseen ja testaukseen liittyvät pikakomennot on määritelty tiedostossa package.json.
-Siellä on määritelty myös projektissa käytetyt riippuvuudet eli javascript-kirjastot. Aina kun lisäät riippuvuuden,
-aja uudestaan npm install. 
+`npm start MONGO_URL=mongo-url PORT=port`
 
-Esimerkki:
+Sovelluksen voi pysäyttää painamalla Ctrl+C.
+Jotta rekisteröitymiseen tarvittavien vahvistusviestien lähetys käyttäjien sähköpostiin olisi mahdollista, 
+sovellukselle tulee kertoa viestien lähetykseen käytettävän sähköpostitilin tiedot.
+Tämä tapahtuu käynnistämällä sovellus kerran seuraavilla parametreilla:
+
+`npm start MONGO_URL=mongo-url PORT=port EMAIL=confirmation-email EPASSW=confirmation-email-password EMAILHOST=smtp-host-of-email`
+
+Esimerkki asennuksesta:
 ```
 git clone https://github.com/Muisti/muisti.git muisti
 
@@ -52,7 +55,16 @@ Developer-ympäristön käynnistys:
 
 `npm run start:dev`  
   
-Myöhemmin voit lisätä adminin lisäämällä muuttujan NEWADMIN=admin-email
+Developer-tilassa koodiin tehdyt muutokset päivittyy automaattisesti sovellukseen.
+Rekisteröityneen käyttäjän voi korottaa järjestelmänvalvojaksi (admin) käynnistämällä sovelluksen parametrilla NEWADMIN=sahkoposti
+
+Sovelluksen ajamiseen ja testaukseen liittyvät pikakomennot on määritelty tiedostossa package.json.
+Komento ajetaan seuraavasti:
+
+`npm run command`
+
+Siellä on määritelty myös projektissa käytetyt riippuvuudet eli javascript-kirjastot. Aina kun lisäät riippuvuuden,
+aja uudestaan npm install. 
 
 ## Admin-ohje
 
