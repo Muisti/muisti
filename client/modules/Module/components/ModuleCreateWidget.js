@@ -15,6 +15,7 @@ export class ModuleCreateWidget extends Component {
         }
     }
     
+    
     handleTitleChange = (e) => {
       this.setState({ formTitle: e.target.value });
     };
@@ -25,7 +26,11 @@ export class ModuleCreateWidget extends Component {
     
     addModule = () => {
         this.props.sendModule(this.state.formTitle, this.state.formInfo);
-        this.setState({ formTitle: '', formInfo: '' });
+        
+        if(!this.props.oldModule){
+          this.setState({ formTitle: '', formInfo: '' });
+        }
+
     };
     
     render() {
