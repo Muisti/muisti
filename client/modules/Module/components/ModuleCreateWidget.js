@@ -25,7 +25,11 @@ export class ModuleCreateWidget extends Component {
 
     addModule = () => {
         this.props.sendModule(this.state.formTitle, this.state.formInfo);
-        this.setState({ formTitle: '', formInfo: '' });
+        
+        if(!this.props.oldModule){
+          this.setState({ formTitle: '', formInfo: '' });
+        }
+
     };
 
     render() {

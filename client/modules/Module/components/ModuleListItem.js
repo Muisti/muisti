@@ -17,17 +17,18 @@ export class ModuleListItem extends Component {
   constructor(props){
     super(props);
     this.state = { module: this.props.module };
-    
   }
   
+  componentWillReceiveProps(nextProps){
+    this.setState({ module: nextProps.module });
+  };  
+
   
- 
   modulePageElement = () => {
     return [<Col><ModulePage module={this.state.module} addElementFunctionToMainview={this.props.addElementFunctionToMainview} /></Col>];
   };
 
   render() {
-    
     return (
       <div>
         <div className={styles.textarea}>{this.props.module.info}</div>

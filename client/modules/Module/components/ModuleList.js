@@ -119,11 +119,10 @@ export class ModuleList extends Component {
 
   handleDeleteModule = (module, index) => e => {
      if(this.state.open !== index){ e.stopPropagation(); }
-//   if (window.confirm('Haluatko varmasti poistaa moduulin? Moduulin poisto poistaa myös koko moduulin sisällön.')) {
      this.props.dispatch(deleteModuleRequest(module.cuid));
-//  }
-
   };
+  
+
   closeEditing = () => {
     if(this.state.editing != -1)
       this.setState({ editing: -1 });
@@ -131,14 +130,14 @@ export class ModuleList extends Component {
 
 
   render() {
+    
     var i = 0;
     return (
-
       <Accordion onSelect={this.updateSelection} >
         {this.props.modules.map(module => (
           <Panel onSelect={this.closeEditing} header={this.panelHeader(module, ++i)} eventKey={i} key={i}>
             <div style={show( i===this.state.editing)}>
-              <ModuleCreateWidget sendModule={this.handleEditModule(module)}
+              <ModuleCreateWidget sendModule={this.handleEditModule(module)} 
                     oldModule={{title: module.title, info: module.info}} />
             </div>
             <div style={show( i!==this.state.editing)}>
