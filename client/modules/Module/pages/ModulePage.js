@@ -109,10 +109,10 @@ class ModulePage extends Component {
 
   handleDeleteSection = (section) => e => {
       e.stopPropagation();
-  //  if (window.confirm('Haluatko varmasti poistaa sectionin?')) {
+ 
       deleteSectionRequest(section.cuid)
         .then(this.setState({ sections: this.state.sections.filter(sec => sec.cuid !== section.cuid) }));
-  //  }
+
   };
 
 
