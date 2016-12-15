@@ -25,7 +25,7 @@ const modules = [
 //  dropDB(t, () => {
 //    return;
 //  });
-//}); 
+//});
 
 test.serial('Should correctly give number of modules and sorts them correctly', async t => {
   await data();
@@ -128,11 +128,11 @@ test.serial('deleting a module fails if not admin', async t => {
 
 test.serial('editing a module works as intended', async t => {
     await data();
-    
+
     const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
     var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
     stub.returns(jwt.decode(token, 'secret', true));
-    
+
     const old = modules[1];
     const module = { cuid: old.cuid, orderNumber: old.orderNumber, title: 'uusi',
         info: "uusi info"};
@@ -142,23 +142,23 @@ test.serial('editing a module works as intended', async t => {
             .send({ module })
             .set('Accept', 'application/json')
             .set('authorization', token);
-    
+
     t.is(res.status, 200);
 
     const p = await Module.findOne({ cuid: module.cuid }).exec();
     t.is(p.info, module.info);
     stub.restore();
-    
+
     await drop();
 });
 
 test.serial('editing a module fails if not admin', async t => {
     await data();
-    
+
     const token = "notAdmin";
     var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
     stub.returns("notAdmin");
-    
+
     let module = modules[1];
     module.info = "uusittu";
     module.title = "uusititle";
@@ -168,13 +168,13 @@ test.serial('editing a module fails if not admin', async t => {
             .send({ module })
             .set('Accept', 'application/json')
             .set('authorization', token);
-    
+
     t.is(res.status, 403);
 
     const p = await Module.findOne({ cuid: module.cuid }).exec();
     t.not(p.info, module.info);
     stub.restore();
-    
+
     await drop();
 });
 
@@ -198,25 +198,6 @@ test.serial('Adds new module correctly', async t => {
 
   stub.restore();
   await drop();
-});
-
-test.serial('Does not add modules with incorrect informations', async t => {
-    const module = {title: 'eiMene'};
-
-    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdWlkIjoiY2l1ZHBtZGo2MDAwMHRha3I0NmVnZmEyNCIsInVzZXIiOiJBbmltaSIsInRpbWUiOjE0NzgwMTAxODU3ODgsImlzQWRtaW4iOnRydWV9.xKx11SYykTbE0bcVuvTc-iiZHDGbIwvsyM2voxtVogU";
-    var stub = sinon.stub(usercon, 'decodeTokenFromRequest');
-    stub.returns(jwt.decode(token, 'secret', true));
-
-    const res = await request(app)
-      .post('/api/modules')
-      .set('Accept', 'application/json')
-      .send({ module })
-      .set('authorization', token);
-
-    t.is(res.status, 403);
-
-    stub.restore();
-    await drop();
 });
 
 let data = async () => {

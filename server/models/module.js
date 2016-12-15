@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const moduleSchema = new Schema({
   cuid: { type: 'String', required: true },
   title: { type: 'String', required: true },
-  info: { type: 'String', required: true },
+  info: { type: 'String', required: false },
   orderNumber: { type: 'Number', required: true }
 });
 
@@ -13,7 +13,7 @@ moduleSchema.pre('remove', async function(next){
         await Promise.all(sections.map(section => {
             return section.remove();
         }));
-    }); 
+    });
     next();
 });
 
