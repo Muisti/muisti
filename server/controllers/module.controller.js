@@ -23,7 +23,7 @@ export function getModule(req, res) {
 
 export async function addModule(req, res) {
   let token = await decodeTokenFromRequest(req);
-  if (!token || !token.isAdmin || !req.body.module.title || !req.body.module.info || req.body.module.orderNumber == undefined) {
+  if (!token || !token.isAdmin || !req.body.module.title || req.body.module.orderNumber == undefined) {
     return res.status(403).end();
   }
   const newModule = new Module(req.body.module);
@@ -40,7 +40,7 @@ export async function deleteModule(req, res){
   let token = await decodeTokenFromRequest(req);
 
   if(!token || !token.isAdmin) return res.status(403).end();
-  
+
   Module.findOne({ cuid: req.params.cuid }).exec((err, module) => {
     if (err) {
       return res.status(500).send(err);
@@ -53,11 +53,11 @@ export async function deleteModule(req, res){
 
 export async function updateModule(req, res) {
     let token = await decodeTokenFromRequest(req);
-    
+
     if (!token || !token.isAdmin) return res.status(403).end();
-    
+
     const module = req.body.module;
-    
+
     Module.findOneAndUpdate({cuid: module.cuid}, {title: module.title, info: module.info}, {upsert:true, new:true}, function(err, doc){
       if (err) return res.status(500).send(err);
       return res.json({ module });
