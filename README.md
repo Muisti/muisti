@@ -10,7 +10,7 @@
 
 ## Ohje
 
-## Asennusohje: NOT READY / EI VALMIS
+## Asennusohje:
 
 Kloonaa tämä github-repo koneellesi menemällä komentorivillä haluttuun hakemistoon ja kirjoita
 
