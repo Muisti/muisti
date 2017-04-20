@@ -88,6 +88,7 @@ Admin-käyttäjä voi lisätä julkisia viestejä, jotka näkyvät kaikille käy
 
 
 ## Dokumentaatio
+- [Burndown kaaviot ja backlog](https://docs.google.com/spreadsheets/d/1NisT05P_gyy_HbcJHzDIGEkS4Vf98-G_iQiY2LTDpFw/edit?usp=sharing)
 
 - [Burndown kaaviot ja backlog](https://docs.google.com/spreadsheets/d/1NisT05P_gyy_HbcJHzDIGEkS4Vf98-G_iQiY2LTDpFw/edit?usp=sharing)
 
